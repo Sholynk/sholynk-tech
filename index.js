@@ -559,7 +559,7 @@ function navScroll() {
     nav.style.position = 'fixed';
     nav.style.width = '100%';
     if (!scrolled) {
-      nav.style.transform = 'translateY(-100px)'
+      nav.style.transform = 'translateY(-70px)'
     }
     setTimeout(() => {
       nav.style.transform = 'translateY(0)';
