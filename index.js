@@ -7,7 +7,7 @@
         title: "Mastering the art of coding: 10 key areas every developer should focus on",
         description: "It's not just about writing lines of text it's the craft of transforming ideas into functional, impactful software that powers the digital world. Whether you're just starting out or looking to sharpen your skills, true excellence in coding comes from mastering the right ...",
         img: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1470&q=80",
-        readMoreLink: "/articles/mastering_the_art_of_coding.html"
+        readMoreLink: "article_01.html"
       },
       {
         category: "AI Trends",
@@ -143,7 +143,7 @@
     const articles = [
       {
         title: "The Rise of Quantum Computing",
-        link: "../articles/article_1.html",
+        link: "#",
         category: "Technology",
         description: "Quantum computing is set to revolutionize the way we solve complex problems, offering unprecedented processing power.",
         img: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=160&q=80",
@@ -151,7 +151,7 @@
       },
       {
         title: "Web3 and the Future of the Internet",
-        link: "../articles/article_1.html",
+        link: "#",
         category: "Web 3",
         description: "Web3 promises a decentralized internet where users control their data and digital assets, reshaping online interactions.",
         img: "",
@@ -159,7 +159,7 @@
       },
       {
         title: "AI in Healthcare: Transforming Patient Care",
-        link: "../articles/article_1.html",
+        link: "#",
         category: "AI Trends",
         description: "Artificial Intelligence is improving diagnostics, treatment plans, and patient monitoring, making healthcare more efficient and personalized.",
         img: "https://storage.googleapis.com/a1aa/image/bcacd612-69b2-4513-93cf-1b14fe4b9961.jpg",
@@ -167,7 +167,7 @@
       },
       {
         title: "Breakthroughs in Renewable Energy Tech",
-        link: "../articles/article_1.html",
+        link: "#",
         category: "Technology",
         description: "Innovations in solar, wind, and battery storage technologies are accelerating the transition to sustainable energy worldwide.",
         img: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=160&q=80",
@@ -175,7 +175,7 @@
       },
       {
         title: "AI Ethics: Navigating the Challenges",
-        link: "../articles/article_1.html",
+        link: "#",
         category: "AI Trends",
         description: "As AI systems become more prevalent, ethical considerations around bias, privacy, and accountability are critical for responsible development.",
         img: "https://images.unsplash.com/photo-1518773553398-650c184e0bb3?auto=format&fit=crop&w=160&q=80",
@@ -183,7 +183,7 @@
       },
       {
         title: "Decentralized Finance (DeFi) Growth",
-        link: "../articles/article_1.html",
+        link: "#",
         category: "Web 3",
         description: "DeFi platforms are transforming traditional finance by enabling peer-to-peer transactions without intermediaries.",
         img: "",
@@ -191,7 +191,7 @@
       },
       {
         title: "The Future of Augmented Reality",
-        link: "../articles/article_1.html",
+        link: "#",
         category: "Technology",
         description: "Augmented Reality is enhancing user experiences in gaming, education, and retail by blending digital content with the real world.",
         img: "",
@@ -199,7 +199,7 @@
       },
       {
         title: "Advancements in Remote Work Tech",
-        link: "../articles/article_1.html",
+        link: "#",
         category: "Technology",
         description: "New tools and platforms are making remote work more productive and collaborative than ever before.",
         img: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=160&q=80",
@@ -207,7 +207,7 @@
       },
       {
         title: "5G Technology and Its Impact",
-        link: "../articles/article_1.html",
+        link: "#",
         category: "Technology",
         description: "5G networks are transforming connectivity with faster speeds and lower latency, enabling new applications and services.",
         img: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=160&q=80",
@@ -215,7 +215,7 @@
       },
       {
         title: "Blockchain Beyond Cryptocurrency",
-        link: "../articles/article_1.html",
+        link: "#",
         category: "Web 3",
         description: "Blockchain technology is being applied in supply chain, healthcare, and voting systems to increase transparency and security.",
         img: "",
@@ -223,7 +223,7 @@
       },
       {
         title: "Machine Learning in Everyday Life",
-        link: "../articles/article_1.html",
+        link: "#",
         category: "AI Trends",
         description: "Machine learning powers many applications from recommendation systems to fraud detection, impacting daily experiences.",
         img: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=160&q=80",
@@ -231,7 +231,7 @@
       },
       {
         title: "Cybersecurity in the Modern Age",
-        link: "../articles/article_1.html",
+        link: "#",
         category: "Technology",
         description: "As cyber threats evolve, new strategies and tools are essential to protect data and privacy.",
         img: "https://images.unsplash.com/photo-1515377905703-c4788e51af15?auto=format&fit=crop&w=160&q=80",
@@ -239,7 +239,7 @@
       },
       {
         title: "The Role of IoT in Smart Cities",
-        link: "../articles/article_1.html",
+        link: "#",
         category: "Technology",
         description: "Internet of Things devices are enabling smarter infrastructure, traffic management, and energy efficiency.",
         img: "https://images.unsplash.com/photo-1497493292307-31c376b6e479?auto=format&fit=crop&w=160&q=80",
@@ -247,7 +247,7 @@
       },
       {
         title: "Ethical AI: Balancing Innovation and Responsibility",
-        link: "../articles/article_1.html",
+        link: "#",
         category: "AI Trends",
         description: "Developing AI responsibly requires addressing bias, transparency, and societal impact.",
         img: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=160&q=80",
@@ -255,7 +255,7 @@
       },
       {
         title: "Virtual Reality in Education",
-        link: "../articles/article_1.html",
+        link: "#",
         category: "Technology",
         description: "VR is transforming education by providing immersive learning experiences.",
         img: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=160&q=80",
@@ -263,7 +263,7 @@
       },
       {
         title: "Cryptocurrency Regulations Worldwide",
-        link: "../articles/article_1.html",
+        link: "#",
         category: "Web 3",
         description: "Governments are shaping the future of cryptocurrencies with evolving regulations.",
         img: "",
@@ -271,7 +271,7 @@
       },
       {
         title: "AI-Powered Customer Service",
-        link: "../articles/article_1.html",
+        link: "#",
         category: "AI Trends",
         description: "Chatbots and virtual assistants are improving customer interactions and support.",
         img: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=160&q=80",
@@ -279,7 +279,7 @@
       },
       {
         title: "Sustainable Tech Innovations",
-        link: "../articles/article_1.html",
+        link: "#",
         category: "Technology",
         description: "New technologies are helping reduce environmental impact and promote sustainability.",
         img: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=160&q=80",
@@ -287,7 +287,7 @@
       },
       {
         title: "The Evolution of Cloud Computing",
-        link: "../articles/article_1.html",
+        link: "#",
         category: "Technology",
         description: "Cloud computing continues to evolve, offering scalable and flexible solutions for businesses.",
         img: "https://images.unsplash.com/photo-1497493292307-31c376b6e479?auto=format&fit=crop&w=160&q=80",
@@ -295,7 +295,7 @@
       },
       {
         title: "AI and Automation in Manufacturing",
-        link: "../articles/article_1.html",
+        link: "#",
         category: "AI Trends",
         description: "Automation powered by AI is increasing efficiency and precision in manufacturing processes.",
         img: "https://images.unsplash.com/photo-1518773553398-650c184e0bb3?auto=format&fit=crop&w=160&q=80",
@@ -551,22 +551,22 @@ document.addEventListener('click', function(event) {
 
 
 // nav bar automation
-// window.addEventListener("scroll", navScroll);
-// function navScroll() {
-//   let scrolled = false;
-//   let nav = document.querySelector('nav');
-//   if (window.pageYOffset > 100) {
-//     nav.style.position = 'fixed';
-//     nav.style.width = '100%';
-//     if (!scrolled) {
-//       nav.style.transform = 'translateY(-100px)'
-//     }
-//     setTimeout(() => {
-//       nav.style.transform = 'translateY(0)';
-//     }, 1000);
-//   } else {
-//     nav.style.position = 'static';
-//     scrolled = false;
-//   }
-// }
+window.addEventListener("scroll", navScroll);
+function navScroll() {
+  let scrolled = false;
+  let nav = document.querySelector('header');
+  if (window.pageYOffset > 100) {
+    nav.style.position = 'fixed';
+    nav.style.width = '100%';
+    if (!scrolled) {
+      nav.style.transform = 'translateY(-100px)'
+    }
+    setTimeout(() => {
+      nav.style.transform = 'translateY(0)';
+    }, 1000);
+  } else {
+    nav.style.position = '';
+    scrolled = false;
+  }
+}
 
