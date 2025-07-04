@@ -1,0 +1,417 @@
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <title>
+   Contact - Sholynk
+  </title>
+  <script src="https://cdn.tailwindcss.com">
+  </script>
+  <link rel="shortcut icon" href="/images/page_logo.png" type="image/x-icon" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&amp;display=swap" rel="stylesheet"/>
+  <style>
+ body,
+html {
+ height: 100%;
+ margin: 0;
+ font-family: "Montserrat", sans-serif;
+ background-color: #f8fbff;
+ color: #0f172a;
+ display: flex;
+ flex-direction: column;
+ min-height: 100vh;
+ overflow-y: scroll;
+ scroll-behavior: smooth;
+}
+
+/* sidebar */
+.sidebar {
+ position: fixed;
+ top: 0;
+ right: -250px; /* Hidden by default */
+ width: 250px;
+ height: 100%;
+ overflow-y: auto;
+ scroll-behavior: smooth;
+ display: flex;
+ flex-direction: column;
+ background-color: #0f172a;
+ transition: right 0.3s ease;
+ z-index: 1000;
+ padding: .5rem 20px 20px 20px;
+}
+
+.sidebar div {
+ display: flex;
+ column-gap: 1rem;
+ width: fit-content;
+ margin-top: auto;
+}
+
+.sidebar div>* {
+ display: block;
+ font-size: 1rem;
+ transition: all 300ms linear;
+}
+
+.sidebar div>*:hover {
+ color: #3b82f6;
+ border-bottom: 2px solid grey;
+}
+
+.sidebar>*:nth-child(2) {
+ display: flex;
+ flex-direction: column;
+ row-gap: 1rem;
+ margin-bottom: 5rem;
+}
+
+.sidebar>*:nth-child(2) li {
+ width: 100%;
+ border: none;
+ padding: .2rem;
+ font-weight: bold;
+ transition: all 300ms ease;
+}
+
+.sidebar .highlighted {
+ color: #3b82f6;
+ margin-left: 20px;
+ width: 100% !important;
+ border-bottom: 1px solid grey !important;
+}
+
+.sidebar>*:nth-child(2) li:nth-child(n+1):nth-child(-n+7):hover {
+ color: #3b82f6;
+ margin-left: 20px;
+ width: 100%;
+ border-bottom: 1px solid grey;
+}
+
+.sidebar.active {
+ right: 0; /* Show sidebar */
+}
+
+.hamburger {
+ cursor: pointer;
+}
+
+
+
+@media (max-width: 900px) {
+ nav {
+  display: none !important;
+ }
+ 
+}
+
+@media (min-width: 901px) {
+ nav {
+  display: flex;
+ }
+
+ nav a {
+ transition: all 300ms linear;
+ }
+ 
+ nav a:nth-child(n+1):nth-child(-n+7):hover {
+  color: #3b82f6;
+  border-bottom: 2px solid grey;
+ }
+ 
+ .hamburger {
+  display: none;
+ }
+ 
+}
+  </style>
+ </head>
+ <body class="bg-[#f8fbff] text-[#0f172a] min-h-screen flex flex-col">
+  <!-- Header -->
+ <header class="bg-[#0f172a]">
+   <div class="max-w-7xl mx-auto flex items-center justify-between px-4 py-2 sm:py-3">
+    <div>
+     <img alt="Sholynk logo white text on dark background" class="h-6 w-auto" height="24" src="../images/page_logo.png" width="120" />
+    </div>
+    <div class="text-white text-sm space-x-4">
+     <a class="hidden sm:inline-block" href="#">
+      <i class="fab fa-whatsapp">
+      </i>
+     </a>
+     <a class="hidden sm:inline-block" href="#">
+      <i class="fab fa-facebook-f">
+      </i>
+     </a>
+     <a class="hidden sm:inline-block" href="#">
+      <i class="fa-brands fa-x-twitter"></i>
+     </a>
+    </div>
+    <nav class="flex items-center space-x-4 text-white text-sm">
+     <a class="px-3 py-1 rounded text-white text-xs" href="#">
+      Home
+     </a>
+     <a class="px-3 py-1 rounded text-white text-xs" target="_blank" href="#">
+      Technology
+     </a>
+     <a class="px-3 py-1 rounded text-white text-xs" target="_blank" href="#">
+      AI
+     </a>
+     <a class="px-3 py-1 rounded text-white text-xs" target="_blank" href="#">
+      Cryptocurrency
+     </a>
+     <a class="px-3 py-1 rounded text-white text-xs" target="_blank" href="#">
+      Game
+     </a>
+     <a class="px-3 py-1 rounded text-white text-xs" target="_blank" href="#">
+      Web 3
+     </a>
+     <a class="px-3 py-1 rounded text-white text-xs" target="_blank" href="#">
+      About
+     </a>
+     <a class="bg-[#1e40af]  px-3 py-1 rounded text-white text-xs font-semibold" target="_blank" href="#">
+      Contact
+     </a>
+    </nav>
+    <div class="hamburger text-white text-sm" onclick="toggleSidebar()">
+     <i class="fas fa-bars"></i>
+    </div>
+   </div>
+  </header>
+  
+  <!-- Sidebar Navigation -->
+  <div class="sidebar" id="sidebar">
+   <h3 class="font-semibold text-center mb-3 text-white">Categories</h3>
+   <ul class="text-xs text-gray-300 space-y-2">
+    <li class="flex items-center space-x-2 cursor-pointer">
+     <a href="#" target="_blank">Home</a>
+    </li>
+    <li class="flex items-center space-x-2 cursor-pointer">
+     <a href="#" target="_blank">Technology</a>
+    </li>
+    <li class="flex items-center space-x-2 cursor-pointer">
+     <a href="#" target="_blank">AI</a>
+    </li>
+    <li class="flex items-center space-x-2 cursor-pointer">
+     <a href="#" target="_blank">Cryptocurrency</a>
+    </li>
+    <li class="flex items-center space-x-2 cursor-pointer">
+     <a href="#" target="_blank">Web 3</a>
+    </li>
+    <li class="flex items-center space-x-2 cursor-pointer">
+     <a href="#" target="_blank">Game</a>
+    </li>
+    <li class="flex items-center space-x-2 cursor-pointer">
+     <a href="#" target="_blank">About</a>
+    </li>
+    <li class="highlighted flex items-center space-x-2 cursor-pointer">
+     <a href="#" target="_blank">Contact</a>
+    </li>
+   </ul>
+   <div class="text-white text-sm space-x-4">
+    <a class="hidden sm:inline-block" href="#">
+     <i class="fab fa-whatsapp">
+     </i>
+    </a>
+    <a class="hidden sm:inline-block" href="#">
+     <i class="fab fa-facebook-f">
+     </i>
+    </a>
+    <a class="hidden sm:inline-block" href="#">
+     <i class="fa-brands fa-x-twitter"></i>
+    </a>
+   </div>
+  </div>
+  
+  <!-- Page Title -->
+  <section class="max-w-7xl mx-auto px-4 py-12">
+   <h1 class="text-2xl font-extrabold mb-4">
+    Contact Us
+   </h1>
+   <p class="text-sm max-w-3xl mb-8 leading-relaxed">
+    We'd love to hear from you! Whether you have questions, feedback, or want to collaborate, please fill out the form below or reach us through the provided contact details.
+   </p>
+   <div class="max-w-3xl bg-white p-6 rounded shadow-sm">
+    <form data-netlify="true" name="contact" method="POST"
+    netlify-honeypot="bot-field" action="" class="space-y-4" id="contactForm">
+     <input type="hidden" name="form-name" value="contact"/>
+     <p class="hidden">
+      <label>Don’t fill this out if you're human: <input name="bot-field"/></label>
+     </p>
+     <div>
+      <label class="block text-xs font-semibold mb-1" for="name">
+       Name
+      </label>
+      <input class="w-full border border-gray-300 rounded px-3 py-2 text-sm text-[#0f172a]" id="name" name="name" placeholder="Your full name" required="" type="text"/>
+     </div>
+     <div>
+      <label class="block text-xs font-semibold mb-1" for="email">
+       Email
+      </label>
+      <input class="w-full border border-gray-300 rounded px-3 py-2 text-sm text-[#0f172a]" id="email" name="email" placeholder="you@example.com" required="" type="email"/>
+     </div>
+     <div>
+      <label class="block text-xs font-semibold mb-1" for="subject">
+       Subject
+      </label>
+      <input class="w-full border border-gray-300 rounded px-3 py-2 text-sm text-[#0f172a]" id="subject" name="subject" placeholder="Subject of your message" required="" type="text"/>
+     </div>
+     <div>
+      <label class="block text-xs font-semibold mb-1" for="message">
+       Message
+      </label>
+      <textarea class="w-full border border-gray-300 rounded px-3 py-2 text-sm text-[#0f172a]" id="message" name="message" placeholder="Write your message here..." required="" rows="5"></textarea>
+     </div>
+     <button class="bg-[#2563eb] text-white font-semibold text-sm px-6 py-2 rounded hover:bg-[#1e40af]" type="submit">
+      Send Message
+     </button>
+    </form>
+   </div>
+   <div class="max-w-3xl mt-10 text-sm text-[#0f172a]">
+    <h2 class="font-bold mb-2">
+     Contact Details
+    </h2>
+    <p class="mb-1">
+     <i class="fas fa-envelope mr-2 text-[#2563eb]"></i> sholynktech@gmail.com
+    </p>
+    <p class="mb-1">
+     <i class="fas fa-phone mr-2 text-[#2563eb]"></i> +234-9027-00-4273
+    </p>
+    <p>
+     <i class="fas fa-map-marker-alt mr-2 text-[#2563eb]"></i> Ago-Iwoye, Ogun
+     state, Nigeria
+    </p>
+   </div>
+  </section>
+  <!-- Success Popup -->
+  <div aria-hidden="true" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden" id="successPopup" role="dialog" aria-modal="true" aria-labelledby="successTitle" aria-describedby="successDesc">
+   <div class="bg-white rounded-lg shadow-lg max-w-sm w-full p-6 text-center">
+    <h2 class="text-xl font-bold mb-4 text-[#2563eb]" id="successTitle">
+     Message Sent Successfully!
+    </h2>
+    <p class="mb-6 text-sm text-[#0f172a]" id="successDesc">
+     Thank you for contacting us. We will get back to you shortly.
+    </p>
+    <button aria-label="Close success message" class="bg-[#2563eb] text-white font-semibold px-6 py-2 rounded hover:bg-[#1e40af]" id="closePopupBtn" type="button">
+     Close
+    </button>
+   </div>
+  </div>
+  <!-- Footer -->
+  <footer class="bg-[#0f172a] text-white text-[10px] mt-auto">
+   <div class="max-w-7xl mx-auto px-4 py-10 grid grid-cols-1 sm:grid-cols-4 gap-8">
+    <div>
+     <img alt="Sholynk logo white text on dark background" class="h-6 w-auto
+     mb-3" height="24" src="/images/page_logo.png" width="120"/>
+     <p class="italic max-w-xs leading-tight">
+      A digital publication dedicated to insightful analysis, news, and
+          trends shaping the future of AI and decentralized technologies.
+     </p>
+    </div>
+    <div>
+     <h4 class="font-bold mb-2">
+      Stay Ahead in AI and Web3 Trends
+     </h4>
+     <p class="mb-3 leading-tight max-w-xs">
+      "Get the latest insights, tools, and trend reports in AI, Web3, and
+          emerging tech straight to your inbox, every week."
+     </p>
+     <form class="max-w-xs" method="POST" data-netlify="true" name="subscribe" netlify-honeypot="bot-field" action="">
+      <input type="hidden" name="form-name" value="subscribe"/>
+      <input type="hidden" name="bot-field"/>
+      <input class="w-full mb-2 px-2 py-1 text-[#0f172a] text-xs rounded-sm" name="name" placeholder="Enter your name..." required="" type="text"/>
+      <input class="w-full mb-2 px-2 py-1 text-[#0f172a] text-xs rounded-sm" name="email" placeholder="Enter email..." required="" type="email"/>
+      <button class="w-full bg-[#2563eb] text-white font-semibold text-xs py-1 rounded" type="submit">
+       Subscribe
+      </button>
+     </form>
+    </div>
+    <div>
+     <h4 class="font-bold mb-2">
+      Quick Links
+     </h4>
+     <ul class="space-y-1">
+      <li>
+       <a class="border-b border-transparent hover:border-white" target="_blank"
+       href="help_&_support.html">
+        Help &amp; Support
+       </a>
+      </li>
+      <li>
+       <a class="border-b border-transparent hover:border-white" target="_blank"
+       href="privacy_policy.html">
+        Privacy Policy
+       </a>
+      </li>
+      <li>
+       <a class="border-b border-transparent hover:border-white" target="_blank"
+       href="about.html">
+        About
+       </a>
+      </li>
+      <li>
+       <a class="border-b border-transparent hover:border-white"
+       href="#">
+        Contact
+       </a>
+      </li>
+     </ul>
+    </div>
+    <div>
+     <h4 class="font-bold mb-2">
+      Join My Innovative Channel
+     </h4>
+     <div class="flex space-x-3 text-lg">
+      <a aria-label="WhatsApp" class="hover:text-[#2563eb]" href="#">
+       <i class="fab fa-whatsapp">
+       </i>
+      </a>
+      <a aria-label="Facebook" class="hover:text-[#2563eb]" href="#">
+       <i class="fab fa-facebook-f">
+       </i>
+      </a>
+      <a aria-label="Close" class="hover:text-[#2563eb]" href="#">
+        <i class="fa-brands fa-x-twitter"></i>
+      </a>
+     </div>
+    </div>
+   </div>
+   <div class="bg-[#1e293b] text-center text-[9px] py-2">
+    &copy; <span id="copyrightYear"></span> Sholynk Technology | All Rights Reserved.
+   </div>
+  </footer>
+  <script src="/scripts/script.js"></script>
+  <script>
+   const form = document.getElementById('contactForm');
+    const popup = document.getElementById('successPopup');
+    const closeBtn = document.getElementById('closePopupBtn');
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      // Use fetch to submit form data to Netlify
+      const formData = new FormData(form);
+
+      fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(formData).toString()
+      })
+        .then(() => {
+          // Show success popup
+          popup.classList.remove('hidden');
+          // Reset form
+          form.reset();
+        })
+        .catch((error) => {
+          alert('Oops! There was a problem submitting your form');
+          console.error(error);
+        });
+    });
+
+    closeBtn.addEventListener('click', () => {
+      popup.classList.add('hidden');
+    });
+  </script>
+ </body>
+</html>

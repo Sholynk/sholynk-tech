@@ -1,0 +1,411 @@
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <title>
+   Privacy Policy - Sholynk
+  </title>
+  <link rel="shortcut icon" href="/images/page_logo.png" type="image/x-icon" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&amp;display=swap" rel="stylesheet"/>
+  <style>
+   body {
+      font-family: "Montserrat", sans-serif;
+    }
+    
+    /* sidebar */
+.sidebar {
+ position: fixed;
+ top: 0;
+ right: -250px; /* Hidden by default */
+ width: 250px;
+ height: 100%;
+ overflow-y: auto;
+ scroll-behavior: smooth;
+ display: flex;
+ flex-direction: column;
+ background-color: #0f172a;
+ transition: right 0.3s ease;
+ z-index: 1000;
+ padding: .5rem 20px 20px 20px;
+}
+
+.sidebar div {
+ display: flex;
+ column-gap: 1rem;
+ width: fit-content;
+ margin-top: auto;
+}
+
+.sidebar div>* {
+ display: block;
+ font-size: 1rem;
+ transition: all 300ms linear;
+}
+
+.sidebar div>*:hover {
+ color: #3b82f6;
+ border-bottom: 2px solid grey;
+}
+
+.sidebar>*:nth-child(2) {
+ display: flex;
+ flex-direction: column;
+ row-gap: 1rem;
+ margin-bottom: 5rem;
+}
+
+.sidebar>*:nth-child(2) li {
+ width: fit-content;
+ border: none;
+ padding: .2rem;
+ font-weight: bold;
+ transition: all 300ms ease;
+}
+
+/* .sidebar .highlighted {
+ color: #3b82f6;
+ margin-left: 20px;
+ width: 100% !important;
+ border-bottom: 1px solid grey !important;
+}
+ */
+ 
+.sidebar>*:nth-child(2) li:hover {
+ color: #3b82f6;
+ margin-left: 20px;
+ width: 100%;
+ border-bottom: 1px solid grey;
+}
+
+.sidebar.active {
+ right: 0;
+ /* Show sidebar */
+}
+
+.hamburger {
+ cursor: pointer;
+}
+
+
+
+@media (max-width: 900px) {
+ nav {
+  display: none !important;
+ }
+ 
+}
+
+@media (min-width: 901px) {
+ nav {
+  display: flex;
+ }
+
+ nav a {
+ transition: all 300ms linear;
+ }
+ 
+ nav a:hover {
+  color: #3b82f6;
+  border-bottom: 2px solid grey;
+ }
+ 
+ .hamburger {
+  display: none;
+ }
+ 
+}
+
+  </style>
+ </head>
+ <body class="bg-[#f8fbff] text-[#0f172a] min-h-screen flex flex-col">
+  <!-- Header -->
+  <header class="bg-[#0f172a]">
+   <div class="max-w-7xl mx-auto flex items-center justify-between px-4 py-2 sm:py-3">
+    <div>
+     <img alt="Sholynk logo white text on dark background" class="h-6 w-auto" height="24" src="../images/page_logo.png" width="120" />
+    </div>
+    <div class="text-white text-sm space-x-4">
+     <a class="hidden sm:inline-block" href="#">
+      <i class="fab fa-whatsapp">
+      </i>
+     </a>
+     <a class="hidden sm:inline-block" href="#">
+      <i class="fab fa-facebook-f">
+      </i>
+     </a>
+     <a class="hidden sm:inline-block" href="#">
+      <i class="fa-brands fa-x-twitter"></i>
+     </a>
+    </div>
+    <nav class="flex items-center space-x-4 text-white text-sm">
+     <a class="px-3 py-1 rounded text-white text-xs" target="_blank" href="#">
+      Home
+     </a>
+     <a class="px-3 py-1 rounded text-white text-xs" target="_blank" href="#">
+      Technology
+     </a>
+     <a class="px-3 py-1 rounded text-white text-xs" target="_blank" href="#">
+      AI
+     </a>
+     <a class="px-3 py-1 rounded text-white text-xs" target="_blank" href="#">
+      Cryptocurrency
+     </a>
+     <a class="px-3 py-1 rounded text-white text-xs" target="_blank" href="#">
+      Game
+     </a>
+     <a class="px-3 py-1 rounded text-white text-xs" target="_blank" href="#">
+      Web 3
+     </a>
+     <a class="px-3 py-1 rounded text-white text-xs" target="_blank" href="#">
+      About
+     </a>
+     <a class="px-3 py-1 rounded text-white text-xs" target="_blank" href="#">
+      Contact
+     </a>
+    </nav>
+    <div class="hamburger text-white text-sm" onclick="toggleSidebar()">
+     <i class="fas fa-bars"></i>
+    </div>
+   </div>
+  </header>
+  
+  <!-- Sidebar Navigation -->
+  <div class="sidebar" id="sidebar">
+   <h3 class="font-semibold text-center mb-3 text-white">Categories</h3>
+   <ul class="text-xs text-gray-300 space-y-2">
+    <li class="flex items-center space-x-2 cursor-pointer
+    font-semibold">
+     <a href="#" target="_blank">Home</a>
+    </li>
+    <li class="flex items-center space-x-2 cursor-pointer">
+     <a href="#" target="_blank">Technology</a>
+    </li>
+    <li class="flex items-center space-x-2 cursor-pointer">
+     <a href="#" target="_blank">AI</a>
+    </li>
+    <li class="flex items-center space-x-2 cursor-pointer">
+     <a href="#" target="_blank">Cryptocurrency</a>
+    </li>
+    <li class="flex items-center space-x-2 cursor-pointer">
+     <a href="#" target="_blank">Web 3</a>
+    </li>
+    <li class="flex items-center space-x-2 cursor-pointer">
+     <a href="#" target="_blank">Game</a>
+    </li>
+    <li class="flex items-center space-x-2 cursor-pointer">
+     <a href="#" target="_blank">About</a>
+    </li>
+    <li class="flex items-center space-x-2 cursor-pointer">
+     <a href="#" target="_blank">Contact</a>
+    </li>
+   </ul>
+   <div class="text-white text-sm space-x-4">
+    <a class="hidden sm:inline-block" href="#">
+     <i class="fab fa-whatsapp">
+     </i>
+    </a>
+    <a class="hidden sm:inline-block" href="#">
+     <i class="fab fa-facebook-f">
+     </i>
+    </a>
+    <a class="hidden sm:inline-block" href="#">
+     <i class="fa-brands fa-x-twitter"></i>
+    </a>
+   </div>
+  </div>
+   
+
+  <main class="max-w-4xl mx-auto px-4 sm:px-6 py-8">
+   <h1 class="text-2xl font-extrabold mb-6" style="font-family: 'Inter', sans-serif;">
+    Privacy Policy
+   </h1>
+   <section class="mb-6">
+    <p class="mb-4 text-sm leading-relaxed">
+     At Shoylnk, we are committed to protecting your privacy and ensuring that your personal information is handled in a safe and responsible manner. This Privacy Policy explains how we collect, use, and safeguard your information when you visit our website.
+    </p>
+   </section>
+   <section class="mb-6">
+    <h2 class="text-lg font-semibold mb-2">
+     Information We Collect
+    </h2>
+    <p class="mb-2 text-sm leading-relaxed">
+     We may collect the following types of information:
+    </p>
+    <ul class="list-disc list-inside text-sm leading-relaxed space-y-1">
+     <li>
+      Personal information you provide when subscribing to our newsletter, such as your name and email address.
+     </li>
+     <li>
+      Usage data automatically collected when you visit our site, including IP address, browser type, and pages visited.
+     </li>
+    </ul>
+   </section>
+   <section class="mb-6">
+    <h2 class="text-lg font-semibold mb-2">
+     How We Use Your Information
+    </h2>
+    <p class="mb-2 text-sm leading-relaxed">
+     We use your information to:
+    </p>
+    <ul class="list-disc list-inside text-sm leading-relaxed space-y-1">
+     <li>
+      Provide and improve our website and services.
+     </li>
+     <li>
+      Send you newsletters and updates if you have subscribed.
+     </li>
+     <li>
+      Analyze website usage to enhance user experience.
+     </li>
+    </ul>
+   </section>
+   <section class="mb-6">
+    <h2 class="text-lg font-semibold mb-2">
+     Cookies and Tracking Technologies
+    </h2>
+    <p class="text-sm leading-relaxed">
+     We use cookies and similar tracking technologies to collect information about your interactions with our website to improve functionality and performance. You can control cookies through your browser settings.
+    </p>
+   </section>
+   <section class="mb-6">
+    <h2 class="text-lg font-semibold mb-2">
+     Sharing Your Information
+    </h2>
+    <p class="text-sm leading-relaxed">
+     We do not sell, trade, or rent your personal information to third parties. We may share information with trusted service providers who assist us in operating our website and services, subject to confidentiality agreements.
+    </p>
+   </section>
+   <section class="mb-6">
+    <h2 class="text-lg font-semibold mb-2">
+     Your Rights
+    </h2>
+    <p class="text-sm leading-relaxed">
+     You have the right to access, update, or delete your personal information. You can unsubscribe from our newsletters at any time by following the unsubscribe link in the emails.
+    </p>
+   </section>
+   <section class="mb-6">
+    <h2 class="text-lg font-semibold mb-2">
+     Security
+    </h2>
+    <p class="text-sm leading-relaxed">
+     We implement reasonable security measures to protect your information from unauthorized access, alteration, disclosure, or destruction.
+    </p>
+   </section>
+   <section class="mb-6">
+    <h2 class="text-lg font-semibold mb-2">
+     Changes to This Privacy Policy
+    </h2>
+    <p class="text-sm leading-relaxed">
+     We may update this Privacy Policy from time to time. We encourage you to review this page periodically for any changes.
+    </p>
+   </section>
+   <section class="mb-6">
+    <h2 class="text-lg font-semibold mb-2">
+     Contact Us
+    </h2>
+    <p class="text-sm leading-relaxed">
+     If you have any questions or concerns about this Privacy Policy, please contact us at:
+    </p>
+    <address class="italics">
+     Email: sholynktech@gmail.com
+    </address>
+      <!-- Contact Support Button -->
+   <div class="mt-10 max-w-3xl">
+    <a class="inline-block bg-[#2563eb] text-white font-semibold text-sm px-6
+    py-2 rounded hover:bg-[#1e40af]" href="mailto:sholynktech@gmail.com" target="_blank"
+    rel="noopener noreferrer">
+     Contact Support
+    </a>
+   </div>
+   </section>
+  </main>
+  
+    <!-- Footer -->
+  <footer class="bg-[#0f172a] text-white text-[10px] mt-auto">
+   <div class="max-w-7xl mx-auto px-4 py-10 grid grid-cols-1 sm:grid-cols-4 gap-8">
+    <div>
+     <img alt="Sholynk logo white text on dark background" class="h-6 w-auto
+     mb-3" height="24" src="/images/page_logo.png" width="120"/>
+     <p class="italic max-w-xs leading-tight">
+      A digital publication dedicated to insightful analysis, news, and
+          trends shaping the future of AI and decentralized technologies.
+     </p>
+    </div>
+    <div>
+     <h4 class="font-bold mb-2">
+      Stay Ahead in AI and Web3 Trends
+     </h4>
+     <p class="mb-3 leading-tight max-w-xs">
+      "Get the latest insights, tools, and trend reports in AI, Web3, and
+          emerging tech straight to your inbox, every week."
+     </p>
+      <form class="max-w-xs" method="POST" data-netlify="true" name="subscribe" netlify-honeypot="bot-field" action="">
+      <input type="hidden" name="form-name" value="subscribe"/>
+      <input type="hidden" name="bot-field"/>
+      <input class="w-full mb-2 px-2 py-1 text-[#0f172a] text-xs rounded-sm" name="name" placeholder="Enter your name..." required="" type="text"/>
+      <input class="w-full mb-2 px-2 py-1 text-[#0f172a] text-xs rounded-sm" name="email" placeholder="Enter email..." required="" type="email"/>
+      <button class="w-full bg-[#2563eb] text-white font-semibold text-xs py-1 rounded" type="submit">
+       Subscribe
+      </button>
+     </form>
+    </div>
+    <div>
+     <h4 class="font-bold mb-2">
+      Quick Links
+     </h4>
+     <ul class="space-y-1">
+      <li>
+       <a class="border-b border-transparent hover:border-white"
+       href="help_&_support.html">
+        Help &amp; Support
+       </a>
+      </li>
+      <li>
+       <a class="border-b border-transparent hover:border-white"
+       href="#">
+        Privacy Policy
+       </a>
+      </li>
+      <li>
+       <a class="border-b border-transparent hover:border-white" target="_blank"
+       href="about.html">
+        About
+       </a>
+      </li>
+      <li>
+       <a class="border-b border-transparent hover:border-white" target="_blank"
+       href="contact.html">
+        Contact
+       </a>
+      </li>
+     </ul>
+    </div>
+    <div>
+     <h4 class="font-bold mb-2">
+      Join My Innovative Channel
+     </h4>
+     <div class="flex space-x-3 text-lg">
+      <a aria-label="WhatsApp" class="hover:text-[#2563eb]" href="#">
+       <i class="fab fa-whatsapp">
+       </i>
+      </a>
+      <a aria-label="Facebook" class="hover:text-[#2563eb]" href="#">
+       <i class="fab fa-facebook-f">
+       </i>
+      </a>
+      <a aria-label="Close" class="hover:text-[#2563eb]" href="#">
+       <i class="fa-brands fa-x-twitter"></i>
+      </a>
+     </div>
+    </div>
+   </div>
+    <div class="bg-[#1e293b] text-center text-[9px] py-2">
+    &copy; <span id="copyrightYear"></span> Sholynk Technology | All Rights Reserved.
+   </div>
+  </footer>
+ <script src="https://cdn.tailwindcss.com">
+  </script>
+ <script src="/scripts/script.js"></script>
+ </body>
+</html>
