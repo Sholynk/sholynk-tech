@@ -1,0 +1,234 @@
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <title>
+   Sholynk - Editor Picks and Articles
+  </title>
+  <meta content="Explore the latest editor picks and articles on technology, AI trends, Web3, and more. Stay updated with insightful analysis and news." name="description"/>
+  <meta content="technology, AI trends, Web3, articles, editor picks, news, analysis" name="keywords"/>
+  <meta content="Sholynk" name="author"/>
+  <link rel="shortcut icon" href="/images/page_logo.png" type="image/x-icon" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&amp;display=swap" rel="stylesheet"/>
+  <link href="/stylesheets/styles.css" rel="stylesheet">
+ </head>
+ <body>
+  <!-- Header -->
+ <header class="bg-[#0f172a]">
+   <div class="max-w-7xl mx-auto flex items-center justify-between px-4 py-2 sm:py-3">
+    <div>
+     <img alt="Sholynk logo white text on dark background" class="h-6 w-auto" height="24" src="../images/page_logo.png" width="120" />
+    </div>
+    <div class="text-white text-sm space-x-4">
+     <a class="hidden sm:inline-block" href="#">
+      <i class="fab fa-whatsapp">
+      </i>
+     </a>
+     <a class="hidden sm:inline-block" href="#">
+      <i class="fab fa-facebook-f">
+      </i>
+     </a>
+     <a class="hidden sm:inline-block" href="#">
+      <i class="fa-brands fa-x-twitter"></i>
+     </a>
+    </div>
+    <nav class="flex items-center space-x-4 text-white text-sm">
+     <a class="bg-[#1e40af] px-3 py-1 rounded text-white text-xs font-semibold" href="#">
+      Home
+     </a>
+     <a class="px-3 py-1 rounded text-white text-xs" target="_blank" href="#">
+      Technology
+     </a>
+     <a class="px-3 py-1 rounded text-white text-xs" target="_blank" href="#">
+      AI
+     </a>
+     <a class="px-3 py-1 rounded text-white text-xs" target="_blank" href="#">
+      Cryptocurrency
+     </a>
+     <a class="px-3 py-1 rounded text-white text-xs" target="_blank" href="#">
+      Game
+     </a>
+     <a class="px-3 py-1 rounded text-white text-xs" target="_blank" href="#">
+      Web 3
+     </a>
+     <a class="px-3 py-1 rounded text-white text-xs" target="_blank" href="#">
+      About
+     </a>
+     <a class="px-3 py-1 rounded text-white text-xs" target="_blank" href="#">
+      Contact
+     </a>
+    </nav>
+    <div class="hamburger text-white text-sm" onclick="toggleSidebar()">
+     <i class="fas fa-bars"></i>
+    </div>
+   </div>
+  </header>
+  
+  <!-- Sidebar Navigation -->
+  <div class="sidebar" id="sidebar">
+   <h3 class="font-semibold text-center mb-3 text-white">Categories</h3>
+   <ul class="text-xs text-gray-300 space-y-2">
+    <li class="highlighted flex items-center space-x-2 cursor-pointer
+    font-semibold">
+     <a href="#" target="_blank">Home</a>
+    </li>
+    <li class="flex items-center space-x-2 cursor-pointer">
+     <a href="#" target="_blank">Technology</a>
+    </li>
+    <li class="flex items-center space-x-2 cursor-pointer">
+     <a href="#" target="_blank">AI</a>
+    </li>
+    <li class="flex items-center space-x-2 cursor-pointer">
+     <a href="#" target="_blank">Cryptocurrency</a>
+    </li>
+    <li class="flex items-center space-x-2 cursor-pointer">
+     <a href="#" target="_blank">Web 3</a>
+    </li>
+    <li class="flex items-center space-x-2 cursor-pointer">
+     <a href="#" target="_blank">Game</a>
+    </li>
+    <li class="flex items-center space-x-2 cursor-pointer">
+     <a href="#" target="_blank">About</a>
+    </li>
+    <li class="flex items-center space-x-2 cursor-pointer">
+     <a href="#" target="_blank">Contact</a>
+    </li>
+   </ul>
+   <div class="text-white text-sm space-x-4">
+    <a class="hidden sm:inline-block" href="#">
+     <i class="fab fa-whatsapp">
+     </i>
+    </a>
+    <a class="hidden sm:inline-block" href="#">
+     <i class="fab fa-facebook-f">
+     </i>
+    </a>
+    <a class="hidden sm:inline-block" href="#">
+     <i class="fa-brands fa-x-twitter"></i>
+    </a>
+   </div>
+  </div>
+  
+  <main>
+   <!-- Hero Slider Section -->
+   <section class="hero-section" role="region" aria-label="Featured articles slider">
+    <!-- Slides will be injected here -->
+   </section>
+   <!-- Search -->
+   <section class="max-w-7xl mx-auto px-4 py-8">
+    <form class="max-w-xl mx-auto" onsubmit="return false;">
+     <input aria-label="Search articles" class="w-full border border-[#2563eb] rounded-sm px-3 py-1 text-xs sm:text-sm font-normal text-[#0f172a]" id="searchInput" placeholder="Type your search here..." type="text"/>
+     <button class="w-full mt-2 bg-[#0f172a] text-white font-bold text-xs sm:text-sm py-2 rounded" type="submit">
+      Search
+     </button>
+    </form>
+   </section>
+   <!-- Editor Picks -->
+   <section class="max-w-7xl mx-auto px-4 pb-16">
+    <h2 class="font-extrabold text-xs mb-4">
+     EDITOR PICKS
+    </h2>
+    <div id="cardsContainer" aria-live="polite" aria-atomic="true" aria-relevant="additions removals">
+     <!-- Cards injected by JS -->
+    </div>
+    <!-- Pagination -->
+    <nav aria-label="Pagination" class="flex justify-center space-x-2 mt-6">
+     <button aria-label="Previous page" class="px-3 py-1 rounded bg-[#0f172a] text-white text-xs disabled:opacity-50" id="prevPage" disabled>
+      Prev
+     </button>
+     <div id="paginationNumbers" class="flex space-x-1"></div>
+     <button aria-label="Next page" class="px-3 py-1 rounded bg-[#0f172a] text-white text-xs" id="nextPage">
+      Next
+     </button>
+    </nav>
+   </section>
+  </main>
+  <!-- Footer -->
+  <footer class="bg-[#0f172a] text-white text-[10px] mt-auto">
+   <div class="max-w-7xl mx-auto px-4 py-10 grid grid-cols-1 sm:grid-cols-4 gap-8">
+    <div>
+     <img alt="Sholynk logo white text on dark background" class="h-6 w-auto
+     mb-3" height="24" src="/images/page_logo.png" width="120"/>
+     <p class="italic max-w-xs leading-tight">
+      A digital publication dedicated to insightful analysis, news, and
+      trends shaping the future of AI and decentralized technologies.
+     </p>
+    </div>
+    <div>
+     <h4 class="font-bold mb-2">
+      Stay Ahead in AI and Web3 Trends
+     </h4>
+     <p class="mb-3 leading-tight max-w-xs">
+      "Get the latest insights, tools, and trend reports in AI, Web3, and
+      emerging tech straight to your inbox, every week."
+     </p>
+    <form class="max-w-xs" method="POST" data-netlify="true" name="subscribe" netlify-honeypot="bot-field" action="">
+      <input type="hidden" name="form-name" value="subscribe"/>
+      <input type="hidden" name="bot-field"/>
+      <input class="w-full mb-2 px-2 py-1 text-[#0f172a] text-xs rounded-sm" name="name" placeholder="Enter your name..." required="" type="text"/>
+      <input class="w-full mb-2 px-2 py-1 text-[#0f172a] text-xs rounded-sm" name="email" placeholder="Enter email..." required="" type="email"/>
+      <button class="w-full bg-[#2563eb] text-white font-semibold text-xs py-1 rounded" type="submit">
+       Subscribe
+      </button>
+     </form>
+    </div>
+    <div>
+     <h4 class="font-bold mb-2">
+      Quick Links
+     </h4>
+     <ul class="space-y-1">
+      <li>
+       <a class="border-b border-transparent hover:border-white" target="_blank"
+       href="/main_pages/help_&_support.html">
+        Help &amp; Support
+       </a>
+      </li>
+      <li>
+       <a class="border-b border-transparent hover:border-white" target="_blank"
+       href="/main_pages/privacy_policy.html">
+        Privacy Policy
+       </a>
+      </li>
+      <li>
+       <a class="border-b border-transparent hover:border-white" target="_blank"
+       href="/main_pages/about.html">
+        About
+       </a>
+      </li>
+      <li>
+       <a class="border-b border-transparent hover:border-white" target="_blank"
+       href="/main_pages/contact.html">
+        Contact
+       </a>
+      </li>
+     </ul>
+    </div>
+    <div>
+     <h4 class="font-bold mb-2">
+      Join My Innovative Channel
+     </h4>
+     <div class="flex space-x-3 text-lg">
+      <a aria-label="WhatsApp" class="hover:text-[#2563eb]" href="#">
+       <i class="fab fa-whatsapp">
+       </i>
+      </a>
+      <a aria-label="Facebook" class="hover:text-[#2563eb]" href="#">
+       <i class="fab fa-facebook-f">
+       </i>
+      </a>
+      <a aria-label="Close" class="hover:text-[#2563eb]" href="#">
+       <i class="fa-brands fa-x-twitter"></i>
+      </a>
+     </div>
+    </div>
+   </div>
+   <div class="bg-[#1e293b] text-center text-[9px] py-2">
+    &copy; <span id="copyrightYear"></span> Sholynk Technology | All Rights Reserved.
+   </div>
+  </footer>
+<script src="https://cdn.tailwindcss.com">
+  </script>
+<script src="/scripts/index.js"></script>
+ </body>
+</html>
