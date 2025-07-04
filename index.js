@@ -565,7 +565,7 @@ function navScroll() {
       nav.style.transform = 'translateY(0)';
     }, 1000);
   } else {
-    nav.style.position = '';
+    nav.style.position = 'static';
     scrolled = false;
   }
 }
