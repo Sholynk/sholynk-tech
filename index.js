@@ -554,7 +554,7 @@ document.addEventListener('click', function(event) {
 window.addEventListener("scroll", navScroll);
 function navScroll() {
   let scrolled = false;
-  let nav = document.querySelector('header');
+  let nav = document.querySelector('nav');
   if (window.pageYOffset > 100) {
     nav.style.position = 'fixed';
     nav.style.width = 'auto';
