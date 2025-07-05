@@ -557,7 +557,7 @@ function navScroll() {
   let nav = document.querySelector('header');
   if (window.pageYOffset > 100) {
     nav.style.position = 'fixed';
-    nav.style.width = '100%';
+    nav.style.width = 'auto';
     if (!scrolled) {
       nav.style.transform = 'translateY(-70px)'
     }
@@ -565,7 +565,7 @@ function navScroll() {
       nav.style.transform = 'translateY(0)';
     }, 1000);
   } else {
-    nav.style.position = 'static';
+    nav.style.position = '';
     scrolled = false;
   }
 }
