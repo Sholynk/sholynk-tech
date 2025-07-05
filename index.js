@@ -557,7 +557,8 @@ function navScroll() {
   let nav = document.querySelector('nav');
   if (window.pageYOffset > 100) {
     nav.style.position = 'fixed';
-    nav.style.width = 'auto';
+    nav.style.width = '100%';
+nav.style.backgroundColor = 'firebrick'
     if (!scrolled) {
       nav.style.transform = 'translateY(-70px)'
     }
