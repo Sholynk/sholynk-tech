@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <meta name="robots" content="noindex, nofollow"/>
+  <title>Sholynk CMS - Admin</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet"/>
+  <link href="admin.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <header class="admin-header">
+   <div class="brand">
+    <i class="fas fa-pen-nib" aria-hidden="true"></i>
+    <div>
+     <strong>Sholynk CMS</strong>
+     <span>Content dashboard</span>
+    </div>
+   </div>
+   <div class="header-actions">
+    <label class="token-field">
+     <span>Admin token</span>
+     <input id="adminToken" type="password" placeholder="only if configured" autocomplete="off"/>
+    </label>
+    <a class="ghost-button" href="/" target="_blank" rel="noopener">
+     <i class="fas fa-external-link-alt" aria-hidden="true"></i> View site
+    </a>
+   </div>
+  </header>
+
+  <nav class="admin-tabs" aria-label="Sections">
+   <button class="tab active" type="button" data-panel="articles">Articles</button>
+   <button class="tab" type="button" data-panel="media">Media library</button>
+   <button class="tab" type="button" data-panel="settings">Site metadata</button>
+  </nav>
+
+  <main>
+   <!-- Articles -->
+   <section class="panel active" id="panel-articles" aria-label="Articles">
+    <div class="panel-grid">
+     <div class="list-column">
+      <div class="list-toolbar">
+       <input id="articleSearch" type="search" placeholder="Search articles..." aria-label="Search articles"/>
+       <select id="statusFilter" aria-label="Filter by status">
+        <option value="all">All statuses</option>
+        <option value="published">Published</option>
+        <option value="draft">Drafts</option>
+       </select>
+       <button class="primary-button" id="newArticle" type="button">
+        <i class="fas fa-plus" aria-hidden="true"></i> New
+       </button>
+      </div>
+      <p class="list-count" id="articleCount" aria-live="polite"></p>
+      <ul class="article-list" id="articleList"></ul>
+     </div>
+
+     <div class="form-column">
+      <form id="articleForm" novalidate>
+       <div class="form-head">
+        <h2 id="formTitle">New article</h2>
+        <div class="form-head-actions">
+         <button class="danger-button" id="deleteArticle" type="button" hidden>
+          <i class="fas fa-trash" aria-hidden="true"></i> Delete
+         </button>
+         <button class="ghost-button" id="previewArticle" type="button" hidden>
+          <i class="fas fa-eye" aria-hidden="true"></i> Preview
+         </button>
+         <button class="primary-button" type="submit">
+          <i class="fas fa-save" aria-hidden="true"></i> Save
+         </button>
+        </div>
+       </div>
+
+       <input type="hidden" id="articleId"/>
+
+       <div class="field">
+        <label for="title">Title <span class="req">*</span></label>
+        <input id="title" name="title" required/>
+       </div>
+
+       <div class="field-row">
+        <div class="field">
+         <label for="category">Category <span class="req">*</span></label>
+         <input id="category" name="category" list="categoryOptions" required/>
+         <datalist id="categoryOptions"></datalist>
+        </div>
+        <div class="field">
+         <label for="slug">Slug</label>
+         <input id="slug" name="slug" placeholder="auto-generated from title"/>
+        </div>
+       </div>
+
+       <div class="field">
+        <label for="description">Teaser / description</label>
+        <textarea id="description" name="description" rows="3"></textarea>
+        <p class="hint">Shown on the homepage card and used as the meta description fallback.</p>
+       </div>
+
+       <div class="field-row">
+        <div class="field">
+         <label for="img">Hero image URL</label>
+         <input id="img" name="img" placeholder="/uploads/... or https://..."/>
+        </div>
+        <div class="field">
+         <label for="alt">Image alt text</label>
+         <input id="alt" name="alt" placeholder="Describe the image for screen readers"/>
+        </div>
+       </div>
+       <div class="image-preview" id="imagePreview" hidden>
+        <img id="imagePreviewTag" alt=""/>
+       </div>
+
+       <div class="field">
+        <label for="body">Body (HTML)</label>
+        <textarea id="body" name="body" rows="18" spellcheck="true"></textarea>
+        <p class="hint">
+         Use &lt;h2&gt; for sections, &lt;figure&gt; + &lt;img alt="..."&gt; for images, &lt;blockquote&gt; for pull quotes.
+         Headings become the article's table of contents automatically.
+        </p>
+        <div class="body-tools">
+         <button type="button" data-snippet="h2">Insert heading</button>
+         <button type="button" data-snippet="figure">Insert figure</button>
+         <button type="button" data-snippet="quote">Insert quote</button>
+         <button type="button" data-snippet="list">Insert list</button>
+        </div>
+       </div>
+
+       <div class="field-row">
+        <div class="field">
+         <label for="author">Author</label>
+         <input id="author" name="author"/>
+        </div>
+        <div class="field">
+         <label for="date">Publish date</label>
+         <input id="date" name="date" type="date"/>
+        </div>
+        <div class="field">
+         <label for="readingTime">Reading time</label>
+         <input id="readingTime" name="readingTime" placeholder="auto"/>
+        </div>
+       </div>
+
+       <div class="field-row">
+        <div class="field">
+         <label for="status">Status</label>
+         <select id="status" name="status">
+          <option value="published">Published</option>
+          <option value="draft">Draft</option>
+         </select>
+        </div>
+        <div class="field">
+         <label for="heroOrder">Hero slide order</label>
+         <input id="heroOrder" name="heroOrder" type="number" min="0" placeholder="empty = not in hero"/>
+        </div>
+        <div class="field">
+         <label for="externalLink">External link override</label>
+         <input id="externalLink" name="externalLink" placeholder="leave empty to use the article page"/>
+        </div>
+       </div>
+
+       <div class="checkbox-row">
+        <label><input id="featured" type="checkbox"/> Featured card</label>
+        <label><input id="hero" type="checkbox"/> Show in hero slider</label>
+       </div>
+
+       <details class="seo-block">
+        <summary>SEO overrides</summary>
+        <div class="field">
+         <label for="seoTitle">SEO title</label>
+         <input id="seoTitle" name="seoTitle"/>
+        </div>
+        <div class="field">
+         <label for="seoDescription">SEO description</label>
+         <textarea id="seoDescription" name="seoDescription" rows="2"></textarea>
+        </div>
+       </details>
+      </form>
+     </div>
+    </div>
+   </section>
+
+   <!-- Media -->
+   <section class="panel" id="panel-media" aria-label="Media library" hidden>
+    <form class="upload-card" id="uploadForm">
+     <h2>Upload an image</h2>
+     <div class="field">
+      <label for="imageFile">Image file <span class="req">*</span></label>
+      <input id="imageFile" type="file" accept="image/*" required/>
+     </div>
+     <div class="field">
+      <label for="imageAlt">Alt text <span class="req">*</span></label>
+      <input id="imageAlt" placeholder="Describe the image for screen readers" required/>
+     </div>
+     <button class="primary-button" type="submit"><i class="fas fa-upload" aria-hidden="true"></i> Upload</button>
+    </form>
+    <div class="media-grid" id="mediaGrid"></div>
+   </section>
+
+   <!-- Settings -->
+   <section class="panel" id="panel-settings" aria-label="Site metadata" hidden>
+    <form class="settings-card" id="settingsForm">
+     <h2>Site metadata</h2>
+     <div class="field">
+      <label for="siteTitle">Site title</label>
+      <input id="siteTitle"/>
+     </div>
+     <div class="field">
+      <label for="siteDescription">Site description</label>
+      <textarea id="siteDescription" rows="3"></textarea>
+     </div>
+     <div class="field">
+      <label for="siteKeywords">Keywords</label>
+      <input id="siteKeywords"/>
+     </div>
+     <div class="field">
+      <label for="homeTagline">Homepage tagline</label>
+      <input id="homeTagline"/>
+     </div>
+     <button class="primary-button" type="submit"><i class="fas fa-save" aria-hidden="true"></i> Save metadata</button>
+    </form>
+   </section>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+  <script src="admin.js"></script>
+ </body>
+</html>

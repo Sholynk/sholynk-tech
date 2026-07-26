@@ -3,15 +3,14 @@
  <head>
   <meta charset="utf-8"/>
   <meta content="width=device-width, initial-scale=1" name="viewport"/>
-  <title>Sholynk Technology - AI, Web3 and Emerging Tech Insights</title>
-  <meta content="Explore editor picks, practical guides and analysis on AI trends, Web3, software development, cybersecurity and emerging technology." name="description"/>
-  <meta content="technology, AI trends, Web3, software development, cybersecurity, articles, editor picks, news, analysis" name="keywords"/>
+  <title>Article - Sholynk Technology</title>
+  <meta content="In-depth technology analysis from Sholynk Technology." name="description" id="metaDescription"/>
   <meta content="Sholynk" name="author"/>
   <meta content="#0f172a" name="theme-color"/>
-  <meta property="og:title" content="Sholynk Technology - AI, Web3 and Emerging Tech Insights"/>
-  <meta property="og:description" content="Stay ahead with practical articles and thoughtful analysis on AI, Web3 and the future of technology."/>
-  <meta property="og:type" content="website"/>
-  <meta property="og:image" content="page_logo.png"/>
+  <meta property="og:title" content="Sholynk Technology" id="ogTitle"/>
+  <meta property="og:description" content="In-depth technology analysis from Sholynk Technology." id="ogDescription"/>
+  <meta property="og:type" content="article"/>
+  <meta property="og:image" content="page_logo.png" id="ogImage"/>
   <link rel="shortcut icon" href="new_page_logo.jpg" type="image/x-icon"/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
@@ -32,7 +31,7 @@
      <a class="hidden sm:inline-block" aria-label="X / Twitter" href="#"><i class="fa-brands fa-x-twitter" aria-hidden="true"></i></a>
     </div>
     <nav class="flex items-center space-x-4 text-white text-sm" aria-label="Primary navigation">
-     <a class="bg-[#1e40af] px-3 py-1 rounded text-white text-xs font-semibold" href="index.html">Home</a>
+     <a class="px-3 py-1 rounded text-white text-xs" href="index.html">Home</a>
      <a class="px-3 py-1 rounded text-white text-xs" href="index.html?category=Technology">Technology</a>
      <a class="px-3 py-1 rounded text-white text-xs" href="index.html?category=AI%20Trends">AI</a>
      <a class="px-3 py-1 rounded text-white text-xs" href="index.html?category=Cryptocurrency">Cryptocurrency</a>
@@ -47,11 +46,11 @@
    </div>
   </header>
 
-  <!-- Sidebar Navigation -->
+  <!-- Sidebar Navigation (mobile only) -->
   <div class="sidebar" id="sidebar">
    <h3 class="font-semibold text-center mb-3 text-white">Explore Sholynk</h3>
    <ul class="text-xs text-gray-300 space-y-2">
-    <li class="highlighted flex items-center space-x-2 cursor-pointer font-semibold"><a href="index.html">Home</a></li>
+    <li class="flex items-center space-x-2 cursor-pointer"><a href="index.html">Home</a></li>
     <li class="flex items-center space-x-2 cursor-pointer"><a href="index.html?category=Technology">Technology</a></li>
     <li class="flex items-center space-x-2 cursor-pointer"><a href="index.html?category=AI%20Trends">AI</a></li>
     <li class="flex items-center space-x-2 cursor-pointer"><a href="index.html?category=Cryptocurrency">Cryptocurrency</a></li>
@@ -67,53 +66,21 @@
    </div>
   </div>
 
+  <div class="reading-progress" aria-hidden="true"><span id="readingProgressBar"></span></div>
+
   <main id="main-content">
-   <!-- Hero Slider Section -->
-   <section class="hero-section" role="region" aria-label="Featured articles slider">
-    <!-- Slides are injected by index.js -->
-   </section>
+   <article class="article-page" id="articleRoot" aria-busy="true">
+    <div class="article-status" id="articleStatus">Loading article...</div>
+   </article>
 
-   <!-- Search and Filters -->
-   <section class="home-toolbar" aria-labelledby="discover-title">
-    <div class="home-toolbar-panel">
-     <div>
-      <p class="eyebrow">Sholynk Technology</p>
-      <h2 id="discover-title">Insightful tech stories for builders, creators and curious minds.</h2>
-      <p>Browse crisp explainers, practical guides and trend analysis across AI, Web3, software development and digital innovation.</p>
-      <div class="category-filters" id="categoryFilters" aria-label="Filter articles by category"></div>
-     </div>
-     <form class="search-card" role="search" aria-label="Search articles">
-      <label class="eyebrow" for="searchInput">Search the archive</label>
-      <div class="search-field-wrap">
-       <i class="fas fa-search" aria-hidden="true"></i>
-       <input aria-label="Search articles" id="searchInput" placeholder="Try AI, cybersecurity, Web3..." type="search" autocomplete="off"/>
-      </div>
-      <div class="search-actions">
-       <button type="submit">Search articles</button>
-       <button id="clearSearch" type="button" hidden>Clear</button>
-      </div>
-     </form>
-    </div>
-   </section>
-
-   <!-- Editor Picks -->
-   <section class="editor-section" aria-labelledby="editor-picks-title">
+   <section class="related-section" id="relatedSection" hidden aria-labelledby="related-title">
     <div class="section-title-row">
      <div>
-      <p class="eyebrow">Fresh perspectives</p>
-      <h2 class="section-heading" id="editor-picks-title">Editor Picks</h2>
+      <p class="eyebrow">Keep reading</p>
+      <h2 class="section-heading" id="related-title">Related stories</h2>
      </div>
-     <p class="results-count" id="resultsCount" aria-live="polite"></p>
     </div>
-    <div id="cardsContainer" aria-live="polite" aria-atomic="true" aria-relevant="additions removals">
-     <!-- Cards injected by JS -->
-    </div>
-    <!-- Pagination -->
-    <nav aria-label="Pagination" class="flex justify-center space-x-2 mt-6">
-     <button aria-label="Previous page" id="prevPage" type="button" disabled>Prev</button>
-     <div id="paginationNumbers" class="flex space-x-1"></div>
-     <button aria-label="Next page" id="nextPage" type="button">Next</button>
-    </nav>
+    <div class="related-grid" id="relatedGrid"></div>
    </section>
   </main>
 
@@ -160,6 +127,6 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="cms-client.js"></script>
   <script src="script.js"></script>
-  <script src="index.js"></script>
+  <script src="article.js"></script>
  </body>
 </html>

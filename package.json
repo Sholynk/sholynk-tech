@@ -1,0 +1,21 @@
+{
+  "name": "sholynk-tech",
+  "version": "1.0.0",
+  "description": "Sholynk Technology site plus a lightweight Node.js CMS for articles, images and metadata.",
+  "private": true,
+  "main": "cms/server.js",
+  "scripts": {
+    "start": "node cms/server.js",
+    "dev": "node --watch cms/server.js",
+    "seed": "node cms/seed.js",
+    "test": "node --test cms/tests/*.test.js"
+  },
+  "engines": {
+    "node": ">=22.5.0"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "multer": "^2.2.0"
+  },
+  "license": "MIT"
+}

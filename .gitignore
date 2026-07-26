@@ -1,0 +1,14 @@
+node_modules/
+npm-debug.log*
+
+# CMS runtime data — the database and uploaded media are environment state,
+# not source. Re-create locally with `npm run seed`.
+cms/data/*.sqlite
+cms/data/*.sqlite-shm
+cms/data/*.sqlite-wal
+uploads/*
+!uploads/.gitkeep
+
+.DS_Store
+.env
+.env.local
