@@ -64,8 +64,13 @@
     const hamburger = document.querySelector('.hamburger');
     if (!sidebar || !hamburger) return;
 
+    const desktopQuery = typeof window.matchMedia === 'function'
+      ? window.matchMedia('(min-width: 901px)')
+      : { matches: false, addEventListener() {}, addListener() {} };
+
     sidebar.setAttribute('aria-label', 'Mobile navigation');
     sidebar.setAttribute('aria-hidden', 'true');
+    sidebar.inert = true;
 
     if (!document.querySelector('.sidebar-close')) {
       const closeButton = document.createElement('button');
@@ -97,6 +102,9 @@
     const focusableSelector = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
     window.openSidebar = () => {
+      // The off-canvas sidebar is a mobile-only affordance.
+      if (desktopQuery.matches) return;
+      sidebar.inert = false;
       sidebar.classList.add('active');
       backdrop.classList.add('is-visible');
       document.body.classList.add('sidebar-open');
@@ -106,6 +114,10 @@
     };
 
     window.closeSidebar = () => {
+      if (sidebar.contains(document.activeElement)) {
+        document.activeElement.blur();
+      }
+      sidebar.inert = true;
       sidebar.classList.remove('active');
       backdrop.classList.remove('is-visible');
       document.body.classList.remove('sidebar-open');
@@ -120,6 +132,15 @@
         window.openSidebar();
       }
     };
+
+    const handleDesktopChange = (event) => {
+      if (event.matches) window.closeSidebar();
+    };
+    if (typeof desktopQuery.addEventListener === 'function') {
+      desktopQuery.addEventListener('change', handleDesktopChange);
+    } else {
+      desktopQuery.addListener(handleDesktopChange);
+    }
 
     hamburger.addEventListener('click', window.toggleSidebar);
     hamburger.addEventListener('keydown', (event) => {

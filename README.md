@@ -1,2 +1,130 @@
 # sholynk-tech
-An aesthetic website for NEWS articles.
+
+An aesthetic website for NEWS articles, now backed by a lightweight Node.js CMS.
+
+## Quick start
+
+```bash
+npm install
+npm run seed     # load the starter content into the database
+npm start        # http://localhost:3000
+```
+
+| URL | What it is |
+| --- | --- |
+| `http://localhost:3000/` | Public homepage |
+| `http://localhost:3000/article.html?slug=the-rise-of-quantum-computing` | Long-form article page |
+| `http://localhost:3000/admin/` | Admin dashboard |
+| `http://localhost:3000/api/articles` | Articles API |
+
+## Architecture
+
+The site was a set of static HTML pages with content hardcoded inside `index.js`.
+It now loads content from the CMS at runtime:
+
+```
+Browser ──> cms-client.js ──> /api/*  (Express + SQLite)
+                   └────────> content-fallback.json  (used when the API is unreachable)
+```
+
+`cms-client.js` probes `/api/settings` once per page load. If the API answers with
+JSON, the page uses live data; otherwise it silently falls back to
+`content-fallback.json`, so the site still renders correctly when hosted as plain
+static files (Netlify, GitHub Pages, opening the folder directly).
+
+### Why SQLite
+
+The repository had no build tooling, no package manager and no server. MongoDB or
+Postgres would have added an external service to run before the site renders.
+Node 22's built-in `node:sqlite` gives a real relational database with zero
+dependencies and no native compilation. The schema in `cms/lib/db.js` is ordinary
+SQL, so swapping in Postgres later only means rewriting the query implementations
+in `cms/lib/articles.js` and `cms/lib/images.js`.
+
+### Layout
+
+```
+cms/
+  server.js            Express app: API, /admin, static site, /uploads
+  seed.js              Imports the previously hardcoded content
+  export-fallback.js   Writes content-fallback.json for static hosting
+  lib/                 db, articles, images, settings
+  routes/api.js        REST endpoints + multer upload handling
+  admin/               Admin dashboard (vanilla HTML/CSS/JS)
+  tests/               node:test integration suite
+article.html/.js       Dynamic article page
+cms-client.js          Shared front-end data layer
+content-fallback.json  Generated snapshot — do not edit by hand
+```
+
+## API
+
+All write operations accept JSON.
+
+| Method | Endpoint | Purpose |
+| --- | --- | --- |
+| `GET` | `/api/articles` | List. Query: `category`, `q`, `status`, `hero`, `limit`, `offset` |
+| `GET` | `/api/articles/:idOrSlug` | Single article by numeric id or slug |
+| `GET` | `/api/articles/categories` | Distinct categories |
+| `POST` | `/api/articles` | Create (requires `title`, `category`) |
+| `PUT` / `PATCH` | `/api/articles/:id` | Update |
+| `DELETE` | `/api/articles/:id` | Delete |
+| `GET` | `/api/images` | List uploaded images |
+| `POST` | `/api/images` | Upload (multipart, field `image`, plus `alt`) |
+| `PATCH` | `/api/images/:id` | Update alt text |
+| `DELETE` | `/api/images/:id` | Delete record and file |
+| `GET` / `PUT` | `/api/settings` | Site metadata |
+
+Uploads are limited to 8 MB and to JPEG, PNG, WebP, GIF and AVIF.
+
+### Securing the admin
+
+Write endpoints are open by default for local development. Set `CMS_ADMIN_TOKEN`
+to require a token, then paste the same value into the "Admin token" field in the
+dashboard:
+
+```bash
+CMS_ADMIN_TOKEN=your-secret npm start
+```
+
+### Environment variables
+
+| Variable | Default | Purpose |
+| --- | --- | --- |
+| `PORT` | `3000` | HTTP port |
+| `CMS_ADMIN_TOKEN` | unset | Require a token for write operations |
+| `CMS_DB_FILE` | `cms/data/cms.sqlite` | Database location |
+| `CMS_UPLOAD_DIR` | `uploads/` | Where uploaded images are stored |
+
+## Content workflow
+
+1. Open `/admin/`.
+2. Create or edit an article. Body accepts HTML — the toolbar inserts headings,
+   figures, quotes and lists. `<h2>` elements automatically become the article's
+   table of contents.
+3. Upload images under **Media library**, set alt text (required), then use
+   **Use as hero** or **Copy URL** to place them in the body.
+4. Articles with a body render at `/article.html?slug=...`. Leaving
+   "External link override" set instead points the homepage card elsewhere.
+5. If you deploy statically, run `node cms/export-fallback.js` to refresh
+   `content-fallback.json`.
+
+Article HTML is sanitised on render: `<script>`, `<iframe>`, inline event
+handlers and `javascript:` URLs are stripped, and images without `alt` get an
+empty one.
+
+## Tests
+
+```bash
+npm test
+```
+
+Covers the article CRUD lifecycle, validation, slug uniqueness, search and
+category filters, image upload/serve/delete, upload type rejection, and settings.
+Each run uses a throwaway database in a temp directory.
+
+## Notes
+
+The database and `uploads/` are gitignored runtime state. Recreate them with
+`npm run seed`. The legacy `article_01.html` page is still served, and the
+"Mastering the art of coding" card continues to point at it.
