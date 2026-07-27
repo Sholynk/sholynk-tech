@@ -4,9 +4,15 @@
   <meta charset="utf-8"/>
   <meta content="width=device-width, initial-scale=1" name="viewport"/>
   <meta content="#0f172a" name="theme-color"/>
+  <meta content="Contact Sholynk Technology" name="author"/>
   <title>
-   Contact - Sholynk
+   Contact - Sholynk Technology
   </title>
+  <meta content="Get in touch with the Sholynk Technology team for questions, story tips, collaborations or advertising enquiries." name="description"/>
+  <meta property="og:title" content="Contact Sholynk Technology"/>
+  <meta property="og:description" content="Questions, feedback or a story tip? Reach the Sholynk team directly."/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:image" content="page_logo.png"/>
   <link rel="shortcut icon" href="new_page_logo.jpg" type="image/x-icon"/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
@@ -64,45 +70,69 @@
   
   <!-- Page Title -->
   <main id="main-content">
-   <section class="page-section">
-    <h1 class="page-title">Contact Us</h1>
-    <p class="page-intro">
-     We'd love to hear from you! Whether you have questions, feedback, or want to collaborate, please fill out the form below or reach us through the provided contact details.
-    </p>
-    <div class="contact-card">
-     <form data-netlify="true" name="contact" method="POST"
-           netlify-honeypot="bot-field" action="" class="contact-form" id="contactForm">
-      <input type="hidden" name="form-name" value="contact"/>
-      <p class="honeypot">
-       <label>Don’t fill this out if you're human: <input name="bot-field"/></label>
-      </p>
-      <div class="form-field">
-       <label for="name">Name</label>
-       <input id="name" name="name" placeholder="Your full name" required type="text"/>
-      </div>
-      <div class="form-field">
-       <label for="email">Email</label>
-       <input id="email" name="email" placeholder="you@example.com" required type="email"/>
-      </div>
-      <div class="form-field">
-       <label for="subject">Subject</label>
-       <input id="subject" name="subject" placeholder="Subject of your message" required type="text"/>
-      </div>
-      <div class="form-field">
-       <label for="message">Message</label>
-       <textarea id="message" name="message" placeholder="Write your message here..." required rows="5"></textarea>
-      </div>
-      <div>
-       <button class="btn-primary" type="submit">Send Message</button>
-      </div>
-     </form>
+   <section class="page-section contact-layout">
+    <div>
+     <p class="eyebrow">Get in touch</p>
+     <h1 class="page-title">Contact Us</h1>
+     <p class="page-intro">
+      Questions about an article, a story tip, an advertising enquiry, or just feedback on the site — we
+      read everything that comes in. Fill out the form below or reach us directly through the details
+      alongside it, and we'll get back to you as soon as we can.
+     </p>
+     <div class="contact-card">
+      <form data-netlify="true" name="contact" method="POST"
+            netlify-honeypot="bot-field" action="" class="contact-form" id="contactForm">
+       <input type="hidden" name="form-name" value="contact"/>
+       <p class="honeypot">
+        <label>Don’t fill this out if you're human: <input name="bot-field"/></label>
+       </p>
+       <div class="form-field">
+        <label for="name">Name</label>
+        <input id="name" name="name" placeholder="Your full name" required type="text"/>
+       </div>
+       <div class="form-field">
+        <label for="email">Email</label>
+        <input id="email" name="email" placeholder="you@example.com" required type="email"/>
+       </div>
+       <div class="form-field">
+        <label for="subject">Subject</label>
+        <input id="subject" name="subject" placeholder="Subject of your message" required type="text"/>
+       </div>
+       <div class="form-field">
+        <label for="message">Message</label>
+        <textarea id="message" name="message" placeholder="Write your message here..." required rows="5"></textarea>
+       </div>
+       <div>
+        <button class="btn-primary" type="submit"><i class="fas fa-paper-plane" aria-hidden="true"></i> Send Message</button>
+       </div>
+      </form>
+     </div>
     </div>
-    <div class="contact-details">
-     <h2>Contact Details</h2>
-     <p><i class="fas fa-envelope" aria-hidden="true"></i> sholynktech@gmail.com</p>
-     <p><i class="fas fa-phone" aria-hidden="true"></i> +234-9027-00-4273</p>
-     <p><i class="fas fa-map-marker-alt" aria-hidden="true"></i> Ago-Iwoye, Ogun State, Nigeria</p>
-    </div>
+
+    <aside class="contact-side">
+     <div class="contact-details">
+      <h2>Contact Details</h2>
+      <p><i class="fas fa-envelope" aria-hidden="true"></i> <a href="mailto:sholynktech@gmail.com">sholynktech@gmail.com</a></p>
+      <p><i class="fas fa-phone" aria-hidden="true"></i> <a href="tel:+2349027004273">+234-9027-00-4273</a></p>
+      <p><i class="fas fa-map-marker-alt" aria-hidden="true"></i> Ago-Iwoye, Ogun State, Nigeria</p>
+      <p class="contact-response-time"><i class="fas fa-clock" aria-hidden="true"></i> We typically respond within 1–2 business days.</p>
+     </div>
+
+     <div class="contact-details contact-social-card">
+      <h2>Follow along</h2>
+      <p class="page-intro" style="margin: 0 0 0.9rem;">Prefer social? We're active here too.</p>
+      <div class="footer-social contact-social-links">
+       <a aria-label="WhatsApp" href="#"><i class="fab fa-whatsapp" aria-hidden="true"></i></a>
+       <a aria-label="Facebook" href="#"><i class="fab fa-facebook-f" aria-hidden="true"></i></a>
+       <a aria-label="X / Twitter" href="#"><i class="fa-brands fa-x-twitter" aria-hidden="true"></i></a>
+      </div>
+     </div>
+
+     <div class="contact-details contact-faq-nudge">
+      <h2>Have a quick question instead?</h2>
+      <p>Check our <a href="help_&_support.html">Help &amp; Support</a> page — it covers newsletter signup, story submissions and advertising in a few short answers.</p>
+     </div>
+    </aside>
    </section>
   </main>
 
@@ -140,6 +170,7 @@
       <li><a href="privacy_policy.html">Privacy Policy</a></li>
       <li><a href="about.html">About</a></li>
       <li><a href="contact.html">Contact</a></li>
+      <li><button class="footer-link-button" id="cookieSettingsBtn" type="button">Cookie Settings</button></li>
      </ul>
     </div>
     <div>
@@ -156,6 +187,7 @@
    </div>
   </footer>
   <script src="script.js"></script>
+  <script src="cookie-consent.js"></script>
   <script>
    const form = document.getElementById('contactForm');
     const popup = document.getElementById('successPopup');
