@@ -69,8 +69,32 @@ db.exec(`
     updated_at TEXT NOT NULL DEFAULT (datetime('now'))
   );
 
+  -- Reader engagement. Keyed by article slug rather than a foreign key to
+  -- articles(id) on purpose: the legacy static page (article_01.html) needs
+  -- reactions too, and a slug keeps the tables usable for any page.
+  CREATE TABLE IF NOT EXISTS reactions (
+    id           INTEGER PRIMARY KEY AUTOINCREMENT,
+    article_slug TEXT NOT NULL,
+    voter_id     TEXT NOT NULL,
+    type         TEXT NOT NULL CHECK (type IN ('like', 'dislike')),
+    created_at   TEXT NOT NULL DEFAULT (datetime('now')),
+    updated_at   TEXT NOT NULL DEFAULT (datetime('now')),
+    UNIQUE (article_slug, voter_id)
+  );
+
+  CREATE TABLE IF NOT EXISTS comments (
+    id           INTEGER PRIMARY KEY AUTOINCREMENT,
+    article_slug TEXT NOT NULL,
+    author       TEXT NOT NULL,
+    body         TEXT NOT NULL,
+    voter_id     TEXT NOT NULL DEFAULT '',
+    created_at   TEXT NOT NULL DEFAULT (datetime('now'))
+  );
+
   CREATE INDEX IF NOT EXISTS idx_articles_category ON articles(category);
   CREATE INDEX IF NOT EXISTS idx_articles_status ON articles(status);
+  CREATE INDEX IF NOT EXISTS idx_reactions_slug ON reactions(article_slug);
+  CREATE INDEX IF NOT EXISTS idx_comments_slug ON comments(article_slug, id);
 `);
 
 module.exports = { db, DB_FILE, DATA_DIR };

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-26T22:51:53.986Z",
+  "generatedAt": "2026-07-27T02:10:53.916Z",
   "settings": {
     "siteTitle": "Sholynk Technology - AI, Web3 and Emerging Tech Insights",
     "siteDescription": "Explore editor picks, practical guides and analysis on AI trends, Web3, software development, cybersecurity and emerging technology.",
@@ -13,13 +13,13 @@
       "slug": "mastering-the-art-of-coding",
       "title": "Mastering the art of coding",
       "category": "Technology",
-      "description": "Ten foundational areas every developer should focus on to become more confident, productive and impactful.",
+      "description": "Syntax is the easy part. These are the ten habits that separate finishing a tutorial from being trusted with production code.",
       "body": "",
-      "img": "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1600&q=80",
-      "alt": "Developer workstation with code on a monitor",
+      "img": "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1600&q=80",
+      "alt": "Developer working at a desk with two monitors displaying source code",
       "author": "Busari Oluwashola",
       "date": "2026-07-26",
-      "readingTime": "6 min read",
+      "readingTime": "8 min read",
       "featured": true,
       "status": "published",
       "hero": true,
@@ -28,8 +28,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "article_01.html",
-      "createdAt": "2026-07-26 22:51:53",
-      "updatedAt": "2026-07-26 22:51:53"
+      "createdAt": "2026-07-27 02:10:53",
+      "updatedAt": "2026-07-27 02:10:53"
     },
     {
       "id": 2,
@@ -51,8 +51,8 @@
       "seoTitle": "The Rise of Quantum Computing: qubits, error correction and what it means for your stack",
       "seoDescription": "A practical, jargon-light guide to how quantum computers work, the error-correction wall the field is climbing, which problems genuinely benefit, and what engineering teams should do today.",
       "link": "article.html?slug=the-rise-of-quantum-computing",
-      "createdAt": "2026-07-26 22:51:53",
-      "updatedAt": "2026-07-26 22:51:53"
+      "createdAt": "2026-07-27 02:10:53",
+      "updatedAt": "2026-07-27 02:10:53"
     },
     {
       "id": 24,
@@ -64,7 +64,7 @@
       "img": "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1600&q=80",
       "alt": "The future of artificial intelligence in everyday life",
       "author": "Sholynk Editorial",
-      "date": "2026-07-26",
+      "date": "2026-07-27",
       "readingTime": "1 min read",
       "featured": false,
       "status": "published",
@@ -74,8 +74,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=AI%20Trends",
-      "createdAt": "2026-07-26 22:51:53",
-      "updatedAt": "2026-07-26 22:51:53"
+      "createdAt": "2026-07-27 02:10:53",
+      "updatedAt": "2026-07-27 02:10:53"
     },
     {
       "id": 25,
@@ -87,7 +87,7 @@
       "img": "https://images.unsplash.com/photo-1639322537504-6427a16b0a28?auto=format&fit=crop&w=1600&q=80",
       "alt": "Decentralized finance is reshaping access to money",
       "author": "Sholynk Editorial",
-      "date": "2026-07-26",
+      "date": "2026-07-27",
       "readingTime": "1 min read",
       "featured": false,
       "status": "published",
@@ -97,8 +97,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Web%203",
-      "createdAt": "2026-07-26 22:51:53",
-      "updatedAt": "2026-07-26 22:51:53"
+      "createdAt": "2026-07-27 02:10:53",
+      "updatedAt": "2026-07-27 02:10:53"
     },
     {
       "id": 26,
@@ -110,7 +110,7 @@
       "img": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1600&q=80",
       "alt": "Cybersecurity habits every growing team needs",
       "author": "Sholynk Editorial",
-      "date": "2026-07-26",
+      "date": "2026-07-27",
       "readingTime": "1 min read",
       "featured": false,
       "status": "published",
@@ -120,8 +120,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Technology",
-      "createdAt": "2026-07-26 22:51:53",
-      "updatedAt": "2026-07-26 22:51:53"
+      "createdAt": "2026-07-27 02:10:53",
+      "updatedAt": "2026-07-27 02:10:53"
     },
     {
       "id": 3,
@@ -143,8 +143,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Web%203",
-      "createdAt": "2026-07-26 22:51:53",
-      "updatedAt": "2026-07-26 22:51:53"
+      "createdAt": "2026-07-27 02:10:53",
+      "updatedAt": "2026-07-27 02:10:53"
     },
     {
       "id": 4,
@@ -166,8 +166,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=AI%20Trends",
-      "createdAt": "2026-07-26 22:51:53",
-      "updatedAt": "2026-07-26 22:51:53"
+      "createdAt": "2026-07-27 02:10:53",
+      "updatedAt": "2026-07-27 02:10:53"
     },
     {
       "id": 5,
@@ -189,8 +189,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Technology",
-      "createdAt": "2026-07-26 22:51:53",
-      "updatedAt": "2026-07-26 22:51:53"
+      "createdAt": "2026-07-27 02:10:53",
+      "updatedAt": "2026-07-27 02:10:53"
     },
     {
       "id": 6,
@@ -212,8 +212,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=AI%20Trends",
-      "createdAt": "2026-07-26 22:51:53",
-      "updatedAt": "2026-07-26 22:51:53"
+      "createdAt": "2026-07-27 02:10:53",
+      "updatedAt": "2026-07-27 02:10:53"
     },
     {
       "id": 7,
@@ -235,8 +235,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Web%203",
-      "createdAt": "2026-07-26 22:51:53",
-      "updatedAt": "2026-07-26 22:51:53"
+      "createdAt": "2026-07-27 02:10:53",
+      "updatedAt": "2026-07-27 02:10:53"
     },
     {
       "id": 8,
@@ -258,8 +258,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Technology",
-      "createdAt": "2026-07-26 22:51:53",
-      "updatedAt": "2026-07-26 22:51:53"
+      "createdAt": "2026-07-27 02:10:53",
+      "updatedAt": "2026-07-27 02:10:53"
     },
     {
       "id": 9,
@@ -281,8 +281,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Technology",
-      "createdAt": "2026-07-26 22:51:53",
-      "updatedAt": "2026-07-26 22:51:53"
+      "createdAt": "2026-07-27 02:10:53",
+      "updatedAt": "2026-07-27 02:10:53"
     },
     {
       "id": 10,
@@ -304,8 +304,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Technology",
-      "createdAt": "2026-07-26 22:51:53",
-      "updatedAt": "2026-07-26 22:51:53"
+      "createdAt": "2026-07-27 02:10:53",
+      "updatedAt": "2026-07-27 02:10:53"
     },
     {
       "id": 11,
@@ -327,8 +327,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Web%203",
-      "createdAt": "2026-07-26 22:51:53",
-      "updatedAt": "2026-07-26 22:51:53"
+      "createdAt": "2026-07-27 02:10:53",
+      "updatedAt": "2026-07-27 02:10:53"
     },
     {
       "id": 12,
@@ -350,8 +350,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=AI%20Trends",
-      "createdAt": "2026-07-26 22:51:53",
-      "updatedAt": "2026-07-26 22:51:53"
+      "createdAt": "2026-07-27 02:10:53",
+      "updatedAt": "2026-07-27 02:10:53"
     },
     {
       "id": 13,
@@ -373,8 +373,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Technology",
-      "createdAt": "2026-07-26 22:51:53",
-      "updatedAt": "2026-07-26 22:51:53"
+      "createdAt": "2026-07-27 02:10:53",
+      "updatedAt": "2026-07-27 02:10:53"
     },
     {
       "id": 14,
@@ -396,8 +396,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Technology",
-      "createdAt": "2026-07-26 22:51:53",
-      "updatedAt": "2026-07-26 22:51:53"
+      "createdAt": "2026-07-27 02:10:53",
+      "updatedAt": "2026-07-27 02:10:53"
     },
     {
       "id": 15,
@@ -419,8 +419,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=AI%20Trends",
-      "createdAt": "2026-07-26 22:51:53",
-      "updatedAt": "2026-07-26 22:51:53"
+      "createdAt": "2026-07-27 02:10:53",
+      "updatedAt": "2026-07-27 02:10:53"
     },
     {
       "id": 16,
@@ -442,8 +442,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Technology",
-      "createdAt": "2026-07-26 22:51:53",
-      "updatedAt": "2026-07-26 22:51:53"
+      "createdAt": "2026-07-27 02:10:53",
+      "updatedAt": "2026-07-27 02:10:53"
     },
     {
       "id": 17,
@@ -465,8 +465,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Web%203",
-      "createdAt": "2026-07-26 22:51:53",
-      "updatedAt": "2026-07-26 22:51:53"
+      "createdAt": "2026-07-27 02:10:53",
+      "updatedAt": "2026-07-27 02:10:53"
     },
     {
       "id": 18,
@@ -488,8 +488,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=AI%20Trends",
-      "createdAt": "2026-07-26 22:51:53",
-      "updatedAt": "2026-07-26 22:51:53"
+      "createdAt": "2026-07-27 02:10:53",
+      "updatedAt": "2026-07-27 02:10:53"
     },
     {
       "id": 19,
@@ -511,8 +511,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Technology",
-      "createdAt": "2026-07-26 22:51:53",
-      "updatedAt": "2026-07-26 22:51:53"
+      "createdAt": "2026-07-27 02:10:53",
+      "updatedAt": "2026-07-27 02:10:53"
     },
     {
       "id": 20,
@@ -534,8 +534,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Technology",
-      "createdAt": "2026-07-26 22:51:53",
-      "updatedAt": "2026-07-26 22:51:53"
+      "createdAt": "2026-07-27 02:10:53",
+      "updatedAt": "2026-07-27 02:10:53"
     },
     {
       "id": 21,
@@ -557,8 +557,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=AI%20Trends",
-      "createdAt": "2026-07-26 22:51:53",
-      "updatedAt": "2026-07-26 22:51:53"
+      "createdAt": "2026-07-27 02:10:53",
+      "updatedAt": "2026-07-27 02:10:53"
     },
     {
       "id": 22,
@@ -580,8 +580,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Game",
-      "createdAt": "2026-07-26 22:51:53",
-      "updatedAt": "2026-07-26 22:51:53"
+      "createdAt": "2026-07-27 02:10:53",
+      "updatedAt": "2026-07-27 02:10:53"
     },
     {
       "id": 23,
@@ -603,8 +603,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Cryptocurrency",
-      "createdAt": "2026-07-26 22:51:53",
-      "updatedAt": "2026-07-26 22:51:53"
+      "createdAt": "2026-07-27 02:10:53",
+      "updatedAt": "2026-07-27 02:10:53"
     }
   ]
 }

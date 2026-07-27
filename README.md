@@ -53,9 +53,46 @@ cms/
   admin/               Admin dashboard (vanilla HTML/CSS/JS)
   tests/               node:test integration suite
 article.html/.js       Dynamic article page
+article_01.html        Hand-authored article ("Mastering the Art of Coding")
+article-static.js      Reading progress + engagement for hand-authored pages
 cms-client.js          Shared front-end data layer
+engagement.js          Like/dislike + comments widgets (API, localStorage fallback)
+styles.css             The entire stylesheet — no Tailwind, no build step
 content-fallback.json  Generated snapshot — do not edit by hand
 ```
+
+## Styling
+
+The site is plain CSS. Tailwind used to be pulled from `cdn.tailwindcss.com`
+on every page; it has been removed and every utility class migrated to
+hand-written rules in `styles.css`, which is organised into numbered sections
+(tokens, base, header, sidebar, hero, cards, article, engagement, footer,
+breakpoints) with a table of contents at the top.
+
+There is no build step: edit `styles.css` and reload.
+
+Breakpoints mirror the Tailwind scale that was previously in use, so responsive
+behaviour is unchanged — `640px` (`sm:`) and `768px` (`md:`), plus the site's own
+`700px`, `900px`/`901px` and `1100px` rules.
+
+The navbar and footer use flat colours (`--header-bg`, `--footer-bg`,
+`--footer-legal-bg`). Gradients elsewhere — hero scrim, category pills, buttons,
+cards, reading-progress bar — are unchanged.
+
+## Reader engagement
+
+Both article pages carry like/dislike buttons and a comment section, rendered by
+`engagement.js`.
+
+Reactions and comments are keyed by article **slug** rather than a foreign key,
+so the hand-authored `article_01.html` uses the same endpoints as CMS articles.
+A voter is an anonymous per-browser id in `localStorage`; it is not
+authentication, it exists so the one-vote-per-reader rule can be enforced
+server-side. Clicking the same button twice un-votes, and clicking the opposite
+one switches sides, so repeat clicking cannot inflate a count.
+
+Like the rest of the front-end, the widgets prefer the API and fall back to
+`localStorage` when it is unreachable, so they keep working on static hosting.
 
 ## API
 
@@ -69,6 +106,12 @@ All write operations accept JSON.
 | `POST` | `/api/articles` | Create (requires `title`, `category`) |
 | `PUT` / `PATCH` | `/api/articles/:id` | Update |
 | `DELETE` | `/api/articles/:id` | Delete |
+| `GET` | `/api/articles/:slug/engagement` | Reactions + comments in one call. Query: `voterId` |
+| `GET` | `/api/articles/:slug/reactions` | Like/dislike tallies. Query: `voterId` |
+| `POST` | `/api/articles/:slug/reactions` | Cast a reaction (`type`, `voterId`) |
+| `GET` | `/api/articles/:slug/comments` | List comments, newest first |
+| `POST` | `/api/articles/:slug/comments` | Add a comment (`author`, `body`) |
+| `DELETE` | `/api/comments/:id` | Moderation — removes a comment (admin) |
 | `GET` | `/api/images` | List uploaded images |
 | `POST` | `/api/images` | Upload (multipart, field `image`, plus `alt`) |
 | `PATCH` | `/api/images/:id` | Update alt text |
@@ -119,8 +162,13 @@ empty one.
 npm test
 ```
 
-Covers the article CRUD lifecycle, validation, slug uniqueness, search and
-category filters, image upload/serve/delete, upload type rejection, and settings.
+| Suite | Covers |
+| --- | --- |
+| `api.test.js` | Article CRUD, validation, slug uniqueness, search and category filters, image upload/serve/delete, upload type rejection, settings |
+| `engagement.test.js` | Reaction tallies, one-vote-per-reader, toggle and switch behaviour, comment CRUD, empty-submission rejection, per-article scoping |
+| `engagement-ui.test.js` | The widgets in jsdom against the localStorage fallback: optimistic updates, spam-click protection, persistence across reload, comment escaping |
+| `frontend.test.js` | That no page loads Tailwind or uses its utility classes, that the hero H1 computes to white, that the navbar/footer are solid while other gradients survive, and that `article_01.html` matches the CMS article structure |
+
 Each run uses a throwaway database in a temp directory.
 
 ## Notes
