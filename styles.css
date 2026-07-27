@@ -24,8 +24,9 @@
    14.  Engagement — reactions and comments
    15.  Legacy article search overlay
    16.  Footer
-   17.  Responsive breakpoints
-   18.  Reduced motion
+   17.  Cookie consent banner
+   18.  Responsive breakpoints
+   19.  Reduced motion
    ========================================================================== */
 
 /* ==========================================================================
@@ -1110,8 +1111,37 @@ textarea:focus {
  font-weight: 600;
 }
 
+.about-profile-links {
+ display: flex;
+ gap: 0.75rem;
+ margin-top: 1rem;
+ font-size: 1rem;
+}
+
+.about-profile-links a {
+ display: inline-flex;
+ align-items: center;
+ justify-content: center;
+ width: 2.35rem;
+ height: 2.35rem;
+ border-radius: 999px;
+ color: var(--brand-600);
+ background: rgba(37, 99, 235, 0.1);
+ transition: transform 180ms ease, background 180ms ease, color 180ms ease;
+}
+
+.about-profile-links a:hover {
+ color: #fff;
+ background: var(--brand-600);
+ transform: translateY(-1px);
+}
+
 .about-content > * + * {
  margin-top: 1.5rem;
+}
+
+.about-content .eyebrow {
+ margin-top: 0;
 }
 
 .about-content h1 {
@@ -1137,7 +1167,60 @@ textarea:focus {
  line-height: 1.75;
 }
 
+.about-values {
+ display: grid;
+ grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+ gap: 1rem;
+}
+
+.about-value-card {
+ padding: 1.1rem;
+ border: 1px solid rgba(148, 163, 184, 0.24);
+ border-radius: var(--radius-md);
+ background: #fff;
+ box-shadow: var(--shadow-sm);
+}
+
+.about-value-card i {
+ display: inline-flex;
+ align-items: center;
+ justify-content: center;
+ width: 2.35rem;
+ height: 2.35rem;
+ margin-bottom: 0.6rem;
+ border-radius: 0.75rem;
+ color: #fff;
+ background: linear-gradient(135deg, var(--brand-950), var(--brand-700));
+ font-size: 1rem;
+}
+
+.about-value-card h3 {
+ margin: 0 0 0.35rem;
+ color: var(--brand-950);
+ font-size: 0.95rem;
+ font-weight: 700;
+}
+
+.about-value-card p {
+ margin: 0;
+ color: var(--muted);
+ font-size: 0.82rem;
+ line-height: 1.6;
+}
+
 /* --- Help & support (FAQ) -------------------------------------------------- */
+
+.faq-group-title {
+ max-width: 48rem;
+ margin: 2rem 0 1rem;
+ color: var(--brand-950);
+ font-size: 1.05rem;
+ font-weight: 800;
+}
+
+.faq-group-title:first-of-type {
+ margin-top: 0.5rem;
+}
 
 .faq-list {
  display: grid;
@@ -1171,12 +1254,43 @@ textarea:focus {
  line-height: 1.7;
 }
 
+.faq-answer a {
+ color: var(--brand-600);
+ font-weight: 600;
+}
+
 .page-cta {
  max-width: 48rem;
  margin-top: 2.5rem;
 }
 
+.help-cta-row {
+ display: flex;
+ flex-wrap: wrap;
+ gap: 0.75rem;
+}
+
+.help-cta-secondary {
+ background: #fff;
+ color: var(--brand-700);
+ border: 1px solid rgba(37, 99, 235, 0.3);
+ box-shadow: none;
+}
+
+.help-cta-secondary:hover {
+ background: rgba(37, 99, 235, 0.06);
+}
+
 /* --- Privacy policy (legal) ------------------------------------------------ */
+
+.legal-updated {
+ margin: -0.5rem 0 1.5rem;
+ color: var(--muted);
+ font-size: 0.78rem;
+ font-weight: 600;
+ text-transform: uppercase;
+ letter-spacing: 0.04em;
+}
 
 .legal-section {
  margin-bottom: 1.5rem;
@@ -1194,6 +1308,11 @@ textarea:focus {
  color: var(--muted);
  font-size: 0.875rem;
  line-height: 1.7;
+}
+
+.legal-section p a {
+ color: var(--brand-600);
+ font-weight: 600;
 }
 
 .legal-list {
@@ -1214,9 +1333,63 @@ textarea:focus {
  line-height: 1.7;
 }
 
+.legal-address a {
+ color: var(--brand-600);
+ font-style: normal;
+}
+
+.cookie-table {
+ display: grid;
+ margin: 1rem 0;
+ border: 1px solid rgba(148, 163, 184, 0.28);
+ border-radius: var(--radius-md);
+ overflow: hidden;
+}
+
+.cookie-table-row {
+ display: grid;
+ grid-template-columns: 1fr;
+ gap: 0.35rem;
+ padding: 0.85rem 1rem;
+ border-top: 1px solid rgba(148, 163, 184, 0.2);
+ font-size: 0.82rem;
+ line-height: 1.6;
+ color: var(--muted);
+}
+
+.cookie-table-row:first-child {
+ border-top: none;
+}
+
+.cookie-table-head {
+ background: var(--surface-soft);
+ color: var(--brand-950);
+ font-weight: 800;
+ font-size: 0.72rem;
+ text-transform: uppercase;
+ letter-spacing: 0.04em;
+}
+
+.cookie-table-row span:first-child strong {
+ color: var(--brand-950);
+}
+
+@media (min-width: 700px) {
+ .cookie-table-row {
+  grid-template-columns: 8rem 1fr 12rem;
+  align-items: start;
+ }
+}
+
 /* ==========================================================================
    11. Contact form and success dialog
    ========================================================================== */
+
+.contact-layout {
+ display: grid;
+ gap: 2rem;
+ align-items: start;
+}
 
 .contact-card {
  max-width: 48rem;
@@ -1247,9 +1420,19 @@ textarea:focus {
  display: none;
 }
 
+.contact-side {
+ display: grid;
+ gap: 1.25rem;
+ align-content: start;
+}
+
 .contact-details {
  max-width: 48rem;
- margin-top: 2.5rem;
+ margin-top: 0;
+ padding: 1.25rem 1.5rem;
+ border-radius: var(--radius-md);
+ background: #fff;
+ box-shadow: var(--shadow-sm);
  color: var(--ink);
  font-size: 0.875rem;
 }
@@ -1266,9 +1449,54 @@ textarea:focus {
  line-height: 1.7;
 }
 
+.contact-details a {
+ color: inherit;
+}
+
+.contact-details a:hover {
+ color: var(--brand-600);
+}
+
 .contact-details i {
  margin-right: 0.5rem;
  color: var(--brand-600);
+}
+
+.contact-response-time {
+ margin-top: 0.75rem !important;
+ padding-top: 0.75rem;
+ border-top: 1px dashed rgba(148, 163, 184, 0.4);
+ color: var(--muted);
+ font-size: 0.8rem;
+}
+
+.contact-social-links {
+ font-size: 1.15rem;
+}
+
+.contact-social-links a {
+ color: var(--brand-600);
+}
+
+.contact-social-links a:hover {
+ color: var(--brand-950);
+}
+
+.contact-faq-nudge p {
+ color: var(--muted);
+ font-size: 0.82rem;
+ line-height: 1.65;
+}
+
+.contact-faq-nudge a {
+ color: var(--brand-600);
+ font-weight: 700;
+}
+
+@media (min-width: 900px) {
+ .contact-layout {
+  grid-template-columns: 1.4fr 1fr;
+ }
 }
 
 /* Success dialog shown after the contact form submits. */
@@ -2044,6 +2272,24 @@ textarea:focus {
  border-bottom-color: #fff;
 }
 
+.footer-link-button {
+ padding: 0;
+ border: none;
+ border-bottom: 1px solid transparent;
+ background: none;
+ color: rgba(255, 255, 255, 0.86);
+ font: inherit;
+ font-size: 0.78rem;
+ line-height: 1.65;
+ cursor: pointer;
+}
+
+.footer-link-button:hover,
+.footer-link-button:focus-visible {
+ border-bottom-color: #fff;
+ color: #fff;
+}
+
 .footer-social {
  display: flex;
  gap: 0.75rem;
@@ -2063,7 +2309,169 @@ textarea:focus {
 }
 
 /* ==========================================================================
-   17. Responsive breakpoints
+   17. Cookie consent banner
+   --------------------------------------------------------------------------
+   Fixed to the bottom of the viewport, above the footer. Sets real first-
+   party cookies (see cookie-consent.js) rather than only remembering the
+   choice in memory.
+   ========================================================================== */
+
+.cookie-banner {
+ position: fixed;
+ left: 0;
+ right: 0;
+ bottom: 0;
+ z-index: 1400;
+ display: flex;
+ justify-content: center;
+ padding: 1rem;
+ transform: translateY(12px);
+ opacity: 0;
+ transition: transform 220ms ease, opacity 220ms ease;
+ pointer-events: none;
+}
+
+.cookie-banner.is-visible {
+ transform: translateY(0);
+ opacity: 1;
+ pointer-events: auto;
+}
+
+.cookie-banner-card {
+ width: min(64rem, 100%);
+ display: grid;
+ gap: 1rem;
+ padding: 1.25rem 1.5rem;
+ border-radius: var(--radius-lg);
+ background: var(--brand-950);
+ color: #fff;
+ box-shadow: var(--shadow-md);
+}
+
+.cookie-banner-title {
+ margin: 0 0 0.35rem;
+ font-size: 0.95rem;
+ font-weight: 800;
+ display: flex;
+ align-items: center;
+ gap: 0.5rem;
+ color: #fff;
+}
+
+.cookie-banner-title i {
+ color: var(--accent);
+}
+
+.cookie-banner-text {
+ margin: 0;
+ max-width: 52rem;
+ color: rgba(255, 255, 255, 0.82);
+ font-size: 0.82rem;
+ line-height: 1.65;
+}
+
+.cookie-banner-text a {
+ color: #fff;
+ text-decoration: underline;
+ text-underline-offset: 2px;
+}
+
+.cookie-banner-prefs {
+ display: grid;
+ gap: 0.5rem;
+ margin-top: 0.9rem;
+ padding-top: 0.9rem;
+ border-top: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.cookie-pref-row {
+ display: flex;
+ align-items: center;
+ justify-content: space-between;
+ gap: 1rem;
+ padding: 0.5rem 0.75rem;
+ border-radius: 0.75rem;
+ background: rgba(255, 255, 255, 0.06);
+}
+
+.cookie-pref-row span {
+ display: grid;
+ gap: 0.15rem;
+}
+
+.cookie-pref-row strong {
+ font-size: 0.8rem;
+ color: #fff;
+}
+
+.cookie-pref-row small {
+ font-size: 0.72rem;
+ color: rgba(255, 255, 255, 0.72);
+ line-height: 1.5;
+}
+
+.cookie-pref-row input[type="checkbox"] {
+ width: 1.1rem;
+ height: 1.1rem;
+ flex-shrink: 0;
+ accent-color: var(--accent);
+}
+
+.cookie-pref-locked {
+ opacity: 0.75;
+}
+
+.cookie-banner-actions {
+ display: flex;
+ flex-wrap: wrap;
+ justify-content: flex-end;
+ gap: 0.6rem;
+}
+
+.cookie-btn {
+ padding: 0.55rem 1.1rem;
+ border-radius: 999px;
+ font-size: 0.78rem;
+ font-weight: 800;
+ white-space: nowrap;
+ transition: transform 180ms ease, background 180ms ease, color 180ms ease;
+}
+
+.cookie-btn:hover {
+ transform: translateY(-1px);
+}
+
+.cookie-btn-primary {
+ background: var(--accent);
+ color: var(--brand-950);
+}
+
+.cookie-btn-outline {
+ border: 1px solid rgba(255, 255, 255, 0.4);
+ color: #fff;
+ background: transparent;
+}
+
+.cookie-btn-ghost {
+ color: rgba(255, 255, 255, 0.82);
+ background: transparent;
+ text-decoration: underline;
+ text-underline-offset: 2px;
+}
+
+@media (min-width: 700px) {
+ .cookie-banner-card {
+  grid-template-columns: 1fr auto;
+  align-items: center;
+ }
+
+ .cookie-banner-actions {
+  align-self: center;
+ }
+}
+
+/* ==========================================================================
+   18. Responsive breakpoints
    ========================================================================== */
 
 @media (min-width: 640px) {
@@ -2210,7 +2618,7 @@ textarea:focus {
 }
 
 /* ==========================================================================
-   18. Reduced motion
+   19. Reduced motion
    ========================================================================== */
 
 @media (prefers-reduced-motion: reduce) {
