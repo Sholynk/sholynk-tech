@@ -1,0 +1,346 @@
+'use strict';
+
+/**
+ * Front-end regression tests.
+ *
+ * These run the real pages through jsdom with the real stylesheet applied, so
+ * they catch the class of bug that motivated this work: a CSS rule quietly
+ * winning the cascade and making text unreadable.
+ */
+
+const test = require('node:test');
+const assert = require('node:assert');
+const fs = require('node:fs');
+const path = require('node:path');
+const { JSDOM } = require('jsdom');
+
+const ROOT = path.join(__dirname, '..', '..');
+const CSS = fs.readFileSync(path.join(ROOT, 'styles.css'), 'utf8');
+
+const PAGES = [
+  'index.html',
+  'article.html',
+  'article_01.html',
+  'about.html',
+  'contact.html',
+  'help_&_support.html',
+  'privacy_policy.html'
+];
+
+function load(file) {
+  const html = fs.readFileSync(path.join(ROOT, file), 'utf8');
+  // runScripts is intentionally off: these assertions are about markup and CSS,
+  // not behaviour, and the pages fetch from the network on load.
+  return new JSDOM(html, { url: 'https://example.com/' });
+}
+
+/** Applies styles.css to a document so getComputedStyle reflects real cascade. */
+function withStyles(dom) {
+  const style = dom.window.document.createElement('style');
+  style.textContent = CSS;
+  dom.window.document.head.append(style);
+  return dom;
+}
+
+/* --------------------------- Tailwind removal ----------------------------- */
+
+test('no page loads Tailwind any more', () => {
+  for (const page of PAGES) {
+    const html = fs.readFileSync(path.join(ROOT, page), 'utf8');
+    assert.ok(
+      !html.includes('cdn.tailwindcss.com'),
+      `${page} still references the Tailwind CDN`
+    );
+  }
+});
+
+test('no Tailwind utility classes remain in the markup', () => {
+  // Patterns that only Tailwind would have produced.
+  const utility = new RegExp(
+    [
+      '^(bg|text|border|from|to|via)-\\[#',           // arbitrary colours
+      '^(px|py|pt|pb|pl|pr|p|mx|my|mt|mb|ml|mr|m)-\\d',
+      '^(w|h|min-h|max-w)-(\\d|full|screen|auto|xs|sm|md|lg|xl)',
+      '^(space|gap)-[xy]?-?\\d',
+      '^(text|font)-(xs|sm|base|lg|xl|\\dxl|bold|semibold|extrabold)$',
+      '^(sm|md|lg|xl):',                               // responsive prefixes
+      '^hover:',
+      '^(flex|grid)-(col|row|cols)',
+      '^(items|justify)-(center|between|start|end)$',
+      '^grid-cols-\\d'
+    ].join('|')
+  );
+
+  for (const page of PAGES) {
+    const dom = load(page);
+    const offenders = new Set();
+    dom.window.document.querySelectorAll('[class]').forEach((node) => {
+      node.classList.forEach((name) => {
+        if (utility.test(name)) offenders.add(name);
+      });
+    });
+    assert.deepEqual(
+      [...offenders],
+      [],
+      `${page} still uses Tailwind utility classes: ${[...offenders].join(', ')}`
+    );
+  }
+});
+
+test('every page links the shared stylesheet exactly once and has no inline <style>', () => {
+  for (const page of PAGES) {
+    const dom = load(page);
+    const { document } = dom.window;
+    const sheets = [...document.querySelectorAll('link[rel="stylesheet"]')].filter((link) =>
+      (link.getAttribute('href') || '').endsWith('styles.css')
+    );
+    assert.equal(sheets.length, 1, `${page} should link styles.css once`);
+    assert.equal(
+      document.querySelectorAll('style').length,
+      0,
+      `${page} should not carry an inline <style> block`
+    );
+  }
+});
+
+/* ----------------------- Hero headline contrast --------------------------- */
+
+test('the hero H1 renders white, not the dark interior-page colour', () => {
+  const dom = withStyles(load('index.html'));
+  const { document, getComputedStyle } = dom.window;
+
+  // Rebuild the slide the way index.js does at runtime.
+  const hero = document.querySelector('.hero-section');
+  const slide = document.createElement('section');
+  slide.className = 'hero-slide active';
+  const content = document.createElement('div');
+  content.className = 'hero-content';
+  const h1 = document.createElement('h1');
+  h1.textContent = 'A featured story headline';
+  content.append(h1);
+  slide.append(content);
+  hero.append(slide);
+
+  const colour = getComputedStyle(h1).color;
+
+  assert.equal(colour, 'rgb(255, 255, 255)', 'hero headline must be white');
+  assert.notEqual(
+    colour,
+    'rgb(15, 23, 42)',
+    'hero headline must not inherit the dark --brand-950 interior-page colour'
+  );
+});
+
+test('the hero headline carries a text-shadow for legibility over bright photos', () => {
+  const dom = withStyles(load('index.html'));
+  const { document } = dom.window;
+
+  const rule = [...document.styleSheets[0].cssRules].find(
+    (item) => item.selectorText === '.hero-content h1'
+  );
+
+  assert.ok(rule, '.hero-content h1 rule should exist');
+  // cssRules reports the authored value, so compare case-insensitively against
+  // either notation for white.
+  assert.match(rule.style.color.toLowerCase(), /^(#fff|#ffffff|white|rgb\(255, 255, 255\))$/);
+  // jsdom does not expose text-shadow as a typed property, so read the
+  // declaration text.
+  assert.match(
+    rule.style.cssText,
+    /text-shadow:\s*[^;]+/i,
+    'hero headline should have a text-shadow so it stays readable on light slides'
+  );
+});
+
+test('no generic section rule can recolour the hero headline', () => {
+  // The original bug: `main > section h1 { color: var(--brand-950) }` matched
+  // the hero slide, because a slide is a <section> inside <main>.
+  const dom = withStyles(load('index.html'));
+  const { document } = dom.window;
+
+  const offenders = [...document.styleSheets[0].cssRules]
+    .filter((rule) => rule.selectorText)
+    .filter((rule) => /^(body|main)\s*>\s*section\s+h1/.test(rule.selectorText));
+
+  assert.deepEqual(
+    offenders.map((rule) => rule.selectorText),
+    [],
+    'generic "main > section h1" rules must not exist — they leak into hero slides'
+  );
+});
+
+/* --------------------- Navbar and footer: solid colours -------------------- */
+
+test('the navbar and footer use solid backgrounds, not gradients', () => {
+  // Assert on the authored rules: jsdom's getComputedStyle does not resolve
+  // var() references, so it would report an empty background for both.
+  const dom = withStyles(load('index.html'));
+  const rules = [...dom.window.document.styleSheets[0].cssRules].filter((r) => r.selectorText);
+
+  for (const selector of ['.site-header', '.site-footer', '.footer-legal']) {
+    const rule = rules.find((item) => item.selectorText === selector);
+    assert.ok(rule, `${selector} rule should exist`);
+
+    const declaration = `${rule.style.background} ${rule.style.backgroundImage}`;
+    assert.ok(
+      !/gradient/i.test(declaration),
+      `${selector} should use a solid colour, not a gradient (found: ${declaration.trim()})`
+    );
+    assert.match(
+      rule.style.background || rule.style.backgroundColor,
+      /var\(--(header|footer)/,
+      `${selector} should pull its solid colour from a token`
+    );
+  }
+
+  // The tokens themselves must be solid colours.
+  const root = rules.find((item) => item.selectorText === ':root');
+  for (const token of ['--header-bg', '--footer-bg', '--footer-legal-bg']) {
+    const value = root.style.getPropertyValue(token).trim();
+    assert.match(value, /^#[0-9a-f]{6}$/i, `${token} should be a solid hex colour, got "${value}"`);
+  }
+});
+
+test('every page uses the shared solid-background header and footer', () => {
+  for (const page of PAGES) {
+    const dom = load(page);
+    const { document } = dom.window;
+    assert.ok(document.querySelector('header.site-header'), `${page} should use .site-header`);
+    assert.ok(document.querySelector('footer.site-footer'), `${page} should use .site-footer`);
+  }
+});
+
+test('other components keep their gradients', () => {
+  const dom = withStyles(load('index.html'));
+  const rules = [...dom.window.document.styleSheets[0].cssRules].filter((r) => r.selectorText);
+
+  const stillGradient = ['.category-label', '.hero-slide::before', '.reading-progress span'];
+  for (const selector of stillGradient) {
+    const rule = rules.find((item) => item.selectorText === selector);
+    assert.ok(rule, `${selector} should exist`);
+    const declaration = rule.style.background || rule.style.backgroundImage || '';
+    assert.ok(
+      /gradient/i.test(declaration),
+      `${selector} should still use a gradient (only the navbar and footer changed)`
+    );
+  }
+});
+
+/* ------------------------ Engagement widget markup ------------------------- */
+
+test('both article pages load the engagement script', () => {
+  for (const page of ['article.html', 'article_01.html']) {
+    const dom = load(page);
+    const scripts = [...dom.window.document.querySelectorAll('script[src]')].map((s) =>
+      s.getAttribute('src')
+    );
+    assert.ok(
+      scripts.includes('engagement.js'),
+      `${page} should load engagement.js`
+    );
+  }
+});
+
+test('the legacy article page declares a slug for its engagement widgets', () => {
+  const dom = load('article_01.html');
+  const root = dom.window.document.getElementById('engagementRoot');
+  assert.ok(root, 'article_01.html should have an #engagementRoot');
+  assert.ok(root.dataset.articleSlug, 'the root should carry a data-article-slug');
+});
+
+/* ------------------------- article_01 content polish ----------------------- */
+
+test('article_01 uses the same structural shell as the CMS article page', () => {
+  const dom = load('article_01.html');
+  const { document } = dom.window;
+
+  for (const selector of [
+    '.reading-progress',
+    '.article-page',
+    '.article-breadcrumb',
+    '.article-header',
+    '.article-standfirst',
+    '.article-meta',
+    '.article-hero',
+    '.article-toc',
+    '.article-body',
+    '.article-share',
+    '.article-back'
+  ]) {
+    assert.ok(document.querySelector(selector), `article_01.html is missing ${selector}`);
+  }
+});
+
+test('article_01 has one H1 and a sensible heading hierarchy', () => {
+  const dom = load('article_01.html');
+  const { document } = dom.window;
+
+  assert.equal(document.querySelectorAll('h1').length, 1, 'exactly one H1');
+  assert.ok(
+    document.querySelectorAll('.article-body h2').length >= 5,
+    'the body should be broken up by H2 sections'
+  );
+});
+
+test('article_01 no longer uses the portrait photo as its hero', () => {
+  const dom = load('article_01.html');
+  const heroImage = dom.window.document.querySelector('.article-hero img');
+  assert.ok(heroImage, 'there should be a hero image');
+  assert.ok(
+    !heroImage.getAttribute('src').includes('my_pic.png'),
+    'the author portrait should no longer be stretched into the hero slot'
+  );
+});
+
+test('article_01 carries supporting images, each with alt text', () => {
+  const dom = load('article_01.html');
+  const figures = dom.window.document.querySelectorAll('.article-body figure img');
+
+  assert.ok(figures.length >= 3, 'the body should include supporting images');
+  figures.forEach((image) => {
+    const alt = image.getAttribute('alt');
+    assert.ok(alt && alt.trim().length > 10, `image ${image.getAttribute('src')} needs real alt text`);
+    assert.equal(image.getAttribute('loading'), 'lazy', 'body images should lazy-load');
+  });
+});
+
+test("article_01's table of contents matches its section ids", () => {
+  const dom = load('article_01.html');
+  const { document } = dom.window;
+
+  const targets = [...document.querySelectorAll('.article-toc a')].map((a) =>
+    a.getAttribute('href').replace('#', '')
+  );
+  assert.ok(targets.length >= 5, 'the TOC should list the article sections');
+
+  targets.forEach((id) => {
+    assert.ok(document.getElementById(id), `TOC links to #${id}, which does not exist`);
+  });
+});
+
+/* ------------------------------ shared shell ------------------------------- */
+
+test('every page shares the same header, sidebar and footer structure', () => {
+  for (const page of PAGES) {
+    const dom = load(page);
+    const { document } = dom.window;
+
+    assert.ok(document.querySelector('.site-header .site-nav'), `${page} needs the primary nav`);
+    assert.ok(document.querySelector('#sidebar'), `${page} needs the mobile sidebar`);
+    assert.ok(document.querySelector('.hamburger'), `${page} needs the menu button`);
+    assert.ok(document.querySelector('.site-footer .footer-links'), `${page} needs footer links`);
+    assert.ok(document.getElementById('copyrightYear'), `${page} needs the copyright year slot`);
+  }
+});
+
+test('all images across the site have an alt attribute', () => {
+  for (const page of PAGES) {
+    const dom = load(page);
+    dom.window.document.querySelectorAll('img').forEach((image) => {
+      assert.ok(
+        image.hasAttribute('alt'),
+        `${page}: <img src="${image.getAttribute('src')}"> is missing alt`
+      );
+    });
+  }
+});

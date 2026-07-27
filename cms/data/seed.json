@@ -3,8 +3,8 @@
     {
       "category": "Tech Trends",
       "title": "Mastering the art of coding: 10 key areas every developer should focus on",
-      "description": "A practical roadmap for turning ideas into reliable software, sharpening your fundamentals, and building habits that compound over time.",
-      "img": "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1600&q=80",
+      "description": "Syntax is the easy part. These are the ten habits that separate finishing a tutorial from being trusted with production code.",
+      "img": "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1600&q=80",
       "readMoreLink": "article_01.html"
     },
     {
@@ -34,11 +34,11 @@
       "title": "Mastering the art of coding",
       "link": "article_01.html",
       "category": "Technology",
-      "description": "Ten foundational areas every developer should focus on to become more confident, productive and impactful.",
-      "img": "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=900&q=80",
-      "alt": "Developer workstation with code on a monitor",
+      "description": "Syntax is the easy part. These are the ten habits that separate finishing a tutorial from being trusted with production code.",
+      "img": "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=900&q=80",
+      "alt": "Developer working at a desk with two monitors displaying source code",
       "date": "Jul 26, 2026",
-      "readingTime": "6 min read",
+      "readingTime": "8 min read",
       "featured": true
     },
     {

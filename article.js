@@ -231,10 +231,18 @@
     backLink.href = 'index.html';
     backLink.innerHTML = '<i class="fas fa-arrow-left" aria-hidden="true"></i> Back to all articles';
 
+    // Reactions and comments, keyed by the article slug.
+    const engagementRoot = document.createElement('div');
+    engagementRoot.id = 'engagementRoot';
+
     root.append(breadcrumb, header);
     if (hero) root.append(hero);
     if (toc) root.append(toc);
-    root.append(body, share, backLink);
+    root.append(body, share, engagementRoot, backLink);
+
+    window.SholynkEngagement?.mount(engagementRoot, {
+      slug: article.slug || String(article.id)
+    });
 
     setMeta(article);
     initReadingProgress();

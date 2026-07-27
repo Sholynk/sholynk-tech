@@ -8,6 +8,7 @@ const multer = require('multer');
 const articles = require('../lib/articles');
 const images = require('../lib/images');
 const settings = require('../lib/settings');
+const engagement = require('../lib/engagement');
 
 const router = express.Router();
 
@@ -120,6 +121,62 @@ router.delete('/articles/:id', requireAdmin, (req, res) => {
   const removed = articles.remove(req.params.id);
   if (!removed) return res.status(404).json({ error: 'Article not found' });
   res.status(204).end();
+});
+
+/* ----------------------------- engagement -------------------------------- */
+
+// Reactions and comments are keyed by slug so the legacy static page
+// (article_01.html) can use the same endpoints as CMS-backed articles.
+// The voter id is a client-generated anonymous token, passed as a query
+// parameter on reads and in the body on writes.
+
+router.get('/articles/:slug/engagement', (req, res, next) => {
+  try {
+    res.json({ data: engagement.summary(req.params.slug, req.query.voterId) });
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get('/articles/:slug/reactions', (req, res, next) => {
+  try {
+    res.json({ data: engagement.tallies(req.params.slug, req.query.voterId) });
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.post('/articles/:slug/reactions', (req, res, next) => {
+  try {
+    res.json({ data: engagement.react(req.params.slug, req.body || {}) });
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get('/articles/:slug/comments', (req, res, next) => {
+  try {
+    const limit = req.query.limit ? Number(req.query.limit) : undefined;
+    res.json({ data: engagement.listComments(req.params.slug, { limit }) });
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.post('/articles/:slug/comments', (req, res, next) => {
+  try {
+    res.status(201).json({ data: engagement.addComment(req.params.slug, req.body || {}) });
+  } catch (error) {
+    next(error);
+  }
+});
+
+// Moderation stays behind the admin token.
+router.delete('/comments/:id', requireAdmin, (req, res) => {
+  if (!engagement.removeComment(req.params.id)) {
+    return res.status(404).json({ error: 'Comment not found' });
+  }
+  return res.status(204).end();
 });
 
 /* ------------------------------- images --------------------------------- */

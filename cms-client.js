@@ -119,5 +119,5 @@ window.SholynkCMS = (() => {
     return (await loadFallback()).settings || {};
   }
 
-  return { API_BASE, apiRequest, getArticles, getArticle, getSettings };
+  return { API_BASE, apiRequest, isApiAvailable, getArticles, getArticle, getSettings };
 })();
