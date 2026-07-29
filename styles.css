@@ -1165,10 +1165,17 @@ textarea:focus {
 }
 
 .about-profile {
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 1.25rem;
   flex-shrink: 0;
+}
+
+.about-profile > * {
+  min-width: 100%;
+  text-align: center;
 }
 
 .about-photo {
@@ -1195,6 +1202,7 @@ textarea:focus {
 
 .about-profile-links {
   display: flex;
+  justify-content: center;
   gap: 0.75rem;
   margin-top: 1rem;
   font-size: 1rem;
