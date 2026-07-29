@@ -10,12 +10,12 @@ npm run seed     # load the starter content into the database
 npm start        # http://localhost:3000
 ```
 
-| URL | What it is |
-| --- | --- |
-| `http://localhost:3000/` | Public homepage |
+| URL                                                                     | What it is             |
+| ----------------------------------------------------------------------- | ---------------------- |
+| `http://localhost:3000/`                                                | Public homepage        |
 | `http://localhost:3000/article.html?slug=the-rise-of-quantum-computing` | Long-form article page |
-| `http://localhost:3000/admin/` | Admin dashboard |
-| `http://localhost:3000/api/articles` | Articles API |
+| `http://localhost:3000/admin/`                                          | Admin dashboard        |
+| `http://localhost:3000/api/articles`                                    | Articles API           |
 
 ## Architecture
 
@@ -98,25 +98,25 @@ Like the rest of the front-end, the widgets prefer the API and fall back to
 
 All write operations accept JSON.
 
-| Method | Endpoint | Purpose |
-| --- | --- | --- |
-| `GET` | `/api/articles` | List. Query: `category`, `q`, `status`, `hero`, `limit`, `offset` |
-| `GET` | `/api/articles/:idOrSlug` | Single article by numeric id or slug |
-| `GET` | `/api/articles/categories` | Distinct categories |
-| `POST` | `/api/articles` | Create (requires `title`, `category`) |
-| `PUT` / `PATCH` | `/api/articles/:id` | Update |
-| `DELETE` | `/api/articles/:id` | Delete |
-| `GET` | `/api/articles/:slug/engagement` | Reactions + comments in one call. Query: `voterId` |
-| `GET` | `/api/articles/:slug/reactions` | Like/dislike tallies. Query: `voterId` |
-| `POST` | `/api/articles/:slug/reactions` | Cast a reaction (`type`, `voterId`) |
-| `GET` | `/api/articles/:slug/comments` | List comments, newest first |
-| `POST` | `/api/articles/:slug/comments` | Add a comment (`author`, `body`) |
-| `DELETE` | `/api/comments/:id` | Moderation — removes a comment (admin) |
-| `GET` | `/api/images` | List uploaded images |
-| `POST` | `/api/images` | Upload (multipart, field `image`, plus `alt`) |
-| `PATCH` | `/api/images/:id` | Update alt text |
-| `DELETE` | `/api/images/:id` | Delete record and file |
-| `GET` / `PUT` | `/api/settings` | Site metadata |
+| Method          | Endpoint                         | Purpose                                                           |
+| --------------- | -------------------------------- | ----------------------------------------------------------------- |
+| `GET`           | `/api/articles`                  | List. Query: `category`, `q`, `status`, `hero`, `limit`, `offset` |
+| `GET`           | `/api/articles/:idOrSlug`        | Single article by numeric id or slug                              |
+| `GET`           | `/api/articles/categories`       | Distinct categories                                               |
+| `POST`          | `/api/articles`                  | Create (requires `title`, `category`)                             |
+| `PUT` / `PATCH` | `/api/articles/:id`              | Update                                                            |
+| `DELETE`        | `/api/articles/:id`              | Delete                                                            |
+| `GET`           | `/api/articles/:slug/engagement` | Reactions + comments in one call. Query: `voterId`                |
+| `GET`           | `/api/articles/:slug/reactions`  | Like/dislike tallies. Query: `voterId`                            |
+| `POST`          | `/api/articles/:slug/reactions`  | Cast a reaction (`type`, `voterId`)                               |
+| `GET`           | `/api/articles/:slug/comments`   | List comments, newest first                                       |
+| `POST`          | `/api/articles/:slug/comments`   | Add a comment (`author`, `body`)                                  |
+| `DELETE`        | `/api/comments/:id`              | Moderation — removes a comment (admin)                            |
+| `GET`           | `/api/images`                    | List uploaded images                                              |
+| `POST`          | `/api/images`                    | Upload (multipart, field `image`, plus `alt`)                     |
+| `PATCH`         | `/api/images/:id`                | Update alt text                                                   |
+| `DELETE`        | `/api/images/:id`                | Delete record and file                                            |
+| `GET` / `PUT`   | `/api/settings`                  | Site metadata                                                     |
 
 Uploads are limited to 8 MB and to JPEG, PNG, WebP, GIF and AVIF.
 
@@ -132,12 +132,12 @@ CMS_ADMIN_TOKEN=your-secret npm start
 
 ### Environment variables
 
-| Variable | Default | Purpose |
-| --- | --- | --- |
-| `PORT` | `3000` | HTTP port |
-| `CMS_ADMIN_TOKEN` | unset | Require a token for write operations |
-| `CMS_DB_FILE` | `cms/data/cms.sqlite` | Database location |
-| `CMS_UPLOAD_DIR` | `uploads/` | Where uploaded images are stored |
+| Variable          | Default               | Purpose                              |
+| ----------------- | --------------------- | ------------------------------------ |
+| `PORT`            | `3000`                | HTTP port                            |
+| `CMS_ADMIN_TOKEN` | unset                 | Require a token for write operations |
+| `CMS_DB_FILE`     | `cms/data/cms.sqlite` | Database location                    |
+| `CMS_UPLOAD_DIR`  | `uploads/`            | Where uploaded images are stored     |
 
 ## Content workflow
 
@@ -162,12 +162,12 @@ empty one.
 npm test
 ```
 
-| Suite | Covers |
-| --- | --- |
-| `api.test.js` | Article CRUD, validation, slug uniqueness, search and category filters, image upload/serve/delete, upload type rejection, settings |
-| `engagement.test.js` | Reaction tallies, one-vote-per-reader, toggle and switch behaviour, comment CRUD, empty-submission rejection, per-article scoping |
-| `engagement-ui.test.js` | The widgets in jsdom against the localStorage fallback: optimistic updates, spam-click protection, persistence across reload, comment escaping |
-| `frontend.test.js` | That no page loads Tailwind or uses its utility classes, that the hero H1 computes to white, that the navbar/footer are solid while other gradients survive, and that `article_01.html` matches the CMS article structure |
+| Suite                   | Covers                                                                                                                                                                                                                    |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `api.test.js`           | Article CRUD, validation, slug uniqueness, search and category filters, image upload/serve/delete, upload type rejection, settings                                                                                        |
+| `engagement.test.js`    | Reaction tallies, one-vote-per-reader, toggle and switch behaviour, comment CRUD, empty-submission rejection, per-article scoping                                                                                         |
+| `engagement-ui.test.js` | The widgets in jsdom against the localStorage fallback: optimistic updates, spam-click protection, persistence across reload, comment escaping                                                                            |
+| `frontend.test.js`      | That no page loads Tailwind or uses its utility classes, that the hero H1 computes to white, that the navbar/footer are solid while other gradients survive, and that `article_01.html` matches the CMS article structure |
 
 Each run uses a throwaway database in a temp directory.
 

@@ -66,7 +66,7 @@
 
     const desktopQuery = typeof window.matchMedia === 'function'
       ? window.matchMedia('(min-width: 901px)')
-      : { matches: false, addEventListener() {}, addListener() {} };
+      : { matches: false, addEventListener() { }, addListener() { } };
 
     sidebar.setAttribute('aria-label', 'Mobile navigation');
     sidebar.setAttribute('aria-hidden', 'true');
