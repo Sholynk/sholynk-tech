@@ -916,21 +916,31 @@ textarea:focus {
   font-weight: 700;
 }
 
+/* Edge-to-edge responsive grid.
+   ------------------------------------------------------------------
+   Why this layout instead of repeat(12, ...) + span 4 / span 6?
+   The previous 12-column grid forced a fixed 1rem gap on both axes
+   and used span 6 for the hero / every 6th card, which left an
+   orphan 2-column slot at the end of each hero row and produced
+   visible gutters between cards. The auto-fit grid below fills
+   every track in every row so there is no dead space between
+   cards, and the cards themselves draw the visual separation
+   (border + radius + shadow) instead of relying on CSS gaps. */
 #cardsContainer {
   display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(min(17.5rem, 100%), 1fr));
+  gap: 1.25rem;
   align-items: stretch;
 }
 
 .card {
-  grid-column: span 4;
-  min-height: 19rem;
-  position: relative;
   display: flex;
   flex-direction: column;
+  min-height: 19rem;
+  position: relative;
   overflow: hidden;
   padding: 0;
+  margin: 0;
   border-radius: var(--radius-lg);
   color: var(--ink);
   background: var(--surface);
@@ -956,9 +966,21 @@ textarea:focus {
   box-shadow: var(--shadow-md);
 }
 
-.card:nth-child(1),
+/* "Featured" treatment: the lead card on every batch of 6 spans two
+   columns and gets a taller media area, so the page reads as one
+   hero story + supporting cards rather than a flat wall. The
+   override on nth-child(6n) keeps the rhythm going on later rows
+   when a batch is split by pagination. */
+.card.featured,
 .card:nth-child(6n) {
-  grid-column: span 6;
+  grid-column: span 2;
+}
+
+@media (max-width: 700px) {
+  .card.featured,
+  .card:nth-child(6n) {
+    grid-column: 1 / -1;
+  }
 }
 
 .card-media {
@@ -2721,15 +2743,8 @@ textarea:focus {
     font-size: 0.68rem;
   }
 
-  #cardsContainer {
-    grid-template-columns: repeat(6, minmax(0, 1fr));
-  }
-
-  .card,
-  .card:nth-child(1),
-  .card:nth-child(6n) {
-    grid-column: span 3;
-  }
+  /* The cards grid uses auto-fit, so it gracefully reflows to fewer
+     columns at narrower widths without any extra rules here. */
 }
 
 @media (max-width: 900px) {
@@ -2794,16 +2809,6 @@ textarea:focus {
 
   .search-actions {
     flex-direction: column;
-  }
-
-  #cardsContainer {
-    grid-template-columns: 1fr;
-  }
-
-  .card,
-  .card:nth-child(1),
-  .card:nth-child(6n) {
-    grid-column: 1 / -1;
   }
 
   .card-media {
