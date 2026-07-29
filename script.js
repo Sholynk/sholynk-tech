@@ -177,12 +177,49 @@
     });
   }
 
+  function addScrollToTop() {
+    if (document.querySelector('.scroll-to-top')) return;
+
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'scroll-to-top';
+    button.setAttribute('aria-label', 'Scroll to top');
+    button.innerHTML = '<i class="fas fa-arrow-up" aria-hidden="true"></i>';
+    document.body.append(button);
+
+    const toggleVisibility = () => {
+      if (window.scrollY > 400) {
+        button.classList.add('is-visible');
+      } else {
+        button.classList.remove('is-visible');
+      }
+    };
+
+    button.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          toggleVisibility();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }, { passive: true });
+
+    toggleVisibility();
+  }
+
   function init() {
     addSkipLink();
     setCopyrightYear();
     normalizeNavigationLinks();
     enhanceSidebar();
     enhanceNewsletterForms();
+    addScrollToTop();
   }
 
   if (document.readyState === 'loading') {
