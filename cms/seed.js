@@ -119,6 +119,17 @@ function run() {
   console.log(`Long-form article available at: /article.html?slug=${LONGFORM_SLUG}`);
 }
 
+function isArticleTableEmpty() {
+  return db.prepare('SELECT COUNT(*) AS n FROM articles').get().n === 0;
+}
+
+function ensureSeeded() {
+  if (!isArticleTableEmpty()) return false;
+  console.log('No CMS articles found. Loading the starter content...');
+  run();
+  return true;
+}
+
 if (require.main === module) run();
 
-module.exports = { run, LONGFORM_SLUG };
+module.exports = { run, ensureSeeded, isArticleTableEmpty, LONGFORM_SLUG };

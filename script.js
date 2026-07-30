@@ -38,6 +38,13 @@
     const currentCategory = new URLSearchParams(window.location.search).get('category');
 
     document.querySelectorAll('header nav a, .sidebar a, footer a').forEach((link) => {
+      // Pages keep a small static fallback active state in the HTML, but the
+      // runtime URL is the source of truth. Clear it first so category URLs like
+      // index.html?category=AI%20Trends do not leave Home highlighted too.
+      link.classList.remove('is-active');
+      link.removeAttribute('aria-current');
+      link.closest('li')?.classList.remove('highlighted');
+
       const label = normalizeText(link.textContent);
       if (pageLinks[label]) {
         link.setAttribute('href', pageLinks[label]);
@@ -46,14 +53,18 @@
       }
 
       const href = link.getAttribute('href') || '';
+      if (!href || href.startsWith('#')) return;
+
       const linkFile = (href.split('?')[0].split('#')[0] || 'index.html').toLowerCase();
       const linkCategory = href.includes('?') ? new URLSearchParams(href.split('?')[1]).get('category') : null;
       const isCurrentPage = linkFile === currentFile || (currentFile === '' && linkFile === 'index.html');
       const isCurrentCategory = linkCategory && currentCategory && linkCategory.toLowerCase() === currentCategory.toLowerCase();
       const homeWithoutCategory = isCurrentPage && linkFile === 'index.html' && !linkCategory && !currentCategory;
+      const active = (isCurrentPage && linkFile !== 'index.html') || homeWithoutCategory || isCurrentCategory;
 
-      if ((isCurrentPage && linkFile !== 'index.html') || homeWithoutCategory || isCurrentCategory) {
+      if (active) {
         link.setAttribute('aria-current', 'page');
+        link.classList.add('is-active');
         link.closest('li')?.classList.add('highlighted');
       }
     });
