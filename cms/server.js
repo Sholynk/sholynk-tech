@@ -33,6 +33,10 @@ app.use((req, res) => {
 const PORT = Number(process.env.PORT) || 3000;
 
 if (require.main === module) {
+  if (!['0', 'false', 'no'].includes(String(process.env.CMS_AUTO_SEED || '').toLowerCase())) {
+    require('./seed').ensureSeeded();
+  }
+
   app.listen(PORT, () => {
     console.log(`Sholynk CMS running:  http://localhost:${PORT}`);
     console.log(`Admin dashboard:      http://localhost:${PORT}/admin/`);

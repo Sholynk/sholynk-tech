@@ -27,11 +27,20 @@ const PAGES = [
   'privacy_policy.html'
 ];
 
-function load(file) {
+function load(file, url = 'https://example.com/') {
   const html = fs.readFileSync(path.join(ROOT, file), 'utf8');
   // runScripts is intentionally off: these assertions are about markup and CSS,
   // not behaviour, and the pages fetch from the network on load.
-  return new JSDOM(html, { url: 'https://example.com/' });
+  return new JSDOM(html, { url });
+}
+
+function runPageScript(file, scriptFile, url = 'https://example.com/') {
+  const html = fs.readFileSync(path.join(ROOT, file), 'utf8');
+  const dom = new JSDOM(html, { url, runScripts: 'outside-only' });
+  const script = fs.readFileSync(path.join(ROOT, scriptFile), 'utf8');
+  dom.window.eval(script);
+  dom.window.document.dispatchEvent(new dom.window.Event('DOMContentLoaded', { bubbles: true }));
+  return dom;
 }
 
 /** Applies styles.css to a document so getComputedStyle reflects real cascade. */
@@ -169,6 +178,61 @@ test('no generic section rule can recolour the hero headline', () => {
   );
 });
 
+test('category pages use dedicated hero slides instead of the homepage slideshow', async () => {
+  const html = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
+  const dom = new JSDOM(html, {
+    url: 'https://example.com/index.html?category=AI%20Trends',
+    runScripts: 'outside-only'
+  });
+
+  dom.window.SholynkCMS = {
+    getArticles: async (params = {}) => {
+      if (params.hero) {
+        return [
+          {
+            title: 'Mastering the art of coding',
+            category: 'Technology',
+            description: 'Homepage-only story.',
+            img: 'coding.jpg',
+            alt: 'Coding',
+            link: 'article_01.html'
+          }
+        ];
+      }
+      return [
+        {
+          title: 'Existing AI card',
+          category: 'AI Trends',
+          description: 'A category card.',
+          date: '2026-07-30',
+          readingTime: '1 min read',
+          link: 'index.html?category=AI%20Trends'
+        },
+        {
+          title: 'Existing technology card',
+          category: 'Technology',
+          description: 'A technology card.',
+          date: '2026-07-30',
+          readingTime: '1 min read',
+          link: 'index.html?category=Technology'
+        }
+      ];
+    },
+    getSettings: async () => ({})
+  };
+
+  const script = fs.readFileSync(path.join(ROOT, 'index.js'), 'utf8');
+  dom.window.eval(script);
+  dom.window.document.dispatchEvent(new dom.window.Event('DOMContentLoaded', { bubbles: true }));
+  await new Promise((resolve) => dom.window.setTimeout(resolve, 0));
+
+  const titles = [...dom.window.document.querySelectorAll('.hero-slide h1')].map((node) => node.textContent);
+  assert.ok(titles.includes('How Artificial Intelligence Is Reshaping Every Industry'));
+  assert.ok(!titles.includes('Mastering the art of coding'));
+
+  dom.window.close();
+});
+
 /* --------------------- Navbar and footer: solid colours -------------------- */
 
 test('the navbar and footer use solid backgrounds, not gradients', () => {
@@ -208,6 +272,24 @@ test('every page uses the shared solid-background header and footer', () => {
     assert.ok(document.querySelector('header.site-header'), `${page} should use .site-header`);
     assert.ok(document.querySelector('footer.site-footer'), `${page} should use .site-footer`);
   }
+});
+
+test('category navigation highlights only the selected desktop and sidebar tab', () => {
+  const dom = runPageScript(
+    'index.html',
+    'script.js',
+    'https://example.com/index.html?category=AI%20Trends'
+  );
+  const { document } = dom.window;
+
+  const activeDesktop = [...document.querySelectorAll('.site-nav a.is-active')].map((link) => link.textContent.trim());
+  const activeSidebar = [...document.querySelectorAll('.sidebar li.highlighted a')].map((link) => link.textContent.trim());
+
+  assert.deepEqual(activeDesktop, ['AI']);
+  assert.deepEqual(activeSidebar, ['AI']);
+  assert.equal(document.querySelector('.site-nav a[href="index.html"]')?.classList.contains('is-active'), false);
+
+  dom.window.close();
 });
 
 test('other components keep their gradients', () => {

@@ -4,11 +4,17 @@ An aesthetic website for NEWS articles, now backed by a lightweight Node.js CMS.
 
 ## Quick start
 
+Requires Node.js 22.5 or newer because the local CMS uses Node's built-in SQLite
+module.
+
 ```bash
 npm install
-npm run seed     # load the starter content into the database
 npm start        # http://localhost:3000
 ```
+
+On first start, the server now seeds the local CMS database automatically if it
+finds no articles. You can also run `npm run seed` any time to reload/update the
+starter content manually.
 
 | URL                                                                     | What it is             |
 | ----------------------------------------------------------------------- | ---------------------- |
@@ -16,6 +22,35 @@ npm start        # http://localhost:3000
 | `http://localhost:3000/article.html?slug=the-rise-of-quantum-computing` | Long-form article page |
 | `http://localhost:3000/admin/`                                          | Admin dashboard        |
 | `http://localhost:3000/api/articles`                                    | Articles API           |
+
+### Windows / VS Code PowerShell note
+
+If VS Code opens a PowerShell terminal and `npm install` or `npm start` fails
+with `npm.ps1 cannot be loaded because running scripts is disabled on this
+system`, the project is not the problem: PowerShell is blocking Node's `npm.ps1`
+shim. Any of these fixes works:
+
+```powershell
+# Run npm through the CMD shim from PowerShell
+npm.cmd install
+npm.cmd start
+
+# Or allow scripts for this PowerShell window only
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+npm install
+npm start
+
+# Or make it permanent for your Windows user
+Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
+```
+
+You can also switch VS Code's integrated terminal profile to **Command Prompt**,
+which is why the same commands worked for you in cmd.exe.
+
+If the site starts but the homepage/category pages show no articles, your local
+CMS database is empty. Run `npm run seed` once, then restart with `npm start`.
+With the current code, `npm start` also auto-seeds an empty database unless you
+set `CMS_AUTO_SEED=false`.
 
 ## Architecture
 
