@@ -224,6 +224,41 @@
     toggleVisibility();
   }
 
+  function addAutoHideHeader() {
+    const header = document.querySelector('.site-header');
+    if (!header) return;
+
+    let pauseTimer = null;
+
+    const showHeader = () => {
+      pauseTimer = null;
+      header.classList.remove('is-hidden');
+    };
+
+    const scheduleShowHeader = () => {
+      if (pauseTimer) window.clearTimeout(pauseTimer);
+      // Once the user pauses scrolling, bring the navbar back.
+      pauseTimer = window.setTimeout(showHeader, 250);
+    };
+
+    let ticking = false;
+    window.addEventListener(
+      'scroll',
+      () => {
+        if (!ticking) {
+          window.requestAnimationFrame(() => {
+            // While the user is scrolling, slide the navbar up off-screen.
+            header.classList.add('is-hidden');
+            scheduleShowHeader();
+            ticking = false;
+          });
+          ticking = true;
+        }
+      },
+      { passive: true }
+    );
+  }
+
   function init() {
     addSkipLink();
     setCopyrightYear();
@@ -231,6 +266,7 @@
     enhanceSidebar();
     enhanceNewsletterForms();
     addScrollToTop();
+    addAutoHideHeader();
   }
 
   if (document.readyState === 'loading') {

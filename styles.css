@@ -266,6 +266,11 @@ code {
   z-index: 900;
   background: var(--header-bg);
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
+  transition: transform 280ms ease;
+}
+
+.site-header.is-hidden {
+  transform: translateY(-100%);
 }
 
 .site-header-inner {
@@ -1155,6 +1160,7 @@ textarea:focus {
 }
 
 .bento-feed .card-footer i {
+  margin-left: 0.45rem;
   transition: transform 180ms ease;
 }
 
