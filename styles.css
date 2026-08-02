@@ -1023,6 +1023,27 @@ textarea:focus {
   }
 }
 
+/* On wide desktop screens, give the feed more breathing room by placing two
+   generous cards on each row. The 1-, 2- and 3-column layouts above remain
+   unchanged at smaller desktop, tablet and mobile widths. */
+@media (min-width: 1280px) {
+  .bento-feed {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .bento-feed .card--tall,
+  .bento-feed .card--square,
+  .bento-feed .card--landscape,
+  .bento-feed .card--wide {
+    grid-column: span 1;
+    grid-row: span 12;
+  }
+
+  .bento-feed .card--tall {
+    grid-row: span 24;
+  }
+}
+
 .bento-feed .card {
   display: flex;
   flex-direction: column;
@@ -2752,6 +2773,21 @@ textarea:focus {
     align-self: center;
     justify-content: flex-end;
     flex: 0 0 auto;
+  }
+}
+
+/* Keep the desktop consent actions in a clear vertical stack. The compact
+   layout above is retained for phones and smaller tablet widths. */
+@media (min-width: 901px) {
+  .cookie-banner-actions {
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
+    min-width: 12rem;
+  }
+
+  .cookie-banner-actions .cookie-btn {
+    width: 100%;
   }
 }
 

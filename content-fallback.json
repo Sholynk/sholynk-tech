@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-02T20:07:25.628Z",
+  "generatedAt": "2026-08-02T20:46:47.856Z",
   "settings": {
     "siteTitle": "Sholynk Technology - AI, Web3 and Emerging Tech Insights",
     "siteDescription": "Explore editor picks, practical guides and analysis on AI trends, Web3, software development, cybersecurity and emerging technology.",
@@ -28,8 +28,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "article_01.html",
-      "createdAt": "2026-08-02 20:07:25",
-      "updatedAt": "2026-08-02 20:07:25"
+      "createdAt": "2026-08-02 20:46:47",
+      "updatedAt": "2026-08-02 20:46:47"
     },
     {
       "id": 2,
@@ -51,11 +51,11 @@
       "seoTitle": "The Rise of Quantum Computing: qubits, error correction and what it means for your stack",
       "seoDescription": "A practical, jargon-light guide to how quantum computers work, the error-correction wall the field is climbing, which problems genuinely benefit, and what engineering teams should do today.",
       "link": "article.html?slug=the-rise-of-quantum-computing",
-      "createdAt": "2026-08-02 20:07:25",
-      "updatedAt": "2026-08-02 20:07:25"
+      "createdAt": "2026-08-02 20:46:47",
+      "updatedAt": "2026-08-02 20:46:47"
     },
     {
-      "id": 45,
+      "id": 53,
       "slug": "the-future-of-artificial-intelligence-in-everyday-life",
       "title": "The future of artificial intelligence in everyday life",
       "category": "AI Trends",
@@ -74,11 +74,11 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=AI%20Trends",
-      "createdAt": "2026-08-02 20:07:25",
-      "updatedAt": "2026-08-02 20:07:25"
+      "createdAt": "2026-08-02 20:46:47",
+      "updatedAt": "2026-08-02 20:46:47"
     },
     {
-      "id": 46,
+      "id": 54,
       "slug": "decentralized-finance-is-reshaping-access-to-money",
       "title": "Decentralized finance is reshaping access to money",
       "category": "Web 3",
@@ -97,11 +97,11 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Web%203",
-      "createdAt": "2026-08-02 20:07:25",
-      "updatedAt": "2026-08-02 20:07:25"
+      "createdAt": "2026-08-02 20:46:47",
+      "updatedAt": "2026-08-02 20:46:47"
     },
     {
-      "id": 47,
+      "id": 55,
       "slug": "cybersecurity-habits-every-growing-team-needs",
       "title": "Cybersecurity habits every growing team needs",
       "category": "Technology",
@@ -120,8 +120,31 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Technology",
-      "createdAt": "2026-08-02 20:07:25",
-      "updatedAt": "2026-08-02 20:07:25"
+      "createdAt": "2026-08-02 20:46:47",
+      "updatedAt": "2026-08-02 20:46:47"
+    },
+    {
+      "id": 45,
+      "slug": "the-rise-of-esports-how-competitive-gaming-became-a-global-industry",
+      "title": "The Rise of Esports: How Competitive Gaming Became a Global Industry",
+      "category": "Game",
+      "description": "Competitive gaming has grown from local tournaments into a global entertainment industry built on players, teams, leagues and loyal communities.",
+      "body": "",
+      "img": "https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=900&q=80",
+      "alt": "Gamer playing at a neon-lit esports desk",
+      "author": "Busari Oluwashola",
+      "date": "2026-08-02",
+      "readingTime": "5 min read",
+      "featured": false,
+      "status": "published",
+      "hero": false,
+      "heroOrder": null,
+      "externalLink": "index.html?category=Game",
+      "seoTitle": null,
+      "seoDescription": null,
+      "link": "index.html?category=Game",
+      "createdAt": "2026-08-02 20:46:47",
+      "updatedAt": "2026-08-02 20:46:47"
     },
     {
       "id": 24,
@@ -143,8 +166,31 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Technology",
-      "createdAt": "2026-08-02 20:07:25",
-      "updatedAt": "2026-08-02 20:07:25"
+      "createdAt": "2026-08-02 20:46:47",
+      "updatedAt": "2026-08-02 20:46:47"
+    },
+    {
+      "id": 46,
+      "slug": "generative-ai-is-changing-how-games-are-designed-and-built",
+      "title": "Generative AI Is Changing How Games Are Designed and Built",
+      "category": "Game",
+      "description": "AI-assisted world building, testing and character design are giving game studios new creative tools while raising important questions about authorship.",
+      "body": "",
+      "img": "https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=900&q=80",
+      "alt": "Video game controller beside a monitor",
+      "author": "Busari Oluwashola",
+      "date": "2026-07-31",
+      "readingTime": "5 min read",
+      "featured": false,
+      "status": "published",
+      "hero": false,
+      "heroOrder": null,
+      "externalLink": "index.html?category=Game",
+      "seoTitle": null,
+      "seoDescription": null,
+      "link": "index.html?category=Game",
+      "createdAt": "2026-08-02 20:46:47",
+      "updatedAt": "2026-08-02 20:46:47"
     },
     {
       "id": 25,
@@ -166,8 +212,31 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Technology",
-      "createdAt": "2026-08-02 20:07:25",
-      "updatedAt": "2026-08-02 20:07:25"
+      "createdAt": "2026-08-02 20:46:47",
+      "updatedAt": "2026-08-02 20:46:47"
+    },
+    {
+      "id": 47,
+      "slug": "why-great-game-design-keeps-players-coming-back",
+      "title": "Why Great Game Design Keeps Players Coming Back",
+      "category": "Game",
+      "description": "The best games balance challenge, discovery and meaningful progress to create experiences that feel rewarding without becoming exhausting.",
+      "body": "",
+      "img": "https://images.unsplash.com/photo-1493711662062-fa541adb3fc8?auto=format&fit=crop&w=900&q=80",
+      "alt": "Person holding a game controller in front of a screen",
+      "author": "Busari Oluwashola",
+      "date": "2026-07-29",
+      "readingTime": "4 min read",
+      "featured": false,
+      "status": "published",
+      "hero": false,
+      "heroOrder": null,
+      "externalLink": "index.html?category=Game",
+      "seoTitle": null,
+      "seoDescription": null,
+      "link": "index.html?category=Game",
+      "createdAt": "2026-08-02 20:46:47",
+      "updatedAt": "2026-08-02 20:46:47"
     },
     {
       "id": 27,
@@ -189,8 +258,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=AI%20Trends",
-      "createdAt": "2026-08-02 20:07:25",
-      "updatedAt": "2026-08-02 20:07:25"
+      "createdAt": "2026-08-02 20:46:47",
+      "updatedAt": "2026-08-02 20:46:47"
     },
     {
       "id": 26,
@@ -212,8 +281,31 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Technology",
-      "createdAt": "2026-08-02 20:07:25",
-      "updatedAt": "2026-08-02 20:07:25"
+      "createdAt": "2026-08-02 20:46:47",
+      "updatedAt": "2026-08-02 20:46:47"
+    },
+    {
+      "id": 48,
+      "slug": "mobile-gaming-is-building-the-worlds-biggest-interactive-audience",
+      "title": "Mobile Gaming Is Building the World's Biggest Interactive Audience",
+      "category": "Game",
+      "description": "Affordable smartphones, social features and free-to-play models are bringing sophisticated gaming experiences to more people than ever.",
+      "body": "",
+      "img": "https://images.unsplash.com/photo-1542751110-97427bbecf20?auto=format&fit=crop&w=900&q=80",
+      "alt": "Mobile phone displaying a game with a controller nearby",
+      "author": "Busari Oluwashola",
+      "date": "2026-07-27",
+      "readingTime": "4 min read",
+      "featured": false,
+      "status": "published",
+      "hero": false,
+      "heroOrder": null,
+      "externalLink": "index.html?category=Game",
+      "seoTitle": null,
+      "seoDescription": null,
+      "link": "index.html?category=Game",
+      "createdAt": "2026-08-02 20:46:47",
+      "updatedAt": "2026-08-02 20:46:47"
     },
     {
       "id": 28,
@@ -235,8 +327,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Cryptocurrency",
-      "createdAt": "2026-08-02 20:07:25",
-      "updatedAt": "2026-08-02 20:07:25"
+      "createdAt": "2026-08-02 20:46:47",
+      "updatedAt": "2026-08-02 20:46:47"
     },
     {
       "id": 36,
@@ -258,8 +350,31 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Web%203",
-      "createdAt": "2026-08-02 20:07:25",
-      "updatedAt": "2026-08-02 20:07:25"
+      "createdAt": "2026-08-02 20:46:47",
+      "updatedAt": "2026-08-02 20:46:47"
+    },
+    {
+      "id": 49,
+      "slug": "virtual-reality-gaming-is-becoming-a-social-experience",
+      "title": "Virtual Reality Gaming Is Becoming a Social Experience",
+      "category": "Game",
+      "description": "VR games are moving beyond solo novelty experiences as better hardware and shared virtual spaces make play feel more naturally social.",
+      "body": "",
+      "img": "https://images.unsplash.com/photo-1538481199705-c710c4e965fc?auto=format&fit=crop&w=900&q=80",
+      "alt": "Person using a virtual reality headset",
+      "author": "Busari Oluwashola",
+      "date": "2026-07-25",
+      "readingTime": "5 min read",
+      "featured": false,
+      "status": "published",
+      "hero": false,
+      "heroOrder": null,
+      "externalLink": "index.html?category=Game",
+      "seoTitle": null,
+      "seoDescription": null,
+      "link": "index.html?category=Game",
+      "createdAt": "2026-08-02 20:46:47",
+      "updatedAt": "2026-08-02 20:46:47"
     },
     {
       "id": 29,
@@ -281,8 +396,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Cryptocurrency",
-      "createdAt": "2026-08-02 20:07:25",
-      "updatedAt": "2026-08-02 20:07:25"
+      "createdAt": "2026-08-02 20:46:47",
+      "updatedAt": "2026-08-02 20:46:47"
     },
     {
       "id": 37,
@@ -304,8 +419,31 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Web%203",
-      "createdAt": "2026-08-02 20:07:25",
-      "updatedAt": "2026-08-02 20:07:25"
+      "createdAt": "2026-08-02 20:46:47",
+      "updatedAt": "2026-08-02 20:46:47"
+    },
+    {
+      "id": 50,
+      "slug": "indie-games-and-the-new-era-of-creative-discovery",
+      "title": "Indie Games and the New Era of Creative Discovery",
+      "category": "Game",
+      "description": "Small studios are using focused ideas, flexible tools and direct communities to create some of the most distinctive games on the market.",
+      "body": "",
+      "img": "https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=900&q=80",
+      "alt": "Retro video game console and controller",
+      "author": "Busari Oluwashola",
+      "date": "2026-07-23",
+      "readingTime": "4 min read",
+      "featured": false,
+      "status": "published",
+      "hero": false,
+      "heroOrder": null,
+      "externalLink": "index.html?category=Game",
+      "seoTitle": null,
+      "seoDescription": null,
+      "link": "index.html?category=Game",
+      "createdAt": "2026-08-02 20:46:47",
+      "updatedAt": "2026-08-02 20:46:47"
     },
     {
       "id": 30,
@@ -327,8 +465,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Cryptocurrency",
-      "createdAt": "2026-08-02 20:07:25",
-      "updatedAt": "2026-08-02 20:07:25"
+      "createdAt": "2026-08-02 20:46:47",
+      "updatedAt": "2026-08-02 20:46:47"
     },
     {
       "id": 38,
@@ -350,8 +488,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Web%203",
-      "createdAt": "2026-08-02 20:07:25",
-      "updatedAt": "2026-08-02 20:07:25"
+      "createdAt": "2026-08-02 20:46:47",
+      "updatedAt": "2026-08-02 20:46:47"
     },
     {
       "id": 3,
@@ -373,8 +511,31 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Web%203",
-      "createdAt": "2026-08-02 20:07:25",
-      "updatedAt": "2026-08-02 20:07:25"
+      "createdAt": "2026-08-02 20:46:47",
+      "updatedAt": "2026-08-02 20:46:47"
+    },
+    {
+      "id": 51,
+      "slug": "game-engines-are-powering-more-than-games",
+      "title": "Game Engines Are Powering More Than Games",
+      "category": "Game",
+      "description": "Real-time 3D engines are reshaping film, architecture, training and product design by making interactive visualisation faster to create.",
+      "body": "",
+      "img": "https://images.unsplash.com/photo-1593508512255-86ab42a8e620?auto=format&fit=crop&w=900&q=80",
+      "alt": "Person experiencing an immersive digital environment",
+      "author": "Busari Oluwashola",
+      "date": "2026-07-21",
+      "readingTime": "4 min read",
+      "featured": false,
+      "status": "published",
+      "hero": false,
+      "heroOrder": null,
+      "externalLink": "index.html?category=Game",
+      "seoTitle": null,
+      "seoDescription": null,
+      "link": "index.html?category=Game",
+      "createdAt": "2026-08-02 20:46:47",
+      "updatedAt": "2026-08-02 20:46:47"
     },
     {
       "id": 31,
@@ -396,8 +557,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Cryptocurrency",
-      "createdAt": "2026-08-02 20:07:25",
-      "updatedAt": "2026-08-02 20:07:25"
+      "createdAt": "2026-08-02 20:46:47",
+      "updatedAt": "2026-08-02 20:46:47"
     },
     {
       "id": 39,
@@ -419,8 +580,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Web%203",
-      "createdAt": "2026-08-02 20:07:25",
-      "updatedAt": "2026-08-02 20:07:25"
+      "createdAt": "2026-08-02 20:46:47",
+      "updatedAt": "2026-08-02 20:46:47"
     },
     {
       "id": 4,
@@ -442,8 +603,31 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=AI%20Trends",
-      "createdAt": "2026-08-02 20:07:25",
-      "updatedAt": "2026-08-02 20:07:25"
+      "createdAt": "2026-08-02 20:46:47",
+      "updatedAt": "2026-08-02 20:46:47"
+    },
+    {
+      "id": 52,
+      "slug": "accessible-gaming-designing-play-for-everyone",
+      "title": "Accessible Gaming: Designing Play for Everyone",
+      "category": "Game",
+      "description": "Remappable controls, readable interfaces and flexible difficulty settings help more players enjoy games on their own terms.",
+      "body": "",
+      "img": "https://images.unsplash.com/photo-1605901309584-818e25960a8f?auto=format&fit=crop&w=900&q=80",
+      "alt": "Gaming setup with controller and illuminated keyboard",
+      "author": "Busari Oluwashola",
+      "date": "2026-07-19",
+      "readingTime": "4 min read",
+      "featured": false,
+      "status": "published",
+      "hero": false,
+      "heroOrder": null,
+      "externalLink": "index.html?category=Game",
+      "seoTitle": null,
+      "seoDescription": null,
+      "link": "index.html?category=Game",
+      "createdAt": "2026-08-02 20:46:47",
+      "updatedAt": "2026-08-02 20:46:47"
     },
     {
       "id": 32,
@@ -465,8 +649,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Cryptocurrency",
-      "createdAt": "2026-08-02 20:07:25",
-      "updatedAt": "2026-08-02 20:07:25"
+      "createdAt": "2026-08-02 20:46:47",
+      "updatedAt": "2026-08-02 20:46:47"
     },
     {
       "id": 40,
@@ -488,8 +672,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Web%203",
-      "createdAt": "2026-08-02 20:07:25",
-      "updatedAt": "2026-08-02 20:07:25"
+      "createdAt": "2026-08-02 20:46:47",
+      "updatedAt": "2026-08-02 20:46:47"
     },
     {
       "id": 5,
@@ -511,8 +695,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Technology",
-      "createdAt": "2026-08-02 20:07:25",
-      "updatedAt": "2026-08-02 20:07:25"
+      "createdAt": "2026-08-02 20:46:47",
+      "updatedAt": "2026-08-02 20:46:47"
     },
     {
       "id": 33,
@@ -534,8 +718,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Cryptocurrency",
-      "createdAt": "2026-08-02 20:07:25",
-      "updatedAt": "2026-08-02 20:07:25"
+      "createdAt": "2026-08-02 20:46:47",
+      "updatedAt": "2026-08-02 20:46:47"
     },
     {
       "id": 41,
@@ -557,8 +741,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Web%203",
-      "createdAt": "2026-08-02 20:07:25",
-      "updatedAt": "2026-08-02 20:07:25"
+      "createdAt": "2026-08-02 20:46:47",
+      "updatedAt": "2026-08-02 20:46:47"
     },
     {
       "id": 6,
@@ -580,8 +764,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=AI%20Trends",
-      "createdAt": "2026-08-02 20:07:25",
-      "updatedAt": "2026-08-02 20:07:25"
+      "createdAt": "2026-08-02 20:46:47",
+      "updatedAt": "2026-08-02 20:46:47"
     },
     {
       "id": 34,
@@ -603,8 +787,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Cryptocurrency",
-      "createdAt": "2026-08-02 20:07:25",
-      "updatedAt": "2026-08-02 20:07:25"
+      "createdAt": "2026-08-02 20:46:47",
+      "updatedAt": "2026-08-02 20:46:47"
     },
     {
       "id": 42,
@@ -626,8 +810,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Web%203",
-      "createdAt": "2026-08-02 20:07:25",
-      "updatedAt": "2026-08-02 20:07:25"
+      "createdAt": "2026-08-02 20:46:47",
+      "updatedAt": "2026-08-02 20:46:47"
     },
     {
       "id": 7,
@@ -649,8 +833,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Web%203",
-      "createdAt": "2026-08-02 20:07:25",
-      "updatedAt": "2026-08-02 20:07:25"
+      "createdAt": "2026-08-02 20:46:47",
+      "updatedAt": "2026-08-02 20:46:47"
     },
     {
       "id": 35,
@@ -672,8 +856,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Cryptocurrency",
-      "createdAt": "2026-08-02 20:07:25",
-      "updatedAt": "2026-08-02 20:07:25"
+      "createdAt": "2026-08-02 20:46:47",
+      "updatedAt": "2026-08-02 20:46:47"
     },
     {
       "id": 43,
@@ -695,8 +879,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Web%203",
-      "createdAt": "2026-08-02 20:07:25",
-      "updatedAt": "2026-08-02 20:07:25"
+      "createdAt": "2026-08-02 20:46:47",
+      "updatedAt": "2026-08-02 20:46:47"
     },
     {
       "id": 8,
@@ -718,8 +902,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Technology",
-      "createdAt": "2026-08-02 20:07:25",
-      "updatedAt": "2026-08-02 20:07:25"
+      "createdAt": "2026-08-02 20:46:47",
+      "updatedAt": "2026-08-02 20:46:47"
     },
     {
       "id": 44,
@@ -741,8 +925,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Web%203",
-      "createdAt": "2026-08-02 20:07:25",
-      "updatedAt": "2026-08-02 20:07:25"
+      "createdAt": "2026-08-02 20:46:47",
+      "updatedAt": "2026-08-02 20:46:47"
     },
     {
       "id": 9,
@@ -764,8 +948,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Technology",
-      "createdAt": "2026-08-02 20:07:25",
-      "updatedAt": "2026-08-02 20:07:25"
+      "createdAt": "2026-08-02 20:46:47",
+      "updatedAt": "2026-08-02 20:46:47"
     },
     {
       "id": 10,
@@ -787,8 +971,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Technology",
-      "createdAt": "2026-08-02 20:07:25",
-      "updatedAt": "2026-08-02 20:07:25"
+      "createdAt": "2026-08-02 20:46:47",
+      "updatedAt": "2026-08-02 20:46:47"
     },
     {
       "id": 11,
@@ -810,8 +994,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Web%203",
-      "createdAt": "2026-08-02 20:07:25",
-      "updatedAt": "2026-08-02 20:07:25"
+      "createdAt": "2026-08-02 20:46:47",
+      "updatedAt": "2026-08-02 20:46:47"
     },
     {
       "id": 12,
@@ -833,8 +1017,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=AI%20Trends",
-      "createdAt": "2026-08-02 20:07:25",
-      "updatedAt": "2026-08-02 20:07:25"
+      "createdAt": "2026-08-02 20:46:47",
+      "updatedAt": "2026-08-02 20:46:47"
     },
     {
       "id": 13,
@@ -856,8 +1040,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Technology",
-      "createdAt": "2026-08-02 20:07:25",
-      "updatedAt": "2026-08-02 20:07:25"
+      "createdAt": "2026-08-02 20:46:47",
+      "updatedAt": "2026-08-02 20:46:47"
     },
     {
       "id": 14,
@@ -879,8 +1063,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Technology",
-      "createdAt": "2026-08-02 20:07:25",
-      "updatedAt": "2026-08-02 20:07:25"
+      "createdAt": "2026-08-02 20:46:47",
+      "updatedAt": "2026-08-02 20:46:47"
     },
     {
       "id": 15,
@@ -902,8 +1086,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=AI%20Trends",
-      "createdAt": "2026-08-02 20:07:25",
-      "updatedAt": "2026-08-02 20:07:25"
+      "createdAt": "2026-08-02 20:46:47",
+      "updatedAt": "2026-08-02 20:46:47"
     },
     {
       "id": 16,
@@ -925,8 +1109,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Technology",
-      "createdAt": "2026-08-02 20:07:25",
-      "updatedAt": "2026-08-02 20:07:25"
+      "createdAt": "2026-08-02 20:46:47",
+      "updatedAt": "2026-08-02 20:46:47"
     },
     {
       "id": 17,
@@ -948,8 +1132,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Web%203",
-      "createdAt": "2026-08-02 20:07:25",
-      "updatedAt": "2026-08-02 20:07:25"
+      "createdAt": "2026-08-02 20:46:47",
+      "updatedAt": "2026-08-02 20:46:47"
     },
     {
       "id": 18,
@@ -971,8 +1155,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=AI%20Trends",
-      "createdAt": "2026-08-02 20:07:25",
-      "updatedAt": "2026-08-02 20:07:25"
+      "createdAt": "2026-08-02 20:46:47",
+      "updatedAt": "2026-08-02 20:46:47"
     },
     {
       "id": 19,
@@ -994,8 +1178,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Technology",
-      "createdAt": "2026-08-02 20:07:25",
-      "updatedAt": "2026-08-02 20:07:25"
+      "createdAt": "2026-08-02 20:46:47",
+      "updatedAt": "2026-08-02 20:46:47"
     },
     {
       "id": 20,
@@ -1017,8 +1201,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Technology",
-      "createdAt": "2026-08-02 20:07:25",
-      "updatedAt": "2026-08-02 20:07:25"
+      "createdAt": "2026-08-02 20:46:47",
+      "updatedAt": "2026-08-02 20:46:47"
     },
     {
       "id": 21,
@@ -1040,8 +1224,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=AI%20Trends",
-      "createdAt": "2026-08-02 20:07:25",
-      "updatedAt": "2026-08-02 20:07:25"
+      "createdAt": "2026-08-02 20:46:47",
+      "updatedAt": "2026-08-02 20:46:47"
     },
     {
       "id": 22,
@@ -1063,8 +1247,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Game",
-      "createdAt": "2026-08-02 20:07:25",
-      "updatedAt": "2026-08-02 20:07:25"
+      "createdAt": "2026-08-02 20:46:47",
+      "updatedAt": "2026-08-02 20:46:47"
     },
     {
       "id": 23,
@@ -1086,8 +1270,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Cryptocurrency",
-      "createdAt": "2026-08-02 20:07:25",
-      "updatedAt": "2026-08-02 20:07:25"
+      "createdAt": "2026-08-02 20:46:47",
+      "updatedAt": "2026-08-02 20:46:47"
     }
   ]
 }
