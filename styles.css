@@ -904,9 +904,10 @@ textarea:focus {
    ========================================================================== */
 
 .editor-section {
-  width: min(var(--container), calc(100vw - 2rem));
+  max-width: 1700px;
+  width: 100%;
   margin: 0 auto;
-  padding: 1rem 0 clamp(4rem, 8vw, 7rem);
+  padding: 1rem 32px clamp(4rem, 8vw, 7rem);
 }
 
 .results-count {
@@ -915,40 +916,50 @@ textarea:focus {
   font-weight: 700;
 }
 
-/* Responsive card grid — consistent sizing, no orphaned spans.
-   Uses media-query-driven column counts instead of auto-fit/minmax
-   which can produce uneven trailing columns. Every track fills the
-   row completely with no dead space between cards. */
+/* Pinterest-style masonry grid — five columns, dense packing,
+   variable row spans for portrait / square / landscape / wide / hero tiles.
+   Height per tile = (rowSpan × 40px) + ((rowSpan − 1) × 24px). */
 #cardsContainer {
   display: grid;
   grid-template-columns: repeat(1, 1fr);
-  gap: 1.25rem;
+  grid-auto-rows: 40px;
+  grid-auto-flow: dense;
+  gap: 24px;
   align-items: stretch;
 }
 
-/* 2 columns from 600px */
-@media (min-width: 600px) {
+@media (min-width: 480px) {
   #cardsContainer {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
-/* 3 columns from 960px */
-@media (min-width: 960px) {
+@media (min-width: 768px) {
   #cardsContainer {
     grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  #cardsContainer {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (min-width: 1280px) {
+  #cardsContainer {
+    grid-template-columns: repeat(5, 1fr);
   }
 }
 
 .card {
   display: flex;
   flex-direction: column;
-  min-height: 19rem;
   position: relative;
   overflow: hidden;
   padding: 0;
   margin: 0;
-  border-radius: var(--radius-lg);
+  border-radius: 12px;
   color: var(--ink);
   background: var(--surface);
   border: 1px solid rgba(148, 163, 184, 0.2);
@@ -969,19 +980,31 @@ textarea:focus {
 
 .card:hover,
 .card:focus-visible {
-  transform: translateY(-7px);
+  transform: translateY(-3px);
   box-shadow: var(--shadow-md);
+  z-index: 2;
 }
 
-/* Only explicitly-marked featured cards span full width. */
-.card.featured {
-  grid-column: 1 / -1;
-}
+/* Masonry column & row span classes.
+   Heights: 3→168px  4→232px  5→296px  6→360px  7→424px  8→488px */
+.card--col-1 { grid-column: span 1; }
+.card--col-2 { grid-column: span 2; }
+.card--rows-3 { grid-row: span 3; }
+.card--rows-4 { grid-row: span 4; }
+.card--rows-5 { grid-row: span 5; }
+.card--rows-6 { grid-row: span 6; }
+.card--rows-7 { grid-row: span 7; }
+.card--rows-8 { grid-row: span 8; }
+
+/* On very small screens, 2-column tiles collapse to 1. */
+@media (max-width: 479px) {
+  .card--col-2 { grid-column: span 1; }
 }
 
 .card-media {
   position: relative;
-  height: 12.5rem;
+  flex: 1 1 0;
+  min-height: 0;
   overflow: hidden;
   background: linear-gradient(
     135deg,
@@ -1004,7 +1027,7 @@ textarea:focus {
 
 .card-body {
   display: flex;
-  flex: 1;
+  flex: 0 0 auto;
   flex-direction: column;
   gap: 0.7rem;
   padding: 1rem;
@@ -1071,7 +1094,8 @@ textarea:focus {
 
 .card.web3-dark .card-body,
 .card.web3-blue .card-body {
-  min-height: 100%;
+  flex: 1;
+  min-height: 0;
   padding: 1.25rem;
 }
 
@@ -2805,10 +2829,6 @@ textarea:focus {
 
   .search-actions {
     flex-direction: column;
-  }
-
-  .card-media {
-    height: 12rem;
   }
 
   .section-title-row {
