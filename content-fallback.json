@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-02T22:04:30.766Z",
+  "generatedAt": "2026-08-02T22:24:33.252Z",
   "settings": {
     "siteTitle": "Sholynk Technology - AI, Web3 and Emerging Tech Insights",
     "siteDescription": "Explore editor picks, practical guides and analysis on AI trends, Web3, software development, cybersecurity and emerging technology.",
@@ -28,8 +28,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "article_01.html",
-      "createdAt": "2026-08-02 22:04:30",
-      "updatedAt": "2026-08-02 22:04:30"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 2,
@@ -51,11 +51,11 @@
       "seoTitle": "Quantum Computing Demystified: qubits, error correction and the road to fault-tolerant machines",
       "seoDescription": "A plain-language guide to how quantum computers work — superposition, entanglement, error correction, quantum networking and programming — and which problems they will genuinely transform first.",
       "link": "article.html?slug=the-rise-of-quantum-computing",
-      "createdAt": "2026-08-02 22:04:30",
-      "updatedAt": "2026-08-02 22:04:30"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
-      "id": 53,
+      "id": 54,
       "slug": "the-future-of-artificial-intelligence-in-everyday-life",
       "title": "The future of artificial intelligence in everyday life",
       "category": "AI Trends",
@@ -74,11 +74,11 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=AI%20Trends",
-      "createdAt": "2026-08-02 22:04:30",
-      "updatedAt": "2026-08-02 22:04:30"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
-      "id": 54,
+      "id": 55,
       "slug": "decentralized-finance-is-reshaping-access-to-money",
       "title": "Decentralized finance is reshaping access to money",
       "category": "Web 3",
@@ -97,11 +97,11 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Web%203",
-      "createdAt": "2026-08-02 22:04:30",
-      "updatedAt": "2026-08-02 22:04:30"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
-      "id": 55,
+      "id": 56,
       "slug": "cybersecurity-habits-every-growing-team-needs",
       "title": "Cybersecurity habits every growing team needs",
       "category": "Technology",
@@ -120,8 +120,31 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Technology",
-      "createdAt": "2026-08-02 22:04:30",
-      "updatedAt": "2026-08-02 22:04:30"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
+    },
+    {
+      "id": 53,
+      "slug": "distraction-by-design",
+      "title": "Distraction by Design: Navigating Attention in the Social Media Era",
+      "category": "Technology",
+      "description": "Notifications, infinite scroll and AI-driven feeds turned attention into the internet's most valuable commodity — how the attention economy works, and how to enjoy social media without being controlled by it.",
+      "body": "*By Busari Oluwashola*\n\n## Introduction\n\nAttention has become one of the world's most valuable resources.\n\nIn the past, companies competed for consumers' money. Today, many of the world's largest technology companies compete for something even more fundamental: **your attention**.\n\nEvery notification, infinite scroll, autoplay video, personalized recommendation, and trending topic is carefully engineered to keep users engaged for as long as possible. While social media has revolutionized communication, democratized information, and connected billions of people across continents, it has also transformed attention into a commodity—one that is measured, analyzed, bought, and sold.\n\nFor many people, checking social media has become second nature. A quick glance at a notification often turns into twenty minutes of scrolling. A search for a single piece of information unexpectedly becomes a journey through memes, videos, advertisements, and endless recommendations. What feels like a conscious choice is often the result of sophisticated systems designed to maximize engagement.\n\nThis is not necessarily evidence of weak self-control. It is the outcome of an ecosystem where psychology, data science, artificial intelligence, and behavioral design converge to influence how people spend their time.\n\nThe rise of the attention economy raises important questions. How do social media platforms capture and retain our attention? Why is it increasingly difficult to disconnect? More importantly, how can individuals enjoy the benefits of social media without becoming controlled by it?\n\nUnderstanding distraction in the digital age requires looking beyond personal habits and examining the technology itself.\n\n## Understanding the Technology\n\n### The Attention Economy\n\nSocial media platforms are often described as \"free\" services. In reality, users pay with something far more valuable than subscription fees: their attention.\n\nThis business model is commonly referred to as the **attention economy**.\n\nThe longer users remain on a platform, the more advertisements they see, the more data they generate, and the greater the revenue the platform can earn. Consequently, maximizing user engagement has become a central objective for many social media companies.\n\n![A woman walking down a city street while using her phone as traffic lights blur behind her](article-images/distraction-by-design/walking-with-phone.jpg)\n\n*Attention is constantly bid for in everyday life — every spare moment is an opportunity for a feed to fill.*\n\nModern platforms continuously analyze user behavior by tracking signals such as:\n\n- Posts you like.\n- Videos you watch repeatedly.\n- Accounts you follow.\n- Topics you search.\n- Comments you leave.\n- Time spent viewing specific content.\n- How quickly you scroll past a post.\n\nThese interactions help build detailed behavioral profiles that artificial intelligence uses to personalize each user's experience.\n\nThe result is a feed that becomes increasingly relevant—and increasingly difficult to leave.\n\n### Why Social Media Feels So Addictive\n\nHuman attention is naturally drawn to novelty, uncertainty, and social interaction. Social media platforms capitalize on these psychological tendencies through carefully designed features.\n\n![Close-up of a smartphone screen displaying app icons and notification badges](article-images/distraction-by-design/notifications-screen-closeup.jpg)\n\n*Every badge, banner and vibration is a small invitation back into the feed.*\n\n### Infinite Scrolling\n\nUnlike books or newspapers that naturally come to an end, social media feeds often have no stopping point.\n\nInfinite scrolling removes the natural cues that signal users to stop consuming content, encouraging longer browsing sessions.\n\n### Variable Rewards\n\nNot every post is equally interesting.\n\nSometimes users encounter ordinary content. Occasionally they discover something humorous, emotionally engaging, or personally meaningful.\n\nThis unpredictable reward pattern resembles the psychological mechanism behind slot machines, encouraging repeated checking because users never know when the next rewarding experience will appear.\n\n### Social Validation\n\nLikes, comments, shares, and follower counts introduce measurable forms of social approval.\n\nThese metrics can reinforce posting behavior by satisfying the human desire for recognition and belonging.\n\n### Personalized Algorithms\n\nArtificial intelligence continually learns individual preferences.\n\nInstead of showing identical content to everyone, recommendation systems prioritize material that each user is most likely to watch, read, or share.\n\nThe better these algorithms understand users, the longer engagement often becomes.\n\n## Why It Matters\n\nThe influence of social media extends far beyond entertainment.\n\nIt affects education, work, relationships, politics, business, and mental wellbeing.\n\nFor students, frequent digital interruptions can reduce sustained concentration during study sessions. Constant task switching makes it more difficult to engage in deep learning, where complex ideas require uninterrupted focus.\n\nProfessionals face similar challenges. Repeated notifications, emails, and social media updates fragment attention throughout the workday, making it harder to complete cognitively demanding tasks efficiently.\n\nBusinesses also compete within this attention economy. Brands increasingly rely on algorithms rather than traditional advertising to reach consumers, fundamentally changing marketing strategies and customer engagement.\n\nAt a societal level, social media influences public discourse, shapes cultural trends, and determines how news spreads. While this democratizes access to information, it also accelerates misinformation, sensationalism, and emotionally charged content because such material often generates higher engagement.\n\nUnderstanding these broader implications helps explain why attention has become one of the defining challenges of the digital age.\n\n## Real-World Applications\n\nAlthough often criticized, social media has created extraordinary opportunities when used intentionally.\n\n### Education\n\nEducational creators now reach millions of learners worldwide through short-form lessons, tutorials, and interactive communities.\n\nStudents can access high-quality educational resources regardless of geographical location.\n\n### Business and Entrepreneurship\n\nSmall businesses can market products globally with minimal advertising budgets.\n\nEntrepreneurs use social media to build personal brands, engage customers, and launch products faster than ever before.\n\n### Professional Networking\n\nPlatforms enable professionals to connect with mentors, employers, collaborators, and researchers across industries.\n\nMany careers have advanced through relationships initiated online.\n\n### Social Awareness\n\nMovements addressing public health, environmental sustainability, education, and humanitarian causes have leveraged social media to mobilize communities and amplify underrepresented voices.\n\nWhen used responsibly, these platforms become powerful tools for communication and positive social impact.\n\n## Benefits and Opportunities\n\nDespite legitimate concerns surrounding digital distraction, social media remains one of the most influential communication technologies ever developed.\n\nIts advantages include:\n\n### Democratized Knowledge\n\nInformation is now more accessible than at any point in history. Experts, educators, and institutions can share insights directly with global audiences.\n\n### Innovation and Creativity\n\nCreators have unprecedented opportunities to publish ideas, showcase talent, and build communities without traditional gatekeepers.\n\n### Economic Opportunities\n\nEntire industries—including influencer marketing, creator economies, digital consulting, and online education—have emerged through social platforms.\n\n### Global Connectivity\n\nIndividuals from different cultures, professions, and backgrounds can collaborate and exchange ideas in real time.\n\nThese opportunities demonstrate that social media itself is not inherently harmful; its impact depends largely on how it is designed and how it is used.\n\n## Challenges and Misconceptions\n\n### Misconception: Social Media Is the Enemy\n\nA common response to concerns about distraction is to blame social media entirely.\n\nThis oversimplifies the issue.\n\nSocial media is a tool. Like any technology, it can either enhance productivity or undermine it depending on its design and the habits surrounding its use.\n\nThe challenge lies not only in the technology but also in the incentives driving its development.\n\n### Algorithmic Amplification\n\nRecommendation systems prioritize content predicted to maximize engagement—not necessarily content that is accurate, balanced, or beneficial.\n\nThis can contribute to echo chambers, polarization, and the rapid spread of misinformation.\n\n### Continuous Partial Attention\n\nFrequent switching between tasks weakens sustained concentration.\n\nOver time, individuals may become accustomed to fragmented attention, making deep reading, prolonged study, and focused work increasingly difficult.\n\n### Digital Fatigue\n\nConstant connectivity leaves little room for reflection or mental recovery.\n\nMany users experience information overload, notification fatigue, and difficulty disconnecting from digital environments.\n\n### Separating Hype from Reality\n\nIt is tempting to conclude that technology alone is responsible for declining attention spans.\n\nThe evidence is more nuanced.\n\nHuman attention is influenced by many factors, including sleep quality, stress, education, work environments, and individual habits.\n\nSocial media can intensify distraction, but it does not determine behavior in isolation.\n\nRecognizing this complexity encourages more balanced conversations about digital wellbeing.\n\n## What's Next?\n\nThe future of social media is likely to be shaped by a growing emphasis on healthier digital experiences.\n\nResearchers are exploring ways to design platforms that encourage meaningful engagement rather than maximizing screen time alone. Governments are introducing regulations aimed at increasing transparency around algorithms, protecting children online, and strengthening data privacy. Technology companies are also expanding digital wellbeing features such as screen-time dashboards, notification controls, and focus modes.\n\n![A man sitting on a park bench holding a notebook, looking thoughtfully into the distance](article-images/distraction-by-design/reading-focus-park.jpg)\n\n*The next era of design priorities may reward undistracted time — and tools that help people reclaim it.*\n\nArtificial intelligence will continue to personalize online experiences, making content more relevant than ever before. At the same time, this increased personalization raises important ethical questions about autonomy, privacy, and the balance between user engagement and user wellbeing.\n\nFor students, professionals, and lifelong learners, the ability to manage attention may become as important as technical skills themselves. In an era of constant information, the capacity to focus deeply, think critically, and use digital tools intentionally will increasingly distinguish those who consume technology from those who create value with it.\n\n## Conclusion\n\nSocial media has fundamentally transformed how humanity communicates, learns, and shares ideas. It has connected billions of people, created new industries, democratized knowledge, and given individuals unprecedented opportunities to build communities and businesses.\n\nYet these achievements come with an important trade-off. In an economy where attention fuels revenue, distraction is not merely an accidental consequence—it is often an intentional outcome of platform design. Understanding this reality does not require rejecting social media altogether. Rather, it calls for using these platforms with greater awareness and purpose.\n\nNavigating the social media era is therefore less about escaping technology and more about mastering our relationship with it. The future will belong not only to those who have access to information, but to those who can filter it, question it, and focus on what truly matters.\n\nIn the end, attention is more than a cognitive resource; it is the foundation upon which learning, creativity, relationships, and meaningful work are built. Protecting it may be one of the most important digital skills of the twenty-first century.\n",
+      "img": "article-images/distraction-by-design/social-media-apps-hero.jpg",
+      "alt": "Smartphone screen showing a Social Media folder with apps such as YouTube, Instagram, Facebook and TikTok",
+      "author": "Busari Oluwashola",
+      "date": "2026-08-02",
+      "readingTime": "8 min read",
+      "featured": false,
+      "status": "published",
+      "hero": false,
+      "heroOrder": null,
+      "externalLink": null,
+      "seoTitle": "Distraction by Design: Navigating Attention in the Social Media Era",
+      "seoDescription": "Social media turned attention into a commodity. How the attention economy captures our focus, why feeds feel addictive, and how to enjoy social platforms without being controlled by them.",
+      "link": "article.html?slug=distraction-by-design",
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 45,
@@ -143,8 +166,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Game",
-      "createdAt": "2026-08-02 22:04:30",
-      "updatedAt": "2026-08-02 22:04:30"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 24,
@@ -166,8 +189,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Technology",
-      "createdAt": "2026-08-02 22:04:30",
-      "updatedAt": "2026-08-02 22:04:30"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 46,
@@ -189,8 +212,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Game",
-      "createdAt": "2026-08-02 22:04:30",
-      "updatedAt": "2026-08-02 22:04:30"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 25,
@@ -212,8 +235,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Technology",
-      "createdAt": "2026-08-02 22:04:30",
-      "updatedAt": "2026-08-02 22:04:30"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 47,
@@ -235,8 +258,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Game",
-      "createdAt": "2026-08-02 22:04:30",
-      "updatedAt": "2026-08-02 22:04:30"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 27,
@@ -258,8 +281,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=AI%20Trends",
-      "createdAt": "2026-08-02 22:04:30",
-      "updatedAt": "2026-08-02 22:04:30"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 26,
@@ -281,8 +304,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Technology",
-      "createdAt": "2026-08-02 22:04:30",
-      "updatedAt": "2026-08-02 22:04:30"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 48,
@@ -304,8 +327,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Game",
-      "createdAt": "2026-08-02 22:04:30",
-      "updatedAt": "2026-08-02 22:04:30"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 28,
@@ -327,8 +350,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Cryptocurrency",
-      "createdAt": "2026-08-02 22:04:30",
-      "updatedAt": "2026-08-02 22:04:30"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 36,
@@ -350,8 +373,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Web%203",
-      "createdAt": "2026-08-02 22:04:30",
-      "updatedAt": "2026-08-02 22:04:30"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 49,
@@ -373,8 +396,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Game",
-      "createdAt": "2026-08-02 22:04:30",
-      "updatedAt": "2026-08-02 22:04:30"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 29,
@@ -396,8 +419,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Cryptocurrency",
-      "createdAt": "2026-08-02 22:04:30",
-      "updatedAt": "2026-08-02 22:04:30"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 37,
@@ -419,8 +442,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Web%203",
-      "createdAt": "2026-08-02 22:04:30",
-      "updatedAt": "2026-08-02 22:04:30"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 50,
@@ -442,8 +465,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Game",
-      "createdAt": "2026-08-02 22:04:30",
-      "updatedAt": "2026-08-02 22:04:30"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 30,
@@ -465,8 +488,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Cryptocurrency",
-      "createdAt": "2026-08-02 22:04:30",
-      "updatedAt": "2026-08-02 22:04:30"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 38,
@@ -488,8 +511,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Web%203",
-      "createdAt": "2026-08-02 22:04:30",
-      "updatedAt": "2026-08-02 22:04:30"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 3,
@@ -511,8 +534,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Web%203",
-      "createdAt": "2026-08-02 22:04:30",
-      "updatedAt": "2026-08-02 22:04:30"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 51,
@@ -534,8 +557,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Game",
-      "createdAt": "2026-08-02 22:04:30",
-      "updatedAt": "2026-08-02 22:04:30"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 31,
@@ -557,8 +580,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Cryptocurrency",
-      "createdAt": "2026-08-02 22:04:30",
-      "updatedAt": "2026-08-02 22:04:30"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 39,
@@ -580,8 +603,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Web%203",
-      "createdAt": "2026-08-02 22:04:30",
-      "updatedAt": "2026-08-02 22:04:30"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 4,
@@ -603,8 +626,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=AI%20Trends",
-      "createdAt": "2026-08-02 22:04:30",
-      "updatedAt": "2026-08-02 22:04:30"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 52,
@@ -626,8 +649,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Game",
-      "createdAt": "2026-08-02 22:04:30",
-      "updatedAt": "2026-08-02 22:04:30"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 32,
@@ -649,8 +672,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Cryptocurrency",
-      "createdAt": "2026-08-02 22:04:30",
-      "updatedAt": "2026-08-02 22:04:30"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 40,
@@ -672,8 +695,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Web%203",
-      "createdAt": "2026-08-02 22:04:30",
-      "updatedAt": "2026-08-02 22:04:30"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 5,
@@ -695,8 +718,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Technology",
-      "createdAt": "2026-08-02 22:04:30",
-      "updatedAt": "2026-08-02 22:04:30"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 33,
@@ -718,8 +741,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Cryptocurrency",
-      "createdAt": "2026-08-02 22:04:30",
-      "updatedAt": "2026-08-02 22:04:30"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 41,
@@ -741,8 +764,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Web%203",
-      "createdAt": "2026-08-02 22:04:30",
-      "updatedAt": "2026-08-02 22:04:30"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 6,
@@ -764,8 +787,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=AI%20Trends",
-      "createdAt": "2026-08-02 22:04:30",
-      "updatedAt": "2026-08-02 22:04:30"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 34,
@@ -787,8 +810,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Cryptocurrency",
-      "createdAt": "2026-08-02 22:04:30",
-      "updatedAt": "2026-08-02 22:04:30"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 42,
@@ -810,8 +833,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Web%203",
-      "createdAt": "2026-08-02 22:04:30",
-      "updatedAt": "2026-08-02 22:04:30"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 7,
@@ -833,8 +856,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Web%203",
-      "createdAt": "2026-08-02 22:04:30",
-      "updatedAt": "2026-08-02 22:04:30"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 35,
@@ -856,8 +879,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Cryptocurrency",
-      "createdAt": "2026-08-02 22:04:30",
-      "updatedAt": "2026-08-02 22:04:30"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 43,
@@ -879,8 +902,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Web%203",
-      "createdAt": "2026-08-02 22:04:30",
-      "updatedAt": "2026-08-02 22:04:30"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 8,
@@ -902,8 +925,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Technology",
-      "createdAt": "2026-08-02 22:04:30",
-      "updatedAt": "2026-08-02 22:04:30"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 44,
@@ -925,8 +948,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Web%203",
-      "createdAt": "2026-08-02 22:04:30",
-      "updatedAt": "2026-08-02 22:04:30"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 9,
@@ -948,8 +971,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Technology",
-      "createdAt": "2026-08-02 22:04:30",
-      "updatedAt": "2026-08-02 22:04:30"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 10,
@@ -971,8 +994,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Technology",
-      "createdAt": "2026-08-02 22:04:30",
-      "updatedAt": "2026-08-02 22:04:30"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 11,
@@ -994,8 +1017,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Web%203",
-      "createdAt": "2026-08-02 22:04:30",
-      "updatedAt": "2026-08-02 22:04:30"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 12,
@@ -1017,8 +1040,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=AI%20Trends",
-      "createdAt": "2026-08-02 22:04:30",
-      "updatedAt": "2026-08-02 22:04:30"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 13,
@@ -1040,8 +1063,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Technology",
-      "createdAt": "2026-08-02 22:04:30",
-      "updatedAt": "2026-08-02 22:04:30"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 14,
@@ -1063,8 +1086,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Technology",
-      "createdAt": "2026-08-02 22:04:30",
-      "updatedAt": "2026-08-02 22:04:30"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 15,
@@ -1086,8 +1109,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=AI%20Trends",
-      "createdAt": "2026-08-02 22:04:30",
-      "updatedAt": "2026-08-02 22:04:30"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 16,
@@ -1109,8 +1132,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Technology",
-      "createdAt": "2026-08-02 22:04:30",
-      "updatedAt": "2026-08-02 22:04:30"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 17,
@@ -1132,8 +1155,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Web%203",
-      "createdAt": "2026-08-02 22:04:30",
-      "updatedAt": "2026-08-02 22:04:30"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 18,
@@ -1155,8 +1178,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=AI%20Trends",
-      "createdAt": "2026-08-02 22:04:30",
-      "updatedAt": "2026-08-02 22:04:30"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 19,
@@ -1178,8 +1201,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Technology",
-      "createdAt": "2026-08-02 22:04:30",
-      "updatedAt": "2026-08-02 22:04:30"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 20,
@@ -1201,8 +1224,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Technology",
-      "createdAt": "2026-08-02 22:04:30",
-      "updatedAt": "2026-08-02 22:04:30"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 21,
@@ -1224,8 +1247,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=AI%20Trends",
-      "createdAt": "2026-08-02 22:04:30",
-      "updatedAt": "2026-08-02 22:04:30"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 22,
@@ -1247,8 +1270,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Game",
-      "createdAt": "2026-08-02 22:04:30",
-      "updatedAt": "2026-08-02 22:04:30"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 23,
@@ -1270,8 +1293,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Cryptocurrency",
-      "createdAt": "2026-08-02 22:04:30",
-      "updatedAt": "2026-08-02 22:04:30"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     }
   ]
 }

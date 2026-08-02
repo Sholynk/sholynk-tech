@@ -26,10 +26,11 @@ test('ensureSeeded populates an empty CMS database once', () => {
 
   assert.equal(seed.ensureSeeded(), true);
   const seededArticles = articles.list({ status: 'published' });
-  assert.equal(seededArticles.length, 55);
+  assert.equal(seededArticles.length, 56);
   assert.equal(seededArticles.filter((article) => article.category === 'Game').length, 9);
   assert.ok(seededArticles.some((article) => article.slug === seed.LONGFORM_SLUG));
+  assert.ok(seededArticles.some((article) => article.slug === 'distraction-by-design'));
 
   assert.equal(seed.ensureSeeded(), false);
-  assert.equal(articles.list({ status: 'published' }).length, 55);
+  assert.equal(articles.list({ status: 'published' }).length, 56);
 });

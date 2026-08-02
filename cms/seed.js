@@ -17,8 +17,17 @@ const { db } = require('./lib/db');
 const seed = JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'seed.json'), 'utf8'));
 
 const LONGFORM_SLUG = 'the-rise-of-quantum-computing';
-// The long-form body is authored in Markdown; article.js renders it via markdown.js.
-const longformBody = fs.readFileSync(path.join(__dirname, 'data', `${LONGFORM_SLUG}.md`), 'utf8');
+
+/**
+ * Long-form bodies live beside seed.json as `<slug>.md` files, authored in
+ * Markdown (article.js renders them via markdown.js). A seed entry whose slug
+ * has a matching body file becomes a full article page; the others keep
+ * pointing at their external links.
+ */
+function loadLongformBody(slug) {
+  const file = path.join(__dirname, 'data', `${slug}.md`);
+  return fs.existsSync(file) ? fs.readFileSync(file, 'utf8') : null;
+}
 
 function estimateReadingTime(body = '') {
   const words = String(body).trim().split(/\s+/).filter(Boolean).length;
@@ -50,7 +59,8 @@ function run() {
   seed.articles.forEach((article) => {
     // An explicit slug in seed.json keeps an article's URL stable across rewrites.
     const slug = articles.slugify(article.slug || article.title);
-    const isLongform = slug === LONGFORM_SLUG;
+    const longformBody = loadLongformBody(slug);
+    const isLongform = longformBody !== null;
     upsert({
       slug,
       title: article.title,
@@ -69,12 +79,8 @@ function run() {
       externalLink: isLongform
         ? null
         : (article.link && !article.link.startsWith('article.html') ? article.link : null),
-      seoTitle: isLongform
-        ? 'Quantum Computing Demystified: qubits, error correction and the road to fault-tolerant machines'
-        : null,
-      seoDescription: isLongform
-        ? 'A plain-language guide to how quantum computers work — superposition, entanglement, error correction, quantum networking and programming — and which problems they will genuinely transform first.'
-        : null
+      seoTitle: article.seoTitle || null,
+      seoDescription: article.seoDescription || null
     });
     created += 1;
   });
