@@ -10,7 +10,7 @@
     heroTimer: null,
     isPaused: false,
     currentPage: 1,
-    cardsPerPage: 8,
+    cardsPerPage: 10,
     query: '',
     category: 'All',
     observer: null
@@ -395,12 +395,29 @@
     });
   }
 
+  /* Tile pattern for the Pinterest-style masonry grid.
+     Each entry defines column span (1 or 2) and row span (3–8).
+     The pattern repeats for pages with more than 10 cards. */
+  const tilePatterns = [
+    { col: 2, row: 5 },  // hero
+    { col: 1, row: 6 },  // portrait
+    { col: 1, row: 4 },  // square
+    { col: 2, row: 3 },  // wide landscape
+    { col: 1, row: 5 },  // portrait
+    { col: 1, row: 3 },  // landscape
+    { col: 1, row: 7 },  // tall portrait
+    { col: 2, row: 4 },  // wide square
+    { col: 1, row: 4 },  // square
+    { col: 1, row: 6 },  // portrait
+  ];
+
   function createCard(article, index) {
     const card = document.createElement('a');
     const hasImage = Boolean(article.img);
     const isWeb3NoImage = article.category === 'Web 3' && !hasImage;
+    const pattern = tilePatterns[index % tilePatterns.length];
     card.href = article.link;
-    card.className = `card${isWeb3NoImage ? ' web3-dark' : ''}${article.featured ? ' featured' : ''}`;
+    card.className = `card card--col-${pattern.col} card--rows-${pattern.row}${isWeb3NoImage ? ' web3-dark' : ''}`;
     card.setAttribute('role', 'article');
     card.dataset.title = article.title;
     card.dataset.category = article.category;
