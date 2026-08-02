@@ -2721,13 +2721,37 @@ textarea:focus {
 }
 
 @media (min-width: 700px) {
+  .cookie-banner {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    bottom: 1.5rem;
+    padding: 1rem 1.5rem;
+  }
+
+  .cookie-banner.is-visible {
+    transform: translateY(-0.5rem);
+  }
+
   .cookie-banner-card {
-    grid-template-columns: 1fr auto;
+    display: flex;
+    flex-wrap: wrap;
     align-items: center;
+    gap: 1.25rem;
+    grid-template-columns: unset;
+  }
+
+  .cookie-banner-main {
+    flex: 1 1 22rem;
+    min-width: 0;
   }
 
   .cookie-banner-actions {
+    display: flex;
+    flex-wrap: wrap;
     align-self: center;
+    justify-content: flex-end;
+    flex: 0 0 auto;
   }
 }
 

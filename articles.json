@@ -174,5 +174,181 @@
     "description": "Stablecoins are becoming a bridge between traditional finance and programmable internet-native money.",
     "img": "https://images.unsplash.com/photo-1621761191319-c6fb62004040?auto=format&fit=crop&w=160&q=80",
     "alt": "Cryptocurrency coins and a financial chart"
+  },
+  {
+    "title": "Mastering the art of coding",
+    "link": "article_01.html",
+    "category": "Technology",
+    "description": "Syntax is the easy part. These are the ten habits that separate finishing a tutorial from being trusted with production code.",
+    "img": "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=900&q=80",
+    "alt": "Developer working at a desk with two monitors displaying source code"
+  },
+  {
+    "title": "Building Resilient Software Systems in 2026",
+    "link": "index.html?category=Technology",
+    "category": "Technology",
+    "description": "Reliability is a product feature. Here's how modern teams design for failure without slowing delivery.",
+    "img": "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=900&q=80",
+    "alt": "Close-up of a circuit board representing resilient software systems"
+  },
+  {
+    "title": "Open Source Infrastructure That Powers Modern Startups",
+    "link": "index.html?category=Technology",
+    "category": "Technology",
+    "description": "From Linux to Kubernetes, open source tooling remains the backbone of fast-moving product teams.",
+    "img": "https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=900&q=80",
+    "alt": "Developer workspace with code on a laptop screen"
+  },
+  {
+    "title": "Chip Design Breakthroughs Driving Faster Devices",
+    "link": "index.html?category=Technology",
+    "category": "Technology",
+    "description": "New semiconductor architectures are unlocking performance gains while keeping power budgets in check.",
+    "img": "https://images.unsplash.com/photo-1518773553398-650c184e0bb3?auto=format&fit=crop&w=900&q=80",
+    "alt": "Macro photo of a computer processor chip"
+  },
+  {
+    "title": "Multimodal AI Models Are Changing How Software Understands the World",
+    "link": "index.html?category=AI%20Trends",
+    "category": "AI Trends",
+    "description": "Systems that reason across text, images, audio and video are opening new product surfaces for builders.",
+    "img": "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=900&q=80",
+    "alt": "Abstract visualization of a multimodal artificial intelligence network"
+  },
+  {
+    "title": "Bitcoin ETFs and the New Wave of Institutional Adoption",
+    "link": "index.html?category=Cryptocurrency",
+    "category": "Cryptocurrency",
+    "description": "Regulated investment products are changing who can hold bitcoin and how traditional finance participates.",
+    "img": "https://images.unsplash.com/photo-1518546305927-5a555bb7020d?auto=format&fit=crop&w=900&q=80",
+    "alt": "Bitcoin coin resting on a financial chart"
+  },
+  {
+    "title": "Layer 2 Networks Explained: Scaling Crypto Without Compromise",
+    "link": "index.html?category=Cryptocurrency",
+    "category": "Cryptocurrency",
+    "description": "Rollups and sidechains are making blockchain transactions faster and cheaper for everyday use.",
+    "img": "https://images.unsplash.com/photo-1639322537504-6427a16b0a28?auto=format&fit=crop&w=900&q=80",
+    "alt": "Abstract blockchain network nodes representing layer 2 scaling"
+  },
+  {
+    "title": "Crypto Wallets: Hot, Cold and What Everyday Users Should Choose",
+    "link": "index.html?category=Cryptocurrency",
+    "category": "Cryptocurrency",
+    "description": "Custody choices shape security, convenience and recovery \u2014 here's a practical guide for new holders.",
+    "img": "https://images.unsplash.com/photo-1621761191319-c6fb62004040?auto=format&fit=crop&w=900&q=80",
+    "alt": "Cryptocurrency hardware and digital wallet concept"
+  },
+  {
+    "title": "How Central Bank Digital Currencies Differ from Crypto",
+    "link": "index.html?category=Cryptocurrency",
+    "category": "Cryptocurrency",
+    "description": "CBDCs share digital rails with crypto markets, but their design goals and trust models are very different.",
+    "img": "https://images.unsplash.com/photo-1640340434855-6084b1f4901c?auto=format&fit=crop&w=900&q=80",
+    "alt": "Digital currency coins on a trading chart"
+  },
+  {
+    "title": "On-Chain Analytics: Reading the Market Beyond Price Charts",
+    "link": "index.html?category=Cryptocurrency",
+    "category": "Cryptocurrency",
+    "description": "Wallet flows, exchange reserves and network activity give traders a deeper view of crypto market structure.",
+    "img": "https://images.unsplash.com/photo-1642104704074-907c0698cbd9?auto=format&fit=crop&w=900&q=80",
+    "alt": "Laptop displaying cryptocurrency market analytics"
+  },
+  {
+    "title": "Mining, Staking and the Energy Debate Around Digital Assets",
+    "link": "index.html?category=Cryptocurrency",
+    "category": "Cryptocurrency",
+    "description": "Proof-of-work and proof-of-stake secure networks differently \u2014 and that shapes environmental impact.",
+    "img": "https://images.unsplash.com/photo-1518546305927-5a555bb7020d?auto=format&fit=crop&w=900&q=80",
+    "alt": "Gold bitcoin coin symbolizing crypto mining and staking"
+  },
+  {
+    "title": "Crypto Security Basics Every New Investor Should Know",
+    "link": "index.html?category=Cryptocurrency",
+    "category": "Cryptocurrency",
+    "description": "Seed phrases, phishing and fake apps remain the biggest risks \u2014 simple habits prevent most losses.",
+    "img": "https://images.unsplash.com/photo-1563986768494-4dee2763ff3f?auto=format&fit=crop&w=900&q=80",
+    "alt": "Cybersecurity monitoring screen for crypto protection"
+  },
+  {
+    "title": "The Rise of Tokenized Treasuries and On-Chain Yield",
+    "link": "index.html?category=Cryptocurrency",
+    "category": "Cryptocurrency",
+    "description": "Real-world yield products are bringing familiar financial instruments onto blockchain settlement rails.",
+    "img": "https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&w=900&q=80",
+    "alt": "Person using a payment card representing digital yield products"
+  },
+  {
+    "title": "DAOs in Practice: What Works and What Still Doesn't",
+    "link": "index.html?category=Web%203",
+    "category": "Web 3",
+    "description": "Community governance is powerful, but tooling, incentives and legal wrappers still decide real outcomes.",
+    "img": "https://images.unsplash.com/photo-1639322537504-6427a16b0a28?auto=format&fit=crop&w=900&q=80",
+    "alt": "Decentralized network graphic representing DAO governance"
+  },
+  {
+    "title": "NFTs After the Hype: Utility, Media and Membership",
+    "link": "index.html?category=Web%203",
+    "category": "Web 3",
+    "description": "The strongest NFT projects now focus on access, provenance and creator tooling rather than speculation alone.",
+    "img": "https://images.unsplash.com/photo-1642104704074-907c0698cbd9?auto=format&fit=crop&w=900&q=80",
+    "alt": "Digital art and blockchain interface on a laptop"
+  },
+  {
+    "title": "Smart Contract Audits: Why Security Reviews Matter",
+    "link": "index.html?category=Web%203",
+    "category": "Web 3",
+    "description": "Immutable code needs careful review. Audits, bug bounties and formal methods reduce costly on-chain failures.",
+    "img": "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=900&q=80",
+    "alt": "Server room representing secure smart contract infrastructure"
+  },
+  {
+    "title": "Decentralized Social Networks and the Creator Economy",
+    "link": "index.html?category=Web%203",
+    "category": "Web 3",
+    "description": "Open social protocols aim to give creators portable audiences and users ownership of their digital graph.",
+    "img": "https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&w=900&q=80",
+    "alt": "Smartphone with social media apps representing decentralized social"
+  },
+  {
+    "title": "Interoperability Bridges: Connecting Fragmented Blockchains",
+    "link": "index.html?category=Web%203",
+    "category": "Web 3",
+    "description": "Cross-chain bridges unlock liquidity and users, but they also concentrate some of Web3's hardest security risks.",
+    "img": "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?auto=format&fit=crop&w=900&q=80",
+    "alt": "Blockchain technology concept with connected digital blocks"
+  },
+  {
+    "title": "Zero-Knowledge Proofs Are Making Privacy Practical",
+    "link": "index.html?category=Web%203",
+    "category": "Web 3",
+    "description": "ZK cryptography lets apps verify facts without revealing underlying data \u2014 a foundation for private Web3 products.",
+    "img": "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=900&q=80",
+    "alt": "Glowing circuit board representing zero-knowledge cryptography"
+  },
+  {
+    "title": "Web3 Gaming Economies: Designing Play That Lasts",
+    "link": "index.html?category=Web%203",
+    "category": "Web 3",
+    "description": "Sustainable game economies need careful token design, real gameplay loops and player-first incentives.",
+    "img": "https://images.unsplash.com/photo-1556438064-2d7646166914?auto=format&fit=crop&w=900&q=80",
+    "alt": "Gaming controller with neon lighting for Web3 gaming"
+  },
+  {
+    "title": "Decentralized Storage Networks for the Open Web",
+    "link": "index.html?category=Web%203",
+    "category": "Web 3",
+    "description": "IPFS, Filecoin and similar networks are reshaping how apps host media, archives and user-owned data.",
+    "img": "https://images.unsplash.com/photo-1544197150-b99a580bb7a2?auto=format&fit=crop&w=900&q=80",
+    "alt": "Network cables and servers representing decentralized storage"
+  },
+  {
+    "title": "Wallet UX Is the Next Frontier for Mass Web3 Adoption",
+    "link": "index.html?category=Web%203",
+    "category": "Web 3",
+    "description": "Account abstraction, passkeys and smarter defaults are making onboarding far less intimidating for new users.",
+    "img": "https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&w=900&q=80",
+    "alt": "Person completing a digital payment representing wallet UX"
   }
 ]
