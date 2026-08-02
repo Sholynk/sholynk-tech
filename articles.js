@@ -21,15 +21,11 @@
   }
 
   function normalizeArticleLink(link = '') {
-    if (!link || link.includes('../articles/')) return 'article_01.html';
-    return link;
+    return link || 'article_01.html';
   }
 
   function normalizeImage(image = '') {
-    if (!image || image.includes('../images/')) {
-      return 'photo-1550751827-4bd374c3f58b[1].jpeg';
-    }
-    return image;
+    return image || 'photo-1550751827-4bd374c3f58b[1].jpeg';
   }
 
   function createResult(article) {

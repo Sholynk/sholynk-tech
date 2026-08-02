@@ -35,29 +35,28 @@
    ========================================================================== */
 
 :root {
-  --brand-950: #0f172a;
-  --brand-900: #111827;
-  --brand-800: #1e293b;
-  --brand-700: #1e40af;
-  --brand-600: #2563eb;
-  --brand-500: #3b82f6;
-  --accent: #38bdf8;
-  --ink: #0f172a;
-  --muted: #526071;
+  --brand-black: #000000;
+  --brand-dark: #0f1419;
+  --brand-deep: #1a1f26;
+  --brand-accent: #1d9bf0;
+  --brand-accent-hover: #1a8cd8;
+  --accent: #1d9bf0;
+  --ink: #000000;
+  --muted: #536471;
   --surface: #ffffff;
-  --surface-soft: #f8fbff;
-  --line: rgba(37, 99, 235, 0.16);
-  --shadow-sm: 0 10px 30px rgba(15, 23, 42, 0.08);
-  --shadow-md: 0 20px 55px rgba(15, 23, 42, 0.14);
+  --surface-soft: #f7f9f9;
+  --line: rgba(29, 155, 240, 0.16);
+  --shadow-sm: 0 10px 30px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 20px 55px rgba(0, 0, 0, 0.14);
   --radius-sm: 0.65rem;
   --radius-md: 1rem;
   --radius-lg: 1.5rem;
   --container: 76rem;
 
   /* Solid chrome colours for the navbar and footer (no gradients). */
-  --header-bg: #0f172a;
-  --footer-bg: #0f172a;
-  --footer-legal-bg: #1e293b;
+  --header-bg: #000000;
+  --footer-bg: #000000;
+  --footer-legal-bg: #0f1419;
 }
 
 /* ==========================================================================
@@ -90,10 +89,10 @@ body {
   background:
     radial-gradient(
       circle at top left,
-      rgba(59, 130, 246, 0.16),
+      rgba(29, 155, 240, 0.12),
       transparent 32rem
     ),
-    linear-gradient(180deg, #f8fbff 0%, #eef6ff 52%, #f8fbff 100%);
+    linear-gradient(180deg, #f7f9f9 0%, #ffffff 52%, #f7f9f9 100%);
   display: flex;
   flex-direction: column;
   overflow-x: hidden;
@@ -133,15 +132,15 @@ button {
 code {
   padding: 0.1em 0.35em;
   border-radius: 0.35rem;
-  background: rgba(37, 99, 235, 0.1);
-  color: #1e3a8a;
+  background: rgba(29, 155, 240, 0.1);
+  color: #1d9bf0;
   font-family:
     ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
   font-size: 0.9em;
 }
 
 :focus-visible {
-  outline: 3px solid rgba(56, 189, 248, 0.9);
+  outline: 3px solid rgba(29, 155, 240, 0.9);
   outline-offset: 3px;
   border-radius: 0.35rem;
 }
@@ -159,7 +158,7 @@ code {
   padding: 0.75rem 1rem;
   border-radius: 999px;
   background: #fff;
-  color: var(--brand-950);
+  color: var(--brand-black, #000000);
   box-shadow: var(--shadow-sm);
   font-size: 0.8rem;
   font-weight: 800;
@@ -173,7 +172,7 @@ code {
 /* Small uppercase label used above section headings. */
 .eyebrow {
   margin: 0 0 0.55rem;
-  color: var(--brand-600);
+  color: var(--brand-accent, #1d9bf0);
   font-size: 0.72rem;
   font-weight: 900;
   letter-spacing: 0.12em;
@@ -182,7 +181,7 @@ code {
 
 .section-heading {
   margin: 0;
-  color: var(--brand-950);
+  color: var(--brand-black, #000000);
   font-size: clamp(1.55rem, 3vw, 2.55rem);
   line-height: 1.08;
   font-weight: 900;
@@ -206,7 +205,7 @@ code {
   padding: 0.32rem 0.62rem;
   border-radius: 999px;
   color: #fff;
-  background: linear-gradient(135deg, var(--brand-600), #0ea5e9);
+  background: linear-gradient(135deg, var(--brand-accent, #1d9bf0), var(--brand-accent-hover, #1a8cd8));
   font-size: 0.64rem;
   font-weight: 900;
   letter-spacing: 0.07em;
@@ -223,8 +222,8 @@ code {
   padding: 0.65rem 1.5rem;
   border-radius: 999px;
   color: #fff;
-  background: linear-gradient(135deg, var(--brand-950), var(--brand-700));
-  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.18);
+  background: linear-gradient(135deg, var(--brand-black, #000000), var(--brand-dark, #0f1419));
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
   font-size: 0.875rem;
   font-weight: 900;
   transition:
@@ -234,13 +233,13 @@ code {
 
 .btn-primary:hover {
   transform: translateY(-1px);
-  box-shadow: 0 16px 34px rgba(15, 23, 42, 0.24);
+  box-shadow: 0 16px 34px rgba(0, 0, 0, 0.24);
 }
 
 .empty-state {
   grid-column: 1 / -1;
   padding: clamp(2rem, 5vw, 4rem);
-  border: 1px dashed rgba(37, 99, 235, 0.28);
+  border: 1px dashed rgba(29, 155, 240, 0.28);
   border-radius: var(--radius-lg);
   text-align: center;
   background: rgba(255, 255, 255, 0.72);
@@ -249,7 +248,7 @@ code {
 
 .empty-state h3 {
   margin: 0 0 0.45rem;
-  color: var(--brand-950);
+  color: var(--brand-black, #000000);
   font-size: 1.3rem;
   font-weight: 900;
 }
@@ -258,7 +257,7 @@ code {
    4. Header and primary navigation
    --------------------------------------------------------------------------
    Solid background (no gradient) so text and icons sit on one predictable
-   colour. #0f172a against #ffffff text is roughly 16.9:1 — comfortably AAA.
+   colour. #000000 against #ffffff text is roughly 21:1 — comfortably AAA.
    ========================================================================== */
 
 .site-header {
@@ -266,7 +265,7 @@ code {
   top: 0;
   z-index: 900;
   background: var(--header-bg);
-  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.18);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
 }
 
 .site-header-inner {
@@ -383,11 +382,11 @@ code {
   background:
     radial-gradient(
       circle at top right,
-      rgba(56, 189, 248, 0.28),
+      rgba(29, 155, 240, 0.28),
       transparent 18rem
     ),
-    linear-gradient(160deg, #0f172a 0%, #172554 100%);
-  box-shadow: -28px 0 80px rgba(15, 23, 42, 0.45);
+    linear-gradient(160deg, #000000 0%, #0f1419 100%);
+  box-shadow: -28px 0 80px rgba(0, 0, 0, 0.45);
   overflow-x: hidden;
   overflow-y: auto;
   overscroll-behavior: contain;
@@ -468,7 +467,7 @@ code {
 .sidebar li.highlighted a,
 .sidebar li a[aria-current="page"] {
   color: #fff;
-  background: rgba(59, 130, 246, 0.38);
+  background: rgba(29, 155, 240, 0.38);
   transform: translateX(4px);
 }
 
@@ -494,7 +493,7 @@ code {
   position: fixed;
   inset: 0;
   z-index: 1100;
-  background: rgba(15, 23, 42, 0.58);
+  background: rgba(0, 0, 0, 0.58);
   opacity: 0;
   pointer-events: none;
   transition: opacity 220ms ease;
@@ -515,7 +514,7 @@ code {
   width: 100%;
   min-height: clamp(28rem, 62vw, 42rem);
   overflow: hidden;
-  background: var(--brand-950);
+  background: var(--brand-black, #000000);
   color: #fff;
 }
 
@@ -572,13 +571,13 @@ code {
   background:
     linear-gradient(
       90deg,
-      rgba(15, 23, 42, 0.9) 0%,
-      rgba(15, 23, 42, 0.64) 48%,
-      rgba(37, 99, 235, 0.28) 100%
+      rgba(0, 0, 0, 0.9) 0%,
+      rgba(0, 0, 0, 0.64) 48%,
+      rgba(29, 155, 240, 0.28) 100%
     ),
     radial-gradient(
       circle at 78% 22%,
-      rgba(56, 189, 248, 0.3),
+      rgba(29, 155, 240, 0.3),
       transparent 24rem
     );
   z-index: 2;
@@ -601,7 +600,7 @@ code {
   padding: 0.42rem 0.8rem;
   border-radius: 999px;
   color: #dff6ff;
-  background: rgba(37, 99, 235, 0.72);
+  background: rgba(29, 155, 240, 0.72);
   border: 1px solid rgba(255, 255, 255, 0.2);
   font-size: 0.7rem;
   font-weight: 900;
@@ -610,7 +609,7 @@ code {
 }
 
 /* The slide headline.
-   Bug fix: this used to inherit `color: var(--brand-950)` from a generic
+   Bug fix: this used to inherit `color: var(--brand-black, #000000)` from a generic
    `main > section h1` rule, rendering near-black text on the dark hero scrim —
    effectively invisible. The colour is now set explicitly here, with a soft
    shadow so the headline keeps its contrast over the lighter regions of any
@@ -625,8 +624,8 @@ code {
   letter-spacing: -0.06em;
   text-wrap: balance;
   text-shadow:
-    0 2px 18px rgba(15, 23, 42, 0.55),
-    0 1px 3px rgba(15, 23, 42, 0.4);
+    0 2px 18px rgba(0, 0, 0, 0.55),
+    0 1px 3px rgba(0, 0, 0, 0.4);
 }
 
 .hero-content p {
@@ -635,7 +634,7 @@ code {
   color: rgba(255, 255, 255, 0.88);
   font-size: clamp(0.98rem, 2vw, 1.18rem);
   line-height: 1.75;
-  text-shadow: 0 1px 12px rgba(15, 23, 42, 0.45);
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.45);
 }
 
 .hero-content a,
@@ -648,8 +647,8 @@ code {
   padding: 0.8rem 1.15rem;
   border-radius: 999px;
   color: #fff;
-  background: linear-gradient(135deg, var(--brand-600), #0ea5e9);
-  box-shadow: 0 14px 36px rgba(37, 99, 235, 0.35);
+  background: linear-gradient(135deg, var(--brand-accent, #1d9bf0), var(--brand-accent-hover, #1a8cd8));
+  box-shadow: 0 14px 36px rgba(29, 155, 240, 0.35);
   font-size: 0.86rem;
   font-weight: 900;
   transition:
@@ -660,7 +659,7 @@ code {
 .hero-content a:hover,
 .primary-link:hover {
   transform: translateY(-2px);
-  box-shadow: 0 20px 46px rgba(37, 99, 235, 0.45);
+  box-shadow: 0 20px 46px rgba(29, 155, 240, 0.45);
 }
 
 .hero-controls {
@@ -699,7 +698,7 @@ code {
 .hero-control:hover,
 .hero-dot:hover,
 .hero-dot.active {
-  background: rgba(56, 189, 248, 0.75);
+  background: rgba(29, 155, 240, 0.75);
   transform: translateY(-1px);
 }
 
@@ -748,7 +747,7 @@ code {
 
 .home-toolbar h2 {
   margin: 0;
-  color: var(--brand-950);
+  color: var(--brand-black, #000000);
   font-size: clamp(1.55rem, 3vw, 2.55rem);
   line-height: 1.08;
   font-weight: 900;
@@ -783,7 +782,7 @@ code {
   top: 50%;
   left: 0.95rem;
   transform: translateY(-50%);
-  color: var(--brand-600);
+  color: var(--brand-accent, #1d9bf0);
   font-size: 0.9rem;
 }
 
@@ -826,8 +825,8 @@ input[type="email"]:focus,
 input[type="search"]:focus,
 textarea:focus {
   outline: none;
-  border-color: rgba(37, 99, 235, 0.8);
-  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+  border-color: rgba(29, 155, 240, 0.8);
+  box-shadow: 0 0 0 4px rgba(29, 155, 240, 0.12);
 }
 
 .search-actions {
@@ -849,9 +848,9 @@ textarea:focus {
 .search-actions button[type="submit"] {
   min-height: 2.65rem;
   padding-inline: 1rem;
-  background: linear-gradient(135deg, var(--brand-950), var(--brand-700));
+  background: linear-gradient(135deg, var(--brand-black, #000000), var(--brand-dark, #0f1419));
   color: #fff;
-  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.18);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
 }
 
 .search-actions button:hover {
@@ -861,8 +860,8 @@ textarea:focus {
 #clearSearch {
   min-height: 2.65rem;
   padding: 0 0.9rem;
-  color: var(--brand-700);
-  background: rgba(37, 99, 235, 0.08);
+  color: var(--brand-accent, #1d9bf0);
+  background: rgba(29, 155, 240, 0.08);
 }
 
 .category-filters {
@@ -884,7 +883,7 @@ textarea:focus {
   border: 1px solid rgba(148, 163, 184, 0.32);
   font-size: 0.78rem;
   font-weight: 900;
-  box-shadow: 0 8px 22px rgba(15, 23, 42, 0.05);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.05);
   transition:
     transform 180ms ease,
     background 180ms ease,
@@ -895,8 +894,8 @@ textarea:focus {
 .category-chip:hover,
 .category-chip.active {
   color: #fff;
-  background: var(--brand-600);
-  border-color: var(--brand-600);
+  background: var(--brand-accent, #1d9bf0);
+  border-color: var(--brand-accent, #1d9bf0);
   transform: translateY(-1px);
 }
 
@@ -916,21 +915,29 @@ textarea:focus {
   font-weight: 700;
 }
 
-/* Edge-to-edge responsive grid.
-   ------------------------------------------------------------------
-   Why this layout instead of repeat(12, ...) + span 4 / span 6?
-   The previous 12-column grid forced a fixed 1rem gap on both axes
-   and used span 6 for the hero / every 6th card, which left an
-   orphan 2-column slot at the end of each hero row and produced
-   visible gutters between cards. The auto-fit grid below fills
-   every track in every row so there is no dead space between
-   cards, and the cards themselves draw the visual separation
-   (border + radius + shadow) instead of relying on CSS gaps. */
+/* Responsive card grid — consistent sizing, no orphaned spans.
+   Uses media-query-driven column counts instead of auto-fit/minmax
+   which can produce uneven trailing columns. Every track fills the
+   row completely with no dead space between cards. */
 #cardsContainer {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(17.5rem, 100%), 1fr));
+  grid-template-columns: repeat(1, 1fr);
   gap: 1.25rem;
   align-items: stretch;
+}
+
+/* 2 columns from 600px */
+@media (min-width: 600px) {
+  #cardsContainer {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* 3 columns from 960px */
+@media (min-width: 960px) {
+  #cardsContainer {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
 .card {
@@ -966,21 +973,10 @@ textarea:focus {
   box-shadow: var(--shadow-md);
 }
 
-/* "Featured" treatment: the lead card on every batch of 6 spans two
-   columns and gets a taller media area, so the page reads as one
-   hero story + supporting cards rather than a flat wall. The
-   override on nth-child(6n) keeps the rhythm going on later rows
-   when a batch is split by pagination. */
-.card.featured,
-.card:nth-child(6n) {
-  grid-column: span 2;
+/* Only explicitly-marked featured cards span full width. */
+.card.featured {
+  grid-column: 1 / -1;
 }
-
-@media (max-width: 700px) {
-  .card.featured,
-  .card:nth-child(6n) {
-    grid-column: 1 / -1;
-  }
 }
 
 .card-media {
@@ -989,8 +985,8 @@ textarea:focus {
   overflow: hidden;
   background: linear-gradient(
     135deg,
-    rgba(37, 99, 235, 0.14),
-    rgba(15, 23, 42, 0.08)
+    rgba(29, 155, 240, 0.14),
+    rgba(0, 0, 0, 0.08)
   );
 }
 
@@ -1026,7 +1022,7 @@ textarea:focus {
 
 .card h3 {
   margin: 0;
-  color: var(--brand-950);
+  color: var(--brand-black, #000000);
   font-size: clamp(1rem, 1.35vw, 1.25rem);
   line-height: 1.25;
   font-weight: 900;
@@ -1047,7 +1043,7 @@ textarea:focus {
   gap: 0.8rem;
   margin-top: auto;
   padding-top: 0.25rem;
-  color: var(--brand-600);
+  color: var(--brand-accent, #1d9bf0);
   font-size: 0.8rem;
   font-weight: 900;
 }
@@ -1067,10 +1063,10 @@ textarea:focus {
   background:
     radial-gradient(
       circle at 100% 0%,
-      rgba(56, 189, 248, 0.28),
+      rgba(29, 155, 240, 0.28),
       transparent 16rem
     ),
-    linear-gradient(145deg, #0f172a 0%, #1d4ed8 100%);
+    linear-gradient(145deg, #000000 0%, var(--brand-accent, #1d9bf0) 100%);
 }
 
 .card.web3-dark .card-body,
@@ -1120,7 +1116,7 @@ textarea:focus {
   padding: 0.55rem 0.8rem;
   border-radius: 999px;
   color: #fff;
-  background: var(--brand-950);
+  background: var(--brand-black, #000000);
   font-weight: 900;
   transition:
     transform 180ms ease,
@@ -1136,7 +1132,7 @@ textarea:focus {
 
 #paginationNumbers button.active,
 #paginationNumbers button[aria-current="page"] {
-  background: var(--brand-600);
+  background: var(--brand-accent, #1d9bf0);
 }
 
 #prevPage:disabled,
@@ -1164,7 +1160,7 @@ textarea:focus {
 
 .page-title {
   margin: 0 0 1rem;
-  color: var(--brand-950);
+  color: var(--brand-black, #000000);
   font-size: clamp(1.75rem, 4vw, 2.35rem);
   font-weight: 800;
   letter-spacing: -0.04em;
@@ -1212,12 +1208,12 @@ textarea:focus {
   margin: 1rem 0 0;
   font-size: 1.25rem;
   font-weight: 700;
-  color: var(--brand-950);
+  color: var(--brand-black, #000000);
 }
 
 .about-role {
   margin: 0.25rem 0 0;
-  color: var(--brand-600);
+  color: var(--brand-accent, #1d9bf0);
   font-size: 0.875rem;
   font-weight: 600;
 }
@@ -1237,8 +1233,8 @@ textarea:focus {
   width: 2.35rem;
   height: 2.35rem;
   border-radius: 999px;
-  color: var(--brand-600);
-  background: rgba(37, 99, 235, 0.1);
+  color: var(--brand-accent, #1d9bf0);
+  background: rgba(29, 155, 240, 0.1);
   transition:
     transform 180ms ease,
     background 180ms ease,
@@ -1247,7 +1243,7 @@ textarea:focus {
 
 .about-profile-links a:hover {
   color: #fff;
-  background: var(--brand-600);
+  background: var(--brand-accent, #1d9bf0);
   transform: translateY(-1px);
 }
 
@@ -1261,7 +1257,7 @@ textarea:focus {
 
 .about-content h1 {
   margin: 0;
-  color: var(--brand-950);
+  color: var(--brand-black, #000000);
   font-size: clamp(1.75rem, 4vw, 2.35rem);
   font-weight: 800;
   letter-spacing: -0.04em;
@@ -1269,7 +1265,7 @@ textarea:focus {
 
 .about-content h2 {
   margin: 0;
-  color: var(--brand-950);
+  color: var(--brand-black, #000000);
   font-size: 1.25rem;
   font-weight: 700;
   letter-spacing: -0.02em;
@@ -1305,13 +1301,13 @@ textarea:focus {
   margin-bottom: 0.6rem;
   border-radius: 0.75rem;
   color: #fff;
-  background: linear-gradient(135deg, var(--brand-950), var(--brand-700));
+  background: linear-gradient(135deg, var(--brand-black, #000000), var(--brand-dark, #0f1419));
   font-size: 1rem;
 }
 
 .about-value-card h3 {
   margin: 0 0 0.35rem;
-  color: var(--brand-950);
+  color: var(--brand-black, #000000);
   font-size: 0.95rem;
   font-weight: 700;
 }
@@ -1328,7 +1324,7 @@ textarea:focus {
 .faq-group-title {
   max-width: 48rem;
   margin: 2rem 0 1rem;
-  color: var(--brand-950);
+  color: var(--brand-black, #000000);
   font-size: 1.05rem;
   font-weight: 800;
 }
@@ -1352,14 +1348,14 @@ textarea:focus {
 }
 
 .faq-summary {
-  color: var(--brand-600);
+  color: var(--brand-accent, #1d9bf0);
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
 }
 
 .faq-item[open] .faq-summary {
-  color: var(--brand-700);
+  color: var(--brand-accent, #1d9bf0);
 }
 
 .faq-answer {
@@ -1370,7 +1366,7 @@ textarea:focus {
 }
 
 .faq-answer a {
-  color: var(--brand-600);
+  color: var(--brand-accent, #1d9bf0);
   font-weight: 600;
 }
 
@@ -1387,13 +1383,13 @@ textarea:focus {
 
 .help-cta-secondary {
   background: #fff;
-  color: var(--brand-700);
-  border: 1px solid rgba(37, 99, 235, 0.3);
+  color: var(--brand-accent, #1d9bf0);
+  border: 1px solid rgba(29, 155, 240, 0.3);
   box-shadow: none;
 }
 
 .help-cta-secondary:hover {
-  background: rgba(37, 99, 235, 0.06);
+  background: rgba(29, 155, 240, 0.06);
 }
 
 /* --- Privacy policy (legal) ------------------------------------------------ */
@@ -1413,7 +1409,7 @@ textarea:focus {
 
 .legal-section h2 {
   margin: 0 0 0.5rem;
-  color: var(--brand-950);
+  color: var(--brand-black, #000000);
   font-size: 1.125rem;
   font-weight: 600;
 }
@@ -1426,7 +1422,7 @@ textarea:focus {
 }
 
 .legal-section p a {
-  color: var(--brand-600);
+  color: var(--brand-accent, #1d9bf0);
   font-weight: 600;
 }
 
@@ -1449,7 +1445,7 @@ textarea:focus {
 }
 
 .legal-address a {
-  color: var(--brand-600);
+  color: var(--brand-accent, #1d9bf0);
   font-style: normal;
 }
 
@@ -1478,7 +1474,7 @@ textarea:focus {
 
 .cookie-table-head {
   background: var(--surface-soft);
-  color: var(--brand-950);
+  color: var(--brand-black, #000000);
   font-weight: 800;
   font-size: 0.72rem;
   text-transform: uppercase;
@@ -1486,7 +1482,7 @@ textarea:focus {
 }
 
 .cookie-table-row span:first-child strong {
-  color: var(--brand-950);
+  color: var(--brand-black, #000000);
 }
 
 @media (min-width: 700px) {
@@ -1525,7 +1521,7 @@ textarea:focus {
 }
 
 .form-field label {
-  color: var(--brand-950);
+  color: var(--brand-black, #000000);
   font-size: 0.75rem;
   font-weight: 600;
 }
@@ -1556,7 +1552,7 @@ textarea:focus {
   margin: 0 0 0.5rem;
   font-size: 1rem;
   font-weight: 700;
-  color: var(--brand-950);
+  color: var(--brand-black, #000000);
 }
 
 .contact-details p {
@@ -1569,12 +1565,12 @@ textarea:focus {
 }
 
 .contact-details a:hover {
-  color: var(--brand-600);
+  color: var(--brand-accent, #1d9bf0);
 }
 
 .contact-details i {
   margin-right: 0.5rem;
-  color: var(--brand-600);
+  color: var(--brand-accent, #1d9bf0);
 }
 
 .contact-response-time {
@@ -1590,11 +1586,11 @@ textarea:focus {
 }
 
 .contact-social-links a {
-  color: var(--brand-600);
+  color: var(--brand-accent, #1d9bf0);
 }
 
 .contact-social-links a:hover {
-  color: var(--brand-950);
+  color: var(--brand-black, #000000);
 }
 
 .contact-faq-nudge p {
@@ -1604,7 +1600,7 @@ textarea:focus {
 }
 
 .contact-faq-nudge a {
-  color: var(--brand-600);
+  color: var(--brand-accent, #1d9bf0);
   font-weight: 700;
 }
 
@@ -1643,7 +1639,7 @@ textarea:focus {
 
 .modal-card h2 {
   margin: 0 0 1rem;
-  color: var(--brand-600);
+  color: var(--brand-accent, #1d9bf0);
   font-size: 1.25rem;
   font-weight: 700;
 }
@@ -1665,14 +1661,14 @@ textarea:focus {
   z-index: 900;
   height: 3px;
   width: 100%;
-  background: rgba(15, 23, 42, 0.08);
+  background: rgba(0, 0, 0, 0.08);
 }
 
 .reading-progress span {
   display: block;
   height: 100%;
   width: 0;
-  background: linear-gradient(90deg, #2563eb, #38bdf8);
+  background: linear-gradient(90deg, var(--brand-accent, #1d9bf0), var(--brand-accent-hover, #1a8cd8));
   transition: width 120ms linear;
 }
 
@@ -1700,7 +1696,7 @@ textarea:focus {
 }
 
 .article-breadcrumb a {
-  color: #2563eb;
+  color: #1d9bf0;
   font-weight: 700;
 }
 
@@ -1714,7 +1710,7 @@ textarea:focus {
   line-height: 1.12;
   letter-spacing: -0.03em;
   font-weight: 900;
-  color: #0f172a;
+  color: #000000;
 }
 
 .article-standfirst {
@@ -1737,7 +1733,7 @@ textarea:focus {
 }
 
 .article-meta i {
-  color: #2563eb;
+  color: #1d9bf0;
   margin-right: 0.15rem;
 }
 
@@ -1748,7 +1744,7 @@ textarea:focus {
 .article-hero img {
   width: 100%;
   border-radius: 1rem;
-  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.16);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.16);
   object-fit: cover;
 }
 
@@ -1762,8 +1758,8 @@ textarea:focus {
 }
 
 .article-toc {
-  background: #f1f5fb;
-  border: 1px solid #dbe4f0;
+  background: #e8f5fd;
+  border: 1px solid #cce4f7;
   border-radius: 1rem;
   padding: 1.1rem 1.25rem;
   margin: 0 0 2rem;
@@ -1778,7 +1774,7 @@ textarea:focus {
 }
 
 .article-toc a {
-  color: #1e40af;
+  color: #1d9bf0;
   font-weight: 600;
 }
 .article-toc a:hover {
@@ -1799,7 +1795,7 @@ textarea:focus {
   font-size: 1.16rem;
   line-height: 1.7;
   font-weight: 500;
-  color: #0f172a;
+  color: #000000;
 }
 
 .article-body h2 {
@@ -1807,7 +1803,7 @@ textarea:focus {
   font-size: clamp(1.35rem, 3vw, 1.7rem);
   font-weight: 900;
   letter-spacing: -0.02em;
-  color: #0f172a;
+  color: #000000;
   scroll-margin-top: 4rem;
 }
 
@@ -1836,18 +1832,18 @@ textarea:focus {
 .article-body figure img {
   width: 100%;
   border-radius: 0.9rem;
-  box-shadow: 0 18px 44px rgba(15, 23, 42, 0.14);
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.14);
 }
 
 .article-body blockquote {
   margin: 2rem 0;
   padding: 1.1rem 1.4rem;
-  border-left: 4px solid #2563eb;
-  background: #eff6ff;
+  border-left: 4px solid #1d9bf0;
+  background: #e8f5fd;
   border-radius: 0 0.85rem 0.85rem 0;
   font-size: 1.05rem;
   font-style: italic;
-  color: #1e3a8a;
+  color: #1d9bf0;
 }
 
 .article-body blockquote p {
@@ -1855,7 +1851,7 @@ textarea:focus {
 }
 
 .article-body a {
-  color: #1d4ed8;
+  color: #1d9bf0;
   text-decoration: underline;
   text-underline-offset: 2px;
 }
@@ -1879,7 +1875,7 @@ textarea:focus {
   width: 2.25rem;
   height: 2.25rem;
   border-radius: 999px;
-  background: #0f172a;
+  background: #000000;
   color: #fff;
   transition:
     transform 160ms ease,
@@ -1887,7 +1883,7 @@ textarea:focus {
 }
 
 .article-share a:hover {
-  background: #2563eb;
+  background: #1d9bf0;
   transform: translateY(-2px);
 }
 
@@ -1898,7 +1894,7 @@ textarea:focus {
   margin-top: 2rem;
   font-size: 0.82rem;
   font-weight: 800;
-  color: #2563eb;
+  color: #1d9bf0;
 }
 
 .article-back:hover {
@@ -1935,7 +1931,7 @@ textarea:focus {
 
 .related-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 20px 44px rgba(15, 23, 42, 0.14);
+  box-shadow: 0 20px 44px rgba(0, 0, 0, 0.14);
 }
 
 .related-card img {
@@ -1954,7 +1950,7 @@ textarea:focus {
   font-size: 1rem;
   font-weight: 800;
   line-height: 1.3;
-  color: #0f172a;
+  color: #000000;
 }
 .related-card p {
   margin: 0;
@@ -1983,7 +1979,7 @@ textarea:focus {
 
 .reactions-prompt {
   margin: 0 0 0.85rem;
-  color: var(--brand-950);
+  color: var(--brand-black, #000000);
   font-size: 0.9rem;
   font-weight: 800;
 }
@@ -2021,8 +2017,8 @@ textarea:focus {
 
 .reaction-btn:hover {
   transform: translateY(-1px);
-  border-color: rgba(37, 99, 235, 0.45);
-  color: var(--brand-700);
+  border-color: rgba(29, 155, 240, 0.45);
+  color: var(--brand-accent, #1d9bf0);
 }
 
 .reaction-btn i {
@@ -2033,7 +2029,7 @@ textarea:focus {
   min-width: 1.35rem;
   padding: 0.1rem 0.4rem;
   border-radius: 999px;
-  background: rgba(15, 23, 42, 0.08);
+  background: rgba(0, 0, 0, 0.08);
   font-size: 0.75rem;
   font-weight: 900;
   text-align: center;
@@ -2043,8 +2039,8 @@ textarea:focus {
 /* Active states: the reader's current choice. */
 .reaction-btn--like.is-active {
   color: #fff;
-  background: var(--brand-600);
-  border-color: var(--brand-600);
+  background: var(--brand-accent, #1d9bf0);
+  border-color: var(--brand-accent, #1d9bf0);
 }
 
 .reaction-btn--dislike.is-active {
@@ -2075,7 +2071,7 @@ textarea:focus {
 
 .comments-title {
   margin: 0 0 1.25rem;
-  color: var(--brand-950);
+  color: var(--brand-black, #000000);
   font-size: clamp(1.35rem, 3vw, 1.7rem);
   font-weight: 900;
   letter-spacing: -0.02em;
@@ -2103,7 +2099,7 @@ textarea:focus {
 }
 
 .comment-field label {
-  color: var(--brand-950);
+  color: var(--brand-black, #000000);
   font-size: 0.76rem;
   font-weight: 800;
 }
@@ -2141,8 +2137,8 @@ textarea:focus {
   padding: 0.6rem 1.5rem;
   border-radius: 999px;
   color: #fff;
-  background: linear-gradient(135deg, var(--brand-600), #0ea5e9);
-  box-shadow: 0 12px 28px rgba(37, 99, 235, 0.28);
+  background: linear-gradient(135deg, var(--brand-accent, #1d9bf0), var(--brand-accent-hover, #1a8cd8));
+  box-shadow: 0 12px 28px rgba(29, 155, 240, 0.28);
   font-size: 0.82rem;
   font-weight: 900;
   transition:
@@ -2153,7 +2149,7 @@ textarea:focus {
 
 .comment-submit:hover:not(:disabled) {
   transform: translateY(-1px);
-  box-shadow: 0 16px 34px rgba(37, 99, 235, 0.34);
+  box-shadow: 0 16px 34px rgba(29, 155, 240, 0.34);
 }
 
 .comment-submit:disabled {
@@ -2215,7 +2211,7 @@ textarea:focus {
   width: 2.5rem;
   height: 2.5rem;
   border-radius: 999px;
-  background: linear-gradient(135deg, var(--brand-600), #0ea5e9);
+  background: linear-gradient(135deg, var(--brand-accent, #1d9bf0), var(--brand-accent-hover, #1a8cd8));
   color: #fff;
   font-size: 0.78rem;
   font-weight: 900;
@@ -2234,7 +2230,7 @@ textarea:focus {
 }
 
 .comment-author {
-  color: var(--brand-950);
+  color: var(--brand-black, #000000);
   font-size: 0.86rem;
   font-weight: 800;
 }
@@ -2285,7 +2281,7 @@ textarea:focus {
   height: 2rem;
   border-radius: 999px;
   color: #fff;
-  background: var(--brand-950);
+  background: var(--brand-black, #000000);
   cursor: pointer;
   font-size: 1.2rem;
   line-height: 1;
@@ -2329,7 +2325,7 @@ textarea:focus {
 
 .article-search-result h3 {
   margin: 0.35rem 0 0.25rem;
-  color: var(--brand-950);
+  color: var(--brand-black, #000000);
   font-size: 0.9rem;
   line-height: 1.25;
   font-weight: 900;
@@ -2347,7 +2343,7 @@ textarea:focus {
    16. Footer
    --------------------------------------------------------------------------
    Solid background (no gradient), matching the header so the page is book-
-   ended by the same colour. White body text on #0f172a clears AAA; the muted
+   ended by the same colour. White body text on #000000 clears AAA; the muted
    copy is kept at rgba(255,255,255,0.82) which still clears AA at this size.
    ========================================================================== */
 
@@ -2414,7 +2410,7 @@ textarea:focus {
   width: 100%;
   border-radius: 0.5rem;
   color: #fff;
-  background: linear-gradient(135deg, var(--brand-600), #0ea5e9);
+  background: linear-gradient(135deg, var(--brand-accent, #1d9bf0), var(--brand-accent-hover, #1a8cd8));
   font-size: 0.78rem;
   font-weight: 700;
   transition:
@@ -2424,7 +2420,7 @@ textarea:focus {
 
 .footer-submit:hover {
   transform: translateY(-1px);
-  box-shadow: 0 12px 26px rgba(37, 99, 235, 0.32);
+  box-shadow: 0 12px 26px rgba(29, 155, 240, 0.32);
 }
 
 .footer-links {
@@ -2471,7 +2467,7 @@ textarea:focus {
 }
 
 .footer-social a:hover {
-  color: var(--brand-600);
+  color: var(--brand-accent, #1d9bf0);
 }
 
 .footer-legal {
@@ -2519,7 +2515,7 @@ textarea:focus {
   gap: 1rem;
   padding: 1.25rem 1.5rem;
   border-radius: var(--radius-lg);
-  background: var(--brand-950);
+  background: var(--brand-black, #000000);
   color: #fff;
   box-shadow: var(--shadow-md);
 }
@@ -2622,7 +2618,7 @@ textarea:focus {
 
 .cookie-btn-primary {
   background: var(--accent);
-  color: var(--brand-950);
+  color: var(--brand-black, #000000);
 }
 
 .cookie-btn-outline {
@@ -2665,9 +2661,9 @@ textarea:focus {
   height: 2.85rem;
   border-radius: 999px;
   color: #fff;
-  background: linear-gradient(135deg, var(--brand-950), var(--brand-700));
+  background: linear-gradient(135deg, var(--brand-black, #000000), var(--brand-dark, #0f1419));
   border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 10px 28px rgba(15, 23, 42, 0.28);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.28);
   font-size: 1rem;
   cursor: pointer;
   opacity: 0;
@@ -2694,7 +2690,7 @@ textarea:focus {
 }
 
 .scroll-to-top:hover {
-  box-shadow: 0 14px 36px rgba(15, 23, 42, 0.36);
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.36);
   transform: translateY(-2px);
 }
 
@@ -2703,7 +2699,7 @@ textarea:focus {
 }
 
 .scroll-to-top:focus-visible {
-  outline: 3px solid rgba(56, 189, 248, 0.9);
+  outline: 3px solid rgba(29, 155, 240, 0.9);
   outline-offset: 3px;
 }
 

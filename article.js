@@ -7,7 +7,31 @@
   const params = new URLSearchParams(window.location.search);
   const slug = params.get('slug') || params.get('id');
 
-  function sanitize(html) {
+  /** Detect whether raw content is Markdown (no leading HTML tags). */
+  function isMarkdown(raw) {
+    if (!raw || !raw.trim()) return false;
+    const trimmed = raw.trimStart();
+    return !trimmed.startsWith('<');
+  }
+
+  /** Render content: pass Markdown through the renderer, HTML through the sanitizer. */
+  async function renderBody(raw) {
+    if (!raw || !raw.trim()) return null;
+    if (isMarkdown(raw)) {
+      const html = await window.SholynkMarkdown.renderMarkdown(raw);
+      const template = document.createElement('template');
+      template.innerHTML = html;
+      template.content.querySelectorAll('img').forEach((image) => {
+        image.loading = 'lazy';
+        image.decoding = 'async';
+        if (!image.hasAttribute('alt')) image.setAttribute('alt', '');
+      });
+      return template.content;
+    }
+    return sanitizeHtml(raw);
+  }
+
+  function sanitizeHtml(html) {
     const template = document.createElement('template');
     template.innerHTML = html || '';
     template.content.querySelectorAll('script, style, iframe, object, embed').forEach((node) => node.remove());
@@ -134,7 +158,7 @@
     update();
   }
 
-  function renderArticle(article) {
+  async function renderArticle(article) {
     root.innerHTML = '';
     root.setAttribute('aria-busy', 'false');
 
@@ -198,7 +222,7 @@
     const body = document.createElement('div');
     body.className = 'article-body';
     if (article.body && article.body.trim()) {
-      body.append(sanitize(article.body));
+      body.append(await renderBody(article.body));
     } else {
       const fallback = document.createElement('p');
       fallback.textContent = article.description || 'This story is being written. Check back shortly.';
@@ -276,7 +300,7 @@
         renderMissing();
         return;
       }
-      renderArticle(article);
+      await renderArticle(article);
 
       const siblings = await window.SholynkCMS.getArticles({ category: article.category, limit: 6 });
       renderRelated(siblings.filter((item) => item.slug !== article.slug).slice(0, 3));
