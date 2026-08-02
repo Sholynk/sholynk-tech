@@ -395,33 +395,61 @@
     });
   }
 
-  /* Tile pattern for the Pinterest-style masonry grid.
-     Each entry defines column span (1 or 2) and row span (3–8).
-     The pattern repeats for pages with more than 10 cards. */
-  const tilePatterns = [
-    { col: 2, row: 5 },  // hero
-    { col: 1, row: 6 },  // portrait
-    { col: 1, row: 4 },  // square
-    { col: 2, row: 3 },  // wide landscape
-    { col: 1, row: 5 },  // portrait
-    { col: 1, row: 3 },  // landscape
-    { col: 1, row: 7 },  // tall portrait
-    { col: 2, row: 4 },  // wide square
-    { col: 1, row: 4 },  // square
-    { col: 1, row: 6 },  // portrait
-  ];
+  /* Aspect-ratio-aware sizing for the dynamic bento-style mosaic grid (.bento-feed).
+     Tiles are classified into 'tall', 'square', 'landscape', or 'wide' based on
+     the real aspect ratio of their image rather than index/cycle alone.
+     Row spans are capped at 24 (2x base unit of 12) for 'tall', while 'square',
+     'landscape', and 'wide' use 12 (1x base unit of 12) to enforce the shared-unit
+     alignment rule and eliminate gaps. */
+
+  function classifyAspectRatio(ratio) {
+    if (!ratio || !isFinite(ratio)) return 'square';
+    if (ratio < 0.9) return 'tall';
+    if (ratio < 1.35) return 'square';
+    if (ratio < 1.8) return 'landscape';
+    return 'wide';
+  }
+
+  function applyTileShape(card, shape) {
+    card.classList.remove('card--tall', 'card--square', 'card--landscape', 'card--wide');
+    card.classList.add(`card--${shape}`);
+    card.dataset.shape = shape;
+  }
+
+  function getKnownAspectRatio(article) {
+    if (article.width && article.height && article.height > 0) {
+      return article.width / article.height;
+    }
+    if (article.img) {
+      try {
+        const url = new URL(article.img, window.location.href);
+        const w = parseFloat(url.searchParams.get('w'));
+        const h = parseFloat(url.searchParams.get('h'));
+        if (w && h && !isNaN(w) && !isNaN(h) && h > 0) {
+          return w / h;
+        }
+      } catch (e) {
+        // ignore invalid url
+      }
+    }
+    return null;
+  }
 
   function createCard(article, index) {
     const card = document.createElement('a');
     const hasImage = Boolean(article.img);
     const isWeb3NoImage = article.category === 'Web 3' && !hasImage;
-    const pattern = tilePatterns[index % tilePatterns.length];
+
+    const knownRatio = getKnownAspectRatio(article);
+    const initialShape = knownRatio ? classifyAspectRatio(knownRatio) : (hasImage ? 'landscape' : 'square');
+
     card.href = article.link;
-    card.className = `card card--col-${pattern.col} card--rows-${pattern.row}${isWeb3NoImage ? ' web3-dark' : ''}`;
+    card.className = `card card--${initialShape}${isWeb3NoImage ? ' web3-dark' : ''}${hasImage ? '' : ' card--no-media'}`;
     card.setAttribute('role', 'article');
     card.dataset.title = article.title;
     card.dataset.category = article.category;
     card.dataset.index = index.toString();
+    card.dataset.shape = initialShape;
 
     if (hasImage) {
       const media = document.createElement('div');
@@ -433,9 +461,27 @@
       image.decoding = 'async';
       image.width = 900;
       image.height = 600;
+
+      const updateShapeFromNaturalSize = () => {
+        if (image.naturalWidth && image.naturalHeight) {
+          const ratio = image.naturalWidth / image.naturalHeight;
+          const actualShape = classifyAspectRatio(ratio);
+          applyTileShape(card, actualShape);
+          card.dataset.aspectRatio = ratio.toFixed(2);
+        }
+      };
+
+      if (image.complete && image.naturalWidth) {
+        updateShapeFromNaturalSize();
+      } else {
+        image.addEventListener('load', updateShapeFromNaturalSize, { once: true });
+      }
+
       image.addEventListener('error', () => {
         image.src = 'photo-1550751827-4bd374c3f58b[1].jpeg';
+        image.addEventListener('load', updateShapeFromNaturalSize, { once: true });
       }, { once: true });
+
       media.append(image);
       card.append(media);
     }

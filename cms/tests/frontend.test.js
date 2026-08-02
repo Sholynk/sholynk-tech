@@ -426,3 +426,43 @@ test('all images across the site have an alt attribute', () => {
     });
   }
 });
+
+/* ----------------------- bento mosaic grid ------------------------ */
+
+test('index.html wraps the article/image cards in .bento-feed container', () => {
+  const dom = load('index.html');
+  const container = dom.window.document.querySelector('.bento-feed');
+  assert.ok(container, 'index.html should contain .bento-feed container');
+  assert.equal(container.id, 'cardsContainer', '.bento-feed should wrap the cardsContainer');
+});
+
+test('.bento-feed is styled with CSS Grid, auto-rows 20px, dense packing, and 12px gap', () => {
+  assert.ok(/\.bento-feed\s*\{[^}]*display:\s*grid/.test(CSS), '.bento-feed should use display: grid');
+  assert.ok(/\.bento-feed\s*\{[^}]*grid-auto-flow:\s*dense/.test(CSS), '.bento-feed should use dense packing');
+  assert.ok(/\.bento-feed\s*\{[^}]*grid-auto-rows:\s*20px/.test(CSS), '.bento-feed should use 20px auto-rows');
+  assert.ok(/\.bento-feed\s*\{[^}]*gap:\s*12px/.test(CSS), '.bento-feed should use 12px gap');
+});
+
+test('all bento tile shapes follow the shared-unit row-span and divisor column-span rules', () => {
+  assert.ok(/\.bento-feed\s+\.card--tall\s*\{[^}]*grid-row:\s*span\s+24/.test(CSS), 'tall tile should span 24 rows');
+  assert.ok(/\.bento-feed\s+\.card--square[^}]*grid-row:\s*span\s+12/.test(CSS), 'square tile should span 12 rows');
+  assert.ok(/\.bento-feed\s+\.card--landscape[^}]*grid-row:\s*span\s+12/.test(CSS), 'landscape tile should span 12 rows');
+  assert.ok(/\.bento-feed\s+\.card--wide[^}]*grid-row:\s*span\s+12/.test(CSS), 'wide tile should span 12 rows');
+});
+
+test('panoramic wide shape spans 4 columns while keeping 12-track row span', () => {
+  assert.ok(/\.bento-feed\s+\.card--wide\s*\{[^}]*grid-column:\s*span\s+4[^}]*grid-row:\s*span\s+12/.test(CSS), 'wide shape should be wider (span 4) with same 12 row span');
+});
+
+test('bento-feed images use object-fit: cover without distortion', () => {
+  assert.ok(/\.bento-feed\s+\.card-media\s+img\s*\{[^}]*object-fit:\s*cover/.test(CSS), 'images should use object-fit: cover');
+});
+
+test('createCard assigns tile shapes dynamically by aspect ratio rather than index/cycle alone', () => {
+  const js = fs.readFileSync(path.join(ROOT, 'index.js'), 'utf8');
+  assert.ok(/function\s+classifyAspectRatio/.test(js), 'index.js should define classifyAspectRatio');
+  assert.ok(!/tilePatterns/.test(js), 'index.js should no longer use tilePatterns index/cycle');
+  assert.ok(!/card--col-/.test(js), 'index.js should not assign legacy card--col- classes');
+  assert.ok(!/card--rows-/.test(js), 'index.js should not assign legacy card--rows- classes');
+  assert.ok(!/\.card--col-1/.test(CSS), 'styles.css should not define legacy card--col- classes');
+});
