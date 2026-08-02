@@ -17,7 +17,13 @@ const { db } = require('./lib/db');
 const seed = JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'seed.json'), 'utf8'));
 
 const LONGFORM_SLUG = 'the-rise-of-quantum-computing';
-const longformBody = fs.readFileSync(path.join(__dirname, 'data', `${LONGFORM_SLUG}.html`), 'utf8');
+// The long-form body is authored in Markdown; article.js renders it via markdown.js.
+const longformBody = fs.readFileSync(path.join(__dirname, 'data', `${LONGFORM_SLUG}.md`), 'utf8');
+
+function estimateReadingTime(body = '') {
+  const words = String(body).trim().split(/\s+/).filter(Boolean).length;
+  return `${Math.max(1, Math.round(words / 200))} min read`;
+}
 
 function toIsoDate(value) {
   const parsed = new Date(value);
@@ -42,7 +48,8 @@ function run() {
   let created = 0;
 
   seed.articles.forEach((article) => {
-    const slug = articles.slugify(article.title);
+    // An explicit slug in seed.json keeps an article's URL stable across rewrites.
+    const slug = articles.slugify(article.slug || article.title);
     const isLongform = slug === LONGFORM_SLUG;
     upsert({
       slug,
@@ -52,7 +59,7 @@ function run() {
       img: article.img,
       alt: article.alt || article.title,
       date: toIsoDate(article.date),
-      readingTime: isLongform ? '12 min read' : article.readingTime,
+      readingTime: isLongform ? estimateReadingTime(longformBody) : article.readingTime,
       featured: Boolean(article.featured),
       status: 'published',
       author: 'Busari Oluwashola',
@@ -63,10 +70,10 @@ function run() {
         ? null
         : (article.link && !article.link.startsWith('article.html') ? article.link : null),
       seoTitle: isLongform
-        ? 'The Rise of Quantum Computing: qubits, error correction and what it means for your stack'
+        ? 'Quantum Computing Demystified: qubits, error correction and the road to fault-tolerant machines'
         : null,
       seoDescription: isLongform
-        ? 'A practical, jargon-light guide to how quantum computers work, the error-correction wall the field is climbing, which problems genuinely benefit, and what engineering teams should do today.'
+        ? 'A plain-language guide to how quantum computers work — superposition, entanglement, error correction, quantum networking and programming — and which problems they will genuinely transform first.'
         : null
     });
     created += 1;
@@ -107,8 +114,9 @@ function run() {
       hero: true,
       heroOrder: 1,
       featured: true,
-      img: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1600&q=80',
-      alt: 'Glowing blue circuit board representing quantum computing hardware'
+      // Local hero image (see article-images/quantum/SOURCES.md for provenance).
+      img: 'article-images/quantum/quantum-computer-chandelier.jpg',
+      alt: 'Golden chandelier-like cryostat of a superconducting quantum computer, layered with control wiring'
     });
   }
 

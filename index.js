@@ -81,10 +81,10 @@
         alt: 'Earth viewed from space with network lights representing cloud infrastructure'
       },
       {
-        title: 'Quantum Computing Explained for Everyone',
-        description: 'Qubits, superposition and error correction can sound intimidating, but the core idea is simpler than the hype suggests.',
-        img: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1600&q=80',
-        alt: 'Glowing circuit board representing quantum computing'
+        title: 'Quantum Computing Demystified: The Science, the Machines and the Road Ahead',
+        description: 'Superposition, entanglement and error correction power a new kind of machine — here is how it computes, what it will change first, and what is still in the way.',
+        img: 'article-images/quantum/quantum-optics-laser.jpg',
+        alt: 'Colourful laser and fibre-optic bokeh representing quantum photonics research'
       },
       {
         title: 'How Smart Devices Are Building the Internet of Everything',
