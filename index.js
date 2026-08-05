@@ -81,10 +81,10 @@
         alt: 'Earth viewed from space with network lights representing cloud infrastructure'
       },
       {
-        title: 'Quantum Computing Demystified: The Science, the Machines and the Road Ahead',
-        description: 'Superposition, entanglement and error correction power a new kind of machine — here is how it computes, what it will change first, and what is still in the way.',
-        img: 'article-images/quantum/quantum-optics-laser.jpg',
-        alt: 'Colourful laser and fibre-optic bokeh representing quantum photonics research'
+        title: 'The Rise of Quantum Computing: The Computing Revolution Beyond Silicon',
+        description: 'A comprehensive guide to quantum computing — from qubits and superposition to real-world applications in healthcare, AI, cybersecurity, and scientific research.',
+        img: 'article-images/quantum/quantum-computer-chandelier.jpg',
+        alt: 'Golden chandelier-like cryostat of a superconducting quantum computer, layered with control wiring'
       },
       {
         title: 'How Smart Devices Are Building the Internet of Everything',
