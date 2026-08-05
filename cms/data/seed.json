@@ -42,14 +42,17 @@
       "featured": true
     },
     {
-      "title": "The Rise of Quantum Computing",
-      "link": "article_01.html",
+      "title": "Quantum Computing Demystified: The Science, the Machines and the Road Ahead",
+      "slug": "the-rise-of-quantum-computing",
+      "link": "article.html?slug=the-rise-of-quantum-computing",
       "category": "Technology",
-      "description": "Quantum computing is set to revolutionize how researchers solve complex optimization and simulation problems.",
-      "img": "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=900&q=80",
-      "alt": "Glowing blue circuit board representing quantum technology",
-      "date": "Jul 24, 2026",
-      "readingTime": "4 min read"
+      "description": "Superposition, entanglement, error correction and the quantum internet — a plain-language guide to how quantum machines compute, where they'll matter first, and what still stands in the way.",
+      "img": "article-images/quantum/quantum-computer-chandelier.jpg",
+      "alt": "Golden chandelier-like cryostat of a superconducting quantum computer, layered with control wiring",
+      "date": "Aug 2, 2026",
+      "readingTime": "13 min read",
+      "seoTitle": "Quantum Computing Demystified: qubits, error correction and the road to fault-tolerant machines",
+      "seoDescription": "A plain-language guide to how quantum computers work — superposition, entanglement, error correction, quantum networking and programming — and which problems they will genuinely transform first."
     },
     {
       "title": "Web3 and the Future of the Internet",
@@ -550,6 +553,19 @@
       "alt": "Gaming setup with controller and illuminated keyboard",
       "date": "Jul 19, 2026",
       "readingTime": "4 min read"
+    },
+    {
+      "title": "Distraction by Design: Navigating Attention in the Social Media Era",
+      "slug": "distraction-by-design",
+      "link": "article.html?slug=distraction-by-design",
+      "category": "Technology",
+      "description": "Notifications, infinite scroll and AI-driven feeds turned attention into the internet's most valuable commodity — how the attention economy works, and how to enjoy social media without being controlled by it.",
+      "img": "article-images/distraction-by-design/social-media-apps-hero.jpg",
+      "alt": "Smartphone screen showing a Social Media folder with apps such as YouTube, Instagram, Facebook and TikTok",
+      "date": "Aug 2, 2026",
+      "readingTime": "9 min read",
+      "seoTitle": "Distraction by Design: Navigating Attention in the Social Media Era",
+      "seoDescription": "Social media turned attention into a commodity. How the attention economy captures our focus, why feeds feel addictive, and how to enjoy social platforms without being controlled by them."
     }
   ]
 }

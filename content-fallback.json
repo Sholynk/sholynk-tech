@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-02T20:46:47.856Z",
+  "generatedAt": "2026-08-02T22:24:33.252Z",
   "settings": {
     "siteTitle": "Sholynk Technology - AI, Web3 and Emerging Tech Insights",
     "siteDescription": "Explore editor picks, practical guides and analysis on AI trends, Web3, software development, cybersecurity and emerging technology.",
@@ -28,34 +28,34 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "article_01.html",
-      "createdAt": "2026-08-02 20:46:47",
-      "updatedAt": "2026-08-02 20:46:47"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 2,
       "slug": "the-rise-of-quantum-computing",
-      "title": "The Rise of Quantum Computing",
+      "title": "Quantum Computing Demystified: The Science, the Machines and the Road Ahead",
       "category": "Technology",
-      "description": "Quantum computing is set to revolutionize how researchers solve complex optimization and simulation problems.",
-      "body": "<p class=\"lead\">For seventy years, computing progress has meant one thing: making classical bits smaller, faster and cheaper. Quantum computing doesn't continue that story — it starts a different one. Instead of shrinking the switch, it changes what the switch <em>is</em>. The result is a machine that's useless for most of what your laptop does, and potentially transformative for a narrow set of problems classical hardware will never finish computing.</p>\n\n<p>This is a practical tour of where quantum computing actually stands in 2026: the physics in plain language, the engineering wall the field is climbing, the problems that genuinely benefit, the ones that don't, and what a technology team should do about it today.</p>\n\n<h2 id=\"what-a-qubit-really-is\">What a qubit really is</h2>\n\n<p>A classical bit gives you a definite answer: 0 or 1. A qubit is a description of <em>how likely</em> each answer becomes when you finally look. Before measurement, the qubit holds a combination — a superposition — of both states, weighted by numbers called amplitudes. Amplitudes can be negative or complex, and that's the whole trick.</p>\n\n<figure>\n  <img src=\"https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&amp;fit=crop&amp;w=1400&amp;q=80\"\n       alt=\"Close-up of a dense circuit board with glowing blue traces, representing quantum processor hardware\"\n       loading=\"lazy\" decoding=\"async\" width=\"1400\" height=\"900\"/>\n  <figcaption>Superconducting quantum processors look deceptively like conventional chips — the difference lives in the operating temperature and the physics of the junctions.</figcaption>\n</figure>\n\n<p>Because amplitudes can be negative, wrong answers can cancel each other out. A quantum algorithm is essentially a carefully choreographed interference pattern: you arrange the computation so the paths leading to incorrect results destructively interfere, and the paths leading to the correct one reinforce each other. Then you measure, and the right answer is overwhelmingly likely to fall out.</p>\n\n<p>Two more properties matter here:</p>\n\n<ul>\n  <li><strong>Entanglement.</strong> Qubits can be correlated so the state of the group can't be described by listing each qubit separately. This is what makes the state space grow exponentially — 300 entangled qubits describe more amplitudes than there are atoms in the observable universe.</li>\n  <li><strong>Measurement collapse.</strong> You never get to read the amplitudes directly. You get one sample. Everything clever about quantum algorithm design is really about squeezing useful information out of a single classical readout.</li>\n</ul>\n\n<p>That last constraint is the reason quantum computers aren't \"parallel computers that try every answer at once.\" They explore every path, sure, but you only get to keep one — so the algorithm has to make sure the one you keep is worth having.</p>\n\n<h2 id=\"the-hardware-race\">The hardware race: four bets, no winner yet</h2>\n\n<p>Nobody has settled on how to physically build a qubit. Four approaches dominate serious investment right now, and each one trades away something different to get there.</p>\n\n<h3>Superconducting circuits</h3>\n<p>The approach behind most headline machines. Tiny loops of superconducting metal, cooled to roughly 15 millikelvin — colder than deep space — behave as artificial atoms with controllable energy levels. Gates are fast (tens of nanoseconds) and the fabrication borrows heavily from the semiconductor industry. The cost is fragility: coherence times measured in hundreds of microseconds, and a dilution refrigerator the size of a small car.</p>\n\n<figure>\n  <img src=\"https://images.unsplash.com/photo-1635070041078-e363dbe005cb?auto=format&amp;fit=crop&amp;w=1400&amp;q=80\"\n       alt=\"Laboratory cryogenic apparatus with layered gold-coloured plates and dense wiring used to cool quantum processors\"\n       loading=\"lazy\" decoding=\"async\" width=\"1400\" height=\"900\"/>\n  <figcaption>The familiar \"chandelier\" isn't the computer — it's the refrigerator and signal-delivery system. The processor itself sits at the very bottom, roughly the size of a coin.</figcaption>\n</figure>\n\n<h3>Trapped ions</h3>\n<p>Individual charged atoms suspended in electromagnetic fields and manipulated with lasers. Every qubit is identical because nature manufactured it, coherence lasts seconds rather than microseconds, and any ion can interact with any other. The trade-off is speed: gates run thousands of times slower than superconducting ones, and scaling past a few dozen ions per trap means shuttling atoms between zones.</p>\n\n<h3>Photonics</h3>\n<p>Qubits encoded in light, operating at or near room temperature and naturally suited to networking between machines. The difficulty is that photons barely interact with each other, so two-qubit gates rely on measurement-based tricks that are probabilistic and hungry for extra resources.</p>\n\n<h3>Neutral atoms</h3>\n<p>The fastest-moving newcomer. Arrays of atoms held in optical tweezers can be rearranged into arbitrary geometries and scaled into the thousands, with excitation into high-energy Rydberg states providing the interaction. Control precision is improving quickly, and the flexible connectivity turns out to be unusually well suited to error-correcting codes.</p>\n\n<h2 id=\"the-error-problem\">Error correction is the entire game</h2>\n\n<p>If there's one thing to understand about this field's timeline, it's this: raw qubit counts are marketing, and logical qubit counts are engineering.</p>\n\n<p>Physical qubits fail constantly. Typical two-qubit gate error rates sit near one in a thousand — a rate that would make a classical CPU completely unusable. Useful algorithms need error rates around one in a trillion. That gap of nine orders of magnitude gets closed by quantum error correction: spreading one <em>logical</em> qubit across many physical qubits, then continuously measuring the relationships between them to detect errors without measuring — and therefore destroying — the encoded data itself.</p>\n\n<blockquote>\n  <p>Quantum error correction works by asking the system questions it can answer without revealing its secret: not \"what state are you in?\" but \"did neighbours three and four just disagree?\"</p>\n</blockquote>\n\n<p>The dominant scheme, the surface code, needs somewhere between hundreds and a few thousand physical qubits per logical qubit, depending on hardware quality. A cryptographically relevant machine therefore implies millions of physical qubits. The genuinely good news is that this is no longer theoretical: experiments have crossed the threshold where adding more physical qubits to a logical patch makes it <em>better</em> rather than worse. The scaling law now points the right direction. The remaining work is enormous, but it's engineering now, not physics.</p>\n\n<h2 id=\"what-it-is-actually-good-for\">What it's actually good for</h2>\n\n<p>Quantum computing is a specialist instrument, not a general-purpose upgrade. Here's the honest shortlist:</p>\n\n<h3>Simulating quantum systems</h3>\n<p>The original motivation, and still the strongest case by a wide margin. Molecules, catalysts and superconductors <em>are</em> quantum systems, and classical computers can only approximate them at exponential cost. Nitrogen fixation, battery electrochemistry and drug binding affinity are all bottlenecked by the accuracy of these simulations. A fault-tolerant machine of even modest logical size would be genuinely transformative here — arguably worth the entire investment on its own.</p>\n\n<figure>\n  <img src=\"https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&amp;fit=crop&amp;w=1400&amp;q=80\"\n       alt=\"Scientist in a research laboratory examining samples, illustrating chemistry and materials research applications\"\n       loading=\"lazy\" decoding=\"async\" width=\"1400\" height=\"900\"/>\n  <figcaption>Chemistry and materials science are the applications where quantum advantage is most credible, because the problem itself is quantum mechanical.</figcaption>\n</figure>\n\n<h3>Cryptography — in both directions</h3>\n<p>Shor's algorithm factors large integers efficiently, which breaks RSA and elliptic-curve cryptography outright. No machine remotely capable of running it exists yet, but the \"harvest now, decrypt later\" threat is real: data intercepted today can just sit in storage until a capable machine eventually shows up. That's exactly why post-quantum cryptography standards are already finalised, and why migration is a present-tense infrastructure task, not a someday problem.</p>\n\n<h3>Optimisation and machine learning — with caveats</h3>\n<p>The most oversold category, by far. Quantum approaches to logistics, portfolio construction and training acceleration are heavily researched, but classical algorithms and hardware keep improving too, and several claimed quantum advantages have already been erased by better classical methods. Treat vendor claims in this space with a lot more scepticism than you'd apply to the chemistry claims.</p>\n\n<h2 id=\"what-teams-should-do-now\">What a technology team should actually do in 2026</h2>\n\n<ol>\n  <li><strong>Inventory your cryptography.</strong> Know exactly where RSA and ECC live in your stack — TLS termination, code signing, VPNs, stored archives, embedded devices. It's unglamorous work, and it's the single highest-value quantum-related task available today.</li>\n  <li><strong>Plan post-quantum migration by data lifetime.</strong> Anything that has to stay confidential beyond a decade should move to standardised post-quantum algorithms now, typically in hybrid mode alongside the classical ones.</li>\n  <li><strong>Learn the problem shapes, not the hardware.</strong> The durable skill is recognising which of your problems have the structure quantum methods actually exploit. Hardware will keep churning; that judgement won't.</li>\n  <li><strong>Prototype on simulators.</strong> Open toolkits let engineers write and test circuits without touching real hardware at all. Thirty simulated qubits on a laptop is plenty to build real intuition.</li>\n  <li><strong>Ignore qubit-count press releases.</strong> Ask instead about gate fidelity, coherence time, connectivity and logical qubit demonstrations. Those four numbers predict progress. The headline number doesn't.</li>\n</ol>\n\n<h2 id=\"the-realistic-timeline\">The realistic timeline</h2>\n\n<p>Near term, expect steady growth in logical qubit demonstrations and increasingly credible chemistry results on small molecules, alongside continued incremental hardware records. The middle of the horizon should bring early fault-tolerant machines capable of scientifically meaningful simulation that classical hardware simply can't match. Cryptographically relevant machines remain further out still, and depend on error-correction overhead falling faster than currently projected.</p>\n\n<p>The useful mental model here isn't \"quantum replaces classical.\" It's the GPU: a specialised accelerator that sits beside conventional infrastructure, gets invoked through an API for the narrow slice of work where it dominates, and stays irrelevant for everything else. Most developers will never write a quantum circuit themselves — they'll call a service that used one to design a better catalyst, a better battery, or a better drug.</p>\n\n<p>That's a smaller claim than the hype suggests, and a far more interesting one than the scepticism allows.</p>\n",
-      "img": "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1600&q=80",
-      "alt": "Glowing blue circuit board representing quantum computing hardware",
+      "description": "Superposition, entanglement, error correction and the quantum internet — a plain-language guide to how quantum machines compute, where they'll matter first, and what still stands in the way.",
+      "body": "*Superposition, entanglement and the patient march from laboratory curiosity to fault-tolerant machine — a clear-eyed guide to the strangest technology humanity has ever tried to build.*\n\nEvery computer you have ever used speaks the same language. Strip away the apps, the operating systems and the polished interfaces, and a smartphone, a supercomputer and the guidance computer that flew Apollo 11 to the Moon all work in essentially the same way: they shuffle billions of tiny switches between two states, on and off, one and zero. For more than seventy years that single idea — the bit — carried the entire digital revolution.\n\nQuantum computing begins with a provocatively different premise. What if a switch did not have to be on *or* off, but could exist as a weighted blend of both until the moment you looked? And what if thousands of such switches could be linked together so tightly that they stopped behaving as separate objects at all? The machines built on those two questions are no longer thought experiments. They sit in laboratories and cloud data centres right now, and they are forcing a rethink of what the word \"computer\" even means.\n\nThis is a plain-language tour of where quantum computing really stands: why it exists, how it works, what the machines actually look like, which problems they will genuinely transform, and how much of the road is still ahead.\n\n## The limits that made quantum necessary\n\nFor half a century, progress in computing was a story of shrinking. Engineers packed more transistors onto every chip, and every shrink brought more speed for less energy. That engine — the one famously described by Moore's law — is now sputtering. Transistors are approaching the scale of individual atoms, where electrons stop obeying the tidy rules of classical electronics and start tunnelling through barriers they are supposed to be confined by. Making the switch smaller is no longer an option. It is time to change what the switch is.\n\nAt the same time, an uncomfortable class of problems has resisted every classical trick we have thrown at it:\n\n- **Simulating molecules.** Chemistry is quantum physics in action. Fully simulating even a modest molecule's behaviour requires tracking a state space that grows exponentially with every electron added. A few hundred electrons already outgun every supercomputer on Earth combined.\n- **Searching enormous possibility spaces.** Designing a protein, scheduling a global supply chain or optimising a power grid means finding one good answer hidden among more candidates than there are atoms in the observable universe.\n- **Factoring very large numbers.** Modern encryption rests on the assumption that certain mathematical problems are practically unsolvable. \"Practically\" turns out to be a word with an expiry date.\n\nThese are precisely the problems quantum computers were conceived for — not because they are faster versions of what we have, but because they compute in a fundamentally different way.\n\n## From bits to qubits: a new grammar of information\n\nA classical bit is a settled fact: 0 or 1. A quantum bit — a qubit — is better pictured as a coin spinning in mid-air. While it spins, it is neither heads nor tails; it carries both possibilities at once, each with a particular weight. Physicists call those weights *amplitudes*, and the blend itself *superposition*. Only when the coin lands — when the qubit is *measured* — does a definite answer appear, with the amplitudes deciding the odds.\n\nTwo details separate this from simple randomness, and both matter enormously. First, amplitudes behave like waves: they can be positive or negative, which means possibilities can reinforce or cancel one another. Second, the state space grows at a staggering rate. Ten classical bits can name one of a thousand patterns; ten qubits in superposition carry all thousand at once. Three hundred entangled qubits describe more amplitudes than there are atoms in the universe.\n\nThat last number explains both the promise and the catch. The promise: a quantum machine can hold and manipulate a problem space no classical computer will ever fit into memory. The catch: you only ever get to read out one final answer. Everything clever in quantum algorithm design is about making sure the answer that survives measurement is the one you actually wanted.\n\n## Three principles that give quantum its power\n\nStrip the marketing away and quantum advantage rests on three physical principles working together.\n\n- **Superposition.** One qubit holds two possible answers; a thousand hold more than a classical machine could enumerate in the age of the universe. Computation becomes the art of shaping this vast landscape rather than walking it step by step.\n- **Entanglement.** Qubits can be correlated so deeply that the group has a state of its own which cannot be decomposed into descriptions of the parts. Measuring one qubit instantly constrains every qubit entangled with it — the property Einstein dismissed as \"spooky action at a distance\", now a routine engineering resource.\n- **Interference.** This is the real engine, and the least discussed. Because amplitudes can be negative, a well-designed quantum algorithm arranges for the paths leading to wrong answers to cancel out — destructively interfere — while the paths to the right answer reinforce. Measurement then lands on a valuable answer with high probability.\n\n> \"A quantum computer is not a faster classical computer. It is a machine that computes with the grammar of probability itself, using interference as its multiplication table.\"\n\nThe popular claim that quantum computers \"try every answer at once\" is wrong in a subtle but important way. They *explore* every answer at once — and then interference throws almost all of them away before anyone looks. Choreographing that cancellation is exactly what quantum algorithm designers are paid to do.\n\n## Inside the machines: how engineers actually build qubits\n\nA qubit can, in principle, be made from any controllable quantum system — and for now, nobody knows which physical platform will win. The leading contenders each bet on a different trade:\n\n- **Superconducting circuits** — artificial atoms built from loops of superconducting metal, chilled inside dilution refrigerators to about a hundredth of a degree above absolute zero, colder than deep space. Gates are fast and fabrication borrows from the semiconductor industry, but the qubits are fragile and demand heroic plumbing.\n- **Trapped ions** — individual charged atoms held in place by electromagnetic fields and steered with lasers. Every qubit is identical because nature built it, coherence lasts orders of magnitude longer, but operations run far slower and scaling means physically shuttling atoms around.\n- **Photonic qubits** — information encoded in particles of light, happy at room temperature and naturally wired for networking, at the cost of gates that are probabilistic and resource-hungry.\n- **Neutral atoms** — crowds of atoms gripped by optical tweezers, rearrangeable into arbitrary patterns, scaled into the thousands, and proving unusually friendly to quantum error-correcting codes.\n- **Silicon spin qubits** — electrons trapped in transistor-like structures, betting that a decade of chip-industry manufacturing muscle can be repurposed for quantum scale.\n\n![3D render of a quantum computer processor chip glowing blue and violet, viewed from above](article-images/quantum/quantum-processor-render.jpg)\n\n*The quantum processor itself is often smaller than a coin — the room-sized machinery around it exists to keep it cold, dark and perfectly quiet.*\n\nThe famous photographs of quantum computers — the golden \"chandeliers\" — are mostly refrigerator, not computer. The processor hides at the bottom of a layered cryostat that steps the temperature down stage by stage and filters every wire that reaches the chip. The engineering is equal parts physics and extreme air-conditioning.\n\n## Decoding decoherence: the error-correction mountain\n\nHere is the honest headline of the entire field: individual qubits are abysmal. A stray vibration, a flicker of heat, one wandering photon — any of them collapses a qubit's state, an event called *decoherence*. Typical two-qubit operations fail roughly once in a thousand attempts, which sounds close to perfect until you realise a useful algorithm might need trillions of flawless operations.\n\nThe answer is quantum error correction. Instead of trusting one physical qubit, spread a single **logical qubit** across hundreds or thousands of physical ones, then continuously measure the *relationships* between them. The trick is exquisite: you never ask the qubits what they hold — that would collapse the computation — you only ask whether neighbouring qubits have started disagreeing, and correct the drift on the fly.\n\n> Quantum error correction works a bit like policing a crowd by interviewing pairs of neighbours about whether the person between them just whispered something — without ever listening to the whisper itself.\n\nThe overhead is brutal: today's schemes need anywhere from hundreds to a few thousand physical qubits per useful logical qubit. A machine capable of cracking modern encryption implies millions of physical qubits of a quality nobody yet manufactures. The genuinely hopeful sign is that laboratories have now crossed the error-correction threshold — the point where adding more physical qubits to a logical qubit makes it *more* reliable rather than merely bigger. That turns the remaining climb from a physics problem into the largest engineering programme in computing history.\n\n## Where quantum computers will earn their keep\n\nQuantum computing is a specialist instrument, not a general upgrade. The credible shortlist is short for a reason — these are the problems whose very structure is quantum mechanical or quantum-amenable.\n\n### Chemistry and materials\n\nMolecules *are* quantum systems, so a quantum computer simulates them natively rather than by approximation. Fertiliser production, industrial catalysts, next-generation battery chemistries, superconductors and drug candidates all bottleneck today on the accuracy of classical simulation. A modest fault-tolerant machine would be transformative here — plausibly worth the field's entire investment on its own.\n\n### Cryptography — in both directions\n\nShor's algorithm factors the large numbers that RSA and elliptic-curve encryption rely on, and a sufficiently large quantum machine would break them outright. No such machine exists yet, but \"harvest now, decrypt later\" attacks mean sensitive data stolen today may simply be warehoused until one arrives. That is why post-quantum cryptographic standards are already published and migration is a present-tense task, not a future one.\n\n### Optimisation and machine learning — with a pinch of salt\n\nThe most oversold category. Logistics, portfolio design and model training are heavily researched, but classical algorithms keep improving too, and several claimed quantum advantages have already been clawed back by better conventional methods — often inspired by the quantum research itself. Treat headline claims here with considerably more scepticism than the chemistry results.\n\n### Sensing on the side\n\nThe same fragility that plagues qubits makes them exquisite detectors. Quantum sensors derived from computing research are already measuring magnetic fields, gravity and time with unprecedented precision — a quieter, nearer-term dividend of the same science.\n\n## The quantum internet: sending information physics cannot copy\n\nOne of quantum physics' strangest rules — the no-cloning theorem — says an unknown quantum state can never be perfectly copied. Worse for spies, better for everyone else: information carried by entangled particles cannot be intercepted without physically disturbing it, and that disturbance is detectable.\n\n![Colourful bokeh of laser light and fibre optics glowing blue, violet and green against darkness](article-images/quantum/quantum-optics-laser.jpg)\n\n*Photons are the natural couriers of quantum information — entangled light can link quantum processors across cities without ever exposing what they carry.*\n\nOn that foundation sits the emerging quantum internet: quantum key distribution already secures real fibre links, pilot entanglement networks operate between cities, and quantum repeaters — devices that extend fragile entanglement across long distances without copying it — are moving from papers to prototypes. The endgame is networking quantum computers themselves: modest machines entangled together, pooling their logical qubits into one far larger virtual machine.\n\n## Programming the quantum machine\n\nSo how do you actually tell one of these machines what to do? Not with if-statements and loops. A quantum program is a *circuit*: a sequence of gates, each one a precise rotation of a qubit's state, building the interference pattern that cancels wrong answers and amplifies right ones. The famous algorithms — Grover's search, Shor's factorisation — are essentially exquisite interference choreography.\n\nThe good news is the tooling is open and free. Frameworks such as IBM's Qiskit, Google's Cirq and Xanadu's PennyLane let anyone write circuits in Python, run them on simulators that mimic up to a few dozen qubits on an ordinary laptop, and submit the same code to real quantum hardware over the cloud. Most practical work today is hybrid: a classical computer handles the bulk of the problem and hands the quantum-hard core to a quantum processor, rather like a CPU delegating graphics to a GPU.\n\n![Computer code on dual monitors seen through a pair of reading glasses resting on a keyboard](article-images/quantum/quantum-programming-code.jpg)\n\n*Quantum SDKs are free, the simulators run on a laptop, and real quantum hardware is a cloud API call away — the barrier to entry has never been lower.*\n\nThirty simulated qubits on a personal computer is plenty to build genuine intuition — and intuition, far more than access, is what the industry is short of.\n\n## How far away is the quantum future?\n\nHonest timelines resist both the hype and the cynicism. Today's machines — the so-called NISQ era, noisy intermediate-scale quantum — are powerful experiments that occasionally beat supercomputers at tasks designed to be unbeatable. Useful, broad advantage waits for fault-tolerant machines built from error-corrected logical qubits, and those are arriving in stages: first tens of logical qubits, then hundreds, each step unlocking deeper circuits and more credible chemistry and materials results.\n\nA reasonable reading of the road ahead: steady demonstrations of logical qubits scaling and improving; early fault-tolerant machines tackling niche, high-value simulations classical hardware cannot touch; and, further out, machines large enough to matter for cryptography. The pattern to trust is boringly familiar from classical computing — capability doubling on a long, uneven curve, punctuated by headlines that overstate single results and comment sections that understate the trend.\n\n## What you can do today\n\nYou do not need a physics degree to engage with this field usefully. A practical starting list:\n\n1. **Learn just enough maths.** Comfort with vectors, complex numbers and basic probability covers most of what introductory quantum computing demands. The rest is learned by doing.\n2. **Run a real circuit this week.** Pick a free SDK, build a two-qubit entanglement circuit on a simulator, then run it on actual cloud hardware. It takes an afternoon and permanently demystifies the field.\n3. **Audit your cryptography.** If you build or buy technology, know where RSA and elliptic-curve encryption live in your stack. Data that must stay secret for a decade or more should already be migrating to post-quantum algorithms, typically in hybrid mode.\n4. **Follow the right numbers.** Ignore raw qubit-count press releases. Watch gate fidelity, coherence time, connectivity and — above all — demonstrated logical qubits. Those four metrics track real progress.\n5. **Steal the quantum-inspired ideas.** Quantum research keeps producing *classical* algorithms that improve optimisation, simulation and machine learning on ordinary hardware. You can benefit from those today, no dilution refrigerator required.\n\n## The bottom line\n\nQuantum computing will not replace your laptop, and it was never meant to. It is a new kind of engine built for a narrow set of problems that happen to be among the most consequential we face: designing medicines and materials, securing digital infrastructure, and modelling a universe that is, at bottom, quantum mechanical. Progress will look slow until the day it looks sudden. The organisations and developers building intuition now — while the barriers are low and the tools are free — will be the ones ready when the curve bends.\n\nThe strangest machines ever built are coming of age. They are worth understanding before they quietly become indispensable.\n",
+      "img": "article-images/quantum/quantum-computer-chandelier.jpg",
+      "alt": "Golden chandelier-like cryostat of a superconducting quantum computer, layered with control wiring",
       "author": "Busari Oluwashola",
-      "date": "2026-07-24",
-      "readingTime": "12 min read",
+      "date": "2026-08-02",
+      "readingTime": "13 min read",
       "featured": true,
       "status": "published",
       "hero": true,
       "heroOrder": 1,
       "externalLink": null,
-      "seoTitle": "The Rise of Quantum Computing: qubits, error correction and what it means for your stack",
-      "seoDescription": "A practical, jargon-light guide to how quantum computers work, the error-correction wall the field is climbing, which problems genuinely benefit, and what engineering teams should do today.",
+      "seoTitle": "Quantum Computing Demystified: qubits, error correction and the road to fault-tolerant machines",
+      "seoDescription": "A plain-language guide to how quantum computers work — superposition, entanglement, error correction, quantum networking and programming — and which problems they will genuinely transform first.",
       "link": "article.html?slug=the-rise-of-quantum-computing",
-      "createdAt": "2026-08-02 20:46:47",
-      "updatedAt": "2026-08-02 20:46:47"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
-      "id": 53,
+      "id": 54,
       "slug": "the-future-of-artificial-intelligence-in-everyday-life",
       "title": "The future of artificial intelligence in everyday life",
       "category": "AI Trends",
@@ -74,11 +74,11 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=AI%20Trends",
-      "createdAt": "2026-08-02 20:46:47",
-      "updatedAt": "2026-08-02 20:46:47"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
-      "id": 54,
+      "id": 55,
       "slug": "decentralized-finance-is-reshaping-access-to-money",
       "title": "Decentralized finance is reshaping access to money",
       "category": "Web 3",
@@ -97,11 +97,11 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Web%203",
-      "createdAt": "2026-08-02 20:46:47",
-      "updatedAt": "2026-08-02 20:46:47"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
-      "id": 55,
+      "id": 56,
       "slug": "cybersecurity-habits-every-growing-team-needs",
       "title": "Cybersecurity habits every growing team needs",
       "category": "Technology",
@@ -120,8 +120,31 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Technology",
-      "createdAt": "2026-08-02 20:46:47",
-      "updatedAt": "2026-08-02 20:46:47"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
+    },
+    {
+      "id": 53,
+      "slug": "distraction-by-design",
+      "title": "Distraction by Design: Navigating Attention in the Social Media Era",
+      "category": "Technology",
+      "description": "Notifications, infinite scroll and AI-driven feeds turned attention into the internet's most valuable commodity — how the attention economy works, and how to enjoy social media without being controlled by it.",
+      "body": "*By Busari Oluwashola*\n\n## Introduction\n\nAttention has become one of the world's most valuable resources.\n\nIn the past, companies competed for consumers' money. Today, many of the world's largest technology companies compete for something even more fundamental: **your attention**.\n\nEvery notification, infinite scroll, autoplay video, personalized recommendation, and trending topic is carefully engineered to keep users engaged for as long as possible. While social media has revolutionized communication, democratized information, and connected billions of people across continents, it has also transformed attention into a commodity—one that is measured, analyzed, bought, and sold.\n\nFor many people, checking social media has become second nature. A quick glance at a notification often turns into twenty minutes of scrolling. A search for a single piece of information unexpectedly becomes a journey through memes, videos, advertisements, and endless recommendations. What feels like a conscious choice is often the result of sophisticated systems designed to maximize engagement.\n\nThis is not necessarily evidence of weak self-control. It is the outcome of an ecosystem where psychology, data science, artificial intelligence, and behavioral design converge to influence how people spend their time.\n\nThe rise of the attention economy raises important questions. How do social media platforms capture and retain our attention? Why is it increasingly difficult to disconnect? More importantly, how can individuals enjoy the benefits of social media without becoming controlled by it?\n\nUnderstanding distraction in the digital age requires looking beyond personal habits and examining the technology itself.\n\n## Understanding the Technology\n\n### The Attention Economy\n\nSocial media platforms are often described as \"free\" services. In reality, users pay with something far more valuable than subscription fees: their attention.\n\nThis business model is commonly referred to as the **attention economy**.\n\nThe longer users remain on a platform, the more advertisements they see, the more data they generate, and the greater the revenue the platform can earn. Consequently, maximizing user engagement has become a central objective for many social media companies.\n\n![A woman walking down a city street while using her phone as traffic lights blur behind her](article-images/distraction-by-design/walking-with-phone.jpg)\n\n*Attention is constantly bid for in everyday life — every spare moment is an opportunity for a feed to fill.*\n\nModern platforms continuously analyze user behavior by tracking signals such as:\n\n- Posts you like.\n- Videos you watch repeatedly.\n- Accounts you follow.\n- Topics you search.\n- Comments you leave.\n- Time spent viewing specific content.\n- How quickly you scroll past a post.\n\nThese interactions help build detailed behavioral profiles that artificial intelligence uses to personalize each user's experience.\n\nThe result is a feed that becomes increasingly relevant—and increasingly difficult to leave.\n\n### Why Social Media Feels So Addictive\n\nHuman attention is naturally drawn to novelty, uncertainty, and social interaction. Social media platforms capitalize on these psychological tendencies through carefully designed features.\n\n![Close-up of a smartphone screen displaying app icons and notification badges](article-images/distraction-by-design/notifications-screen-closeup.jpg)\n\n*Every badge, banner and vibration is a small invitation back into the feed.*\n\n### Infinite Scrolling\n\nUnlike books or newspapers that naturally come to an end, social media feeds often have no stopping point.\n\nInfinite scrolling removes the natural cues that signal users to stop consuming content, encouraging longer browsing sessions.\n\n### Variable Rewards\n\nNot every post is equally interesting.\n\nSometimes users encounter ordinary content. Occasionally they discover something humorous, emotionally engaging, or personally meaningful.\n\nThis unpredictable reward pattern resembles the psychological mechanism behind slot machines, encouraging repeated checking because users never know when the next rewarding experience will appear.\n\n### Social Validation\n\nLikes, comments, shares, and follower counts introduce measurable forms of social approval.\n\nThese metrics can reinforce posting behavior by satisfying the human desire for recognition and belonging.\n\n### Personalized Algorithms\n\nArtificial intelligence continually learns individual preferences.\n\nInstead of showing identical content to everyone, recommendation systems prioritize material that each user is most likely to watch, read, or share.\n\nThe better these algorithms understand users, the longer engagement often becomes.\n\n## Why It Matters\n\nThe influence of social media extends far beyond entertainment.\n\nIt affects education, work, relationships, politics, business, and mental wellbeing.\n\nFor students, frequent digital interruptions can reduce sustained concentration during study sessions. Constant task switching makes it more difficult to engage in deep learning, where complex ideas require uninterrupted focus.\n\nProfessionals face similar challenges. Repeated notifications, emails, and social media updates fragment attention throughout the workday, making it harder to complete cognitively demanding tasks efficiently.\n\nBusinesses also compete within this attention economy. Brands increasingly rely on algorithms rather than traditional advertising to reach consumers, fundamentally changing marketing strategies and customer engagement.\n\nAt a societal level, social media influences public discourse, shapes cultural trends, and determines how news spreads. While this democratizes access to information, it also accelerates misinformation, sensationalism, and emotionally charged content because such material often generates higher engagement.\n\nUnderstanding these broader implications helps explain why attention has become one of the defining challenges of the digital age.\n\n## Real-World Applications\n\nAlthough often criticized, social media has created extraordinary opportunities when used intentionally.\n\n### Education\n\nEducational creators now reach millions of learners worldwide through short-form lessons, tutorials, and interactive communities.\n\nStudents can access high-quality educational resources regardless of geographical location.\n\n### Business and Entrepreneurship\n\nSmall businesses can market products globally with minimal advertising budgets.\n\nEntrepreneurs use social media to build personal brands, engage customers, and launch products faster than ever before.\n\n### Professional Networking\n\nPlatforms enable professionals to connect with mentors, employers, collaborators, and researchers across industries.\n\nMany careers have advanced through relationships initiated online.\n\n### Social Awareness\n\nMovements addressing public health, environmental sustainability, education, and humanitarian causes have leveraged social media to mobilize communities and amplify underrepresented voices.\n\nWhen used responsibly, these platforms become powerful tools for communication and positive social impact.\n\n## Benefits and Opportunities\n\nDespite legitimate concerns surrounding digital distraction, social media remains one of the most influential communication technologies ever developed.\n\nIts advantages include:\n\n### Democratized Knowledge\n\nInformation is now more accessible than at any point in history. Experts, educators, and institutions can share insights directly with global audiences.\n\n### Innovation and Creativity\n\nCreators have unprecedented opportunities to publish ideas, showcase talent, and build communities without traditional gatekeepers.\n\n### Economic Opportunities\n\nEntire industries—including influencer marketing, creator economies, digital consulting, and online education—have emerged through social platforms.\n\n### Global Connectivity\n\nIndividuals from different cultures, professions, and backgrounds can collaborate and exchange ideas in real time.\n\nThese opportunities demonstrate that social media itself is not inherently harmful; its impact depends largely on how it is designed and how it is used.\n\n## Challenges and Misconceptions\n\n### Misconception: Social Media Is the Enemy\n\nA common response to concerns about distraction is to blame social media entirely.\n\nThis oversimplifies the issue.\n\nSocial media is a tool. Like any technology, it can either enhance productivity or undermine it depending on its design and the habits surrounding its use.\n\nThe challenge lies not only in the technology but also in the incentives driving its development.\n\n### Algorithmic Amplification\n\nRecommendation systems prioritize content predicted to maximize engagement—not necessarily content that is accurate, balanced, or beneficial.\n\nThis can contribute to echo chambers, polarization, and the rapid spread of misinformation.\n\n### Continuous Partial Attention\n\nFrequent switching between tasks weakens sustained concentration.\n\nOver time, individuals may become accustomed to fragmented attention, making deep reading, prolonged study, and focused work increasingly difficult.\n\n### Digital Fatigue\n\nConstant connectivity leaves little room for reflection or mental recovery.\n\nMany users experience information overload, notification fatigue, and difficulty disconnecting from digital environments.\n\n### Separating Hype from Reality\n\nIt is tempting to conclude that technology alone is responsible for declining attention spans.\n\nThe evidence is more nuanced.\n\nHuman attention is influenced by many factors, including sleep quality, stress, education, work environments, and individual habits.\n\nSocial media can intensify distraction, but it does not determine behavior in isolation.\n\nRecognizing this complexity encourages more balanced conversations about digital wellbeing.\n\n## What's Next?\n\nThe future of social media is likely to be shaped by a growing emphasis on healthier digital experiences.\n\nResearchers are exploring ways to design platforms that encourage meaningful engagement rather than maximizing screen time alone. Governments are introducing regulations aimed at increasing transparency around algorithms, protecting children online, and strengthening data privacy. Technology companies are also expanding digital wellbeing features such as screen-time dashboards, notification controls, and focus modes.\n\n![A man sitting on a park bench holding a notebook, looking thoughtfully into the distance](article-images/distraction-by-design/reading-focus-park.jpg)\n\n*The next era of design priorities may reward undistracted time — and tools that help people reclaim it.*\n\nArtificial intelligence will continue to personalize online experiences, making content more relevant than ever before. At the same time, this increased personalization raises important ethical questions about autonomy, privacy, and the balance between user engagement and user wellbeing.\n\nFor students, professionals, and lifelong learners, the ability to manage attention may become as important as technical skills themselves. In an era of constant information, the capacity to focus deeply, think critically, and use digital tools intentionally will increasingly distinguish those who consume technology from those who create value with it.\n\n## Conclusion\n\nSocial media has fundamentally transformed how humanity communicates, learns, and shares ideas. It has connected billions of people, created new industries, democratized knowledge, and given individuals unprecedented opportunities to build communities and businesses.\n\nYet these achievements come with an important trade-off. In an economy where attention fuels revenue, distraction is not merely an accidental consequence—it is often an intentional outcome of platform design. Understanding this reality does not require rejecting social media altogether. Rather, it calls for using these platforms with greater awareness and purpose.\n\nNavigating the social media era is therefore less about escaping technology and more about mastering our relationship with it. The future will belong not only to those who have access to information, but to those who can filter it, question it, and focus on what truly matters.\n\nIn the end, attention is more than a cognitive resource; it is the foundation upon which learning, creativity, relationships, and meaningful work are built. Protecting it may be one of the most important digital skills of the twenty-first century.\n",
+      "img": "article-images/distraction-by-design/social-media-apps-hero.jpg",
+      "alt": "Smartphone screen showing a Social Media folder with apps such as YouTube, Instagram, Facebook and TikTok",
+      "author": "Busari Oluwashola",
+      "date": "2026-08-02",
+      "readingTime": "8 min read",
+      "featured": false,
+      "status": "published",
+      "hero": false,
+      "heroOrder": null,
+      "externalLink": null,
+      "seoTitle": "Distraction by Design: Navigating Attention in the Social Media Era",
+      "seoDescription": "Social media turned attention into a commodity. How the attention economy captures our focus, why feeds feel addictive, and how to enjoy social platforms without being controlled by them.",
+      "link": "article.html?slug=distraction-by-design",
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 45,
@@ -143,8 +166,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Game",
-      "createdAt": "2026-08-02 20:46:47",
-      "updatedAt": "2026-08-02 20:46:47"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 24,
@@ -166,8 +189,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Technology",
-      "createdAt": "2026-08-02 20:46:47",
-      "updatedAt": "2026-08-02 20:46:47"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 46,
@@ -189,8 +212,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Game",
-      "createdAt": "2026-08-02 20:46:47",
-      "updatedAt": "2026-08-02 20:46:47"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 25,
@@ -212,8 +235,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Technology",
-      "createdAt": "2026-08-02 20:46:47",
-      "updatedAt": "2026-08-02 20:46:47"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 47,
@@ -235,8 +258,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Game",
-      "createdAt": "2026-08-02 20:46:47",
-      "updatedAt": "2026-08-02 20:46:47"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 27,
@@ -258,8 +281,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=AI%20Trends",
-      "createdAt": "2026-08-02 20:46:47",
-      "updatedAt": "2026-08-02 20:46:47"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 26,
@@ -281,8 +304,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Technology",
-      "createdAt": "2026-08-02 20:46:47",
-      "updatedAt": "2026-08-02 20:46:47"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 48,
@@ -304,8 +327,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Game",
-      "createdAt": "2026-08-02 20:46:47",
-      "updatedAt": "2026-08-02 20:46:47"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 28,
@@ -327,8 +350,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Cryptocurrency",
-      "createdAt": "2026-08-02 20:46:47",
-      "updatedAt": "2026-08-02 20:46:47"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 36,
@@ -350,8 +373,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Web%203",
-      "createdAt": "2026-08-02 20:46:47",
-      "updatedAt": "2026-08-02 20:46:47"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 49,
@@ -373,8 +396,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Game",
-      "createdAt": "2026-08-02 20:46:47",
-      "updatedAt": "2026-08-02 20:46:47"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 29,
@@ -396,8 +419,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Cryptocurrency",
-      "createdAt": "2026-08-02 20:46:47",
-      "updatedAt": "2026-08-02 20:46:47"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 37,
@@ -419,8 +442,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Web%203",
-      "createdAt": "2026-08-02 20:46:47",
-      "updatedAt": "2026-08-02 20:46:47"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 50,
@@ -442,8 +465,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Game",
-      "createdAt": "2026-08-02 20:46:47",
-      "updatedAt": "2026-08-02 20:46:47"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 30,
@@ -465,8 +488,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Cryptocurrency",
-      "createdAt": "2026-08-02 20:46:47",
-      "updatedAt": "2026-08-02 20:46:47"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 38,
@@ -488,8 +511,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Web%203",
-      "createdAt": "2026-08-02 20:46:47",
-      "updatedAt": "2026-08-02 20:46:47"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 3,
@@ -511,8 +534,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Web%203",
-      "createdAt": "2026-08-02 20:46:47",
-      "updatedAt": "2026-08-02 20:46:47"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 51,
@@ -534,8 +557,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Game",
-      "createdAt": "2026-08-02 20:46:47",
-      "updatedAt": "2026-08-02 20:46:47"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 31,
@@ -557,8 +580,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Cryptocurrency",
-      "createdAt": "2026-08-02 20:46:47",
-      "updatedAt": "2026-08-02 20:46:47"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 39,
@@ -580,8 +603,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Web%203",
-      "createdAt": "2026-08-02 20:46:47",
-      "updatedAt": "2026-08-02 20:46:47"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 4,
@@ -603,8 +626,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=AI%20Trends",
-      "createdAt": "2026-08-02 20:46:47",
-      "updatedAt": "2026-08-02 20:46:47"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 52,
@@ -626,8 +649,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Game",
-      "createdAt": "2026-08-02 20:46:47",
-      "updatedAt": "2026-08-02 20:46:47"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 32,
@@ -649,8 +672,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Cryptocurrency",
-      "createdAt": "2026-08-02 20:46:47",
-      "updatedAt": "2026-08-02 20:46:47"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 40,
@@ -672,8 +695,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Web%203",
-      "createdAt": "2026-08-02 20:46:47",
-      "updatedAt": "2026-08-02 20:46:47"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 5,
@@ -695,8 +718,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Technology",
-      "createdAt": "2026-08-02 20:46:47",
-      "updatedAt": "2026-08-02 20:46:47"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 33,
@@ -718,8 +741,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Cryptocurrency",
-      "createdAt": "2026-08-02 20:46:47",
-      "updatedAt": "2026-08-02 20:46:47"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 41,
@@ -741,8 +764,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Web%203",
-      "createdAt": "2026-08-02 20:46:47",
-      "updatedAt": "2026-08-02 20:46:47"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 6,
@@ -764,8 +787,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=AI%20Trends",
-      "createdAt": "2026-08-02 20:46:47",
-      "updatedAt": "2026-08-02 20:46:47"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 34,
@@ -787,8 +810,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Cryptocurrency",
-      "createdAt": "2026-08-02 20:46:47",
-      "updatedAt": "2026-08-02 20:46:47"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 42,
@@ -810,8 +833,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Web%203",
-      "createdAt": "2026-08-02 20:46:47",
-      "updatedAt": "2026-08-02 20:46:47"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 7,
@@ -833,8 +856,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Web%203",
-      "createdAt": "2026-08-02 20:46:47",
-      "updatedAt": "2026-08-02 20:46:47"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 35,
@@ -856,8 +879,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Cryptocurrency",
-      "createdAt": "2026-08-02 20:46:47",
-      "updatedAt": "2026-08-02 20:46:47"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 43,
@@ -879,8 +902,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Web%203",
-      "createdAt": "2026-08-02 20:46:47",
-      "updatedAt": "2026-08-02 20:46:47"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 8,
@@ -902,8 +925,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Technology",
-      "createdAt": "2026-08-02 20:46:47",
-      "updatedAt": "2026-08-02 20:46:47"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 44,
@@ -925,8 +948,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Web%203",
-      "createdAt": "2026-08-02 20:46:47",
-      "updatedAt": "2026-08-02 20:46:47"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 9,
@@ -948,8 +971,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Technology",
-      "createdAt": "2026-08-02 20:46:47",
-      "updatedAt": "2026-08-02 20:46:47"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 10,
@@ -971,8 +994,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Technology",
-      "createdAt": "2026-08-02 20:46:47",
-      "updatedAt": "2026-08-02 20:46:47"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 11,
@@ -994,8 +1017,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Web%203",
-      "createdAt": "2026-08-02 20:46:47",
-      "updatedAt": "2026-08-02 20:46:47"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 12,
@@ -1017,8 +1040,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=AI%20Trends",
-      "createdAt": "2026-08-02 20:46:47",
-      "updatedAt": "2026-08-02 20:46:47"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 13,
@@ -1040,8 +1063,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Technology",
-      "createdAt": "2026-08-02 20:46:47",
-      "updatedAt": "2026-08-02 20:46:47"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 14,
@@ -1063,8 +1086,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Technology",
-      "createdAt": "2026-08-02 20:46:47",
-      "updatedAt": "2026-08-02 20:46:47"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 15,
@@ -1086,8 +1109,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=AI%20Trends",
-      "createdAt": "2026-08-02 20:46:47",
-      "updatedAt": "2026-08-02 20:46:47"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 16,
@@ -1109,8 +1132,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Technology",
-      "createdAt": "2026-08-02 20:46:47",
-      "updatedAt": "2026-08-02 20:46:47"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 17,
@@ -1132,8 +1155,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Web%203",
-      "createdAt": "2026-08-02 20:46:47",
-      "updatedAt": "2026-08-02 20:46:47"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 18,
@@ -1155,8 +1178,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=AI%20Trends",
-      "createdAt": "2026-08-02 20:46:47",
-      "updatedAt": "2026-08-02 20:46:47"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 19,
@@ -1178,8 +1201,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Technology",
-      "createdAt": "2026-08-02 20:46:47",
-      "updatedAt": "2026-08-02 20:46:47"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 20,
@@ -1201,8 +1224,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Technology",
-      "createdAt": "2026-08-02 20:46:47",
-      "updatedAt": "2026-08-02 20:46:47"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 21,
@@ -1224,8 +1247,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=AI%20Trends",
-      "createdAt": "2026-08-02 20:46:47",
-      "updatedAt": "2026-08-02 20:46:47"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 22,
@@ -1247,8 +1270,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Game",
-      "createdAt": "2026-08-02 20:46:47",
-      "updatedAt": "2026-08-02 20:46:47"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     },
     {
       "id": 23,
@@ -1270,8 +1293,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Cryptocurrency",
-      "createdAt": "2026-08-02 20:46:47",
-      "updatedAt": "2026-08-02 20:46:47"
+      "createdAt": "2026-08-02 22:24:33",
+      "updatedAt": "2026-08-02 22:24:33"
     }
   ]
 }

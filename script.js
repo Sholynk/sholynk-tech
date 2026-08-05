@@ -228,17 +228,36 @@
     const header = document.querySelector('.site-header');
     if (!header) return;
 
-    let pauseTimer = null;
+    // Direction-aware auto-hiding:
+    //   scrolling DOWN slides the navbar up off-screen — and it stays hidden
+    //   while the reader keeps moving down; scrolling back UP (even a little)
+    //   brings it back; and reaching the page top always restores it.
+    const showHeader = () => header.classList.remove('is-hidden');
+    const hideHeader = () => header.classList.add('is-hidden');
 
-    const showHeader = () => {
-      pauseTimer = null;
-      header.classList.remove('is-hidden');
-    };
+    const HIDE_OFFSET = 80; // px from the top before the header may hide at all
+    const MIN_DELTA = 6; // px of movement required before reacting (jitter guard)
 
-    const scheduleShowHeader = () => {
-      if (pauseTimer) window.clearTimeout(pauseTimer);
-      // Once the user pauses scrolling, bring the navbar back.
-      pauseTimer = window.setTimeout(showHeader, 250);
+    let lastScrollY = Math.max(window.scrollY, 0);
+
+    const update = () => {
+      const currentScrollY = Math.max(window.scrollY, 0); // ignore iOS bounce above 0
+
+      // At (or near) the page top the navbar is always visible. It also never
+      // hides while the mobile navigation is open, so its close control stays
+      // reachable.
+      if (currentScrollY <= HIDE_OFFSET || document.body.classList.contains('sidebar-open')) {
+        showHeader();
+        lastScrollY = currentScrollY;
+        return;
+      }
+
+      const delta = currentScrollY - lastScrollY;
+      if (Math.abs(delta) <= MIN_DELTA) return; // tiny trackpad jitters: keep current state
+      lastScrollY = currentScrollY;
+
+      if (delta > 0) hideHeader(); // heading down: tuck the navbar away
+      else showHeader(); // heading up: the reader wants navigation back
     };
 
     let ticking = false;
@@ -247,9 +266,7 @@
       () => {
         if (!ticking) {
           window.requestAnimationFrame(() => {
-            // While the user is scrolling, slide the navbar up off-screen.
-            header.classList.add('is-hidden');
-            scheduleShowHeader();
+            update();
             ticking = false;
           });
           ticking = true;
@@ -257,6 +274,12 @@
       },
       { passive: true }
     );
+
+    // Keyboard users tabbing into the header must see it, and opening the
+    // mobile menu should always reveal its trigger.
+    header.addEventListener('focusin', showHeader);
+
+    update();
   }
 
   function init() {

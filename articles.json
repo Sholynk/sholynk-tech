@@ -1,11 +1,19 @@
 [
   {
-    "title": "The Rise of Quantum Computing",
-    "link": "article_01.html",
+    "title": "Quantum Computing Demystified: The Science, the Machines and the Road Ahead",
+    "link": "article.html?slug=the-rise-of-quantum-computing",
     "category": "Technology",
-    "description": "Quantum computing is set to revolutionize the way we solve complex problems, offering unprecedented processing power.",
-    "img": "my_pic.png",
-    "alt": "Quantum computer with glowing blue lights and complex circuits"
+    "description": "Superposition, entanglement, error correction and the quantum internet — a plain-language guide to how quantum machines compute and what still stands in the way.",
+    "img": "article-images/quantum/quantum-computer-chandelier.jpg",
+    "alt": "Golden chandelier-like cryostat of a superconducting quantum computer, layered with control wiring"
+  },
+  {
+    "title": "Distraction by Design: Navigating Attention in the Social Media Era",
+    "link": "article.html?slug=distraction-by-design",
+    "category": "Technology",
+    "description": "Notifications, infinite scroll and AI-driven feeds turned attention into the internet's most valuable commodity — how the attention economy works, and how to enjoy social media without being controlled by it.",
+    "img": "article-images/distraction-by-design/social-media-apps-hero.jpg",
+    "alt": "Smartphone screen showing a Social Media folder with apps such as YouTube, Instagram, Facebook and TikTok"
   },
   {
     "title": "Web3 and the Future of the Internet",

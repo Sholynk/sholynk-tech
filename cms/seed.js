@@ -17,7 +17,22 @@ const { db } = require('./lib/db');
 const seed = JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'seed.json'), 'utf8'));
 
 const LONGFORM_SLUG = 'the-rise-of-quantum-computing';
-const longformBody = fs.readFileSync(path.join(__dirname, 'data', `${LONGFORM_SLUG}.html`), 'utf8');
+
+/**
+ * Long-form bodies live beside seed.json as `<slug>.md` files, authored in
+ * Markdown (article.js renders them via markdown.js). A seed entry whose slug
+ * has a matching body file becomes a full article page; the others keep
+ * pointing at their external links.
+ */
+function loadLongformBody(slug) {
+  const file = path.join(__dirname, 'data', `${slug}.md`);
+  return fs.existsSync(file) ? fs.readFileSync(file, 'utf8') : null;
+}
+
+function estimateReadingTime(body = '') {
+  const words = String(body).trim().split(/\s+/).filter(Boolean).length;
+  return `${Math.max(1, Math.round(words / 200))} min read`;
+}
 
 function toIsoDate(value) {
   const parsed = new Date(value);
@@ -42,8 +57,10 @@ function run() {
   let created = 0;
 
   seed.articles.forEach((article) => {
-    const slug = articles.slugify(article.title);
-    const isLongform = slug === LONGFORM_SLUG;
+    // An explicit slug in seed.json keeps an article's URL stable across rewrites.
+    const slug = articles.slugify(article.slug || article.title);
+    const longformBody = loadLongformBody(slug);
+    const isLongform = longformBody !== null;
     upsert({
       slug,
       title: article.title,
@@ -52,7 +69,7 @@ function run() {
       img: article.img,
       alt: article.alt || article.title,
       date: toIsoDate(article.date),
-      readingTime: isLongform ? '12 min read' : article.readingTime,
+      readingTime: isLongform ? estimateReadingTime(longformBody) : article.readingTime,
       featured: Boolean(article.featured),
       status: 'published',
       author: 'Busari Oluwashola',
@@ -62,12 +79,8 @@ function run() {
       externalLink: isLongform
         ? null
         : (article.link && !article.link.startsWith('article.html') ? article.link : null),
-      seoTitle: isLongform
-        ? 'The Rise of Quantum Computing: qubits, error correction and what it means for your stack'
-        : null,
-      seoDescription: isLongform
-        ? 'A practical, jargon-light guide to how quantum computers work, the error-correction wall the field is climbing, which problems genuinely benefit, and what engineering teams should do today.'
-        : null
+      seoTitle: article.seoTitle || null,
+      seoDescription: article.seoDescription || null
     });
     created += 1;
   });
@@ -107,8 +120,9 @@ function run() {
       hero: true,
       heroOrder: 1,
       featured: true,
-      img: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1600&q=80',
-      alt: 'Glowing blue circuit board representing quantum computing hardware'
+      // Local hero image (see article-images/quantum/SOURCES.md for provenance).
+      img: 'article-images/quantum/quantum-computer-chandelier.jpg',
+      alt: 'Golden chandelier-like cryostat of a superconducting quantum computer, layered with control wiring'
     });
   }
 
