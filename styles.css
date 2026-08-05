@@ -266,11 +266,15 @@ code {
   z-index: 900;
   background: var(--header-bg);
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
-  transition: transform 280ms ease;
+  transition: transform 280ms ease, visibility 0s;
 }
 
 .site-header.is-hidden {
   transform: translateY(-100%);
+  /* Once the slide-up finishes, drop it from hit-testing and the tab order
+     so the off-screen navbar can neither be clicked nor tabbed into. */
+  visibility: hidden;
+  transition: transform 280ms ease, visibility 0s 280ms;
 }
 
 .site-header-inner {
