@@ -21,7 +21,7 @@
   }
 
   function normalizeArticleLink(link = '') {
-    return link || 'article_01.html';
+    return link || 'index.html';
   }
 
   function normalizeImage(image = '') {

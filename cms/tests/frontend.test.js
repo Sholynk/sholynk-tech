@@ -20,7 +20,6 @@ const CSS = fs.readFileSync(path.join(ROOT, 'styles.css'), 'utf8');
 const PAGES = [
   'index.html',
   'article.html',
-  'article_01.html',
   'about.html',
   'contact.html',
   'help_&_support.html',
@@ -195,7 +194,7 @@ test('category pages use dedicated hero slides instead of the homepage slideshow
             description: 'Homepage-only story.',
             img: 'coding.jpg',
             alt: 'Coding',
-            link: 'article_01.html'
+            link: 'article.html?slug=mastering-the-art-of-coding'
           }
         ];
       }
@@ -310,8 +309,8 @@ test('other components keep their gradients', () => {
 
 /* ------------------------ Engagement widget markup ------------------------- */
 
-test('both article pages load the engagement script', () => {
-  for (const page of ['article.html', 'article_01.html']) {
+test('article page loads the engagement script', () => {
+  for (const page of ['article.html']) {
     const dom = load(page);
     const scripts = [...dom.window.document.querySelectorAll('script[src]')].map((s) =>
       s.getAttribute('src')
@@ -323,81 +322,62 @@ test('both article pages load the engagement script', () => {
   }
 });
 
-test('the legacy article page declares a slug for its engagement widgets', () => {
-  const dom = load('article_01.html');
-  const root = dom.window.document.getElementById('engagementRoot');
-  assert.ok(root, 'article_01.html should have an #engagementRoot');
-  assert.ok(root.dataset.articleSlug, 'the root should carry a data-article-slug');
-});
+/* ------------------------- article page rendering ----------------------- */
 
-/* ------------------------- article_01 content polish ----------------------- */
-
-test('article_01 uses the same structural shell as the CMS article page', () => {
-  const dom = load('article_01.html');
+test('article.html uses the same structural shell as the CMS article page', () => {
+  const dom = load('article.html');
   const { document } = dom.window;
 
   for (const selector of [
     '.reading-progress',
+    '#readingProgressBar',
     '.article-page',
-    '.article-breadcrumb',
-    '.article-header',
-    '.article-standfirst',
-    '.article-meta',
-    '.article-hero',
-    '.article-toc',
-    '.article-body',
-    '.article-share',
-    '.article-back'
+    '#articleRoot',
+    '#articleStatus',
+    '.site-header',
+    '.site-footer'
   ]) {
-    assert.ok(document.querySelector(selector), `article_01.html is missing ${selector}`);
+    assert.ok(document.querySelector(selector), `article.html is missing ${selector}`);
   }
 });
 
-test('article_01 has one H1 and a sensible heading hierarchy', () => {
-  const dom = load('article_01.html');
-  const { document } = dom.window;
+test('article page dynamically renders article structure with TOC, hero, and engagement', async () => {
+  const html = fs.readFileSync(path.join(ROOT, 'article.html'), 'utf8');
+  const fallback = JSON.parse(fs.readFileSync(path.join(ROOT, 'content-fallback.json'), 'utf8'));
 
+  const dom = new JSDOM(html, {
+    url: 'https://example.com/article.html?slug=mastering-the-art-of-coding',
+    runScripts: 'outside-only'
+  });
+
+  dom.window.SholynkCMS = {
+    getArticle: async (slug) => fallback.articles.find((a) => a.slug === slug),
+    getArticles: async () => fallback.articles
+  };
+
+  dom.window.SholynkMarkdown = {
+    renderMarkdown: async () =>
+      '<h2>Section 1</h2><p>Body text 1</p><h2>Section 2</h2><p>Body text 2</p><h2>Section 3</h2><p>Body text 3</p>'
+  };
+
+  const articleScript = fs.readFileSync(path.join(ROOT, 'article.js'), 'utf8');
+  dom.window.eval(articleScript);
+
+  await new Promise((resolve) => dom.window.setTimeout(resolve, 50));
+
+  const { document } = dom.window;
   assert.equal(document.querySelectorAll('h1').length, 1, 'exactly one H1');
-  assert.ok(
-    document.querySelectorAll('.article-body h2').length >= 5,
-    'the body should be broken up by H2 sections'
-  );
-});
+  assert.equal(document.querySelector('h1').textContent, 'Mastering the art of coding');
+  assert.ok(document.querySelector('.article-breadcrumb'), 'breadcrumb rendered');
+  assert.ok(document.querySelector('.article-header'), 'header rendered');
+  assert.ok(document.querySelector('.article-hero img'), 'hero image rendered');
+  assert.ok(document.querySelector('.article-toc'), 'table of contents rendered');
+  assert.ok(document.querySelector('.article-body'), 'body rendered');
+  assert.ok(document.querySelector('.article-share'), 'share row rendered');
+  assert.ok(document.querySelector('#engagementRoot'), 'engagement root rendered');
+  assert.ok(document.querySelector('.article-back'), 'back button rendered');
 
-test('article_01 no longer uses the portrait photo as its hero', () => {
-  const dom = load('article_01.html');
-  const heroImage = dom.window.document.querySelector('.article-hero img');
-  assert.ok(heroImage, 'there should be a hero image');
-  assert.ok(
-    !heroImage.getAttribute('src').includes('my_pic.png'),
-    'the author portrait should no longer be stretched into the hero slot'
-  );
-});
-
-test('article_01 carries supporting images, each with alt text', () => {
-  const dom = load('article_01.html');
-  const figures = dom.window.document.querySelectorAll('.article-body figure img');
-
-  assert.ok(figures.length >= 3, 'the body should include supporting images');
-  figures.forEach((image) => {
-    const alt = image.getAttribute('alt');
-    assert.ok(alt && alt.trim().length > 10, `image ${image.getAttribute('src')} needs real alt text`);
-    assert.equal(image.getAttribute('loading'), 'lazy', 'body images should lazy-load');
-  });
-});
-
-test("article_01's table of contents matches its section ids", () => {
-  const dom = load('article_01.html');
-  const { document } = dom.window;
-
-  const targets = [...document.querySelectorAll('.article-toc a')].map((a) =>
-    a.getAttribute('href').replace('#', '')
-  );
-  assert.ok(targets.length >= 5, 'the TOC should list the article sections');
-
-  targets.forEach((id) => {
-    assert.ok(document.getElementById(id), `TOC links to #${id}, which does not exist`);
-  });
+  dom.window.close();
 });
 
 /* ------------------------------ shared shell ------------------------------- */

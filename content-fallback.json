@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-02T22:24:33.252Z",
+  "generatedAt": "2026-08-09T10:53:07.385Z",
   "settings": {
     "siteTitle": "Sholynk Technology - AI, Web3 and Emerging Tech Insights",
     "siteDescription": "Explore editor picks, practical guides and analysis on AI trends, Web3, software development, cybersecurity and emerging technology.",
@@ -14,22 +14,22 @@
       "title": "Mastering the art of coding",
       "category": "Technology",
       "description": "Learning to code has never been more accessible — but knowing a language is not the same as knowing how to build software. These ten areas represent the foundations upon which exceptional developers are built.",
-      "body": "",
-      "img": "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1600&q=80",
+      "body": "# Mastering the Art of Coding: 10 Areas Every Developer Should Focus On\n\n**By Busari Oluwashola**\n\n## Introduction\n\nLearning to code has never been more accessible.\n\nWith thousands of online tutorials, open-source projects, artificial intelligence coding assistants, and interactive learning platforms available at our fingertips, anyone with an internet connection can begin writing software within hours. Yet despite this abundance of resources, many aspiring developers eventually encounter the same frustrating realization: knowing a programming language is not the same as knowing how to build software.\n\nThe difference between a beginner and a professional developer is rarely determined by how many programming languages they know. Instead, it lies in how they approach problem-solving, structure their code, collaborate with others, and continuously adapt to an industry that evolves at remarkable speed.\n\nToday's software powers nearly every aspect of modern life. From banking applications and healthcare systems to artificial intelligence, autonomous vehicles, cloud infrastructure, and entertainment platforms, developers are building technologies that influence billions of people every day. As software becomes increasingly central to society, the expectations placed on developers continue to rise. Companies no longer seek programmers who can merely write code; they seek engineers who can design reliable systems, communicate effectively, and solve complex problems with creativity and precision.\n\nMastering coding, therefore, is not about memorizing syntax or chasing every new programming language that appears on social media. It is about developing a balanced set of technical and professional competencies that remain valuable regardless of changing technologies.\n\nWhether you are writing your first \"Hello, World!\" program or preparing for a professional software engineering career, the following ten areas represent the foundations upon which exceptional developers are built.\n\n## Understanding the Technology\n\n### Coding Is More Than Writing Instructions\n\nMany newcomers assume programming is simply the act of telling a computer what to do. While technically true, this definition barely scratches the surface of software development.\n\nProfessional software engineering involves analyzing problems, designing efficient solutions, writing maintainable code, testing applications, securing systems, optimizing performance, and collaborating with other developers throughout the software lifecycle. Every line of code becomes part of a larger ecosystem that must remain reliable, scalable, and understandable long after it has been written.\n\nThis perspective is important because technologies change constantly. Programming languages rise and fall in popularity, frameworks evolve, and development tools improve every year. However, the fundamental principles of software engineering remain remarkably consistent.\n\nDevelopers who build strong foundations can adapt to new technologies with confidence, while those who focus only on syntax often struggle whenever industry trends shift.\n\nMastering coding therefore requires developing habits and skills that transcend individual programming languages.\n\n### Why It Matters\n\nSoftware has become the infrastructure of the digital economy.\n\nBusinesses rely on software to automate operations, governments use it to deliver public services, researchers depend on it to analyze complex data, and entrepreneurs leverage it to transform innovative ideas into scalable products.\n\nIn this environment, developers are no longer simply writing programs—they are solving real-world problems with technology.\n\nThe ability to write clean, reliable, and efficient code directly affects product quality, cybersecurity, business success, and user satisfaction. Poorly written software can introduce security vulnerabilities, increase maintenance costs, frustrate users, and delay innovation. Conversely, well-engineered software becomes easier to maintain, extend, and scale as organizations grow.\n\nFor students and aspiring developers, understanding where to invest their learning efforts can accelerate professional growth significantly. Rather than becoming overwhelmed by the endless stream of tutorials and new technologies, focusing on timeless software engineering principles creates a foundation that remains valuable throughout an entire career.\n\n## 1. Master Programming Fundamentals\n\nEvery accomplished developer begins with a deep understanding of programming fundamentals.\n\nVariables, data types, loops, conditional statements, functions, recursion, arrays, objects, and error handling may appear basic, but these concepts underpin virtually every modern programming language. Developers who overlook these fundamentals often find themselves copying code without fully understanding why it works.\n\nA solid grasp of programming fundamentals also makes learning additional languages significantly easier. Once you understand core concepts, transitioning from JavaScript to Python, Java, Go, or C# becomes less about learning new ideas and more about adapting to different syntax and conventions.\n\nInstead of rushing toward advanced frameworks, invest time in understanding how computers execute instructions and how algorithms manipulate data. Strong foundations consistently outperform superficial familiarity with numerous technologies.\n\n## 2. Develop Strong Problem-Solving Skills\n\nProgramming is fundamentally the discipline of solving problems.\n\nEvery software application exists because someone identified a challenge and designed a digital solution to address it. Consequently, successful developers think like problem solvers before they think like programmers.\n\nRather than immediately searching for solutions online, practice breaking complex problems into smaller, manageable components. Learn to identify patterns, define clear objectives, and evaluate multiple approaches before writing code.\n\nPlatforms such as coding challenges and algorithmic exercises are valuable not because interview questions resemble them exactly, but because they train logical thinking, persistence, and analytical reasoning.\n\nThe ability to approach unfamiliar problems with confidence often distinguishes outstanding developers from average ones.\n\n## 3. Understand Data Structures and Algorithms\n\nEfficient software depends upon choosing appropriate ways to organize data and process information.\n\nData structures such as arrays, linked lists, stacks, queues, trees, graphs, and hash tables provide different strengths depending on the problem being solved. Algorithms determine how efficiently data is searched, sorted, stored, and manipulated.\n\nImagine building a navigation application capable of calculating the fastest route through thousands of roads. Without efficient algorithms and data structures, the application would become painfully slow and impractical.\n\nUnderstanding concepts such as time complexity and space complexity enables developers to write software that performs well even as data grows.\n\nWhile not every application demands highly optimized algorithms, every professional developer benefits from understanding when efficiency matters.\n\n## 4. Write Clean and Maintainable Code\n\nWriting code that works is only the beginning.\n\nProfessional developers write code that other people—including their future selves—can understand months or even years later.\n\nClean code emphasizes meaningful variable names, consistent formatting, modular functions, descriptive documentation, and logical organization. It minimizes unnecessary complexity while maximizing readability.\n\nSoftware development is often a collaborative effort. Poorly organized code slows development, increases debugging time, and makes future enhancements more difficult.\n\nRemember: code is read far more often than it is written.\n\n## 5. Learn Version Control with Git\n\nModern software development would be nearly impossible without version control systems.\n\nGit enables developers to track changes, collaborate with teams, experiment safely, and recover previous versions when mistakes occur. Platforms like GitHub, GitLab, and Bitbucket have transformed version control into an essential professional skill.\n\nBeyond storing code, version control demonstrates accountability, documents project history, and facilitates collaborative workflows through branching, merging, and pull requests.\n\nWhether working independently or within a multinational engineering team, Git has become a non-negotiable skill for software developers.\n\n## 6. Understand Databases and Data Management\n\nMost modern applications rely on data.\n\nWhether developing an e-commerce platform, social media application, hospital management system, or banking solution, developers must understand how information is stored, retrieved, and protected.\n\nLearning relational databases such as SQL alongside modern NoSQL databases provides valuable insight into designing scalable applications.\n\nEqually important is understanding normalization, indexing, transactions, and data integrity.\n\nWell-designed databases improve performance while ensuring information remains consistent and reliable.\n\n## 7. Prioritize Software Security\n\nSecurity should never be treated as an afterthought.\n\nCyberattacks continue increasing in sophistication, making secure software development an essential responsibility rather than an optional specialization.\n\nDevelopers should understand authentication, authorization, password hashing, encryption, secure APIs, input validation, and common vulnerabilities such as SQL injection and cross-site scripting (XSS).\n\nBuilding security into software from the beginning reduces long-term risks and protects both organizations and users.\n\n## 8. Build Real-World Projects\n\nKnowledge becomes meaningful only when applied.\n\nTutorials provide valuable introductions, but genuine growth occurs when developers begin building projects independently.\n\nDevelop applications that solve practical problems. Create personal portfolios, task management systems, blogs, inventory platforms, weather dashboards, or AI-powered tools.\n\nReal-world projects expose developers to challenges that tutorials rarely cover, including debugging, deployment, scalability, and user experience considerations.\n\nEach completed project becomes evidence of your abilities rather than simply a record of courses completed.\n\n## 9. Learn How Software Is Deployed\n\nMany beginners stop learning once their code works on a local computer.\n\nProfessional development extends much further.\n\nUnderstanding deployment, cloud computing, Docker containers, continuous integration, continuous deployment (CI/CD), hosting environments, and server management enables developers to transform software into accessible products used by real people.\n\nLearning how applications move from development to production provides valuable insight into modern software engineering workflows.\n\n## 10. Commit to Continuous Learning\n\nTechnology evolves faster than almost any other professional field.\n\nFrameworks emerge, programming languages improve, artificial intelligence reshapes development workflows, and cybersecurity threats evolve continuously.\n\nThe most successful developers cultivate curiosity rather than complacency.\n\nRead technical documentation. Follow reputable engineering blogs. Contribute to open-source projects. Attend developer conferences. Build side projects. Experiment with new technologies—but always anchor new knowledge in strong fundamentals.\n\nContinuous learning is not merely a competitive advantage; it is a defining characteristic of exceptional software engineers.\n\n## Benefits and Opportunities\n\nDevelopers who intentionally strengthen these ten areas position themselves for long-term success rather than short-term trends.\n\nA well-rounded skill set improves employability, increases confidence when tackling unfamiliar technologies, and enables developers to contribute more effectively to collaborative projects. Strong software engineering practices also lead to better code quality, improved application security, enhanced performance, and greater adaptability as the technology landscape evolves.\n\nBeyond career opportunities, mastering these competencies empowers developers to transform ideas into meaningful solutions. Whether building startups, contributing to open-source communities, conducting research, or developing enterprise software, these foundational skills remain relevant across virtually every domain of computing.\n\n## Challenges and Misconceptions\n\nA common misconception among aspiring developers is that mastering coding requires learning every programming language, framework, or technology that gains popularity.\n\nIn reality, successful developers rarely know everything. Instead, they possess strong fundamentals that enable them to learn efficiently as technologies evolve. Chasing every trend often results in fragmented knowledge and shallow expertise.\n\nAnother challenge is comparing personal progress with others. Social media frequently highlights polished success stories while overlooking the years of practice, experimentation, and failure that preceded them. Becoming proficient in software development is a gradual process built through consistency, patience, and deliberate practice.\n\nFinally, many beginners underestimate the importance of communication, collaboration, and documentation. Technical excellence alone is rarely sufficient; software development is ultimately a team-oriented discipline where ideas must be shared, reviewed, and refined collectively.\n\n## What's Next?\n\nThe future of software development is being shaped by artificial intelligence, cloud-native architectures, quantum computing, edge computing, and increasingly sophisticated automation tools. AI assistants can now generate code, detect bugs, and recommend optimizations, allowing developers to focus more on architecture, design, and solving complex business problems.\n\nHowever, these advances do not diminish the value of fundamental software engineering skills. On the contrary, they make them even more important. As coding tools become more capable, the developers who thrive will be those who understand *why* solutions work, not merely *how* to generate them.\n\nFor today's students and aspiring engineers, the goal should not be to compete with automation but to build the analytical thinking, technical depth, and adaptability that enable them to leverage these technologies effectively.\n\n## Conclusion\n\nMastering the art of coding is not measured by the number of programming languages listed on a résumé or the quantity of tutorials completed. It is measured by the ability to think critically, solve meaningful problems, write maintainable software, collaborate effectively, and continue learning in an ever-changing technological landscape.\n\nThe ten areas explored in this article are not isolated skills but interconnected pillars of professional software development. Together, they provide a framework for building software that is reliable, secure, efficient, and capable of creating real-world impact.\n\nTechnology will continue to evolve, introducing new languages, frameworks, and paradigms. Yet developers who invest in timeless principles rather than fleeting trends will remain valuable regardless of how the industry changes. In the end, mastering coding is less about memorizing syntax and more about cultivating the mindset of an engineer—one who approaches every challenge with curiosity, discipline, and a commitment to building solutions that improve the world.\n",
+      "img": "Article cards images/Home/article_card_01.jpg",
       "alt": "Developer working at a desk with two monitors displaying source code",
       "author": "Busari Oluwashola",
       "date": "2026-07-26",
-      "readingTime": "8 min read",
+      "readingTime": "10 min read",
       "featured": true,
       "status": "published",
       "hero": true,
       "heroOrder": 0,
-      "externalLink": "article_01.html",
+      "externalLink": null,
       "seoTitle": null,
       "seoDescription": null,
-      "link": "article_01.html",
-      "createdAt": "2026-08-02 22:24:33",
-      "updatedAt": "2026-08-02 22:24:33"
+      "link": "article.html?slug=mastering-the-art-of-coding",
+      "createdAt": "2026-08-09 10:44:31",
+      "updatedAt": "2026-08-09 10:53:07"
     },
     {
       "id": 2,
@@ -42,7 +42,7 @@
       "alt": "Golden chandelier-like cryostat of a superconducting quantum computer, layered with control wiring",
       "author": "Busari Oluwashola",
       "date": "2026-08-02",
-      "readingTime": "12 min read",
+      "readingTime": "8 min read",
       "featured": true,
       "status": "published",
       "hero": true,
@@ -51,8 +51,8 @@
       "seoTitle": "The Rise of Quantum Computing: The Computing Revolution Beyond Silicon",
       "seoDescription": "A comprehensive guide to quantum computing — from qubits and superposition to real-world applications in healthcare, AI, cybersecurity, and scientific research.",
       "link": "article.html?slug=the-rise-of-quantum-computing",
-      "createdAt": "2026-08-02 22:24:33",
-      "updatedAt": "2026-08-02 22:24:33"
+      "createdAt": "2026-08-09 10:44:31",
+      "updatedAt": "2026-08-09 10:53:07"
     },
     {
       "id": 54,
@@ -61,10 +61,10 @@
       "category": "AI Trends",
       "description": "From personal assistants to medical triage, AI is moving from novelty into the quiet infrastructure of daily decisions.",
       "body": "",
-      "img": "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1600&q=80",
+      "img": "Article cards images/AI/article_card_09.jpg",
       "alt": "The future of artificial intelligence in everyday life",
       "author": "Sholynk Editorial",
-      "date": "2026-08-02",
+      "date": "2026-08-09",
       "readingTime": "1 min read",
       "featured": false,
       "status": "published",
@@ -74,8 +74,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=AI%20Trends",
-      "createdAt": "2026-08-02 22:24:33",
-      "updatedAt": "2026-08-02 22:24:33"
+      "createdAt": "2026-08-09 10:44:31",
+      "updatedAt": "2026-08-09 10:53:07"
     },
     {
       "id": 55,
@@ -84,10 +84,10 @@
       "category": "Web 3",
       "description": "Transparent ledgers, programmable assets and community-owned protocols are changing how builders think about finance.",
       "body": "",
-      "img": "https://images.unsplash.com/photo-1639322537504-6427a16b0a28?auto=format&fit=crop&w=1600&q=80",
+      "img": "Article cards images/Cryptocurrency/article_card_05.webp",
       "alt": "Decentralized finance is reshaping access to money",
       "author": "Sholynk Editorial",
-      "date": "2026-08-02",
+      "date": "2026-08-09",
       "readingTime": "1 min read",
       "featured": false,
       "status": "published",
@@ -97,8 +97,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Web%203",
-      "createdAt": "2026-08-02 22:24:33",
-      "updatedAt": "2026-08-02 22:24:33"
+      "createdAt": "2026-08-09 10:44:31",
+      "updatedAt": "2026-08-09 10:53:07"
     },
     {
       "id": 56,
@@ -107,10 +107,10 @@
       "category": "Technology",
       "description": "A modern defense posture starts with simple, repeatable security practices that protect people, products and data.",
       "body": "",
-      "img": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1600&q=80",
+      "img": "Article cards images/Technology/article_card_03.jpg",
       "alt": "Cybersecurity habits every growing team needs",
       "author": "Sholynk Editorial",
-      "date": "2026-08-02",
+      "date": "2026-08-09",
       "readingTime": "1 min read",
       "featured": false,
       "status": "published",
@@ -120,8 +120,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Technology",
-      "createdAt": "2026-08-02 22:24:33",
-      "updatedAt": "2026-08-02 22:24:33"
+      "createdAt": "2026-08-09 10:44:31",
+      "updatedAt": "2026-08-09 10:53:07"
     },
     {
       "id": 53,
@@ -143,8 +143,8 @@
       "seoTitle": "Distraction by Design: Navigating Attention in the Social Media Era",
       "seoDescription": "Social media turned attention into a commodity. How the attention economy captures our focus, why feeds feel addictive, and how to enjoy social platforms without being controlled by them.",
       "link": "article.html?slug=distraction-by-design",
-      "createdAt": "2026-08-02 22:24:33",
-      "updatedAt": "2026-08-02 22:24:33"
+      "createdAt": "2026-08-09 10:44:31",
+      "updatedAt": "2026-08-09 10:53:07"
     },
     {
       "id": 45,
@@ -153,7 +153,7 @@
       "category": "Game",
       "description": "Competitive gaming has grown from local tournaments into a global entertainment industry built on players, teams, leagues and loyal communities.",
       "body": "",
-      "img": "https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=900&q=80",
+      "img": "Article cards images/Game/article_card_05.jpg",
       "alt": "Gamer playing at a neon-lit esports desk",
       "author": "Busari Oluwashola",
       "date": "2026-08-02",
@@ -166,8 +166,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Game",
-      "createdAt": "2026-08-02 22:24:33",
-      "updatedAt": "2026-08-02 22:24:33"
+      "createdAt": "2026-08-09 10:44:31",
+      "updatedAt": "2026-08-09 10:53:07"
     },
     {
       "id": 24,
@@ -176,7 +176,7 @@
       "category": "Technology",
       "description": "Reliability is a product feature. Here's how modern teams design for failure without slowing delivery.",
       "body": "",
-      "img": "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=900&q=80",
+      "img": "Article cards images/Technology/article_card_21.jpg",
       "alt": "Close-up of a circuit board representing resilient software systems",
       "author": "Busari Oluwashola",
       "date": "2026-08-01",
@@ -189,8 +189,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Technology",
-      "createdAt": "2026-08-02 22:24:33",
-      "updatedAt": "2026-08-02 22:24:33"
+      "createdAt": "2026-08-09 10:44:31",
+      "updatedAt": "2026-08-09 10:53:07"
     },
     {
       "id": 46,
@@ -199,7 +199,7 @@
       "category": "Game",
       "description": "AI-assisted world building, testing and character design are giving game studios new creative tools while raising important questions about authorship.",
       "body": "",
-      "img": "https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=900&q=80",
+      "img": "Article cards images/AI/article_card_09.jpg",
       "alt": "Video game controller beside a monitor",
       "author": "Busari Oluwashola",
       "date": "2026-07-31",
@@ -212,8 +212,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Game",
-      "createdAt": "2026-08-02 22:24:33",
-      "updatedAt": "2026-08-02 22:24:33"
+      "createdAt": "2026-08-09 10:44:31",
+      "updatedAt": "2026-08-09 10:53:07"
     },
     {
       "id": 25,
@@ -222,7 +222,7 @@
       "category": "Technology",
       "description": "From Linux to Kubernetes, open source tooling remains the backbone of fast-moving product teams.",
       "body": "",
-      "img": "https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=900&q=80",
+      "img": "Article cards images/Technology/article_card_17.webp",
       "alt": "Developer workspace with code on a laptop screen",
       "author": "Busari Oluwashola",
       "date": "2026-07-30",
@@ -235,8 +235,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Technology",
-      "createdAt": "2026-08-02 22:24:33",
-      "updatedAt": "2026-08-02 22:24:33"
+      "createdAt": "2026-08-09 10:44:31",
+      "updatedAt": "2026-08-09 10:53:07"
     },
     {
       "id": 47,
@@ -245,7 +245,7 @@
       "category": "Game",
       "description": "The best games balance challenge, discovery and meaningful progress to create experiences that feel rewarding without becoming exhausting.",
       "body": "",
-      "img": "https://images.unsplash.com/photo-1493711662062-fa541adb3fc8?auto=format&fit=crop&w=900&q=80",
+      "img": "Article cards images/Game/article_card_09.jpg",
       "alt": "Person holding a game controller in front of a screen",
       "author": "Busari Oluwashola",
       "date": "2026-07-29",
@@ -258,8 +258,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Game",
-      "createdAt": "2026-08-02 22:24:33",
-      "updatedAt": "2026-08-02 22:24:33"
+      "createdAt": "2026-08-09 10:44:31",
+      "updatedAt": "2026-08-09 10:53:07"
     },
     {
       "id": 27,
@@ -268,7 +268,7 @@
       "category": "AI Trends",
       "description": "Systems that reason across text, images, audio and video are opening new product surfaces for builders.",
       "body": "",
-      "img": "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=900&q=80",
+      "img": "Article cards images/AI/article_card_09.jpg",
       "alt": "Abstract visualization of a multimodal artificial intelligence network",
       "author": "Busari Oluwashola",
       "date": "2026-07-29",
@@ -281,8 +281,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=AI%20Trends",
-      "createdAt": "2026-08-02 22:24:33",
-      "updatedAt": "2026-08-02 22:24:33"
+      "createdAt": "2026-08-09 10:44:31",
+      "updatedAt": "2026-08-09 10:53:07"
     },
     {
       "id": 26,
@@ -291,7 +291,7 @@
       "category": "Technology",
       "description": "New semiconductor architectures are unlocking performance gains while keeping power budgets in check.",
       "body": "",
-      "img": "https://images.unsplash.com/photo-1518773553398-650c184e0bb3?auto=format&fit=crop&w=900&q=80",
+      "img": "Article cards images/Technology/article_card_19.png",
       "alt": "Macro photo of a computer processor chip",
       "author": "Busari Oluwashola",
       "date": "2026-07-28",
@@ -304,8 +304,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Technology",
-      "createdAt": "2026-08-02 22:24:33",
-      "updatedAt": "2026-08-02 22:24:33"
+      "createdAt": "2026-08-09 10:44:31",
+      "updatedAt": "2026-08-09 10:53:07"
     },
     {
       "id": 48,
@@ -314,7 +314,7 @@
       "category": "Game",
       "description": "Affordable smartphones, social features and free-to-play models are bringing sophisticated gaming experiences to more people than ever.",
       "body": "",
-      "img": "https://images.unsplash.com/photo-1542751110-97427bbecf20?auto=format&fit=crop&w=900&q=80",
+      "img": "Article cards images/Game/article_card_03.jpg",
       "alt": "Mobile phone displaying a game with a controller nearby",
       "author": "Busari Oluwashola",
       "date": "2026-07-27",
@@ -327,8 +327,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Game",
-      "createdAt": "2026-08-02 22:24:33",
-      "updatedAt": "2026-08-02 22:24:33"
+      "createdAt": "2026-08-09 10:44:31",
+      "updatedAt": "2026-08-09 10:53:07"
     },
     {
       "id": 28,
@@ -337,7 +337,7 @@
       "category": "Cryptocurrency",
       "description": "Regulated investment products are changing who can hold bitcoin and how traditional finance participates.",
       "body": "",
-      "img": "https://images.unsplash.com/photo-1518546305927-5a555bb7020d?auto=format&fit=crop&w=900&q=80",
+      "img": "Article cards images/Cryptocurrency/article_card_03.jpg",
       "alt": "Bitcoin coin resting on a financial chart",
       "author": "Busari Oluwashola",
       "date": "2026-07-27",
@@ -350,8 +350,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Cryptocurrency",
-      "createdAt": "2026-08-02 22:24:33",
-      "updatedAt": "2026-08-02 22:24:33"
+      "createdAt": "2026-08-09 10:44:31",
+      "updatedAt": "2026-08-09 10:53:07"
     },
     {
       "id": 36,
@@ -360,7 +360,7 @@
       "category": "Web 3",
       "description": "Community governance is powerful, but tooling, incentives and legal wrappers still decide real outcomes.",
       "body": "",
-      "img": "https://images.unsplash.com/photo-1639322537504-6427a16b0a28?auto=format&fit=crop&w=900&q=80",
+      "img": "Article cards images/Web 3/article_card_09.jpg",
       "alt": "Decentralized network graphic representing DAO governance",
       "author": "Busari Oluwashola",
       "date": "2026-07-26",
@@ -373,8 +373,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Web%203",
-      "createdAt": "2026-08-02 22:24:33",
-      "updatedAt": "2026-08-02 22:24:33"
+      "createdAt": "2026-08-09 10:44:31",
+      "updatedAt": "2026-08-09 10:53:07"
     },
     {
       "id": 49,
@@ -383,7 +383,7 @@
       "category": "Game",
       "description": "VR games are moving beyond solo novelty experiences as better hardware and shared virtual spaces make play feel more naturally social.",
       "body": "",
-      "img": "https://images.unsplash.com/photo-1538481199705-c710c4e965fc?auto=format&fit=crop&w=900&q=80",
+      "img": "Article cards images/Game/article_card_07.jpg",
       "alt": "Person using a virtual reality headset",
       "author": "Busari Oluwashola",
       "date": "2026-07-25",
@@ -396,8 +396,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Game",
-      "createdAt": "2026-08-02 22:24:33",
-      "updatedAt": "2026-08-02 22:24:33"
+      "createdAt": "2026-08-09 10:44:31",
+      "updatedAt": "2026-08-09 10:53:07"
     },
     {
       "id": 29,
@@ -406,7 +406,7 @@
       "category": "Cryptocurrency",
       "description": "Rollups and sidechains are making blockchain transactions faster and cheaper for everyday use.",
       "body": "",
-      "img": "https://images.unsplash.com/photo-1639322537504-6427a16b0a28?auto=format&fit=crop&w=900&q=80",
+      "img": "Article cards images/Cryptocurrency/article_card_05.webp",
       "alt": "Abstract blockchain network nodes representing layer 2 scaling",
       "author": "Busari Oluwashola",
       "date": "2026-07-25",
@@ -419,8 +419,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Cryptocurrency",
-      "createdAt": "2026-08-02 22:24:33",
-      "updatedAt": "2026-08-02 22:24:33"
+      "createdAt": "2026-08-09 10:44:31",
+      "updatedAt": "2026-08-09 10:53:07"
     },
     {
       "id": 37,
@@ -429,7 +429,7 @@
       "category": "Web 3",
       "description": "The strongest NFT projects now focus on access, provenance and creator tooling rather than speculation alone.",
       "body": "",
-      "img": "https://images.unsplash.com/photo-1642104704074-907c0698cbd9?auto=format&fit=crop&w=900&q=80",
+      "img": "Article cards images/Web 3/article_card_07.jpg",
       "alt": "Digital art and blockchain interface on a laptop",
       "author": "Busari Oluwashola",
       "date": "2026-07-24",
@@ -442,8 +442,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Web%203",
-      "createdAt": "2026-08-02 22:24:33",
-      "updatedAt": "2026-08-02 22:24:33"
+      "createdAt": "2026-08-09 10:44:31",
+      "updatedAt": "2026-08-09 10:53:07"
     },
     {
       "id": 50,
@@ -452,7 +452,7 @@
       "category": "Game",
       "description": "Small studios are using focused ideas, flexible tools and direct communities to create some of the most distinctive games on the market.",
       "body": "",
-      "img": "https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=900&q=80",
+      "img": "Article cards images/Game/article_card_11.jpg",
       "alt": "Retro video game console and controller",
       "author": "Busari Oluwashola",
       "date": "2026-07-23",
@@ -465,8 +465,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Game",
-      "createdAt": "2026-08-02 22:24:33",
-      "updatedAt": "2026-08-02 22:24:33"
+      "createdAt": "2026-08-09 10:44:31",
+      "updatedAt": "2026-08-09 10:53:07"
     },
     {
       "id": 30,
@@ -475,7 +475,7 @@
       "category": "Cryptocurrency",
       "description": "Custody choices shape security, convenience and recovery — here's a practical guide for new holders.",
       "body": "",
-      "img": "https://images.unsplash.com/photo-1621761191319-c6fb62004040?auto=format&fit=crop&w=900&q=80",
+      "img": "Article cards images/Cryptocurrency/article_card_07.jpg",
       "alt": "Cryptocurrency hardware and digital wallet concept",
       "author": "Busari Oluwashola",
       "date": "2026-07-23",
@@ -488,8 +488,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Cryptocurrency",
-      "createdAt": "2026-08-02 22:24:33",
-      "updatedAt": "2026-08-02 22:24:33"
+      "createdAt": "2026-08-09 10:44:31",
+      "updatedAt": "2026-08-09 10:53:07"
     },
     {
       "id": 38,
@@ -498,7 +498,7 @@
       "category": "Web 3",
       "description": "Immutable code needs careful review. Audits, bug bounties and formal methods reduce costly on-chain failures.",
       "body": "",
-      "img": "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=900&q=80",
+      "img": "Article cards images/Web 3/article_card_11.jpg",
       "alt": "Server room representing secure smart contract infrastructure",
       "author": "Busari Oluwashola",
       "date": "2026-07-22",
@@ -511,8 +511,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Web%203",
-      "createdAt": "2026-08-02 22:24:33",
-      "updatedAt": "2026-08-02 22:24:33"
+      "createdAt": "2026-08-09 10:44:31",
+      "updatedAt": "2026-08-09 10:53:07"
     },
     {
       "id": 3,
@@ -521,7 +521,7 @@
       "category": "Web 3",
       "description": "Web3 promises a decentralized internet where users control identity, data and digital ownership.",
       "body": "",
-      "img": "",
+      "img": "Article cards images/Web 3/article_card_02.jpg",
       "alt": "Web3 and the Future of the Internet",
       "author": "Busari Oluwashola",
       "date": "2026-07-22",
@@ -534,8 +534,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Web%203",
-      "createdAt": "2026-08-02 22:24:33",
-      "updatedAt": "2026-08-02 22:24:33"
+      "createdAt": "2026-08-09 10:44:31",
+      "updatedAt": "2026-08-09 10:53:07"
     },
     {
       "id": 51,
@@ -544,7 +544,7 @@
       "category": "Game",
       "description": "Real-time 3D engines are reshaping film, architecture, training and product design by making interactive visualisation faster to create.",
       "body": "",
-      "img": "https://images.unsplash.com/photo-1593508512255-86ab42a8e620?auto=format&fit=crop&w=900&q=80",
+      "img": "Article cards images/Game/article_card_13.jpg",
       "alt": "Person experiencing an immersive digital environment",
       "author": "Busari Oluwashola",
       "date": "2026-07-21",
@@ -557,8 +557,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Game",
-      "createdAt": "2026-08-02 22:24:33",
-      "updatedAt": "2026-08-02 22:24:33"
+      "createdAt": "2026-08-09 10:44:31",
+      "updatedAt": "2026-08-09 10:53:07"
     },
     {
       "id": 31,
@@ -567,7 +567,7 @@
       "category": "Cryptocurrency",
       "description": "CBDCs share digital rails with crypto markets, but their design goals and trust models are very different.",
       "body": "",
-      "img": "https://images.unsplash.com/photo-1640340434855-6084b1f4901c?auto=format&fit=crop&w=900&q=80",
+      "img": "Article cards images/Cryptocurrency/article_card_09.png",
       "alt": "Digital currency coins on a trading chart",
       "author": "Busari Oluwashola",
       "date": "2026-07-21",
@@ -580,8 +580,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Cryptocurrency",
-      "createdAt": "2026-08-02 22:24:33",
-      "updatedAt": "2026-08-02 22:24:33"
+      "createdAt": "2026-08-09 10:44:31",
+      "updatedAt": "2026-08-09 10:53:07"
     },
     {
       "id": 39,
@@ -590,7 +590,7 @@
       "category": "Web 3",
       "description": "Open social protocols aim to give creators portable audiences and users ownership of their digital graph.",
       "body": "",
-      "img": "https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&w=900&q=80",
+      "img": "Article cards images/Web 3/article_card_17.jpg",
       "alt": "Smartphone with social media apps representing decentralized social",
       "author": "Busari Oluwashola",
       "date": "2026-07-20",
@@ -603,8 +603,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Web%203",
-      "createdAt": "2026-08-02 22:24:33",
-      "updatedAt": "2026-08-02 22:24:33"
+      "createdAt": "2026-08-09 10:44:31",
+      "updatedAt": "2026-08-09 10:53:07"
     },
     {
       "id": 4,
@@ -613,7 +613,7 @@
       "category": "AI Trends",
       "description": "Artificial intelligence is improving diagnostics, treatment planning and patient monitoring workflows.",
       "body": "",
-      "img": "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=900&q=80",
+      "img": "Article cards images/AI/article_card_11.jpg",
       "alt": "Clinician reviewing health data on a tablet",
       "author": "Busari Oluwashola",
       "date": "2026-07-20",
@@ -626,8 +626,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=AI%20Trends",
-      "createdAt": "2026-08-02 22:24:33",
-      "updatedAt": "2026-08-02 22:24:33"
+      "createdAt": "2026-08-09 10:44:31",
+      "updatedAt": "2026-08-09 10:53:07"
     },
     {
       "id": 52,
@@ -636,7 +636,7 @@
       "category": "Game",
       "description": "Remappable controls, readable interfaces and flexible difficulty settings help more players enjoy games on their own terms.",
       "body": "",
-      "img": "https://images.unsplash.com/photo-1605901309584-818e25960a8f?auto=format&fit=crop&w=900&q=80",
+      "img": "Article cards images/Game/article_card_15.jpg",
       "alt": "Gaming setup with controller and illuminated keyboard",
       "author": "Busari Oluwashola",
       "date": "2026-07-19",
@@ -649,8 +649,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Game",
-      "createdAt": "2026-08-02 22:24:33",
-      "updatedAt": "2026-08-02 22:24:33"
+      "createdAt": "2026-08-09 10:44:31",
+      "updatedAt": "2026-08-09 10:53:07"
     },
     {
       "id": 32,
@@ -659,7 +659,7 @@
       "category": "Cryptocurrency",
       "description": "Wallet flows, exchange reserves and network activity give traders a deeper view of crypto market structure.",
       "body": "",
-      "img": "https://images.unsplash.com/photo-1642104704074-907c0698cbd9?auto=format&fit=crop&w=900&q=80",
+      "img": "Article cards images/Cryptocurrency/article_card_11.jpg",
       "alt": "Laptop displaying cryptocurrency market analytics",
       "author": "Busari Oluwashola",
       "date": "2026-07-19",
@@ -672,8 +672,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Cryptocurrency",
-      "createdAt": "2026-08-02 22:24:33",
-      "updatedAt": "2026-08-02 22:24:33"
+      "createdAt": "2026-08-09 10:44:31",
+      "updatedAt": "2026-08-09 10:53:07"
     },
     {
       "id": 40,
@@ -682,7 +682,7 @@
       "category": "Web 3",
       "description": "Cross-chain bridges unlock liquidity and users, but they also concentrate some of Web3's hardest security risks.",
       "body": "",
-      "img": "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?auto=format&fit=crop&w=900&q=80",
+      "img": "Article cards images/Web 3/article_card_19.jpg",
       "alt": "Blockchain technology concept with connected digital blocks",
       "author": "Busari Oluwashola",
       "date": "2026-07-18",
@@ -695,8 +695,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Web%203",
-      "createdAt": "2026-08-02 22:24:33",
-      "updatedAt": "2026-08-02 22:24:33"
+      "createdAt": "2026-08-09 10:44:31",
+      "updatedAt": "2026-08-09 10:53:07"
     },
     {
       "id": 5,
@@ -705,7 +705,7 @@
       "category": "Technology",
       "description": "Solar, wind and battery innovations are accelerating a more resilient clean-energy transition.",
       "body": "",
-      "img": "https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=900&q=80",
+      "img": "Article cards images/Technology/article_card_07.jpg",
       "alt": "Solar panels under a bright sky",
       "author": "Busari Oluwashola",
       "date": "2026-07-18",
@@ -718,8 +718,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Technology",
-      "createdAt": "2026-08-02 22:24:33",
-      "updatedAt": "2026-08-02 22:24:33"
+      "createdAt": "2026-08-09 10:44:31",
+      "updatedAt": "2026-08-09 10:53:07"
     },
     {
       "id": 33,
@@ -728,7 +728,7 @@
       "category": "Cryptocurrency",
       "description": "Proof-of-work and proof-of-stake secure networks differently — and that shapes environmental impact.",
       "body": "",
-      "img": "https://images.unsplash.com/photo-1518546305927-5a555bb7020d?auto=format&fit=crop&w=900&q=80",
+      "img": "Article cards images/Cryptocurrency/article_card_11.jpg",
       "alt": "Gold bitcoin coin symbolizing crypto mining and staking",
       "author": "Busari Oluwashola",
       "date": "2026-07-17",
@@ -741,8 +741,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Cryptocurrency",
-      "createdAt": "2026-08-02 22:24:33",
-      "updatedAt": "2026-08-02 22:24:33"
+      "createdAt": "2026-08-09 10:44:31",
+      "updatedAt": "2026-08-09 10:53:07"
     },
     {
       "id": 41,
@@ -751,7 +751,7 @@
       "category": "Web 3",
       "description": "ZK cryptography lets apps verify facts without revealing underlying data — a foundation for private Web3 products.",
       "body": "",
-      "img": "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=900&q=80",
+      "img": "Article cards images/Web 3/article_card_13.png",
       "alt": "Glowing circuit board representing zero-knowledge cryptography",
       "author": "Busari Oluwashola",
       "date": "2026-07-16",
@@ -764,8 +764,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Web%203",
-      "createdAt": "2026-08-02 22:24:33",
-      "updatedAt": "2026-08-02 22:24:33"
+      "createdAt": "2026-08-09 10:44:31",
+      "updatedAt": "2026-08-09 10:53:07"
     },
     {
       "id": 6,
@@ -774,7 +774,7 @@
       "category": "AI Trends",
       "description": "Responsible AI requires stronger thinking around bias, privacy, accountability and explainability.",
       "body": "",
-      "img": "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=900&q=80",
+      "img": "Article cards images/AI/article_card_07.jpg",
       "alt": "Human hand interacting with a digital AI interface",
       "author": "Busari Oluwashola",
       "date": "2026-07-16",
@@ -787,8 +787,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=AI%20Trends",
-      "createdAt": "2026-08-02 22:24:33",
-      "updatedAt": "2026-08-02 22:24:33"
+      "createdAt": "2026-08-09 10:44:31",
+      "updatedAt": "2026-08-09 10:53:07"
     },
     {
       "id": 34,
@@ -797,7 +797,7 @@
       "category": "Cryptocurrency",
       "description": "Seed phrases, phishing and fake apps remain the biggest risks — simple habits prevent most losses.",
       "body": "",
-      "img": "https://images.unsplash.com/photo-1563986768494-4dee2763ff3f?auto=format&fit=crop&w=900&q=80",
+      "img": "Article cards images/Cryptocurrency/article_card_07.jpg",
       "alt": "Cybersecurity monitoring screen for crypto protection",
       "author": "Busari Oluwashola",
       "date": "2026-07-15",
@@ -810,8 +810,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Cryptocurrency",
-      "createdAt": "2026-08-02 22:24:33",
-      "updatedAt": "2026-08-02 22:24:33"
+      "createdAt": "2026-08-09 10:44:31",
+      "updatedAt": "2026-08-09 10:53:07"
     },
     {
       "id": 42,
@@ -820,7 +820,7 @@
       "category": "Web 3",
       "description": "Sustainable game economies need careful token design, real gameplay loops and player-first incentives.",
       "body": "",
-      "img": "https://images.unsplash.com/photo-1556438064-2d7646166914?auto=format&fit=crop&w=900&q=80",
+      "img": "Article cards images/Game/article_card_05.jpg",
       "alt": "Gaming controller with neon lighting for Web3 gaming",
       "author": "Busari Oluwashola",
       "date": "2026-07-14",
@@ -833,8 +833,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Web%203",
-      "createdAt": "2026-08-02 22:24:33",
-      "updatedAt": "2026-08-02 22:24:33"
+      "createdAt": "2026-08-09 10:44:31",
+      "updatedAt": "2026-08-09 10:53:07"
     },
     {
       "id": 7,
@@ -843,7 +843,7 @@
       "category": "Web 3",
       "description": "DeFi platforms are transforming traditional finance by enabling peer-to-peer financial services.",
       "body": "",
-      "img": "",
+      "img": "Article cards images/Web 3/article_card_05.png",
       "alt": "Decentralized Finance (DeFi) Growth",
       "author": "Busari Oluwashola",
       "date": "2026-07-14",
@@ -856,8 +856,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Web%203",
-      "createdAt": "2026-08-02 22:24:33",
-      "updatedAt": "2026-08-02 22:24:33"
+      "createdAt": "2026-08-09 10:44:31",
+      "updatedAt": "2026-08-09 10:53:07"
     },
     {
       "id": 35,
@@ -866,7 +866,7 @@
       "category": "Cryptocurrency",
       "description": "Real-world yield products are bringing familiar financial instruments onto blockchain settlement rails.",
       "body": "",
-      "img": "https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&w=900&q=80",
+      "img": "Article cards images/Cryptocurrency/article_card_08.png",
       "alt": "Person using a payment card representing digital yield products",
       "author": "Busari Oluwashola",
       "date": "2026-07-13",
@@ -879,8 +879,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Cryptocurrency",
-      "createdAt": "2026-08-02 22:24:33",
-      "updatedAt": "2026-08-02 22:24:33"
+      "createdAt": "2026-08-09 10:44:31",
+      "updatedAt": "2026-08-09 10:53:07"
     },
     {
       "id": 43,
@@ -889,7 +889,7 @@
       "category": "Web 3",
       "description": "IPFS, Filecoin and similar networks are reshaping how apps host media, archives and user-owned data.",
       "body": "",
-      "img": "https://images.unsplash.com/photo-1544197150-b99a580bb7a2?auto=format&fit=crop&w=900&q=80",
+      "img": "Article cards images/Web 3/article_card_15.png",
       "alt": "Network cables and servers representing decentralized storage",
       "author": "Busari Oluwashola",
       "date": "2026-07-12",
@@ -902,8 +902,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Web%203",
-      "createdAt": "2026-08-02 22:24:33",
-      "updatedAt": "2026-08-02 22:24:33"
+      "createdAt": "2026-08-09 10:44:31",
+      "updatedAt": "2026-08-09 10:53:07"
     },
     {
       "id": 8,
@@ -912,7 +912,7 @@
       "category": "Technology",
       "description": "Augmented reality is blending physical and digital experiences across education, retail and gaming.",
       "body": "",
-      "img": "https://images.unsplash.com/photo-1593508512255-86ab42a8e620?auto=format&fit=crop&w=900&q=80",
+      "img": "Article cards images/Technology/article_card_11.jpg",
       "alt": "Person wearing an augmented reality headset",
       "author": "Busari Oluwashola",
       "date": "2026-07-12",
@@ -925,8 +925,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Technology",
-      "createdAt": "2026-08-02 22:24:33",
-      "updatedAt": "2026-08-02 22:24:33"
+      "createdAt": "2026-08-09 10:44:31",
+      "updatedAt": "2026-08-09 10:53:07"
     },
     {
       "id": 44,
@@ -935,7 +935,7 @@
       "category": "Web 3",
       "description": "Account abstraction, passkeys and smarter defaults are making onboarding far less intimidating for new users.",
       "body": "",
-      "img": "https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&w=900&q=80",
+      "img": "Article cards images/Web 3/article_card_18.png",
       "alt": "Person completing a digital payment representing wallet UX",
       "author": "Busari Oluwashola",
       "date": "2026-07-10",
@@ -948,8 +948,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Web%203",
-      "createdAt": "2026-08-02 22:24:33",
-      "updatedAt": "2026-08-02 22:24:33"
+      "createdAt": "2026-08-09 10:44:31",
+      "updatedAt": "2026-08-09 10:53:07"
     },
     {
       "id": 9,
@@ -958,7 +958,7 @@
       "category": "Technology",
       "description": "New collaboration platforms are helping distributed teams work faster without sacrificing connection.",
       "body": "",
-      "img": "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=900&q=80",
+      "img": "Article cards images/Technology/article_card_09.jpg",
       "alt": "Team collaborating around laptops",
       "author": "Busari Oluwashola",
       "date": "2026-07-10",
@@ -971,8 +971,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Technology",
-      "createdAt": "2026-08-02 22:24:33",
-      "updatedAt": "2026-08-02 22:24:33"
+      "createdAt": "2026-08-09 10:44:31",
+      "updatedAt": "2026-08-09 10:53:07"
     },
     {
       "id": 10,
@@ -981,7 +981,7 @@
       "category": "Technology",
       "description": "Lower latency and higher bandwidth are creating new opportunities for connected devices and services.",
       "body": "",
-      "img": "https://images.unsplash.com/photo-1600267165477-6d4cc741b379?auto=format&fit=crop&w=900&q=80",
+      "img": "Article cards images/Technology/article_card_13.jpg",
       "alt": "Telecommunications tower against a blue sky",
       "author": "Busari Oluwashola",
       "date": "2026-07-08",
@@ -994,8 +994,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Technology",
-      "createdAt": "2026-08-02 22:24:33",
-      "updatedAt": "2026-08-02 22:24:33"
+      "createdAt": "2026-08-09 10:44:31",
+      "updatedAt": "2026-08-09 10:53:07"
     },
     {
       "id": 11,
@@ -1004,7 +1004,7 @@
       "category": "Web 3",
       "description": "Supply chains, healthcare and voting systems are using blockchain patterns to increase transparency.",
       "body": "",
-      "img": "",
+      "img": "Article cards images/Web 3/article_card_03.jpg",
       "alt": "Blockchain Beyond Cryptocurrency",
       "author": "Busari Oluwashola",
       "date": "2026-07-06",
@@ -1017,8 +1017,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Web%203",
-      "createdAt": "2026-08-02 22:24:33",
-      "updatedAt": "2026-08-02 22:24:33"
+      "createdAt": "2026-08-09 10:44:31",
+      "updatedAt": "2026-08-09 10:53:07"
     },
     {
       "id": 12,
@@ -1027,7 +1027,7 @@
       "category": "AI Trends",
       "description": "Recommendation engines, fraud detection and smart assistants all depend on machine learning systems.",
       "body": "",
-      "img": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=900&q=80",
+      "img": "Article cards images/AI/article_card_03.jpg",
       "alt": "Data visualization dashboard on multiple screens",
       "author": "Busari Oluwashola",
       "date": "2026-07-04",
@@ -1040,8 +1040,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=AI%20Trends",
-      "createdAt": "2026-08-02 22:24:33",
-      "updatedAt": "2026-08-02 22:24:33"
+      "createdAt": "2026-08-09 10:44:31",
+      "updatedAt": "2026-08-09 10:53:07"
     },
     {
       "id": 13,
@@ -1050,7 +1050,7 @@
       "category": "Technology",
       "description": "As threats evolve, resilient security depends on awareness, automation and defense-in-depth strategies.",
       "body": "",
-      "img": "https://images.unsplash.com/photo-1563986768494-4dee2763ff3f?auto=format&fit=crop&w=900&q=80",
+      "img": "Article cards images/Technology/article_card_03.jpg",
       "alt": "Cybersecurity analyst workstation with code and dashboards",
       "author": "Busari Oluwashola",
       "date": "2026-07-02",
@@ -1063,8 +1063,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Technology",
-      "createdAt": "2026-08-02 22:24:33",
-      "updatedAt": "2026-08-02 22:24:33"
+      "createdAt": "2026-08-09 10:44:31",
+      "updatedAt": "2026-08-09 10:53:07"
     },
     {
       "id": 14,
@@ -1073,7 +1073,7 @@
       "category": "Technology",
       "description": "Connected sensors are enabling smarter infrastructure, energy usage and traffic management.",
       "body": "",
-      "img": "https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=900&q=80",
+      "img": "Article cards images/Technology/article_card_15.jpg",
       "alt": "Modern city skyline with connected infrastructure concept",
       "author": "Busari Oluwashola",
       "date": "2026-06-30",
@@ -1086,8 +1086,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Technology",
-      "createdAt": "2026-08-02 22:24:33",
-      "updatedAt": "2026-08-02 22:24:33"
+      "createdAt": "2026-08-09 10:44:31",
+      "updatedAt": "2026-08-09 10:53:07"
     },
     {
       "id": 15,
@@ -1096,7 +1096,7 @@
       "category": "AI Trends",
       "description": "Teams building AI products need governance practices that keep innovation aligned with human outcomes.",
       "body": "",
-      "img": "https://images.unsplash.com/photo-1535378917042-10a22c95931a?auto=format&fit=crop&w=900&q=80",
+      "img": "Article cards images/AI/article_card_05.jpg",
       "alt": "Abstract neural network lines over a person silhouette",
       "author": "Busari Oluwashola",
       "date": "2026-06-28",
@@ -1109,8 +1109,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=AI%20Trends",
-      "createdAt": "2026-08-02 22:24:33",
-      "updatedAt": "2026-08-02 22:24:33"
+      "createdAt": "2026-08-09 10:44:31",
+      "updatedAt": "2026-08-09 10:53:07"
     },
     {
       "id": 16,
@@ -1119,7 +1119,7 @@
       "category": "Technology",
       "description": "Immersive classrooms can help students explore complex ideas through safe, hands-on simulations.",
       "body": "",
-      "img": "https://images.unsplash.com/photo-1622979135225-d2ba269cf1ac?auto=format&fit=crop&w=900&q=80",
+      "img": "Article cards images/Technology/article_card_12.jpg",
       "alt": "Student using a virtual reality headset",
       "author": "Busari Oluwashola",
       "date": "2026-06-26",
@@ -1132,8 +1132,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Technology",
-      "createdAt": "2026-08-02 22:24:33",
-      "updatedAt": "2026-08-02 22:24:33"
+      "createdAt": "2026-08-09 10:44:31",
+      "updatedAt": "2026-08-09 10:53:07"
     },
     {
       "id": 17,
@@ -1142,7 +1142,7 @@
       "category": "Web 3",
       "description": "Regulatory clarity is shaping the future of digital assets, exchanges and stablecoin adoption.",
       "body": "",
-      "img": "",
+      "img": "Article cards images/Web 3/article_card_02.jpg",
       "alt": "Cryptocurrency Regulations Worldwide",
       "author": "Busari Oluwashola",
       "date": "2026-06-24",
@@ -1155,8 +1155,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Web%203",
-      "createdAt": "2026-08-02 22:24:33",
-      "updatedAt": "2026-08-02 22:24:33"
+      "createdAt": "2026-08-09 10:44:31",
+      "updatedAt": "2026-08-09 10:53:07"
     },
     {
       "id": 18,
@@ -1165,7 +1165,7 @@
       "category": "AI Trends",
       "description": "AI assistants are improving response times while helping support teams focus on complex conversations.",
       "body": "",
-      "img": "https://images.unsplash.com/photo-1531746790731-6c087fecd65a?auto=format&fit=crop&w=900&q=80",
+      "img": "Article cards images/AI/article_card_08.jpg",
       "alt": "Customer service professional using a headset at a computer",
       "author": "Busari Oluwashola",
       "date": "2026-06-22",
@@ -1178,8 +1178,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=AI%20Trends",
-      "createdAt": "2026-08-02 22:24:33",
-      "updatedAt": "2026-08-02 22:24:33"
+      "createdAt": "2026-08-09 10:44:31",
+      "updatedAt": "2026-08-09 10:53:07"
     },
     {
       "id": 19,
@@ -1188,7 +1188,7 @@
       "category": "Technology",
       "description": "Hardware, software and climate intelligence are reducing waste and supporting greener operations.",
       "body": "",
-      "img": "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=900&q=80",
+      "img": "Article cards images/Technology/article_card_23.jpg",
       "alt": "Wind turbines and power lines in a green landscape",
       "author": "Busari Oluwashola",
       "date": "2026-06-20",
@@ -1201,8 +1201,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Technology",
-      "createdAt": "2026-08-02 22:24:33",
-      "updatedAt": "2026-08-02 22:24:33"
+      "createdAt": "2026-08-09 10:44:31",
+      "updatedAt": "2026-08-09 10:53:07"
     },
     {
       "id": 20,
@@ -1211,7 +1211,7 @@
       "category": "Technology",
       "description": "Cloud platforms continue to evolve toward faster deployment, elastic infrastructure and edge workloads.",
       "body": "",
-      "img": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=900&q=80",
+      "img": "Article cards images/Technology/article_card_05.jpg",
       "alt": "Earth from space with network connections",
       "author": "Busari Oluwashola",
       "date": "2026-06-18",
@@ -1224,8 +1224,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Technology",
-      "createdAt": "2026-08-02 22:24:33",
-      "updatedAt": "2026-08-02 22:24:33"
+      "createdAt": "2026-08-09 10:44:31",
+      "updatedAt": "2026-08-09 10:53:07"
     },
     {
       "id": 21,
@@ -1234,7 +1234,7 @@
       "category": "AI Trends",
       "description": "Automation powered by AI is increasing precision, quality control and efficiency on factory floors.",
       "body": "",
-      "img": "https://images.unsplash.com/photo-1565688534245-05d6b5be184a?auto=format&fit=crop&w=900&q=80",
+      "img": "Article cards images/AI/article_card_13.jpg",
       "alt": "Robotic arm operating in a manufacturing environment",
       "author": "Busari Oluwashola",
       "date": "2026-06-16",
@@ -1247,8 +1247,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=AI%20Trends",
-      "createdAt": "2026-08-02 22:24:33",
-      "updatedAt": "2026-08-02 22:24:33"
+      "createdAt": "2026-08-09 10:44:31",
+      "updatedAt": "2026-08-09 10:53:07"
     },
     {
       "id": 22,
@@ -1257,7 +1257,7 @@
       "category": "Game",
       "description": "Streaming infrastructure, mobile hardware and creator ecosystems are changing how players discover games.",
       "body": "",
-      "img": "https://images.unsplash.com/photo-1556438064-2d7646166914?auto=format&fit=crop&w=900&q=80",
+      "img": "Article cards images/Game/article_card_01.jpg",
       "alt": "Gaming controller on a neon-lit desk",
       "author": "Busari Oluwashola",
       "date": "2026-06-14",
@@ -1270,8 +1270,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Game",
-      "createdAt": "2026-08-02 22:24:33",
-      "updatedAt": "2026-08-02 22:24:33"
+      "createdAt": "2026-08-09 10:44:31",
+      "updatedAt": "2026-08-09 10:53:07"
     },
     {
       "id": 23,
@@ -1280,7 +1280,7 @@
       "category": "Cryptocurrency",
       "description": "Stablecoins are becoming a bridge between traditional finance and programmable internet-native money.",
       "body": "",
-      "img": "https://images.unsplash.com/photo-1621761191319-c6fb62004040?auto=format&fit=crop&w=900&q=80",
+      "img": "Article cards images/Cryptocurrency/article_card_06.jpg",
       "alt": "Cryptocurrency coins and a financial chart",
       "author": "Busari Oluwashola",
       "date": "2026-06-12",
@@ -1293,8 +1293,8 @@
       "seoTitle": null,
       "seoDescription": null,
       "link": "index.html?category=Cryptocurrency",
-      "createdAt": "2026-08-02 22:24:33",
-      "updatedAt": "2026-08-02 22:24:33"
+      "createdAt": "2026-08-09 10:44:31",
+      "updatedAt": "2026-08-09 10:53:07"
     }
   ]
 }

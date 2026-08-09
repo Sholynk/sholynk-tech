@@ -5,7 +5,7 @@
       "title": "Mastering the Art of Coding: 10 key areas every developer should focus on",
       "description": "Learning to code has never been more accessible — but knowing a programming language is not the same as knowing how to build software. These ten areas represent the foundations upon which exceptional developers are built.",
       "img": "Article cards images/Home/article_card_01.jpg",
-      "readMoreLink": "article_01.html"
+      "readMoreLink": "article.html?slug=mastering-the-art-of-coding"
     },
     {
       "category": "AI Trends",
@@ -32,9 +32,10 @@
   "articles": [
     {
       "title": "Mastering the art of coding",
-      "link": "article_01.html",
+      "slug": "mastering-the-art-of-coding",
+      "link": "article.html?slug=mastering-the-art-of-coding",
       "category": "Technology",
-      "description": "Syntax is the easy part. These are the ten habits that separate finishing a tutorial from being trusted with production code.",
+      "description": "Learning to code has never been more accessible — but knowing a language is not the same as knowing how to build software. These ten areas represent the foundations upon which exceptional developers are built.",
       "img": "Article cards images/Home/article_card_01.jpg",
       "alt": "Developer working at a desk with two monitors displaying source code",
       "date": "Jul 26, 2026",
