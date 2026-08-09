@@ -1,12 +1,23 @@
-*By Busari Oluwashola*
-
+---
+title: Distraction by Design: Navigating Attention in the Social Media Era
+slug: distraction-by-design
+category: Technology
+description: Notifications, infinite scroll and AI-driven feeds turned attention into the internet's most valuable commodity: how the attention economy works, and how to enjoy social media without being controlled by it.
+img: article-images/distraction-by-design/social-media-apps-hero.jpg
+alt: Smartphone screen showing a Social Media folder with apps such as YouTube, Instagram, Facebook and TikTok
+date: 2026-08-02
+readingTime: 9 min read
+seoTitle: Distraction by Design: Navigating Attention in the Social Media Era
+seoDescription: Social media turned attention into a commodity. How the attention economy captures our focus, why feeds feel addictive, and how to enjoy social platforms without being controlled by them.
+author: Busari Oluwashola
+---
 ## Introduction
 
 Attention has become one of the world's most valuable resources.
 
 In the past, companies competed for consumers' money. Today, many of the world's largest technology companies compete for something even more fundamental: **your attention**.
 
-Every notification, infinite scroll, autoplay video, personalized recommendation, and trending topic is carefully engineered to keep users engaged for as long as possible. While social media has revolutionized communication, democratized information, and connected billions of people across continents, it has also transformed attention into a commodity one that is measured, analyzed, bought, and sold.
+Every notification, infinite scroll, autoplay video, personalized recommendation, and trending topic is carefully engineered to keep users engaged for as long as possible. While social media has revolutionized communication, democratized information, and connected billions of people across continents, it has also transformed attention into a commodity, one that is measured, analyzed, bought, and sold.
 
 For many people, checking social media has become second nature. A quick glance at a notification often turns into twenty minutes of scrolling. A search for a single piece of information unexpectedly becomes a journey through memes, videos, advertisements, and endless recommendations. What feels like a conscious choice is often the result of sophisticated systems designed to maximize engagement.
 
@@ -28,7 +39,7 @@ The longer users remain on a platform, the more advertisements they see, the mor
 
 ![A woman walking down a city street while using her phone as traffic lights blur behind her](article-images/distraction-by-design/walking-with-phone.jpg)
 
-*Attention is constantly bid for in everyday life, every spare moment is an opportunity for a feed to fill.*
+*Attention is constantly bid for in everyday life; every spare moment is an opportunity for a feed to fill.*
 
 Modern platforms continuously analyze user behavior by tracking signals such as:
 
@@ -42,7 +53,7 @@ Modern platforms continuously analyze user behavior by tracking signals such as:
 
 These interactions help build detailed behavioral profiles that artificial intelligence uses to personalize each user's experience.
 
-The result is a feed that becomes increasingly relevant—and increasingly difficult to leave.
+The result is a feed that becomes increasingly relevant and increasingly difficult to leave.
 
 ### Why Social Media Feels So Addictive
 
@@ -50,7 +61,7 @@ Human attention is naturally drawn to novelty, uncertainty, and social interacti
 
 ![Close-up of a smartphone screen displaying app icons and notification badges](article-images/distraction-by-design/notifications-screen-closeup.jpg)
 
-*Every badge, banner and vibration is a small invitation back into the feed.*
+*Every badge, banner, and vibration is a small invitation back into the feed.*
 
 ### Infinite Scrolling
 
@@ -104,7 +115,7 @@ Although often criticized, social media has created extraordinary opportunities 
 
 Educational creators now reach millions of learners worldwide through short-form lessons, tutorials, and interactive communities.
 
-Students can access high quality educational resources regardless of geographical location.
+Students can access high-quality educational resources regardless of geographical location.
 
 ### Business and Entrepreneurship
 
@@ -198,7 +209,7 @@ Researchers are exploring ways to design platforms that encourage meaningful eng
 
 ![A man sitting on a park bench holding a notebook, looking thoughtfully into the distance](article-images/distraction-by-design/reading-focus-park.jpg)
 
-*The next era of design priorities may reward undistracted time — and tools that help people reclaim it.*
+*The next era of design priorities may reward undistracted time and tools that help people reclaim it.*
 
 Artificial intelligence will continue to personalize online experiences, making content more relevant than ever before. At the same time, this increased personalization raises important ethical questions about autonomy, privacy, and the balance between user engagement and user wellbeing.
 

@@ -34,3 +34,19 @@ test('ensureSeeded populates an empty CMS database once', () => {
   assert.equal(seed.ensureSeeded(), false);
   assert.equal(articles.list({ status: 'published' }).length, 56);
 });
+
+test('Markdown files without a front-matter block are skipped, not published', () => {
+  const storiesDir = path.join(__dirname, '..', '..', 'article_stories');
+  const probe = path.join(storiesDir, 'zz-not-an-article.md');
+  fs.writeFileSync(probe, '# Just a note\n\nThis file has no front matter, so it must never become an article.\n');
+  try {
+    seed.run();
+    const all = articles.list({ status: 'all' });
+    assert.ok(
+      !all.some((article) => article.slug === 'zz-not-an-article'),
+      'a .md file without front matter must not be published as an article'
+    );
+  } finally {
+    fs.rmSync(probe, { force: true });
+  }
+});

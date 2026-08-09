@@ -43,6 +43,7 @@
         panel.hidden = panel.id !== `panel-${tab.dataset.panel}`;
       });
       if (tab.dataset.panel === 'media') loadImages();
+      if (tab.dataset.panel === 'comments') loadComments();
       if (tab.dataset.panel === 'settings') loadSettings();
     });
   });
@@ -341,6 +342,78 @@
     }
     return undefined;
   });
+
+  /* ----------------------------- comments ------------------------------ */
+
+  function formatCommentDate(value) {
+    const parsed = new Date(String(value).replace(' ', 'T'));
+    if (Number.isNaN(parsed.valueOf())) return value || '';
+    return parsed.toLocaleString('en-US', {
+      year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit'
+    });
+  }
+
+  async function loadComments() {
+    const list = $('commentList');
+    try {
+      const payload = await request('/comments?limit=200');
+      const comments = payload.data || [];
+      list.innerHTML = '';
+      $('commentCount').textContent = `${comments.length} comment${comments.length === 1 ? '' : 's'} in the history`;
+      if (!comments.length) {
+        const empty = document.createElement('p');
+        empty.className = 'comment-admin-empty';
+        empty.textContent = 'No comments yet. Reader comments will appear here as they are posted.';
+        list.append(empty);
+        return;
+      }
+      comments.forEach((comment) => {
+        const item = document.createElement('li');
+        item.className = 'comment-admin-item';
+        item.dataset.commentId = String(comment.id);
+
+        const head = document.createElement('div');
+        head.className = 'comment-admin-head';
+        const who = document.createElement('span');
+        who.className = 'comment-admin-author';
+        who.textContent = `${comment.author} · ${comment.articleTitle}`;
+        const when = document.createElement('time');
+        when.className = 'comment-admin-time';
+        when.textContent = formatCommentDate(comment.createdAt);
+        head.append(who, when);
+
+        const body = document.createElement('p');
+        body.className = 'comment-admin-body';
+        body.textContent = comment.body;
+
+        const actions = document.createElement('div');
+        actions.className = 'comment-admin-actions';
+        const remove = document.createElement('button');
+        remove.type = 'button';
+        remove.className = 'danger-button';
+        remove.textContent = 'Delete';
+        remove.addEventListener('click', async () => {
+          if (!window.confirm('Delete this comment permanently?')) return;
+          try {
+            await request(`/comments/${comment.id}`, { method: 'DELETE' });
+            item.remove();
+            toast('Comment deleted');
+            loadComments();
+          } catch (error) {
+            toast(error.message, true);
+          }
+        });
+        actions.append(remove);
+
+        item.append(head, body, actions);
+        list.append(item);
+      });
+    } catch (error) {
+      toast(error.message, true);
+    }
+  }
+
+  $('refreshComments').addEventListener('click', loadComments);
 
   /* ----------------------------- settings ------------------------------- */
 

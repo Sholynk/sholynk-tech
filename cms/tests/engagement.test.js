@@ -177,6 +177,61 @@ test('comment text is stored verbatim, not interpreted', async () => {
   assert.equal(created.body.data.body, payload);
 });
 
+test('posting the same clientId twice returns the original comment', async () => {
+  const first = await api('/api/articles/idempotent-demo/comments', {
+    method: 'POST',
+    body: JSON.stringify({ author: 'Ada', body: 'Sync-safe comment.', clientId: 'client-abc-123' })
+  });
+  assert.equal(first.status, 201);
+
+  // A retried submission (offline queue sync, double-tab, timeout retry) must
+  // not create a second copy of the same comment.
+  const retry = await api('/api/articles/idempotent-demo/comments', {
+    method: 'POST',
+    body: JSON.stringify({ author: 'Ada', body: 'Sync-safe comment.', clientId: 'client-abc-123' })
+  });
+  assert.equal(retry.status, 201);
+  assert.equal(retry.body.data.id, first.body.data.id);
+  assert.equal(retry.body.data.clientId, 'client-abc-123');
+
+  const { body } = await api('/api/articles/idempotent-demo/comments');
+  assert.equal(body.data.length, 1);
+});
+
+test('different clientIds are stored as separate comments', async () => {
+  await api('/api/articles/idempotent-demo-2/comments', {
+    method: 'POST',
+    body: JSON.stringify({ author: 'Ada', body: 'One.', clientId: 'client-1' })
+  });
+  await api('/api/articles/idempotent-demo-2/comments', {
+    method: 'POST',
+    body: JSON.stringify({ author: 'Ada', body: 'Two.', clientId: 'client-2' })
+  });
+
+  const { body } = await api('/api/articles/idempotent-demo-2/comments');
+  assert.equal(body.data.length, 2);
+});
+
+test('the admin comments endpoint lists the full history across articles', async () => {
+  await api('/api/articles/history-a/comments', {
+    method: 'POST',
+    body: JSON.stringify({ author: 'Alice', body: 'On article A.', clientId: 'hist-a-1' })
+  });
+  await api('/api/articles/history-b/comments', {
+    method: 'POST',
+    body: JSON.stringify({ author: 'Bob', body: 'On article B.', clientId: 'hist-b-1' })
+  });
+
+  const { status, body } = await api('/api/comments');
+  assert.equal(status, 200);
+  const mine = body.data.filter((comment) =>
+    comment.articleSlug === 'history-a' || comment.articleSlug === 'history-b'
+  );
+  assert.equal(mine.length, 2);
+  assert.ok(mine.every((comment) => comment.articleTitle), 'each row carries the article title');
+  assert.equal(mine[0].body, 'On article B.', 'newest first across articles');
+});
+
 test('comments are scoped to their article', async () => {
   await api('/api/articles/scoped-one/comments', {
     method: 'POST',

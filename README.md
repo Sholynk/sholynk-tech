@@ -88,11 +88,12 @@ cms/
   admin/               Admin dashboard (vanilla HTML/CSS/JS)
   tests/               node:test integration suite
 article.html/.js       Dynamic article page
-article_stories/       Markdown long-form stories
+article_stories/       Markdown long-form stories — THE source of truth for articles
 cms-client.js          Shared front-end data layer
-engagement.js          Like/dislike + comments widgets (API, localStorage fallback)
+engagement.js          Like/dislike + comments widgets (API, offline queue)
 styles.css             The entire stylesheet — no Tailwind, no build step
 content-fallback.json  Generated snapshot — do not edit by hand
+articles.json          Generated search index — do not edit by hand
 ```
 
 ## Styling
@@ -124,8 +125,18 @@ authentication, it exists so the one-vote-per-reader rule can be enforced
 server-side. Clicking the same button twice un-votes, and clicking the opposite
 one switches sides, so repeat clicking cannot inflate a count.
 
-Like the rest of the front-end, the widgets prefer the API and fall back to
-`localStorage` when it is unreachable, so they keep working on static hosting.
+### Comments are shared across devices
+
+The comment history lives in the CMS database, so a comment posted on one
+device appears on every other device that loads the same article. When the API
+is unreachable (static hosting, offline, server down), comments are kept in a
+per-device `localStorage` queue, shown immediately, and pushed to the shared
+history automatically on the next page load or when the browser reconnects.
+Every submission carries a per-comment `clientId`, so retries and queue syncs
+never create duplicates.
+
+The full comment history across all articles can be viewed and moderated from
+the **Comments** tab in the admin dashboard (`/admin/`).
 
 ## API
 
@@ -143,7 +154,8 @@ All write operations accept JSON.
 | `GET`           | `/api/articles/:slug/reactions`  | Like/dislike tallies. Query: `voterId`                            |
 | `POST`          | `/api/articles/:slug/reactions`  | Cast a reaction (`type`, `voterId`)                               |
 | `GET`           | `/api/articles/:slug/comments`   | List comments, newest first                                       |
-| `POST`          | `/api/articles/:slug/comments`   | Add a comment (`author`, `body`)                                  |
+| `POST`          | `/api/articles/:slug/comments`   | Add a comment (`author`, `body`, `clientId`) — idempotent per clientId |
+| `GET`           | `/api/comments`                  | Full comment history across articles (admin)                      |
 | `DELETE`        | `/api/comments/:id`              | Moderation — removes a comment (admin)                            |
 | `GET`           | `/api/images`                    | List uploaded images                                              |
 | `POST`          | `/api/images`                    | Upload (multipart, field `image`, plus `alt`)                     |
@@ -174,16 +186,58 @@ CMS_ADMIN_TOKEN=your-secret npm start
 
 ## Content workflow
 
-1. Open `/admin/`.
-2. Create or edit an article. Body accepts HTML — the toolbar inserts headings,
-   figures, quotes and lists. `<h2>` elements automatically become the article's
-   table of contents.
-3. Upload images under **Media library**, set alt text (required), then use
-   **Use as hero** or **Copy URL** to place them in the body.
-4. Articles with a body render at `/article.html?slug=...`. Leaving
-   "External link override" set instead points the homepage card elsewhere.
-5. If you deploy statically, run `node cms/export-fallback.js` to refresh
-   `content-fallback.json`.
+### Long-form articles live in Markdown
+
+Every file in `article_stories/*.md` is an article. The file starts with a
+small front-matter block that holds the metadata; everything after it is the
+article body:
+
+```markdown
+---
+title: The Rise of Quantum Computing: The Computing Revolution Beyond Silicon
+slug: the-rise-of-quantum-computing   # optional — derived from the title if absent
+category: Technology
+description: A one- or two-sentence summary shown on cards and in search.
+img: article-images/quantum/quantum-computer-chandelier.jpg
+alt: Golden chandelier-like cryostat of a superconducting quantum computer
+date: 2026-08-02
+readingTime: 12 min read            # optional — estimated from word count
+featured: true                      # optional
+hero: true                          # optional — show on the homepage hero
+heroOrder: 1                        # optional, with hero: true
+seoTitle: ...                       # optional
+seoDescription: ...                 # optional
+author: Busari Oluwashola           # optional
+---
+
+## Introduction
+
+The article body starts here. `##` headings become the table of contents.
+```
+
+To add an article: drop a new `.md` file in `article_stories/` (optionally
+adding a hero flag or a card image), then run:
+
+```bash
+npm run sync
+```
+
+> New to the workflow? Read **`article_stories/README.md`** — a step-by-step,
+> beginner-friendly guide (with a template, a worked example, and a
+> troubleshooting checklist) for adding articles.
+
+`npm run sync` seeds the database from the Markdown files (plus the card-only
+entries in `cms/data/seed.json`) and regenerates both static snapshots
+(`content-fallback.json` and `articles.json`), so the site works identically
+whether it is served by the Node server or hosted statically. Editing an
+article is the same: change the `.md` and run `npm run sync` again.
+
+### Admin dashboard
+
+The dashboard at `/admin/` manages images, site metadata, and the comment
+history. Long-form articles are owned by their Markdown files, so article edits
+made in the dashboard are overwritten by the next `npm run sync` — edit the
+`.md` files instead.
 
 Article HTML is sanitised on render: `<script>`, `<iframe>`, inline event
 handlers and `javascript:` URLs are stripped, and images without `alt` get an

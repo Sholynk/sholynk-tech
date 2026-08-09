@@ -31,6 +31,7 @@
   <nav class="admin-tabs" aria-label="Sections">
    <button class="tab active" type="button" data-panel="articles">Articles</button>
    <button class="tab" type="button" data-panel="media">Media library</button>
+   <button class="tab" type="button" data-panel="comments">Comments</button>
    <button class="tab" type="button" data-panel="settings">Site metadata</button>
   </nav>
 
@@ -194,6 +195,20 @@
      <button class="primary-button" type="submit"><i class="fas fa-upload" aria-hidden="true"></i> Upload</button>
     </form>
     <div class="media-grid" id="mediaGrid"></div>
+   </section>
+
+   <!-- Comments -->
+   <section class="panel" id="panel-comments" aria-label="Comment history" hidden>
+    <div class="settings-card">
+     <div class="form-head">
+      <h2>Comment history</h2>
+      <button class="ghost-button" id="refreshComments" type="button">
+       <i class="fas fa-sync-alt" aria-hidden="true"></i> Refresh
+      </button>
+     </div>
+     <p class="list-count" id="commentCount" aria-live="polite"></p>
+     <ul class="comment-admin-list" id="commentList"></ul>
+    </div>
    </section>
 
    <!-- Settings -->

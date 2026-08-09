@@ -1,8 +1,18 @@
 'use strict';
 
 /**
- * Seeds the CMS database from the data that used to be hardcoded in index.js,
- * plus the long-form quantum computing article.
+ * Seeds the CMS database.
+ *
+ * Content comes from two sources:
+ *
+ * 1. Long-form articles: every `article_stories/*.md` file becomes an article.
+ *    The file's front-matter block (see cms/lib/frontmatter.js) supplies the
+ *    metadata; the rest of the file is the article body. This is the single
+ *    source of truth for full articles — edit the .md, re-run `npm run seed`.
+ *
+ * 2. Card-only entries and homepage hero slides: `cms/data/seed.json`.
+ *    Card entries whose slug is already provided by a .md file are skipped so
+ *    the Markdown version always wins.
  *
  * Safe to re-run: existing slugs are updated rather than duplicated.
  */
@@ -12,38 +22,38 @@ const path = require('node:path');
 
 const articles = require('./lib/articles');
 const settings = require('./lib/settings');
+const { parseFrontMatter } = require('./lib/frontmatter');
 const { db } = require('./lib/db');
 
 const seed = JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'seed.json'), 'utf8'));
 
 const LONGFORM_SLUG = 'the-rise-of-quantum-computing';
 
+const STORIES_DIR = path.join(__dirname, '..', 'article_stories');
+
 /**
- * Long-form bodies live beside seed.json as `<slug>.md` files, authored in
- * Markdown (article.js renders them via markdown.js). A seed entry whose slug
- * has a matching body file becomes a full article page; the others keep
- * pointing at their external links.
+ * Reads every Markdown story in article_stories/ and returns them sorted by
+ * filename, each as { file, data (front matter), body }.
  */
+function loadLongformStories() {
+  const stories = [];
+  if (!fs.existsSync(STORIES_DIR)) return stories;
+
+  for (const item of fs.readdirSync(STORIES_DIR).filter((name) => name.endsWith('.md')).sort()) {
+    const raw = fs.readFileSync(path.join(STORIES_DIR, item), 'utf8');
+    const { data, body } = parseFrontMatter(raw);
+    stories.push({ file: item, data, body: body.replace(/^\s+/, '') });
+  }
+  return stories;
+}
+
+/** Backwards-compatible body lookup for the old embedded seed bodies. */
 function loadLongformBody(slug) {
   const file = path.join(__dirname, 'data', `${slug}.md`);
   if (fs.existsSync(file)) return fs.readFileSync(file, 'utf8');
 
-  const storiesDir = path.join(__dirname, '..', 'article_stories');
-  if (fs.existsSync(storiesDir)) {
-    const directFile = path.join(storiesDir, `${slug}.md`);
-    if (fs.existsSync(directFile)) return fs.readFileSync(directFile, 'utf8');
-
-    const files = fs.readdirSync(storiesDir);
-    for (const item of files) {
-      if (!item.endsWith('.md')) continue;
-      const baseName = item.replace(/\.md$/, '');
-      const fileSlug = articles.slugify(baseName);
-      if (fileSlug === slug || fileSlug.startsWith(slug) || slug.startsWith(fileSlug)) {
-        return fs.readFileSync(path.join(storiesDir, item), 'utf8');
-      }
-    }
-  }
-
+  const directFile = path.join(STORIES_DIR, `${slug}.md`);
+  if (fs.existsSync(directFile)) return fs.readFileSync(directFile, 'utf8');
   return null;
 }
 
@@ -53,6 +63,7 @@ function estimateReadingTime(body = '') {
 }
 
 function toIsoDate(value) {
+  if (!value) return new Date().toISOString().slice(0, 10);
   const parsed = new Date(value);
   return Number.isNaN(parsed.valueOf())
     ? new Date().toISOString().slice(0, 10)
@@ -66,17 +77,64 @@ function upsert(payload) {
   return articles.create({ ...payload, slug });
 }
 
-function run() {
-  const heroBySlug = new Map();
-  seed.heroSlides.forEach((slide, index) => {
-    heroBySlug.set(articles.slugify(slide.title), { order: index, slide });
-  });
+/**
+ * Seeds long-form articles from article_stories/*.md. Returns the set of
+ * slugs they own so card-only seed entries cannot override them.
+ */
+function seedStories() {
+  const ownedSlugs = new Set();
+  for (const story of loadLongformStories()) {
+    const { data, body } = story;
 
+    // A .md file without a front-matter block (the `---` header at the very
+    // top) is not an article — for example this folder's README. Skip it
+    // instead of publishing it as an article.
+    if (Object.keys(data).length === 0) {
+      console.warn(`Skipping ${story.file}: no front-matter block at the top of the file.`);
+      continue;
+    }
+
+    const title = data.title || story.file.replace(/\.md$/, '').replace(/[-_]+/g, ' ');
+    const slug = articles.slugify(data.slug || title);
+
+    upsert({
+      slug,
+      title,
+      category: data.category || 'Technology',
+      description: data.description || '',
+      img: data.img || '',
+      alt: data.alt || title,
+      date: toIsoDate(data.date),
+      readingTime: data.readingTime || estimateReadingTime(body),
+      featured: Boolean(data.featured),
+      status: 'published',
+      author: data.author || 'Sholynk Editorial',
+      body,
+      // Stories live at their own page; there is no external link.
+      externalLink: null,
+      seoTitle: data.seoTitle || null,
+      seoDescription: data.seoDescription || null,
+      // Hero placement is controlled from the front matter.
+      hero: Boolean(data.hero),
+      heroOrder: data.hero && Number.isFinite(Number(data.heroOrder)) ? Number(data.heroOrder) : null
+    });
+    ownedSlugs.add(slug);
+  }
+  return ownedSlugs;
+}
+
+function run() {
+  // 1. Long-form articles come from the Markdown files — the single source.
+  const longformSlugs = seedStories();
+
+  // 2. Everything else comes from seed.json (card-only entries). Slugs owned
+  //    by a .md story are left untouched.
   let created = 0;
 
   seed.articles.forEach((article) => {
-    // An explicit slug in seed.json keeps an article's URL stable across rewrites.
     const slug = articles.slugify(article.slug || article.title);
+    if (longformSlugs.has(slug)) return;
+
     const longformBody = loadLongformBody(slug);
     const isLongform = longformBody !== null;
     upsert({
@@ -92,8 +150,6 @@ function run() {
       status: 'published',
       author: 'Busari Oluwashola',
       body: isLongform ? longformBody : '',
-      // Articles without their own body keep pointing at the legacy page or a
-      // category listing, exactly like before.
       externalLink: isLongform
         ? null
         : (article.link && !article.link.startsWith('article.html') ? article.link : null),
@@ -103,8 +159,8 @@ function run() {
     created += 1;
   });
 
-  // Hero slides: mark matching articles, and create standalone hero entries for
-  // slides that have no matching article.
+  // 3. Hero slides: mark matching articles, and create standalone hero entries
+  //    for slides that have no matching article.
   seed.heroSlides.forEach((slide, index) => {
     const slug = articles.slugify(slide.title);
     // Hero headlines are often a longer version of the article title, so fall
@@ -131,23 +187,10 @@ function run() {
     });
   });
 
-  // The quantum piece is the flagship long-form story: put it in the hero too.
-  const longform = articles.getBySlug(LONGFORM_SLUG);
-  if (longform) {
-    articles.update(longform.id, {
-      hero: true,
-      heroOrder: 1,
-      featured: true,
-      // Local hero image (see article-images/quantum/SOURCES.md for provenance).
-      img: 'article-images/quantum/quantum-computer-chandelier.jpg',
-      alt: 'Golden chandelier-like cryostat of a superconducting quantum computer, layered with control wiring'
-    });
-  }
-
   settings.set({});
 
   const total = db.prepare('SELECT COUNT(*) AS n FROM articles').get().n;
-  console.log(`Seeded ${created} source articles. Database now holds ${total} articles.`);
+  console.log(`Seeded ${created} card articles + ${longformSlugs.size} Markdown stories. Database now holds ${total} articles.`);
   console.log(`Long-form article available at: /article.html?slug=${LONGFORM_SLUG}`);
 }
 
