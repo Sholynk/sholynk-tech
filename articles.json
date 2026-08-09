@@ -20,7 +20,7 @@
     "link": "article_01.html",
     "category": "Web 3",
     "description": "Web3 promises a decentralized internet where users control their data and digital assets, reshaping online interactions.",
-    "img": "my_pic.png",
+    "img": "Images and Assets/my_pic.png",
     "alt": ""
   },
   {
@@ -28,7 +28,7 @@
     "link": "article_01.html",
     "category": "AI Trends",
     "description": "Artificial Intelligence is improving diagnostics, treatment plans, and patient monitoring, making healthcare more efficient and personalized.",
-    "img": "my_pic.png",
+    "img": "Article cards images/AI/article_card_11.jpg",
     "alt": "Doctor using AI technology on tablet in modern hospital"
   },
   {
@@ -36,7 +36,7 @@
     "link": "article_01.html",
     "category": "Technology",
     "description": "Innovations in solar, wind, and battery storage technologies are accelerating the transition to sustainable energy worldwide.",
-    "img": "my_pic.png",
+    "img": "Article cards images/Technology/article_card_07.jpg",
     "alt": "Solar panels and wind turbines under blue sky"
   },
   {
@@ -44,7 +44,7 @@
     "link": "article_01.html",
     "category": "AI Trends",
     "description": "As AI systems become more prevalent, ethical considerations around bias, privacy, and accountability are critical for responsible development.",
-    "img": "my_pic.png",
+    "img": "Article cards images/AI/article_card_05.jpg",
     "alt": "Abstract image representing AI ethics with human and robot hands"
   },
   {
@@ -52,7 +52,7 @@
     "link": "article_01.html",
     "category": "Web 3",
     "description": "DeFi platforms are transforming traditional finance by enabling peer-to-peer transactions without intermediaries.",
-    "img": "my_pic.png",
+    "img": "Article cards images/Web 3/article_card_05.png",
     "alt": ""
   },
   {
@@ -60,7 +60,7 @@
     "link": "article_01.html",
     "category": "Technology",
     "description": "Augmented Reality is enhancing user experiences in gaming, education, and retail by blending digital content with the real world.",
-    "img": "my_pic.png",
+    "img": "Article cards images/Technology/article_card_11.jpg",
     "alt": ""
   },
   {
@@ -68,7 +68,7 @@
     "link": "article_01.html",
     "category": "Technology",
     "description": "New tools and platforms are making remote work more productive and collaborative than ever before.",
-    "img": "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=160&q=80",
+    "img": "Article cards images/Technology/article_card_09.jpg",
     "alt": "Person working remotely on laptop with coffee and notebook"
   },
   {
@@ -76,7 +76,7 @@
     "link": "article_01.html",
     "category": "Technology",
     "description": "5G networks are transforming connectivity with faster speeds and lower latency, enabling new applications and services.",
-    "img": "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=160&q=80",
+    "img": "Article cards images/Technology/article_card_13.jpg",
     "alt": "5G technology concept with network towers and digital connections"
   },
   {
@@ -84,7 +84,7 @@
     "link": "article_01.html",
     "category": "Web 3",
     "description": "Blockchain technology is being applied in supply chain, healthcare, and voting systems to increase transparency and security.",
-    "img": "my_pic.png",
+    "img": "Article cards images/Web 3/article_card_03.jpg",
     "alt": ""
   },
   {
@@ -92,7 +92,7 @@
     "link": "article_01.html",
     "category": "AI Trends",
     "description": "Machine learning powers many applications from recommendation systems to fraud detection, impacting daily experiences.",
-    "img": "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=160&q=80",
+    "img": "Article cards images/AI/article_card_03.jpg",
     "alt": "Abstract machine learning concept with data visualization"
   },
   {
@@ -100,7 +100,7 @@
     "link": "article_01.html",
     "category": "Technology",
     "description": "As cyber threats evolve, new strategies and tools are essential to protect data and privacy.",
-    "img": "https://images.unsplash.com/photo-1515377905703-c4788e51af15?auto=format&fit=crop&w=160&q=80",
+    "img": "Article cards images/Technology/article_card_03.jpg",
     "alt": "Cybersecurity concept with digital lock and code"
   },
   {
@@ -108,7 +108,7 @@
     "link": "article_01.html",
     "category": "Technology",
     "description": "Internet of Things devices are enabling smarter infrastructure, traffic management, and energy efficiency.",
-    "img": "https://images.unsplash.com/photo-1497493292307-31c376b6e479?auto=format&fit=crop&w=160&q=80",
+    "img": "Article cards images/Technology/article_card_15.jpg",
     "alt": "Smart city with connected IoT devices and data"
   },
   {
@@ -116,7 +116,7 @@
     "link": "article_01.html",
     "category": "AI Trends",
     "description": "Developing AI responsibly requires addressing bias, transparency, and societal impact.",
-    "img": "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=160&q=80",
+    "img": "Article cards images/AI/article_card_05.jpg",
     "alt": "Ethical AI concept with human and robot hands"
   },
   {
@@ -124,7 +124,7 @@
     "link": "article_01.html",
     "category": "Technology",
     "description": "VR is transforming education by providing immersive learning experiences.",
-    "img": "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=160&q=80",
+    "img": "Article cards images/Technology/article_card_12.jpg",
     "alt": "Student using virtual reality headset in classroom"
   },
   {
@@ -132,7 +132,7 @@
     "link": "article_01.html",
     "category": "Web 3",
     "description": "Governments are shaping the future of cryptocurrencies with evolving regulations.",
-    "img": "my_pic.png",
+    "img": "Article cards images/Web 3/article_card_02.jpg",
     "alt": ""
   },
   {
@@ -140,7 +140,7 @@
     "link": "article_01.html",
     "category": "AI Trends",
     "description": "Chatbots and virtual assistants are improving customer interactions and support.",
-    "img": "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=160&q=80",
+    "img": "Article cards images/AI/article_card_07.jpg",
     "alt": "AI chatbot concept with digital interface"
   },
   {
@@ -148,7 +148,7 @@
     "link": "article_01.html",
     "category": "Technology",
     "description": "New technologies are helping reduce environmental impact and promote sustainability.",
-    "img": "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=160&q=80",
+    "img": "Article cards images/Technology/article_card_23.jpg",
     "alt": "Green technology with solar panels and plants"
   },
   {
@@ -156,7 +156,7 @@
     "link": "article_01.html",
     "category": "Technology",
     "description": "Cloud computing continues to evolve, offering scalable and flexible solutions for businesses.",
-    "img": "https://images.unsplash.com/photo-1497493292307-31c376b6e479?auto=format&fit=crop&w=160&q=80",
+    "img": "Article cards images/Technology/article_card_05.jpg",
     "alt": "Cloud computing concept with servers and data"
   },
   {
@@ -164,7 +164,7 @@
     "link": "article_01.html",
     "category": "AI Trends",
     "description": "Automation powered by AI is increasing efficiency and precision in manufacturing processes.",
-    "img": "https://images.unsplash.com/photo-1518773553398-650c184e0bb3?auto=format&fit=crop&w=160&q=80",
+    "img": "Article cards images/AI/article_card_13.jpg",
     "alt": "Robotic arm in manufacturing plant"
   },
   {
@@ -172,7 +172,7 @@
     "link": "article_01.html",
     "category": "Game",
     "description": "Streaming infrastructure, mobile hardware and creator ecosystems are changing how players discover games.",
-    "img": "https://images.unsplash.com/photo-1556438064-2d7646166914?auto=format&fit=crop&w=160&q=80",
+    "img": "Article cards images/Game/article_card_01.jpg",
     "alt": "Gaming controller on a neon-lit desk"
   },
   {
@@ -180,7 +180,7 @@
     "link": "article_01.html",
     "category": "Cryptocurrency",
     "description": "Stablecoins are becoming a bridge between traditional finance and programmable internet-native money.",
-    "img": "https://images.unsplash.com/photo-1621761191319-c6fb62004040?auto=format&fit=crop&w=160&q=80",
+    "img": "Article cards images/Cryptocurrency/article_card_06.jpg",
     "alt": "Cryptocurrency coins and a financial chart"
   },
   {
@@ -188,7 +188,7 @@
     "link": "article_01.html",
     "category": "Technology",
     "description": "Learning to code has never been more accessible — but knowing a language is not the same as knowing how to build software. These ten areas represent the foundations upon which exceptional developers are built.",
-    "img": "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=900&q=80",
+    "img": "Article cards images/Home/article_card_01.jpg",
     "alt": "Developer working at a desk with two monitors displaying source code"
   },
   {
@@ -196,7 +196,7 @@
     "link": "index.html?category=Technology",
     "category": "Technology",
     "description": "Reliability is a product feature. Here's how modern teams design for failure without slowing delivery.",
-    "img": "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=900&q=80",
+    "img": "Article cards images/Technology/article_card_21.jpg",
     "alt": "Close-up of a circuit board representing resilient software systems"
   },
   {
@@ -204,7 +204,7 @@
     "link": "index.html?category=Technology",
     "category": "Technology",
     "description": "From Linux to Kubernetes, open source tooling remains the backbone of fast-moving product teams.",
-    "img": "https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=900&q=80",
+    "img": "Article cards images/Technology/article_card_17.webp",
     "alt": "Developer workspace with code on a laptop screen"
   },
   {
@@ -212,7 +212,7 @@
     "link": "index.html?category=Technology",
     "category": "Technology",
     "description": "New semiconductor architectures are unlocking performance gains while keeping power budgets in check.",
-    "img": "https://images.unsplash.com/photo-1518773553398-650c184e0bb3?auto=format&fit=crop&w=900&q=80",
+    "img": "Article cards images/Technology/article_card_19.png",
     "alt": "Macro photo of a computer processor chip"
   },
   {
@@ -220,7 +220,7 @@
     "link": "index.html?category=AI%20Trends",
     "category": "AI Trends",
     "description": "Systems that reason across text, images, audio and video are opening new product surfaces for builders.",
-    "img": "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=900&q=80",
+    "img": "Article cards images/AI/article_card_09.jpg",
     "alt": "Abstract visualization of a multimodal artificial intelligence network"
   },
   {
@@ -228,7 +228,7 @@
     "link": "index.html?category=Cryptocurrency",
     "category": "Cryptocurrency",
     "description": "Regulated investment products are changing who can hold bitcoin and how traditional finance participates.",
-    "img": "https://images.unsplash.com/photo-1518546305927-5a555bb7020d?auto=format&fit=crop&w=900&q=80",
+    "img": "Article cards images/Cryptocurrency/article_card_03.jpg",
     "alt": "Bitcoin coin resting on a financial chart"
   },
   {
@@ -236,7 +236,7 @@
     "link": "index.html?category=Cryptocurrency",
     "category": "Cryptocurrency",
     "description": "Rollups and sidechains are making blockchain transactions faster and cheaper for everyday use.",
-    "img": "https://images.unsplash.com/photo-1639322537504-6427a16b0a28?auto=format&fit=crop&w=900&q=80",
+    "img": "Article cards images/Cryptocurrency/article_card_05.webp",
     "alt": "Abstract blockchain network nodes representing layer 2 scaling"
   },
   {
@@ -244,7 +244,7 @@
     "link": "index.html?category=Cryptocurrency",
     "category": "Cryptocurrency",
     "description": "Custody choices shape security, convenience and recovery — here's a practical guide for new holders.",
-    "img": "https://images.unsplash.com/photo-1621761191319-c6fb62004040?auto=format&fit=crop&w=900&q=80",
+    "img": "Article cards images/Cryptocurrency/article_card_07.jpg",
     "alt": "Cryptocurrency hardware and digital wallet concept"
   },
   {
@@ -252,7 +252,7 @@
     "link": "index.html?category=Cryptocurrency",
     "category": "Cryptocurrency",
     "description": "CBDCs share digital rails with crypto markets, but their design goals and trust models are very different.",
-    "img": "https://images.unsplash.com/photo-1640340434855-6084b1f4901c?auto=format&fit=crop&w=900&q=80",
+    "img": "Article cards images/Cryptocurrency/article_card_09.png",
     "alt": "Digital currency coins on a trading chart"
   },
   {
@@ -260,7 +260,7 @@
     "link": "index.html?category=Cryptocurrency",
     "category": "Cryptocurrency",
     "description": "Wallet flows, exchange reserves and network activity give traders a deeper view of crypto market structure.",
-    "img": "https://images.unsplash.com/photo-1642104704074-907c0698cbd9?auto=format&fit=crop&w=900&q=80",
+    "img": "Article cards images/Cryptocurrency/article_card_11.jpg",
     "alt": "Laptop displaying cryptocurrency market analytics"
   },
   {
@@ -268,7 +268,7 @@
     "link": "index.html?category=Cryptocurrency",
     "category": "Cryptocurrency",
     "description": "Proof-of-work and proof-of-stake secure networks differently — and that shapes environmental impact.",
-    "img": "https://images.unsplash.com/photo-1518546305927-5a555bb7020d?auto=format&fit=crop&w=900&q=80",
+    "img": "Article cards images/Cryptocurrency/article_card_11.jpg",
     "alt": "Gold bitcoin coin symbolizing crypto mining and staking"
   },
   {
@@ -276,7 +276,7 @@
     "link": "index.html?category=Cryptocurrency",
     "category": "Cryptocurrency",
     "description": "Seed phrases, phishing and fake apps remain the biggest risks — simple habits prevent most losses.",
-    "img": "https://images.unsplash.com/photo-1563986768494-4dee2763ff3f?auto=format&fit=crop&w=900&q=80",
+    "img": "Article cards images/Cryptocurrency/article_card_07.jpg",
     "alt": "Cybersecurity monitoring screen for crypto protection"
   },
   {
@@ -284,7 +284,7 @@
     "link": "index.html?category=Cryptocurrency",
     "category": "Cryptocurrency",
     "description": "Real-world yield products are bringing familiar financial instruments onto blockchain settlement rails.",
-    "img": "https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&w=900&q=80",
+    "img": "Article cards images/Cryptocurrency/article_card_08.png",
     "alt": "Person using a payment card representing digital yield products"
   },
   {
@@ -292,7 +292,7 @@
     "link": "index.html?category=Web%203",
     "category": "Web 3",
     "description": "Community governance is powerful, but tooling, incentives and legal wrappers still decide real outcomes.",
-    "img": "https://images.unsplash.com/photo-1639322537504-6427a16b0a28?auto=format&fit=crop&w=900&q=80",
+    "img": "Article cards images/Web 3/article_card_09.jpg",
     "alt": "Decentralized network graphic representing DAO governance"
   },
   {
@@ -300,7 +300,7 @@
     "link": "index.html?category=Web%203",
     "category": "Web 3",
     "description": "The strongest NFT projects now focus on access, provenance and creator tooling rather than speculation alone.",
-    "img": "https://images.unsplash.com/photo-1642104704074-907c0698cbd9?auto=format&fit=crop&w=900&q=80",
+    "img": "Article cards images/Web 3/article_card_07.jpg",
     "alt": "Digital art and blockchain interface on a laptop"
   },
   {
@@ -308,7 +308,7 @@
     "link": "index.html?category=Web%203",
     "category": "Web 3",
     "description": "Immutable code needs careful review. Audits, bug bounties and formal methods reduce costly on-chain failures.",
-    "img": "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=900&q=80",
+    "img": "Article cards images/Web 3/article_card_11.jpg",
     "alt": "Server room representing secure smart contract infrastructure"
   },
   {
@@ -316,7 +316,7 @@
     "link": "index.html?category=Web%203",
     "category": "Web 3",
     "description": "Open social protocols aim to give creators portable audiences and users ownership of their digital graph.",
-    "img": "https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&w=900&q=80",
+    "img": "Article cards images/Web 3/article_card_17.jpg",
     "alt": "Smartphone with social media apps representing decentralized social"
   },
   {
@@ -324,7 +324,7 @@
     "link": "index.html?category=Web%203",
     "category": "Web 3",
     "description": "Cross-chain bridges unlock liquidity and users, but they also concentrate some of Web3's hardest security risks.",
-    "img": "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?auto=format&fit=crop&w=900&q=80",
+    "img": "Article cards images/Web 3/article_card_19.jpg",
     "alt": "Blockchain technology concept with connected digital blocks"
   },
   {
@@ -332,7 +332,7 @@
     "link": "index.html?category=Web%203",
     "category": "Web 3",
     "description": "ZK cryptography lets apps verify facts without revealing underlying data — a foundation for private Web3 products.",
-    "img": "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=900&q=80",
+    "img": "Article cards images/Web 3/article_card_13.png",
     "alt": "Glowing circuit board representing zero-knowledge cryptography"
   },
   {
@@ -340,7 +340,7 @@
     "link": "index.html?category=Web%203",
     "category": "Web 3",
     "description": "Sustainable game economies need careful token design, real gameplay loops and player-first incentives.",
-    "img": "https://images.unsplash.com/photo-1556438064-2d7646166914?auto=format&fit=crop&w=900&q=80",
+    "img": "Article cards images/Game/article_card_05.jpg",
     "alt": "Gaming controller with neon lighting for Web3 gaming"
   },
   {
@@ -348,7 +348,7 @@
     "link": "index.html?category=Web%203",
     "category": "Web 3",
     "description": "IPFS, Filecoin and similar networks are reshaping how apps host media, archives and user-owned data.",
-    "img": "https://images.unsplash.com/photo-1544197150-b99a580bb7a2?auto=format&fit=crop&w=900&q=80",
+    "img": "Article cards images/Web 3/article_card_15.png",
     "alt": "Network cables and servers representing decentralized storage"
   },
   {
@@ -356,7 +356,7 @@
     "link": "index.html?category=Web%203",
     "category": "Web 3",
     "description": "Account abstraction, passkeys and smarter defaults are making onboarding far less intimidating for new users.",
-    "img": "https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&w=900&q=80",
+    "img": "Article cards images/Web 3/article_card_18.png",
     "alt": "Person completing a digital payment representing wallet UX"
   },
   {
@@ -364,7 +364,7 @@
     "link": "index.html?category=Game",
     "category": "Game",
     "description": "Competitive gaming has grown from local tournaments into a global entertainment industry built on players, teams, leagues and loyal communities.",
-    "img": "https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=900&q=80",
+    "img": "Article cards images/Game/article_card_05.jpg",
     "alt": "Gamer playing at a neon-lit esports desk",
     "date": "Aug 2, 2026",
     "readingTime": "5 min read"
@@ -374,7 +374,7 @@
     "link": "index.html?category=Game",
     "category": "Game",
     "description": "AI-assisted world building, testing and character design are giving game studios new creative tools while raising important questions about authorship.",
-    "img": "https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=900&q=80",
+    "img": "Article cards images/AI/article_card_09.jpg",
     "alt": "Video game controller beside a monitor",
     "date": "Jul 31, 2026",
     "readingTime": "5 min read"
@@ -384,7 +384,7 @@
     "link": "index.html?category=Game",
     "category": "Game",
     "description": "The best games balance challenge, discovery and meaningful progress to create experiences that feel rewarding without becoming exhausting.",
-    "img": "https://images.unsplash.com/photo-1493711662062-fa541adb3fc8?auto=format&fit=crop&w=900&q=80",
+    "img": "Article cards images/Game/article_card_09.jpg",
     "alt": "Person holding a game controller in front of a screen",
     "date": "Jul 29, 2026",
     "readingTime": "4 min read"
@@ -394,7 +394,7 @@
     "link": "index.html?category=Game",
     "category": "Game",
     "description": "Affordable smartphones, social features and free-to-play models are bringing sophisticated gaming experiences to more people than ever.",
-    "img": "https://images.unsplash.com/photo-1542751110-97427bbecf20?auto=format&fit=crop&w=900&q=80",
+    "img": "Article cards images/Game/article_card_03.jpg",
     "alt": "Mobile phone displaying a game with a controller nearby",
     "date": "Jul 27, 2026",
     "readingTime": "4 min read"
@@ -404,7 +404,7 @@
     "link": "index.html?category=Game",
     "category": "Game",
     "description": "VR games are moving beyond solo novelty experiences as better hardware and shared virtual spaces make play feel more naturally social.",
-    "img": "https://images.unsplash.com/photo-1538481199705-c710c4e965fc?auto=format&fit=crop&w=900&q=80",
+    "img": "Article cards images/Game/article_card_07.jpg",
     "alt": "Person using a virtual reality headset",
     "date": "Jul 25, 2026",
     "readingTime": "5 min read"
@@ -414,7 +414,7 @@
     "link": "index.html?category=Game",
     "category": "Game",
     "description": "Small studios are using focused ideas, flexible tools and direct communities to create some of the most distinctive games on the market.",
-    "img": "https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=900&q=80",
+    "img": "Article cards images/Game/article_card_11.jpg",
     "alt": "Retro video game console and controller",
     "date": "Jul 23, 2026",
     "readingTime": "4 min read"
@@ -424,7 +424,7 @@
     "link": "index.html?category=Game",
     "category": "Game",
     "description": "Real-time 3D engines are reshaping film, architecture, training and product design by making interactive visualisation faster to create.",
-    "img": "https://images.unsplash.com/photo-1593508512255-86ab42a8e620?auto=format&fit=crop&w=900&q=80",
+    "img": "Article cards images/Game/article_card_13.jpg",
     "alt": "Person experiencing an immersive digital environment",
     "date": "Jul 21, 2026",
     "readingTime": "4 min read"
@@ -434,7 +434,7 @@
     "link": "index.html?category=Game",
     "category": "Game",
     "description": "Remappable controls, readable interfaces and flexible difficulty settings help more players enjoy games on their own terms.",
-    "img": "https://images.unsplash.com/photo-1605901309584-818e25960a8f?auto=format&fit=crop&w=900&q=80",
+    "img": "Article cards images/Game/article_card_15.jpg",
     "alt": "Gaming setup with controller and illuminated keyboard",
     "date": "Jul 19, 2026",
     "readingTime": "4 min read"
