@@ -1038,12 +1038,19 @@ textarea:focus {
   }
 }
 
-/* On wide desktop screens, give the feed more breathing room by placing two
-   generous cards on each row. The 1-, 2- and 3-column layouts above remain
-   unchanged at smaller desktop, tablet and mobile widths. */
+/* >=1280px was previously forced to 2 columns, which made each card ~50% of a
+   1700px container (~812px wide). That is the “too wide” you’re seeing.
+   Fix is isolated to this breakpoint only — the 1-col (<=480), 2-col
+   (481-767), 3-col (768-1023) and 4-col (1024-1279) layouts below it stay
+   untouched. New approach: 3 columns at 1280px capped at 1280px width and
+   centered, then 4 columns again at 1536px so ultra-wide never blows up. */
 @media (min-width: 1280px) {
   .bento-feed {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    /* 3 cols = ~416px per card at 1280vw vs ~612px with 2 cols */
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    max-width: 1280px;
+    margin-inline: auto;
+    justify-content: center;
   }
 
   .bento-feed .card--tall,
@@ -1056,6 +1063,13 @@ textarea:focus {
 
   .bento-feed .card--tall {
     grid-row: span 24;
+  }
+}
+
+@media (min-width: 1536px) {
+  .bento-feed {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    max-width: 1440px;
   }
 }
 
