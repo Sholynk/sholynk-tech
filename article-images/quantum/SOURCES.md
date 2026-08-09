@@ -1,8 +1,7 @@
 # Quantum article — image sources
 
 The images in this folder were downloaded from free image hosting sites
-(Unsplash, Pixabay) and are used under their free licences. None of them were
-used in the previous version of the article.
+(Unsplash, Pixabay) and are used under their free licences.
 
 | File | Used as | Source |
 | --- | --- | --- |

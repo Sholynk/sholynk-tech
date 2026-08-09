@@ -6,7 +6,7 @@ Attention has become one of the world's most valuable resources.
 
 In the past, companies competed for consumers' money. Today, many of the world's largest technology companies compete for something even more fundamental: **your attention**.
 
-Every notification, infinite scroll, autoplay video, personalized recommendation, and trending topic is carefully engineered to keep users engaged for as long as possible. While social media has revolutionized communication, democratized information, and connected billions of people across continents, it has also transformed attention into a commodity—one that is measured, analyzed, bought, and sold.
+Every notification, infinite scroll, autoplay video, personalized recommendation, and trending topic is carefully engineered to keep users engaged for as long as possible. While social media has revolutionized communication, democratized information, and connected billions of people across continents, it has also transformed attention into a commodity one that is measured, analyzed, bought, and sold.
 
 For many people, checking social media has become second nature. A quick glance at a notification often turns into twenty minutes of scrolling. A search for a single piece of information unexpectedly becomes a journey through memes, videos, advertisements, and endless recommendations. What feels like a conscious choice is often the result of sophisticated systems designed to maximize engagement.
 
@@ -28,7 +28,7 @@ The longer users remain on a platform, the more advertisements they see, the mor
 
 ![A woman walking down a city street while using her phone as traffic lights blur behind her](article-images/distraction-by-design/walking-with-phone.jpg)
 
-*Attention is constantly bid for in everyday life — every spare moment is an opportunity for a feed to fill.*
+*Attention is constantly bid for in everyday life, every spare moment is an opportunity for a feed to fill.*
 
 Modern platforms continuously analyze user behavior by tracking signals such as:
 
@@ -104,7 +104,7 @@ Although often criticized, social media has created extraordinary opportunities 
 
 Educational creators now reach millions of learners worldwide through short-form lessons, tutorials, and interactive communities.
 
-Students can access high-quality educational resources regardless of geographical location.
+Students can access high quality educational resources regardless of geographical location.
 
 ### Business and Entrepreneurship
 
@@ -140,7 +140,7 @@ Creators have unprecedented opportunities to publish ideas, showcase talent, and
 
 ### Economic Opportunities
 
-Entire industries—including influencer marketing, creator economies, digital consulting, and online education—have emerged through social platforms.
+Entire industries including influencer marketing, creator economies, digital consulting, and online education have emerged through social platforms.
 
 ### Global Connectivity
 
@@ -162,7 +162,7 @@ The challenge lies not only in the technology but also in the incentives driving
 
 ### Algorithmic Amplification
 
-Recommendation systems prioritize content predicted to maximize engagement—not necessarily content that is accurate, balanced, or beneficial.
+Recommendation systems prioritize content predicted to maximize engagement not necessarily content that is accurate, balanced, or beneficial.
 
 This can contribute to echo chambers, polarization, and the rapid spread of misinformation.
 
@@ -208,7 +208,7 @@ For students, professionals, and lifelong learners, the ability to manage attent
 
 Social media has fundamentally transformed how humanity communicates, learns, and shares ideas. It has connected billions of people, created new industries, democratized knowledge, and given individuals unprecedented opportunities to build communities and businesses.
 
-Yet these achievements come with an important trade-off. In an economy where attention fuels revenue, distraction is not merely an accidental consequence—it is often an intentional outcome of platform design. Understanding this reality does not require rejecting social media altogether. Rather, it calls for using these platforms with greater awareness and purpose.
+Yet these achievements come with an important trade-off. In an economy where attention fuels revenue, distraction is not merely an accidental consequence it is often an intentional outcome of platform design. Understanding this reality does not require rejecting social media altogether. Rather, it calls for using these platforms with greater awareness and purpose.
 
 Navigating the social media era is therefore less about escaping technology and more about mastering our relationship with it. The future will belong not only to those who have access to information, but to those who can filter it, question it, and focus on what truly matters.
 

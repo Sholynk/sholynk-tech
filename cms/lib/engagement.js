@@ -4,11 +4,7 @@
  * Reader engagement: like/dislike reactions and article comments.
  *
  * Both are keyed by article *slug* instead of a foreign key into `articles`.
- * That is deliberate — the legacy static page `article_01.html` is not a CMS
- * record but still needs reactions and comments, so a free-form slug keeps one
- * implementation serving both the dynamic and the legacy page.
- *
- * A "voter" is an anonymous browser-generated id (see the front-end
+ * A "voter" is an anonymous browser generated id (see the front-end
  * `SholynkEngagement` client). It is not authentication; it exists to make the
  * one-vote-per-reader rule enforceable server-side as well as in the UI, so a
  * refresh or a second tab cannot inflate the counts.
