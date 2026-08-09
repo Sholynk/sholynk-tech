@@ -96,18 +96,21 @@ db.exec(`
   CREATE INDEX IF NOT EXISTS idx_articles_status ON articles(status);
   CREATE INDEX IF NOT EXISTS idx_reactions_slug ON reactions(article_slug);
   CREATE INDEX IF NOT EXISTS idx_comments_slug ON comments(article_slug, id);
-  CREATE INDEX IF NOT EXISTS idx_comments_client ON comments(client_id);
 `);
 
 // Migration for databases created before the client_id column existed.
 // client_id is a client-generated id per comment submission: it makes the
 // write endpoint idempotent (a retried submission returns the original
 // comment) and lets offline comments be synced without duplicating.
+// The index on client_id is created here (not in the main db.exec above)
+// because existing databases may not yet have the column when the CREATE
+// INDEX statement runs.
 {
   const columns = db.prepare('PRAGMA table_info(comments)').all();
   if (!columns.some((column) => column.name === 'client_id')) {
     db.exec("ALTER TABLE comments ADD COLUMN client_id TEXT NOT NULL DEFAULT ''");
   }
+  db.exec('CREATE INDEX IF NOT EXISTS idx_comments_client ON comments(client_id)');
 }
 
 module.exports = { db, DB_FILE, DATA_DIR };
