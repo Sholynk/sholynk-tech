@@ -39,31 +39,31 @@
       {
         title: 'How Artificial Intelligence Is Reshaping Every Industry',
         description: 'From healthcare to finance, education and logistics, AI is becoming the operating layer for faster decisions and smarter services.',
-        img: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1600&q=80',
+        img: 'Article cards images/AI/article_card_09.jpg',
         alt: 'Abstract artificial intelligence network glowing in blue and purple'
       },
       {
         title: 'The Rise of AI Agents: Why They Could Replace Traditional Software',
         description: 'Autonomous AI agents are shifting software from static tools into goal-driven assistants that can plan, execute and adapt.',
-        img: 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=1600&q=80',
+        img: 'Article cards images/AI/article_card_07.jpg',
         alt: 'Human hand interacting with an artificial intelligence interface'
       },
       {
         title: 'Generative AI vs Predictive AI: Understanding the Difference',
         description: 'Generative models create new content, while predictive systems forecast outcomes. Knowing the difference helps teams pick the right tool.',
-        img: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1600&q=80',
+        img: 'Article cards images/AI/article_card_03.jpg',
         alt: 'Analytics dashboard representing predictive artificial intelligence'
       },
       {
         title: 'Top AI Trends That Will Define the Next Five Years',
         description: 'Multimodal systems, small specialised models, agentic workflows and AI governance are shaping the next wave of intelligent products.',
-        img: 'https://images.unsplash.com/photo-1531746790731-6c087fecd65a?auto=format&fit=crop&w=1600&q=80',
+        img: 'Article cards images/AI/article_card_08.jpg',
         alt: 'Customer support headset beside digital AI interface graphics'
       },
       {
         title: 'AI Ethics in 2026: Innovation Without Compromising Humanity',
         description: 'Responsible AI now means designing for transparency, accountability, privacy and human dignity from the start.',
-        img: 'https://images.unsplash.com/photo-1535378917042-10a22c95931a?auto=format&fit=crop&w=1600&q=80',
+        img: 'Article cards images/AI/article_card_05.jpg',
         alt: 'Digital face and code representing responsible artificial intelligence'
       }
     ],
@@ -71,13 +71,13 @@
       {
         title: 'The Future of Technology: 10 Innovations That Could Change the World',
         description: 'Breakthroughs in computing, energy, robotics and connectivity are converging into a decade of rapid transformation.',
-        img: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1600&q=80',
+        img: 'Article cards images/Technology/article_card_21.jpg',
         alt: 'Close-up of a circuit board representing emerging technology'
       },
       {
         title: 'Edge Computing vs Cloud Computing: Which Powers the Future?',
         description: 'The next generation of applications will balance cloud scale with edge speed for real-time, data-intensive experiences.',
-        img: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1600&q=80',
+        img: 'Article cards images/Technology/article_card_05.jpg',
         alt: 'Earth viewed from space with network lights representing cloud infrastructure'
       },
       {
@@ -89,13 +89,13 @@
       {
         title: 'How Smart Devices Are Building the Internet of Everything',
         description: 'Connected sensors, appliances and infrastructure are turning everyday environments into responsive digital systems.',
-        img: 'https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=1600&q=80',
+        img: 'Article cards images/Technology/article_card_15.jpg',
         alt: 'Smart home devices and connected living space'
       },
       {
         title: 'The Biggest Technology Breakthroughs You Should Watch This Year',
         description: 'From sustainable hardware to immersive computing, these innovations show where builders and businesses should pay attention.',
-        img: 'https://images.unsplash.com/photo-1593508512255-86ab42a8e620?auto=format&fit=crop&w=1600&q=80',
+        img: 'Article cards images/Technology/article_card_11.jpg',
         alt: 'Person using immersive augmented reality technology'
       }
     ],
@@ -103,31 +103,31 @@
       {
         title: 'Cryptocurrency Beyond Bitcoin: What the Future Holds',
         description: 'Digital assets are expanding into payments, infrastructure, tokenized markets and new forms of internet-native coordination.',
-        img: 'https://images.unsplash.com/photo-1621761191319-c6fb62004040?auto=format&fit=crop&w=1600&q=80',
+        img: 'Article cards images/Cryptocurrency/article_card_06.jpg',
         alt: 'Cryptocurrency coin and digital market graphics'
       },
       {
         title: 'Stablecoins Explained: Why They Matter in the Digital Economy',
         description: 'Stablecoins connect traditional money with blockchain rails, making faster settlement and programmable payments possible.',
-        img: 'https://images.unsplash.com/photo-1640340434855-6084b1f4901c?auto=format&fit=crop&w=1600&q=80',
+        img: 'Article cards images/Cryptocurrency/article_card_09.png',
         alt: 'Digital currency coins on a financial chart'
       },
       {
         title: 'How Tokenization Is Transforming Real-World Assets',
         description: 'Tokenized property, bonds and commodities could make ownership more transparent, fractional and globally accessible.',
-        img: 'https://images.unsplash.com/photo-1639322537504-6427a16b0a28?auto=format&fit=crop&w=1600&q=80',
+        img: 'Article cards images/Cryptocurrency/article_card_05.webp',
         alt: 'Blockchain network illustration representing tokenized assets'
       },
       {
         title: 'The Evolution of Digital Money: From Cash to Crypto',
         description: 'Money has moved from paper to cards to mobile wallets, and crypto is the next chapter in programmable value exchange.',
-        img: 'https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&w=1600&q=80',
+        img: 'Article cards images/Cryptocurrency/article_card_08.png',
         alt: 'Person using a payment card for digital money transaction'
       },
       {
         title: 'Common Cryptocurrency Scams and How to Avoid Them',
         description: 'Phishing, fake exchanges and too-good-to-be-true investment schemes remain the fastest way new crypto users lose money.',
-        img: 'https://images.unsplash.com/photo-1563986768494-4dee2763ff3f?auto=format&fit=crop&w=1600&q=80',
+        img: 'Article cards images/Cryptocurrency/article_card_07.jpg',
         alt: 'Cybersecurity monitoring screen representing crypto scam prevention'
       }
     ],
@@ -135,25 +135,25 @@
       {
         title: "Web3 Explained: The Internet's Next Evolution",
         description: 'Web3 combines decentralized networks, digital ownership and community governance into a new model for online platforms.',
-        img: 'https://images.unsplash.com/photo-1639322537504-6427a16b0a28?auto=format&fit=crop&w=1600&q=80',
+        img: 'Article cards images/Web 3/article_card_03.jpg',
         alt: 'Decentralized blockchain network with glowing nodes'
       },
       {
         title: 'Decentralized Identity: Taking Back Control of Your Digital Life',
         description: 'Self-owned identity systems could reduce password fatigue, limit data exposure and give users more control online.',
-        img: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1600&q=80',
+        img: 'Article cards images/Web 3/article_card_11.jpg',
         alt: 'Network servers representing decentralized digital identity'
       },
       {
         title: 'The Future of Decentralized Applications (dApps)',
         description: 'dApps are evolving from experiments into usable products across finance, gaming, creator tools and social networks.',
-        img: 'https://images.unsplash.com/photo-1642104704074-907c0698cbd9?auto=format&fit=crop&w=1600&q=80',
+        img: 'Article cards images/Web 3/article_card_07.jpg',
         alt: 'Developer laptop with blockchain application interface'
       },
       {
         title: 'How Web3 Is Changing Finance, Gaming, and Social Media',
         description: 'Ownership, tokens and open protocols are giving communities new ways to build, fund and govern digital experiences.',
-        img: 'https://images.unsplash.com/photo-1556438064-2d7646166914?auto=format&fit=crop&w=1600&q=80',
+        img: 'Article cards images/Game/article_card_05.jpg',
         alt: 'Gaming controller with colourful light representing Web3 gaming'
       }
     ],
@@ -161,7 +161,7 @@
       {
         title: 'The Future of Gaming: AI, Blockchain, and Immersive Virtual Worlds',
         description: 'Games are becoming smarter, more social and more persistent as AI characters, blockchain economies and virtual worlds mature.',
-        img: 'https://images.unsplash.com/photo-1556438064-2d7646166914?auto=format&fit=crop&w=1600&q=80',
+        img: 'Article cards images/Game/article_card_01.jpg',
         alt: 'Gaming controller on a colourful illuminated desk'
       }
     ]
