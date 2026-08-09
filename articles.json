@@ -17,7 +17,7 @@
   },
   {
     "title": "Web3 and the Future of the Internet",
-    "link": "article_01.html",
+    "link": "index.html?category=Web%203",
     "category": "Web 3",
     "description": "Web3 promises a decentralized internet where users control their data and digital assets, reshaping online interactions.",
     "img": "Images and Assets/my_pic.png",
@@ -25,7 +25,7 @@
   },
   {
     "title": "AI in Healthcare: Transforming Patient Care",
-    "link": "article_01.html",
+    "link": "index.html?category=AI%20Trends",
     "category": "AI Trends",
     "description": "Artificial Intelligence is improving diagnostics, treatment plans, and patient monitoring, making healthcare more efficient and personalized.",
     "img": "Article cards images/AI/article_card_11.jpg",
@@ -33,7 +33,7 @@
   },
   {
     "title": "Breakthroughs in Renewable Energy Tech",
-    "link": "article_01.html",
+    "link": "index.html?category=Technology",
     "category": "Technology",
     "description": "Innovations in solar, wind, and battery storage technologies are accelerating the transition to sustainable energy worldwide.",
     "img": "Article cards images/Technology/article_card_07.jpg",
@@ -41,7 +41,7 @@
   },
   {
     "title": "AI Ethics: Navigating the Challenges",
-    "link": "article_01.html",
+    "link": "index.html?category=AI%20Trends",
     "category": "AI Trends",
     "description": "As AI systems become more prevalent, ethical considerations around bias, privacy, and accountability are critical for responsible development.",
     "img": "Article cards images/AI/article_card_05.jpg",
@@ -49,7 +49,7 @@
   },
   {
     "title": "Decentralized Finance (DeFi) Growth",
-    "link": "article_01.html",
+    "link": "index.html?category=Web%203",
     "category": "Web 3",
     "description": "DeFi platforms are transforming traditional finance by enabling peer-to-peer transactions without intermediaries.",
     "img": "Article cards images/Web 3/article_card_05.png",
@@ -57,7 +57,7 @@
   },
   {
     "title": "The Future of Augmented Reality",
-    "link": "article_01.html",
+    "link": "index.html?category=Technology",
     "category": "Technology",
     "description": "Augmented Reality is enhancing user experiences in gaming, education, and retail by blending digital content with the real world.",
     "img": "Article cards images/Technology/article_card_11.jpg",
@@ -65,7 +65,7 @@
   },
   {
     "title": "Advancements in Remote Work Tech",
-    "link": "article_01.html",
+    "link": "index.html?category=Technology",
     "category": "Technology",
     "description": "New tools and platforms are making remote work more productive and collaborative than ever before.",
     "img": "Article cards images/Technology/article_card_09.jpg",
@@ -73,7 +73,7 @@
   },
   {
     "title": "5G Technology and Its Impact",
-    "link": "article_01.html",
+    "link": "index.html?category=Technology",
     "category": "Technology",
     "description": "5G networks are transforming connectivity with faster speeds and lower latency, enabling new applications and services.",
     "img": "Article cards images/Technology/article_card_13.jpg",
@@ -81,7 +81,7 @@
   },
   {
     "title": "Blockchain Beyond Cryptocurrency",
-    "link": "article_01.html",
+    "link": "index.html?category=Web%203",
     "category": "Web 3",
     "description": "Blockchain technology is being applied in supply chain, healthcare, and voting systems to increase transparency and security.",
     "img": "Article cards images/Web 3/article_card_03.jpg",
@@ -89,7 +89,7 @@
   },
   {
     "title": "Machine Learning in Everyday Life",
-    "link": "article_01.html",
+    "link": "index.html?category=AI%20Trends",
     "category": "AI Trends",
     "description": "Machine learning powers many applications from recommendation systems to fraud detection, impacting daily experiences.",
     "img": "Article cards images/AI/article_card_03.jpg",
@@ -97,7 +97,7 @@
   },
   {
     "title": "Cybersecurity in the Modern Age",
-    "link": "article_01.html",
+    "link": "index.html?category=Technology",
     "category": "Technology",
     "description": "As cyber threats evolve, new strategies and tools are essential to protect data and privacy.",
     "img": "Article cards images/Technology/article_card_03.jpg",
@@ -105,7 +105,7 @@
   },
   {
     "title": "The Role of IoT in Smart Cities",
-    "link": "article_01.html",
+    "link": "index.html?category=Technology",
     "category": "Technology",
     "description": "Internet of Things devices are enabling smarter infrastructure, traffic management, and energy efficiency.",
     "img": "Article cards images/Technology/article_card_15.jpg",
@@ -113,7 +113,7 @@
   },
   {
     "title": "Ethical AI: Balancing Innovation and Responsibility",
-    "link": "article_01.html",
+    "link": "index.html?category=AI%20Trends",
     "category": "AI Trends",
     "description": "Developing AI responsibly requires addressing bias, transparency, and societal impact.",
     "img": "Article cards images/AI/article_card_05.jpg",
@@ -121,7 +121,7 @@
   },
   {
     "title": "Virtual Reality in Education",
-    "link": "article_01.html",
+    "link": "index.html?category=Technology",
     "category": "Technology",
     "description": "VR is transforming education by providing immersive learning experiences.",
     "img": "Article cards images/Technology/article_card_12.jpg",
@@ -129,7 +129,7 @@
   },
   {
     "title": "Cryptocurrency Regulations Worldwide",
-    "link": "article_01.html",
+    "link": "index.html?category=Web%203",
     "category": "Web 3",
     "description": "Governments are shaping the future of cryptocurrencies with evolving regulations.",
     "img": "Article cards images/Web 3/article_card_02.jpg",
@@ -137,7 +137,7 @@
   },
   {
     "title": "AI-Powered Customer Service",
-    "link": "article_01.html",
+    "link": "index.html?category=AI%20Trends",
     "category": "AI Trends",
     "description": "Chatbots and virtual assistants are improving customer interactions and support.",
     "img": "Article cards images/AI/article_card_07.jpg",
@@ -145,7 +145,7 @@
   },
   {
     "title": "Sustainable Tech Innovations",
-    "link": "article_01.html",
+    "link": "index.html?category=Technology",
     "category": "Technology",
     "description": "New technologies are helping reduce environmental impact and promote sustainability.",
     "img": "Article cards images/Technology/article_card_23.jpg",
@@ -153,7 +153,7 @@
   },
   {
     "title": "The Evolution of Cloud Computing",
-    "link": "article_01.html",
+    "link": "index.html?category=Technology",
     "category": "Technology",
     "description": "Cloud computing continues to evolve, offering scalable and flexible solutions for businesses.",
     "img": "Article cards images/Technology/article_card_05.jpg",
@@ -161,7 +161,7 @@
   },
   {
     "title": "AI and Automation in Manufacturing",
-    "link": "article_01.html",
+    "link": "index.html?category=AI%20Trends",
     "category": "AI Trends",
     "description": "Automation powered by AI is increasing efficiency and precision in manufacturing processes.",
     "img": "Article cards images/AI/article_card_13.jpg",
@@ -169,7 +169,7 @@
   },
   {
     "title": "Cloud Gaming and the Next Console War",
-    "link": "article_01.html",
+    "link": "index.html?category=Game",
     "category": "Game",
     "description": "Streaming infrastructure, mobile hardware and creator ecosystems are changing how players discover games.",
     "img": "Article cards images/Game/article_card_01.jpg",
@@ -177,7 +177,7 @@
   },
   {
     "title": "Stablecoins and the Future of Digital Payments",
-    "link": "article_01.html",
+    "link": "index.html?category=Cryptocurrency",
     "category": "Cryptocurrency",
     "description": "Stablecoins are becoming a bridge between traditional finance and programmable internet-native money.",
     "img": "Article cards images/Cryptocurrency/article_card_06.jpg",
@@ -185,7 +185,7 @@
   },
   {
     "title": "Mastering the art of coding",
-    "link": "article_01.html",
+    "link": "article.html?slug=mastering-the-art-of-coding",
     "category": "Technology",
     "description": "Learning to code has never been more accessible — but knowing a language is not the same as knowing how to build software. These ten areas represent the foundations upon which exceptional developers are built.",
     "img": "Article cards images/Home/article_card_01.jpg",

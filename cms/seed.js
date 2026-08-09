@@ -26,7 +26,25 @@ const LONGFORM_SLUG = 'the-rise-of-quantum-computing';
  */
 function loadLongformBody(slug) {
   const file = path.join(__dirname, 'data', `${slug}.md`);
-  return fs.existsSync(file) ? fs.readFileSync(file, 'utf8') : null;
+  if (fs.existsSync(file)) return fs.readFileSync(file, 'utf8');
+
+  const storiesDir = path.join(__dirname, '..', 'article_stories');
+  if (fs.existsSync(storiesDir)) {
+    const directFile = path.join(storiesDir, `${slug}.md`);
+    if (fs.existsSync(directFile)) return fs.readFileSync(directFile, 'utf8');
+
+    const files = fs.readdirSync(storiesDir);
+    for (const item of files) {
+      if (!item.endsWith('.md')) continue;
+      const baseName = item.replace(/\.md$/, '');
+      const fileSlug = articles.slugify(baseName);
+      if (fileSlug === slug || fileSlug.startsWith(slug) || slug.startsWith(fileSlug)) {
+        return fs.readFileSync(path.join(storiesDir, item), 'utf8');
+      }
+    }
+  }
+
+  return null;
 }
 
 function estimateReadingTime(body = '') {

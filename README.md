@@ -88,8 +88,7 @@ cms/
   admin/               Admin dashboard (vanilla HTML/CSS/JS)
   tests/               node:test integration suite
 article.html/.js       Dynamic article page
-article_01.html        Hand-authored article ("Mastering the Art of Coding")
-article-static.js      Reading progress + engagement for hand-authored pages
+article_stories/       Markdown long-form stories
 cms-client.js          Shared front-end data layer
 engagement.js          Like/dislike + comments widgets (API, localStorage fallback)
 styles.css             The entire stylesheet — no Tailwind, no build step
@@ -116,11 +115,10 @@ cards, reading-progress bar — are unchanged.
 
 ## Reader engagement
 
-Both article pages carry like/dislike buttons and a comment section, rendered by
+Article pages carry like/dislike buttons and a comment section, rendered by
 `engagement.js`.
 
-Reactions and comments are keyed by article **slug** rather than a foreign key,
-so the hand-authored `article_01.html` uses the same endpoints as CMS articles.
+Reactions and comments are keyed by article **slug** rather than a foreign key.
 A voter is an anonymous per-browser id in `localStorage`; it is not
 authentication, it exists so the one-vote-per-reader rule can be enforced
 server-side. Clicking the same button twice un-votes, and clicking the opposite
@@ -202,12 +200,11 @@ npm test
 | `api.test.js`           | Article CRUD, validation, slug uniqueness, search and category filters, image upload/serve/delete, upload type rejection, settings                                                                                        |
 | `engagement.test.js`    | Reaction tallies, one-vote-per-reader, toggle and switch behaviour, comment CRUD, empty-submission rejection, per-article scoping                                                                                         |
 | `engagement-ui.test.js` | The widgets in jsdom against the localStorage fallback: optimistic updates, spam-click protection, persistence across reload, comment escaping                                                                            |
-| `frontend.test.js`      | That no page loads Tailwind or uses its utility classes, that the hero H1 computes to white, that the navbar/footer are solid while other gradients survive, and that `article_01.html` matches the CMS article structure |
+| `frontend.test.js`      | That no page loads Tailwind or uses its utility classes, that the hero H1 computes to white, that the navbar/footer are solid while other gradients survive, and that `article.html` matches the CMS article structure |
 
 Each run uses a throwaway database in a temp directory.
 
 ## Notes
 
 The database and `uploads/` are gitignored runtime state. Recreate them with
-`npm run seed`. The legacy `article_01.html` page is still served, and the
-"Mastering the art of coding" card continues to point at it.
+`npm run seed`.
