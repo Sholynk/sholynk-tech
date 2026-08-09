@@ -3,8 +3,8 @@ title: Mastering the Art of Coding: 10 Areas Every Developer Should Focus On
 slug: mastering-the-art-of-coding
 category: Technology
 description: Learning to code has never been more accessible, but knowing a language is not the same as knowing how to build software. These ten areas represent the foundations upon which exceptional developers are built.
-img: Article cards images/Home/article_card_01.jpg
-alt: Developer working at a desk with two monitors displaying source code
+img: Article cards images/Home/article_card_05.jpg
+alt: Developer working at a modern desk with a widescreen monitor displaying syntax-highlighted source code in an IDE
 date: 2026-07-26
 readingTime: 8 min read
 featured: true
