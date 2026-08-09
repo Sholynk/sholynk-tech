@@ -367,7 +367,11 @@ test('article page dynamically renders article structure with TOC, hero, and eng
 
   const { document } = dom.window;
   assert.equal(document.querySelectorAll('h1').length, 1, 'exactly one H1');
-  assert.equal(document.querySelector('h1').textContent, 'Mastering the art of coding');
+  assert.equal(
+    document.querySelector('h1').textContent,
+    'Mastering the Art of Coding: 10 Areas Every Developer Should Focus On',
+    'the article H1 matches the canonical Markdown title'
+  );
   assert.ok(document.querySelector('.article-breadcrumb'), 'breadcrumb rendered');
   assert.ok(document.querySelector('.article-header'), 'header rendered');
   assert.ok(document.querySelector('.article-hero img'), 'hero image rendered');

@@ -14,6 +14,22 @@ const path = require('node:path');
 const articles = require('./lib/articles');
 const settings = require('./lib/settings');
 
+/**
+ * Builds the search-index snapshot used by articles.js (the site-wide search
+ * box). Kept in sync with the database so descriptions and links never drift
+ * from the article source of truth.
+ */
+function buildSearchIndex() {
+  return articles.list({ status: 'published' }).map((article) => ({
+    title: article.title,
+    link: article.externalLink || `article.html?slug=${article.slug}`,
+    category: article.category,
+    description: article.description,
+    img: article.img,
+    alt: article.alt || article.title
+  }));
+}
+
 function run() {
   const payload = {
     generatedAt: new Date().toISOString(),
@@ -22,7 +38,11 @@ function run() {
   };
   const target = path.join(__dirname, '..', 'content-fallback.json');
   fs.writeFileSync(target, `${JSON.stringify(payload, null, 2)}\n`);
+
+  const searchTarget = path.join(__dirname, '..', 'articles.json');
+  fs.writeFileSync(searchTarget, `${JSON.stringify(buildSearchIndex(), null, 2)}\n`);
   console.log(`Exported ${payload.articles.length} articles to ${path.relative(process.cwd(), target)}`);
+  console.log(`Exported search index to ${path.relative(process.cwd(), searchTarget)}`);
 }
 
 if (require.main === module) run();

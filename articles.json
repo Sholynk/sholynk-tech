@@ -1,171 +1,435 @@
 [
   {
+    "title": "Mastering the Art of Coding: 10 Areas Every Developer Should Focus On",
+    "link": "article.html?slug=mastering-the-art-of-coding",
+    "category": "Technology",
+    "description": "Learning to code has never been more accessible, but knowing a language is not the same as knowing how to build software. These ten areas represent the foundations upon which exceptional developers are built.",
+    "img": "Article cards images/Home/article_card_01.jpg",
+    "alt": "Developer working at a desk with two monitors displaying source code"
+  },
+  {
     "title": "The Rise of Quantum Computing: The Computing Revolution Beyond Silicon",
     "link": "article.html?slug=the-rise-of-quantum-computing",
     "category": "Technology",
-    "description": "A comprehensive guide to quantum computing — from qubits and superposition to real-world applications in healthcare, AI, cybersecurity, and scientific research.",
+    "description": "A comprehensive guide to quantum computing, from qubits and superposition to real-world applications in healthcare, AI, cybersecurity, and scientific research.",
     "img": "article-images/quantum/quantum-computer-chandelier.jpg",
     "alt": "Golden chandelier-like cryostat of a superconducting quantum computer, layered with control wiring"
+  },
+  {
+    "title": "The future of artificial intelligence in everyday life",
+    "link": "index.html?category=AI%20Trends",
+    "category": "AI Trends",
+    "description": "From personal assistants to medical triage, AI is moving from novelty into the quiet infrastructure of daily decisions.",
+    "img": "Article cards images/AI/article_card_09.jpg",
+    "alt": "The future of artificial intelligence in everyday life"
+  },
+  {
+    "title": "Decentralized finance is reshaping access to money",
+    "link": "index.html?category=Web%203",
+    "category": "Web 3",
+    "description": "Transparent ledgers, programmable assets and community-owned protocols are changing how builders think about finance.",
+    "img": "Article cards images/Cryptocurrency/article_card_05.webp",
+    "alt": "Decentralized finance is reshaping access to money"
+  },
+  {
+    "title": "Cybersecurity habits every growing team needs",
+    "link": "index.html?category=Technology",
+    "category": "Technology",
+    "description": "A modern defense posture starts with simple, repeatable security practices that protect people, products and data.",
+    "img": "Article cards images/Technology/article_card_03.jpg",
+    "alt": "Cybersecurity habits every growing team needs"
+  },
+  {
+    "title": "The Rise of Esports: How Competitive Gaming Became a Global Industry",
+    "link": "index.html?category=Game",
+    "category": "Game",
+    "description": "Competitive gaming has grown from local tournaments into a global entertainment industry built on players, teams, leagues and loyal communities.",
+    "img": "Article cards images/Game/article_card_05.jpg",
+    "alt": "Gamer playing at a neon-lit esports desk"
   },
   {
     "title": "Distraction by Design: Navigating Attention in the Social Media Era",
     "link": "article.html?slug=distraction-by-design",
     "category": "Technology",
-    "description": "Notifications, infinite scroll and AI-driven feeds turned attention into the internet's most valuable commodity — how the attention economy works, and how to enjoy social media without being controlled by it.",
+    "description": "Notifications, infinite scroll and AI-driven feeds turned attention into the internet's most valuable commodity: how the attention economy works, and how to enjoy social media without being controlled by it.",
     "img": "article-images/distraction-by-design/social-media-apps-hero.jpg",
     "alt": "Smartphone screen showing a Social Media folder with apps such as YouTube, Instagram, Facebook and TikTok"
+  },
+  {
+    "title": "Building Resilient Software Systems in 2026",
+    "link": "index.html?category=Technology",
+    "category": "Technology",
+    "description": "Reliability is a product feature. Here's how modern teams design for failure without slowing delivery.",
+    "img": "Article cards images/Technology/article_card_21.jpg",
+    "alt": "Close-up of a circuit board representing resilient software systems"
+  },
+  {
+    "title": "Generative AI Is Changing How Games Are Designed and Built",
+    "link": "index.html?category=Game",
+    "category": "Game",
+    "description": "AI-assisted world building, testing and character design are giving game studios new creative tools while raising important questions about authorship.",
+    "img": "Article cards images/AI/article_card_09.jpg",
+    "alt": "Video game controller beside a monitor"
+  },
+  {
+    "title": "Open Source Infrastructure That Powers Modern Startups",
+    "link": "index.html?category=Technology",
+    "category": "Technology",
+    "description": "From Linux to Kubernetes, open source tooling remains the backbone of fast-moving product teams.",
+    "img": "Article cards images/Technology/article_card_17.webp",
+    "alt": "Developer workspace with code on a laptop screen"
+  },
+  {
+    "title": "Why Great Game Design Keeps Players Coming Back",
+    "link": "index.html?category=Game",
+    "category": "Game",
+    "description": "The best games balance challenge, discovery and meaningful progress to create experiences that feel rewarding without becoming exhausting.",
+    "img": "Article cards images/Game/article_card_09.jpg",
+    "alt": "Person holding a game controller in front of a screen"
+  },
+  {
+    "title": "Multimodal AI Models Are Changing How Software Understands the World",
+    "link": "index.html?category=AI%20Trends",
+    "category": "AI Trends",
+    "description": "Systems that reason across text, images, audio and video are opening new product surfaces for builders.",
+    "img": "Article cards images/AI/article_card_09.jpg",
+    "alt": "Abstract visualization of a multimodal artificial intelligence network"
+  },
+  {
+    "title": "Chip Design Breakthroughs Driving Faster Devices",
+    "link": "index.html?category=Technology",
+    "category": "Technology",
+    "description": "New semiconductor architectures are unlocking performance gains while keeping power budgets in check.",
+    "img": "Article cards images/Technology/article_card_19.png",
+    "alt": "Macro photo of a computer processor chip"
+  },
+  {
+    "title": "Mobile Gaming Is Building the World's Biggest Interactive Audience",
+    "link": "index.html?category=Game",
+    "category": "Game",
+    "description": "Affordable smartphones, social features and free-to-play models are bringing sophisticated gaming experiences to more people than ever.",
+    "img": "Article cards images/Game/article_card_03.jpg",
+    "alt": "Mobile phone displaying a game with a controller nearby"
+  },
+  {
+    "title": "Bitcoin ETFs and the New Wave of Institutional Adoption",
+    "link": "index.html?category=Cryptocurrency",
+    "category": "Cryptocurrency",
+    "description": "Regulated investment products are changing who can hold bitcoin and how traditional finance participates.",
+    "img": "Article cards images/Cryptocurrency/article_card_03.jpg",
+    "alt": "Bitcoin coin resting on a financial chart"
+  },
+  {
+    "title": "DAOs in Practice: What Works and What Still Doesn't",
+    "link": "index.html?category=Web%203",
+    "category": "Web 3",
+    "description": "Community governance is powerful, but tooling, incentives and legal wrappers still decide real outcomes.",
+    "img": "Article cards images/Web 3/article_card_09.jpg",
+    "alt": "Decentralized network graphic representing DAO governance"
+  },
+  {
+    "title": "Virtual Reality Gaming Is Becoming a Social Experience",
+    "link": "index.html?category=Game",
+    "category": "Game",
+    "description": "VR games are moving beyond solo novelty experiences as better hardware and shared virtual spaces make play feel more naturally social.",
+    "img": "Article cards images/Game/article_card_07.jpg",
+    "alt": "Person using a virtual reality headset"
+  },
+  {
+    "title": "Layer 2 Networks Explained: Scaling Crypto Without Compromise",
+    "link": "index.html?category=Cryptocurrency",
+    "category": "Cryptocurrency",
+    "description": "Rollups and sidechains are making blockchain transactions faster and cheaper for everyday use.",
+    "img": "Article cards images/Cryptocurrency/article_card_05.webp",
+    "alt": "Abstract blockchain network nodes representing layer 2 scaling"
+  },
+  {
+    "title": "NFTs After the Hype: Utility, Media and Membership",
+    "link": "index.html?category=Web%203",
+    "category": "Web 3",
+    "description": "The strongest NFT projects now focus on access, provenance and creator tooling rather than speculation alone.",
+    "img": "Article cards images/Web 3/article_card_07.jpg",
+    "alt": "Digital art and blockchain interface on a laptop"
+  },
+  {
+    "title": "Indie Games and the New Era of Creative Discovery",
+    "link": "index.html?category=Game",
+    "category": "Game",
+    "description": "Small studios are using focused ideas, flexible tools and direct communities to create some of the most distinctive games on the market.",
+    "img": "Article cards images/Game/article_card_11.jpg",
+    "alt": "Retro video game console and controller"
+  },
+  {
+    "title": "Crypto Wallets: Hot, Cold and What Everyday Users Should Choose",
+    "link": "index.html?category=Cryptocurrency",
+    "category": "Cryptocurrency",
+    "description": "Custody choices shape security, convenience and recovery. Here's a practical guide for new holders.",
+    "img": "Article cards images/Cryptocurrency/article_card_07.jpg",
+    "alt": "Cryptocurrency hardware and digital wallet concept"
+  },
+  {
+    "title": "Smart Contract Audits: Why Security Reviews Matter",
+    "link": "index.html?category=Web%203",
+    "category": "Web 3",
+    "description": "Immutable code needs careful review. Audits, bug bounties and formal methods reduce costly on-chain failures.",
+    "img": "Article cards images/Web 3/article_card_11.jpg",
+    "alt": "Server room representing secure smart contract infrastructure"
   },
   {
     "title": "Web3 and the Future of the Internet",
     "link": "index.html?category=Web%203",
     "category": "Web 3",
-    "description": "Web3 promises a decentralized internet where users control their data and digital assets, reshaping online interactions.",
-    "img": "Images and Assets/my_pic.png",
-    "alt": ""
+    "description": "Web3 promises a decentralized internet where users control identity, data and digital ownership.",
+    "img": "Article cards images/Web 3/article_card_02.jpg",
+    "alt": "Web3 and the Future of the Internet"
+  },
+  {
+    "title": "Game Engines Are Powering More Than Games",
+    "link": "index.html?category=Game",
+    "category": "Game",
+    "description": "Real-time 3D engines are reshaping film, architecture, training and product design by making interactive visualisation faster to create.",
+    "img": "Article cards images/Game/article_card_13.jpg",
+    "alt": "Person experiencing an immersive digital environment"
+  },
+  {
+    "title": "How Central Bank Digital Currencies Differ from Crypto",
+    "link": "index.html?category=Cryptocurrency",
+    "category": "Cryptocurrency",
+    "description": "CBDCs share digital rails with crypto markets, but their design goals and trust models are very different.",
+    "img": "Article cards images/Cryptocurrency/article_card_09.png",
+    "alt": "Digital currency coins on a trading chart"
+  },
+  {
+    "title": "Decentralized Social Networks and the Creator Economy",
+    "link": "index.html?category=Web%203",
+    "category": "Web 3",
+    "description": "Open social protocols aim to give creators portable audiences and users ownership of their digital graph.",
+    "img": "Article cards images/Web 3/article_card_17.jpg",
+    "alt": "Smartphone with social media apps representing decentralized social"
   },
   {
     "title": "AI in Healthcare: Transforming Patient Care",
     "link": "index.html?category=AI%20Trends",
     "category": "AI Trends",
-    "description": "Artificial Intelligence is improving diagnostics, treatment plans, and patient monitoring, making healthcare more efficient and personalized.",
+    "description": "Artificial intelligence is improving diagnostics, treatment planning and patient monitoring workflows.",
     "img": "Article cards images/AI/article_card_11.jpg",
-    "alt": "Doctor using AI technology on tablet in modern hospital"
+    "alt": "Clinician reviewing health data on a tablet"
+  },
+  {
+    "title": "Accessible Gaming: Designing Play for Everyone",
+    "link": "index.html?category=Game",
+    "category": "Game",
+    "description": "Remappable controls, readable interfaces and flexible difficulty settings help more players enjoy games on their own terms.",
+    "img": "Article cards images/Game/article_card_15.jpg",
+    "alt": "Gaming setup with controller and illuminated keyboard"
+  },
+  {
+    "title": "On-Chain Analytics: Reading the Market Beyond Price Charts",
+    "link": "index.html?category=Cryptocurrency",
+    "category": "Cryptocurrency",
+    "description": "Wallet flows, exchange reserves and network activity give traders a deeper view of crypto market structure.",
+    "img": "Article cards images/Cryptocurrency/article_card_11.jpg",
+    "alt": "Laptop displaying cryptocurrency market analytics"
+  },
+  {
+    "title": "Interoperability Bridges: Connecting Fragmented Blockchains",
+    "link": "index.html?category=Web%203",
+    "category": "Web 3",
+    "description": "Cross-chain bridges unlock liquidity and users, but they also concentrate some of Web3's hardest security risks.",
+    "img": "Article cards images/Web 3/article_card_19.jpg",
+    "alt": "Blockchain technology concept with connected digital blocks"
   },
   {
     "title": "Breakthroughs in Renewable Energy Tech",
     "link": "index.html?category=Technology",
     "category": "Technology",
-    "description": "Innovations in solar, wind, and battery storage technologies are accelerating the transition to sustainable energy worldwide.",
+    "description": "Solar, wind and battery innovations are accelerating a more resilient clean-energy transition.",
     "img": "Article cards images/Technology/article_card_07.jpg",
-    "alt": "Solar panels and wind turbines under blue sky"
+    "alt": "Solar panels under a bright sky"
+  },
+  {
+    "title": "Mining, Staking and the Energy Debate Around Digital Assets",
+    "link": "index.html?category=Cryptocurrency",
+    "category": "Cryptocurrency",
+    "description": "Proof-of-work and proof-of-stake secure networks differently, and that shapes environmental impact.",
+    "img": "Article cards images/Cryptocurrency/article_card_11.jpg",
+    "alt": "Gold bitcoin coin symbolizing crypto mining and staking"
+  },
+  {
+    "title": "Zero-Knowledge Proofs Are Making Privacy Practical",
+    "link": "index.html?category=Web%203",
+    "category": "Web 3",
+    "description": "ZK cryptography lets apps verify facts without revealing underlying data, a foundation for private Web3 products.",
+    "img": "Article cards images/Web 3/article_card_13.png",
+    "alt": "Glowing circuit board representing zero-knowledge cryptography"
   },
   {
     "title": "AI Ethics: Navigating the Challenges",
     "link": "index.html?category=AI%20Trends",
     "category": "AI Trends",
-    "description": "As AI systems become more prevalent, ethical considerations around bias, privacy, and accountability are critical for responsible development.",
-    "img": "Article cards images/AI/article_card_05.jpg",
-    "alt": "Abstract image representing AI ethics with human and robot hands"
+    "description": "Responsible AI requires stronger thinking around bias, privacy, accountability and explainability.",
+    "img": "Article cards images/AI/article_card_07.jpg",
+    "alt": "Human hand interacting with a digital AI interface"
+  },
+  {
+    "title": "Crypto Security Basics Every New Investor Should Know",
+    "link": "index.html?category=Cryptocurrency",
+    "category": "Cryptocurrency",
+    "description": "Seed phrases, phishing and fake apps remain the biggest risks, simple habits prevent most losses.",
+    "img": "Article cards images/Cryptocurrency/article_card_07.jpg",
+    "alt": "Cybersecurity monitoring screen for crypto protection"
+  },
+  {
+    "title": "Web3 Gaming Economies: Designing Play That Lasts",
+    "link": "index.html?category=Web%203",
+    "category": "Web 3",
+    "description": "Sustainable game economies need careful token design, real gameplay loops and player-first incentives.",
+    "img": "Article cards images/Game/article_card_05.jpg",
+    "alt": "Gaming controller with neon lighting for Web3 gaming"
   },
   {
     "title": "Decentralized Finance (DeFi) Growth",
     "link": "index.html?category=Web%203",
     "category": "Web 3",
-    "description": "DeFi platforms are transforming traditional finance by enabling peer-to-peer transactions without intermediaries.",
+    "description": "DeFi platforms are transforming traditional finance by enabling peer-to-peer financial services.",
     "img": "Article cards images/Web 3/article_card_05.png",
-    "alt": ""
+    "alt": "Decentralized Finance (DeFi) Growth"
+  },
+  {
+    "title": "The Rise of Tokenized Treasuries and On-Chain Yield",
+    "link": "index.html?category=Cryptocurrency",
+    "category": "Cryptocurrency",
+    "description": "Real world yield products are bringing familiar financial instruments onto blockchain settlement rails.",
+    "img": "Article cards images/Cryptocurrency/article_card_08.png",
+    "alt": "Person using a payment card representing digital yield products"
+  },
+  {
+    "title": "Decentralized Storage Networks for the Open Web",
+    "link": "index.html?category=Web%203",
+    "category": "Web 3",
+    "description": "IPFS, Filecoin and similar networks are reshaping how apps host media, archives and user-owned data.",
+    "img": "Article cards images/Web 3/article_card_15.png",
+    "alt": "Network cables and servers representing decentralized storage"
   },
   {
     "title": "The Future of Augmented Reality",
     "link": "index.html?category=Technology",
     "category": "Technology",
-    "description": "Augmented Reality is enhancing user experiences in gaming, education, and retail by blending digital content with the real world.",
+    "description": "Augmented reality is blending physical and digital experiences across education, retail and gaming.",
     "img": "Article cards images/Technology/article_card_11.jpg",
-    "alt": ""
+    "alt": "Person wearing an augmented reality headset"
+  },
+  {
+    "title": "Wallet UX Is the Next Frontier for Mass Web3 Adoption",
+    "link": "index.html?category=Web%203",
+    "category": "Web 3",
+    "description": "Account abstraction, passkeys and smarter defaults are making onboarding far less intimidating for new users.",
+    "img": "Article cards images/Web 3/article_card_18.png",
+    "alt": "Person completing a digital payment representing wallet UX"
   },
   {
     "title": "Advancements in Remote Work Tech",
     "link": "index.html?category=Technology",
     "category": "Technology",
-    "description": "New tools and platforms are making remote work more productive and collaborative than ever before.",
+    "description": "New collaboration platforms are helping distributed teams work faster without sacrificing connection.",
     "img": "Article cards images/Technology/article_card_09.jpg",
-    "alt": "Person working remotely on laptop with coffee and notebook"
+    "alt": "Team collaborating around laptops"
   },
   {
     "title": "5G Technology and Its Impact",
     "link": "index.html?category=Technology",
     "category": "Technology",
-    "description": "5G networks are transforming connectivity with faster speeds and lower latency, enabling new applications and services.",
+    "description": "Lower latency and higher bandwidth are creating new opportunities for connected devices and services.",
     "img": "Article cards images/Technology/article_card_13.jpg",
-    "alt": "5G technology concept with network towers and digital connections"
+    "alt": "Telecommunications tower against a blue sky"
   },
   {
     "title": "Blockchain Beyond Cryptocurrency",
     "link": "index.html?category=Web%203",
     "category": "Web 3",
-    "description": "Blockchain technology is being applied in supply chain, healthcare, and voting systems to increase transparency and security.",
+    "description": "Supply chains, healthcare and voting systems are using blockchain patterns to increase transparency.",
     "img": "Article cards images/Web 3/article_card_03.jpg",
-    "alt": ""
+    "alt": "Blockchain Beyond Cryptocurrency"
   },
   {
     "title": "Machine Learning in Everyday Life",
     "link": "index.html?category=AI%20Trends",
     "category": "AI Trends",
-    "description": "Machine learning powers many applications from recommendation systems to fraud detection, impacting daily experiences.",
+    "description": "Recommendation engines, fraud detection and smart assistants all depend on machine learning systems.",
     "img": "Article cards images/AI/article_card_03.jpg",
-    "alt": "Abstract machine learning concept with data visualization"
+    "alt": "Data visualization dashboard on multiple screens"
   },
   {
     "title": "Cybersecurity in the Modern Age",
     "link": "index.html?category=Technology",
     "category": "Technology",
-    "description": "As cyber threats evolve, new strategies and tools are essential to protect data and privacy.",
+    "description": "As threats evolve, resilient security depends on awareness, automation and defense-in-depth strategies.",
     "img": "Article cards images/Technology/article_card_03.jpg",
-    "alt": "Cybersecurity concept with digital lock and code"
+    "alt": "Cybersecurity analyst workstation with code and dashboards"
   },
   {
     "title": "The Role of IoT in Smart Cities",
     "link": "index.html?category=Technology",
     "category": "Technology",
-    "description": "Internet of Things devices are enabling smarter infrastructure, traffic management, and energy efficiency.",
+    "description": "Connected sensors are enabling smarter infrastructure, energy usage and traffic management.",
     "img": "Article cards images/Technology/article_card_15.jpg",
-    "alt": "Smart city with connected IoT devices and data"
+    "alt": "Modern city skyline with connected infrastructure concept"
   },
   {
     "title": "Ethical AI: Balancing Innovation and Responsibility",
     "link": "index.html?category=AI%20Trends",
     "category": "AI Trends",
-    "description": "Developing AI responsibly requires addressing bias, transparency, and societal impact.",
+    "description": "Teams building AI products need governance practices that keep innovation aligned with human outcomes.",
     "img": "Article cards images/AI/article_card_05.jpg",
-    "alt": "Ethical AI concept with human and robot hands"
+    "alt": "Abstract neural network lines over a person silhouette"
   },
   {
     "title": "Virtual Reality in Education",
     "link": "index.html?category=Technology",
     "category": "Technology",
-    "description": "VR is transforming education by providing immersive learning experiences.",
+    "description": "Immersive classrooms can help students explore complex ideas through safe, hands-on simulations.",
     "img": "Article cards images/Technology/article_card_12.jpg",
-    "alt": "Student using virtual reality headset in classroom"
+    "alt": "Student using a virtual reality headset"
   },
   {
     "title": "Cryptocurrency Regulations Worldwide",
     "link": "index.html?category=Web%203",
     "category": "Web 3",
-    "description": "Governments are shaping the future of cryptocurrencies with evolving regulations.",
+    "description": "Regulatory clarity is shaping the future of digital assets, exchanges and stablecoin adoption.",
     "img": "Article cards images/Web 3/article_card_02.jpg",
-    "alt": ""
+    "alt": "Cryptocurrency Regulations Worldwide"
   },
   {
     "title": "AI-Powered Customer Service",
     "link": "index.html?category=AI%20Trends",
     "category": "AI Trends",
-    "description": "Chatbots and virtual assistants are improving customer interactions and support.",
-    "img": "Article cards images/AI/article_card_07.jpg",
-    "alt": "AI chatbot concept with digital interface"
+    "description": "AI assistants are improving response times while helping support teams focus on complex conversations.",
+    "img": "Article cards images/AI/article_card_08.jpg",
+    "alt": "Customer service professional using a headset at a computer"
   },
   {
     "title": "Sustainable Tech Innovations",
     "link": "index.html?category=Technology",
     "category": "Technology",
-    "description": "New technologies are helping reduce environmental impact and promote sustainability.",
+    "description": "Hardware, software and climate intelligence are reducing waste and supporting greener operations.",
     "img": "Article cards images/Technology/article_card_23.jpg",
-    "alt": "Green technology with solar panels and plants"
+    "alt": "Wind turbines and power lines in a green landscape"
   },
   {
     "title": "The Evolution of Cloud Computing",
     "link": "index.html?category=Technology",
     "category": "Technology",
-    "description": "Cloud computing continues to evolve, offering scalable and flexible solutions for businesses.",
+    "description": "Cloud platforms continue to evolve toward faster deployment, elastic infrastructure and edge workloads.",
     "img": "Article cards images/Technology/article_card_05.jpg",
-    "alt": "Cloud computing concept with servers and data"
+    "alt": "Earth from space with network connections"
   },
   {
     "title": "AI and Automation in Manufacturing",
     "link": "index.html?category=AI%20Trends",
     "category": "AI Trends",
-    "description": "Automation powered by AI is increasing efficiency and precision in manufacturing processes.",
+    "description": "Automation powered by AI is increasing precision, quality control and efficiency on factory floors.",
     "img": "Article cards images/AI/article_card_13.jpg",
-    "alt": "Robotic arm in manufacturing plant"
+    "alt": "Robotic arm operating in a manufacturing environment"
   },
   {
     "title": "Cloud Gaming and the Next Console War",
@@ -182,261 +446,5 @@
     "description": "Stablecoins are becoming a bridge between traditional finance and programmable internet-native money.",
     "img": "Article cards images/Cryptocurrency/article_card_06.jpg",
     "alt": "Cryptocurrency coins and a financial chart"
-  },
-  {
-    "title": "Mastering the art of coding",
-    "link": "article.html?slug=mastering-the-art-of-coding",
-    "category": "Technology",
-    "description": "Learning to code has never been more accessible — but knowing a language is not the same as knowing how to build software. These ten areas represent the foundations upon which exceptional developers are built.",
-    "img": "Article cards images/Home/article_card_01.jpg",
-    "alt": "Developer working at a desk with two monitors displaying source code"
-  },
-  {
-    "title": "Building Resilient Software Systems in 2026",
-    "link": "index.html?category=Technology",
-    "category": "Technology",
-    "description": "Reliability is a product feature. Here's how modern teams design for failure without slowing delivery.",
-    "img": "Article cards images/Technology/article_card_21.jpg",
-    "alt": "Close-up of a circuit board representing resilient software systems"
-  },
-  {
-    "title": "Open Source Infrastructure That Powers Modern Startups",
-    "link": "index.html?category=Technology",
-    "category": "Technology",
-    "description": "From Linux to Kubernetes, open source tooling remains the backbone of fast-moving product teams.",
-    "img": "Article cards images/Technology/article_card_17.webp",
-    "alt": "Developer workspace with code on a laptop screen"
-  },
-  {
-    "title": "Chip Design Breakthroughs Driving Faster Devices",
-    "link": "index.html?category=Technology",
-    "category": "Technology",
-    "description": "New semiconductor architectures are unlocking performance gains while keeping power budgets in check.",
-    "img": "Article cards images/Technology/article_card_19.png",
-    "alt": "Macro photo of a computer processor chip"
-  },
-  {
-    "title": "Multimodal AI Models Are Changing How Software Understands the World",
-    "link": "index.html?category=AI%20Trends",
-    "category": "AI Trends",
-    "description": "Systems that reason across text, images, audio and video are opening new product surfaces for builders.",
-    "img": "Article cards images/AI/article_card_09.jpg",
-    "alt": "Abstract visualization of a multimodal artificial intelligence network"
-  },
-  {
-    "title": "Bitcoin ETFs and the New Wave of Institutional Adoption",
-    "link": "index.html?category=Cryptocurrency",
-    "category": "Cryptocurrency",
-    "description": "Regulated investment products are changing who can hold bitcoin and how traditional finance participates.",
-    "img": "Article cards images/Cryptocurrency/article_card_03.jpg",
-    "alt": "Bitcoin coin resting on a financial chart"
-  },
-  {
-    "title": "Layer 2 Networks Explained: Scaling Crypto Without Compromise",
-    "link": "index.html?category=Cryptocurrency",
-    "category": "Cryptocurrency",
-    "description": "Rollups and sidechains are making blockchain transactions faster and cheaper for everyday use.",
-    "img": "Article cards images/Cryptocurrency/article_card_05.webp",
-    "alt": "Abstract blockchain network nodes representing layer 2 scaling"
-  },
-  {
-    "title": "Crypto Wallets: Hot, Cold and What Everyday Users Should Choose",
-    "link": "index.html?category=Cryptocurrency",
-    "category": "Cryptocurrency",
-    "description": "Custody choices shape security, convenience and recovery — here's a practical guide for new holders.",
-    "img": "Article cards images/Cryptocurrency/article_card_07.jpg",
-    "alt": "Cryptocurrency hardware and digital wallet concept"
-  },
-  {
-    "title": "How Central Bank Digital Currencies Differ from Crypto",
-    "link": "index.html?category=Cryptocurrency",
-    "category": "Cryptocurrency",
-    "description": "CBDCs share digital rails with crypto markets, but their design goals and trust models are very different.",
-    "img": "Article cards images/Cryptocurrency/article_card_09.png",
-    "alt": "Digital currency coins on a trading chart"
-  },
-  {
-    "title": "On-Chain Analytics: Reading the Market Beyond Price Charts",
-    "link": "index.html?category=Cryptocurrency",
-    "category": "Cryptocurrency",
-    "description": "Wallet flows, exchange reserves and network activity give traders a deeper view of crypto market structure.",
-    "img": "Article cards images/Cryptocurrency/article_card_11.jpg",
-    "alt": "Laptop displaying cryptocurrency market analytics"
-  },
-  {
-    "title": "Mining, Staking and the Energy Debate Around Digital Assets",
-    "link": "index.html?category=Cryptocurrency",
-    "category": "Cryptocurrency",
-    "description": "Proof-of-work and proof-of-stake secure networks differently — and that shapes environmental impact.",
-    "img": "Article cards images/Cryptocurrency/article_card_11.jpg",
-    "alt": "Gold bitcoin coin symbolizing crypto mining and staking"
-  },
-  {
-    "title": "Crypto Security Basics Every New Investor Should Know",
-    "link": "index.html?category=Cryptocurrency",
-    "category": "Cryptocurrency",
-    "description": "Seed phrases, phishing and fake apps remain the biggest risks — simple habits prevent most losses.",
-    "img": "Article cards images/Cryptocurrency/article_card_07.jpg",
-    "alt": "Cybersecurity monitoring screen for crypto protection"
-  },
-  {
-    "title": "The Rise of Tokenized Treasuries and On-Chain Yield",
-    "link": "index.html?category=Cryptocurrency",
-    "category": "Cryptocurrency",
-    "description": "Real-world yield products are bringing familiar financial instruments onto blockchain settlement rails.",
-    "img": "Article cards images/Cryptocurrency/article_card_08.png",
-    "alt": "Person using a payment card representing digital yield products"
-  },
-  {
-    "title": "DAOs in Practice: What Works and What Still Doesn't",
-    "link": "index.html?category=Web%203",
-    "category": "Web 3",
-    "description": "Community governance is powerful, but tooling, incentives and legal wrappers still decide real outcomes.",
-    "img": "Article cards images/Web 3/article_card_09.jpg",
-    "alt": "Decentralized network graphic representing DAO governance"
-  },
-  {
-    "title": "NFTs After the Hype: Utility, Media and Membership",
-    "link": "index.html?category=Web%203",
-    "category": "Web 3",
-    "description": "The strongest NFT projects now focus on access, provenance and creator tooling rather than speculation alone.",
-    "img": "Article cards images/Web 3/article_card_07.jpg",
-    "alt": "Digital art and blockchain interface on a laptop"
-  },
-  {
-    "title": "Smart Contract Audits: Why Security Reviews Matter",
-    "link": "index.html?category=Web%203",
-    "category": "Web 3",
-    "description": "Immutable code needs careful review. Audits, bug bounties and formal methods reduce costly on-chain failures.",
-    "img": "Article cards images/Web 3/article_card_11.jpg",
-    "alt": "Server room representing secure smart contract infrastructure"
-  },
-  {
-    "title": "Decentralized Social Networks and the Creator Economy",
-    "link": "index.html?category=Web%203",
-    "category": "Web 3",
-    "description": "Open social protocols aim to give creators portable audiences and users ownership of their digital graph.",
-    "img": "Article cards images/Web 3/article_card_17.jpg",
-    "alt": "Smartphone with social media apps representing decentralized social"
-  },
-  {
-    "title": "Interoperability Bridges: Connecting Fragmented Blockchains",
-    "link": "index.html?category=Web%203",
-    "category": "Web 3",
-    "description": "Cross-chain bridges unlock liquidity and users, but they also concentrate some of Web3's hardest security risks.",
-    "img": "Article cards images/Web 3/article_card_19.jpg",
-    "alt": "Blockchain technology concept with connected digital blocks"
-  },
-  {
-    "title": "Zero-Knowledge Proofs Are Making Privacy Practical",
-    "link": "index.html?category=Web%203",
-    "category": "Web 3",
-    "description": "ZK cryptography lets apps verify facts without revealing underlying data — a foundation for private Web3 products.",
-    "img": "Article cards images/Web 3/article_card_13.png",
-    "alt": "Glowing circuit board representing zero-knowledge cryptography"
-  },
-  {
-    "title": "Web3 Gaming Economies: Designing Play That Lasts",
-    "link": "index.html?category=Web%203",
-    "category": "Web 3",
-    "description": "Sustainable game economies need careful token design, real gameplay loops and player-first incentives.",
-    "img": "Article cards images/Game/article_card_05.jpg",
-    "alt": "Gaming controller with neon lighting for Web3 gaming"
-  },
-  {
-    "title": "Decentralized Storage Networks for the Open Web",
-    "link": "index.html?category=Web%203",
-    "category": "Web 3",
-    "description": "IPFS, Filecoin and similar networks are reshaping how apps host media, archives and user-owned data.",
-    "img": "Article cards images/Web 3/article_card_15.png",
-    "alt": "Network cables and servers representing decentralized storage"
-  },
-  {
-    "title": "Wallet UX Is the Next Frontier for Mass Web3 Adoption",
-    "link": "index.html?category=Web%203",
-    "category": "Web 3",
-    "description": "Account abstraction, passkeys and smarter defaults are making onboarding far less intimidating for new users.",
-    "img": "Article cards images/Web 3/article_card_18.png",
-    "alt": "Person completing a digital payment representing wallet UX"
-  },
-  {
-    "title": "The Rise of Esports: How Competitive Gaming Became a Global Industry",
-    "link": "index.html?category=Game",
-    "category": "Game",
-    "description": "Competitive gaming has grown from local tournaments into a global entertainment industry built on players, teams, leagues and loyal communities.",
-    "img": "Article cards images/Game/article_card_05.jpg",
-    "alt": "Gamer playing at a neon-lit esports desk",
-    "date": "Aug 2, 2026",
-    "readingTime": "5 min read"
-  },
-  {
-    "title": "Generative AI Is Changing How Games Are Designed and Built",
-    "link": "index.html?category=Game",
-    "category": "Game",
-    "description": "AI-assisted world building, testing and character design are giving game studios new creative tools while raising important questions about authorship.",
-    "img": "Article cards images/AI/article_card_09.jpg",
-    "alt": "Video game controller beside a monitor",
-    "date": "Jul 31, 2026",
-    "readingTime": "5 min read"
-  },
-  {
-    "title": "Why Great Game Design Keeps Players Coming Back",
-    "link": "index.html?category=Game",
-    "category": "Game",
-    "description": "The best games balance challenge, discovery and meaningful progress to create experiences that feel rewarding without becoming exhausting.",
-    "img": "Article cards images/Game/article_card_09.jpg",
-    "alt": "Person holding a game controller in front of a screen",
-    "date": "Jul 29, 2026",
-    "readingTime": "4 min read"
-  },
-  {
-    "title": "Mobile Gaming Is Building the World's Biggest Interactive Audience",
-    "link": "index.html?category=Game",
-    "category": "Game",
-    "description": "Affordable smartphones, social features and free-to-play models are bringing sophisticated gaming experiences to more people than ever.",
-    "img": "Article cards images/Game/article_card_03.jpg",
-    "alt": "Mobile phone displaying a game with a controller nearby",
-    "date": "Jul 27, 2026",
-    "readingTime": "4 min read"
-  },
-  {
-    "title": "Virtual Reality Gaming Is Becoming a Social Experience",
-    "link": "index.html?category=Game",
-    "category": "Game",
-    "description": "VR games are moving beyond solo novelty experiences as better hardware and shared virtual spaces make play feel more naturally social.",
-    "img": "Article cards images/Game/article_card_07.jpg",
-    "alt": "Person using a virtual reality headset",
-    "date": "Jul 25, 2026",
-    "readingTime": "5 min read"
-  },
-  {
-    "title": "Indie Games and the New Era of Creative Discovery",
-    "link": "index.html?category=Game",
-    "category": "Game",
-    "description": "Small studios are using focused ideas, flexible tools and direct communities to create some of the most distinctive games on the market.",
-    "img": "Article cards images/Game/article_card_11.jpg",
-    "alt": "Retro video game console and controller",
-    "date": "Jul 23, 2026",
-    "readingTime": "4 min read"
-  },
-  {
-    "title": "Game Engines Are Powering More Than Games",
-    "link": "index.html?category=Game",
-    "category": "Game",
-    "description": "Real-time 3D engines are reshaping film, architecture, training and product design by making interactive visualisation faster to create.",
-    "img": "Article cards images/Game/article_card_13.jpg",
-    "alt": "Person experiencing an immersive digital environment",
-    "date": "Jul 21, 2026",
-    "readingTime": "4 min read"
-  },
-  {
-    "title": "Accessible Gaming: Designing Play for Everyone",
-    "link": "index.html?category=Game",
-    "category": "Game",
-    "description": "Remappable controls, readable interfaces and flexible difficulty settings help more players enjoy games on their own terms.",
-    "img": "Article cards images/Game/article_card_15.jpg",
-    "alt": "Gaming setup with controller and illuminated keyboard",
-    "date": "Jul 19, 2026",
-    "readingTime": "4 min read"
   }
 ]

@@ -82,7 +82,7 @@
       },
       {
         title: 'The Rise of Quantum Computing: The Computing Revolution Beyond Silicon',
-        description: 'A comprehensive guide to quantum computing — from qubits and superposition to real-world applications in healthcare, AI, cybersecurity, and scientific research.',
+        description: 'A comprehensive guide to quantum computing, from qubits and superposition to real-world applications in healthcare, AI, cybersecurity, and scientific research.',
         img: 'article-images/quantum/quantum-computer-chandelier.jpg',
         alt: 'Golden chandelier-like cryostat of a superconducting quantum computer, layered with control wiring'
       },

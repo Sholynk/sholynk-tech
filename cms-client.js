@@ -119,5 +119,23 @@ window.SholynkCMS = (() => {
     return (await loadFallback()).settings || {};
   }
 
-  return { API_BASE, apiRequest, isApiAvailable, getArticles, getArticle, getSettings };
+  /**
+   * Forces the next isApiAvailable() call to probe the API again. Used when a
+   * page reconnects (e.g. the browser comes back online) so content and
+   * engagement data switch back to the live server instead of the snapshot.
+   */
+  function refreshApiAvailability() {
+    apiAvailable = null;
+    probePromise = null;
+  }
+
+  return {
+    API_BASE,
+    apiRequest,
+    isApiAvailable,
+    refreshApiAvailability,
+    getArticles,
+    getArticle,
+    getSettings
+  };
 })();

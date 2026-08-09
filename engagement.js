@@ -13,8 +13,19 @@ window.SholynkEngagement = (() => {
   const VOTER_KEY = 'sholynk:voter-id';
   const REACTION_KEY = (slug) => `sholynk:reactions:${slug}`;
   const COMMENTS_KEY = (slug) => `sholynk:comments:${slug}`;
+  const QUEUE_KEY = (slug) => `sholynk:comment-queue:${slug}`;
   const MAX_AUTHOR_LENGTH = 60;
   const MAX_COMMENT_LENGTH = 2000;
+
+  /**
+   * Unique id for one comment submission, generated in the browser. It makes
+   * the server write idempotent (a retried or re-synced submission returns the
+   * original comment) and lets the offline queue merge without duplicates.
+   */
+  function newClientId() {
+    return window.crypto?.randomUUID?.()
+      || `c-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
+  }
 
   /* ----------------------------- storage ---------------------------------- */
 
@@ -132,23 +143,61 @@ window.SholynkEngagement = (() => {
       const next = [comment, ...list];
       writeJson(COMMENTS_KEY(slug), next);
       return comment;
+    },
+
+    /**
+     * Comments written while the API was unreachable. They are shown
+     * immediately, kept here, and pushed to the shared history as soon as the
+     * API is reachable again (see flushQueue).
+     */
+    queuedComments(slug) {
+      const list = readJson(QUEUE_KEY(slug), []);
+      return Array.isArray(list) ? list : [];
+    },
+
+    enqueueComment(slug, comment) {
+      const queue = local.queuedComments(slug);
+      if (queue.some((item) => item.clientId === comment.clientId)) return;
+      writeJson(QUEUE_KEY(slug), [comment, ...queue]);
+    },
+
+    dequeueComment(slug, clientId) {
+      writeJson(QUEUE_KEY(slug), local.queuedComments(slug).filter((item) => item.clientId !== clientId));
     }
   };
 
   /* --------------------------- unified data layer -------------------------- */
 
+  /**
+   * Server comments (the shared history) plus anything this browser still has
+   * queued offline, deduped by clientId so a comment never appears twice.
+   */
+  function mergeComments(serverComments, queued) {
+    const server = Array.isArray(serverComments) ? serverComments : [];
+    const seen = new Set(server.map((comment) => comment.clientId).filter(Boolean));
+    const localExtra = queued.filter((comment) => !seen.has(comment.clientId));
+    return [...server, ...localExtra];
+  }
+
   async function getEngagement(slug) {
+    const queued = local.queuedComments(slug);
     if (await apiAvailable()) {
       try {
         const payload = await cms.apiRequest(
           `/articles/${encodeURIComponent(slug)}/engagement?voterId=${encodeURIComponent(voterId())}`
         );
-        return payload.data;
+        return {
+          reactions: payload.data.reactions,
+          comments: mergeComments(payload.data.comments, queued)
+        };
       } catch (error) {
         /* Fall through to local state. */
       }
     }
-    return { reactions: local.reactions(slug), comments: local.comments(slug) };
+    return {
+      reactions: local.reactions(slug),
+      comments: mergeComments(local.comments(slug), queued)
+    };
   }
 
   async function sendReaction(slug, type) {
@@ -167,20 +216,66 @@ window.SholynkEngagement = (() => {
     return local.react(slug, type);
   }
 
-  async function sendComment(slug, { author, body }) {
+  /**
+   * Pushes every queued (offline) comment for this article to the server.
+   * Idempotent per comment: if one was already saved, the server returns the
+   * original and it is simply removed from the queue.
+   */
+  async function flushQueue(slug) {
+    const queue = local.queuedComments(slug);
+    if (!queue.length || !(await apiAvailable())) return 0;
+
+    let synced = 0;
+    for (const queued of queue) {
+      try {
+        await cms.apiRequest(`/articles/${encodeURIComponent(slug)}/comments`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            author: queued.author,
+            body: queued.body,
+            voterId: voterId(),
+            clientId: queued.clientId
+          })
+        });
+        local.dequeueComment(slug, queued.clientId);
+        synced += 1;
+      } catch (error) {
+        // Keep this comment queued; a later flush will retry it.
+      }
+    }
+    return synced;
+  }
+
+  async function sendComment(slug, { author, body, clientId }) {
     if (await apiAvailable()) {
       try {
         const payload = await cms.apiRequest(`/articles/${encodeURIComponent(slug)}/comments`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ author, body, voterId: voterId() })
+          body: JSON.stringify({ author, body, voterId: voterId(), clientId })
         });
+        // If this comment was previously queued (e.g. a retried submission),
+        // it is now safe to drop from the local queue.
+        local.dequeueComment(slug, clientId);
         return payload.data;
       } catch (error) {
-        /* Fall through to local state. */
+        /* Fall through: the comment is kept locally and synced later. */
       }
     }
-    return local.addComment(slug, { author, body });
+
+    // Offline or server error: record it on this device, show it right away,
+    // and let flushQueue push it to the shared history later.
+    const comment = {
+      id: `pending-${Date.now()}`,
+      slug,
+      author,
+      body,
+      clientId,
+      createdAt: new Date().toISOString()
+    };
+    local.enqueueComment(slug, comment);
+    return comment;
   }
 
   /* ------------------------------- helpers -------------------------------- */
@@ -508,11 +603,15 @@ window.SholynkEngagement = (() => {
       submit.disabled = true;
       submit.textContent = 'Posting...';
 
-      // Optimistic insert so the comment appears immediately.
+      // Optimistic insert so the comment appears immediately. clientId is the
+      // per-submission id that keeps the server write idempotent and lets an
+      // offline comment sync into the shared history without duplicating.
+      const clientId = newClientId();
       const optimistic = {
         id: `pending-${Date.now()}`,
         author,
         body,
+        clientId,
         createdAt: new Date().toISOString()
       };
       comments = [optimistic, ...comments];
@@ -521,12 +620,18 @@ window.SholynkEngagement = (() => {
       renderCount();
 
       try {
-        const saved = await sendComment(slug, { author, body });
+        const saved = await sendComment(slug, { author, body, clientId });
         // Swap the placeholder for the stored record (real id, server timestamp).
         comments = comments.map((item) => (item.id === optimistic.id ? saved : item));
         optimisticNode.replaceWith(renderComment(saved, { isNew: true }));
         bodyInput.value = '';
-        formStatus.textContent = 'Comment posted. Thanks for joining the conversation.';
+        const stillQueued = local.queuedComments(slug).some((item) => item.clientId === clientId);
+        formStatus.textContent = stillQueued
+          ? 'Comment saved on this device. It will appear for everyone once you are back online.'
+          : 'Comment posted. Thanks for joining the conversation.';
+
+        // Anything still in the local queue can now be pushed to the server.
+        flushQueue(slug);
       } catch (error) {
         comments = comments.filter((item) => item.id !== optimistic.id);
         optimisticNode.remove();
@@ -573,8 +678,21 @@ window.SholynkEngagement = (() => {
       comments.hydrate([]);
     }
 
+    // Push any comments written while the API was unreachable into the shared
+    // history now that the page is up, and again whenever the browser
+    // reconnects — so a comment left on one device appears on every device.
+    flushQueue(slug);
+    window.addEventListener('online', () => {
+      // The CMS client caches its API probe; force a fresh one so a browser
+      // that came back online actually reaches the server again.
+      if (cms && typeof cms.refreshApiAvailability === 'function') {
+        cms.refreshApiAvailability();
+      }
+      flushQueue(slug);
+    }, { passive: true });
+
     return wrapper;
   }
 
-  return { mount, voterId, getEngagement, sendReaction, sendComment };
+  return { mount, voterId, getEngagement, sendReaction, sendComment, flushQueue, newClientId };
 })();

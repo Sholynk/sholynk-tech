@@ -88,6 +88,7 @@ db.exec(`
     author       TEXT NOT NULL,
     body         TEXT NOT NULL,
     voter_id     TEXT NOT NULL DEFAULT '',
+    client_id    TEXT NOT NULL DEFAULT '',
     created_at   TEXT NOT NULL DEFAULT (datetime('now'))
   );
 
@@ -95,6 +96,18 @@ db.exec(`
   CREATE INDEX IF NOT EXISTS idx_articles_status ON articles(status);
   CREATE INDEX IF NOT EXISTS idx_reactions_slug ON reactions(article_slug);
   CREATE INDEX IF NOT EXISTS idx_comments_slug ON comments(article_slug, id);
+  CREATE INDEX IF NOT EXISTS idx_comments_client ON comments(client_id);
 `);
+
+// Migration for databases created before the client_id column existed.
+// client_id is a client-generated id per comment submission: it makes the
+// write endpoint idempotent (a retried submission returns the original
+// comment) and lets offline comments be synced without duplicating.
+{
+  const columns = db.prepare('PRAGMA table_info(comments)').all();
+  if (!columns.some((column) => column.name === 'client_id')) {
+    db.exec("ALTER TABLE comments ADD COLUMN client_id TEXT NOT NULL DEFAULT ''");
+  }
+}
 
 module.exports = { db, DB_FILE, DATA_DIR };

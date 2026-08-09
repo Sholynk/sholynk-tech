@@ -172,6 +172,15 @@ router.post('/articles/:slug/comments', (req, res, next) => {
 });
 
 // Moderation stays behind the admin token.
+router.get('/comments', requireAdmin, (req, res, next) => {
+  try {
+    const limit = req.query.limit ? Number(req.query.limit) : undefined;
+    res.json({ data: engagement.listAllComments({ limit }) });
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.delete('/comments/:id', requireAdmin, (req, res) => {
   if (!engagement.removeComment(req.params.id)) {
     return res.status(404).json({ error: 'Comment not found' });

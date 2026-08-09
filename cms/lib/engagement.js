@@ -18,6 +18,7 @@ const MAX_AUTHOR_LENGTH = 60;
 const MAX_COMMENT_LENGTH = 2000;
 const MAX_SLUG_LENGTH = 120;
 const MAX_VOTER_LENGTH = 64;
+const MAX_CLIENT_ID_LENGTH = 80;
 
 class ValidationError extends Error {
   constructor(errors) {
@@ -106,6 +107,7 @@ function toCommentApi(row) {
     slug: row.article_slug,
     author: row.author,
     body: row.body,
+    clientId: row.client_id || '',
     createdAt: row.created_at
   };
 }
@@ -121,6 +123,33 @@ function listComments(slug, { limit } = {}) {
   return db.prepare(sql).all(...params).map(toCommentApi);
 }
 
+/**
+ * Full comment history across every article, newest first — the record the
+ * admin dashboard shows. Includes the article title for context.
+ */
+function listAllComments({ limit } = {}) {
+  let sql = `
+    SELECT c.*, a.title AS article_title
+    FROM comments c
+    LEFT JOIN articles a ON a.slug = c.article_slug
+    ORDER BY c.id DESC
+  `;
+  const params = [];
+  if (Number.isFinite(limit)) {
+    sql += ' LIMIT ?';
+    params.push(limit);
+  }
+  return db.prepare(sql).all(...params).map((row) => ({
+    id: row.id,
+    articleSlug: row.article_slug,
+    articleTitle: row.article_title || row.article_slug,
+    author: row.author,
+    body: row.body,
+    clientId: row.client_id || '',
+    createdAt: row.created_at
+  }));
+}
+
 function countComments(slug) {
   const row = db
     .prepare('SELECT COUNT(*) AS total FROM comments WHERE article_slug = ?')
@@ -128,12 +157,13 @@ function countComments(slug) {
   return Number(row?.total || 0);
 }
 
-function addComment(slug, { author, body, voterId } = {}) {
+function addComment(slug, { author, body, voterId, clientId } = {}) {
   const articleSlug = normalizeSlug(slug);
   const errors = [];
 
   const cleanAuthor = String(author || '').trim().replace(/\s+/g, ' ');
   const cleanBody = String(body || '').trim();
+  const cleanClientId = String(clientId || '').trim().slice(0, MAX_CLIENT_ID_LENGTH);
 
   if (!cleanAuthor) errors.push('name is required');
   if (cleanAuthor.length > MAX_AUTHOR_LENGTH) {
@@ -145,9 +175,19 @@ function addComment(slug, { author, body, voterId } = {}) {
   }
   if (errors.length) throw new ValidationError(errors);
 
+  // Idempotency: a submission carries a client-generated id so a retried
+  // request (timeout, offline queue sync, double-tab) returns the original
+  // comment instead of creating a duplicate.
+  if (cleanClientId) {
+    const existing = db
+      .prepare('SELECT * FROM comments WHERE article_slug = ? AND client_id = ?')
+      .get(articleSlug, cleanClientId);
+    if (existing) return toCommentApi(existing);
+  }
+
   const info = db
-    .prepare('INSERT INTO comments (article_slug, author, body, voter_id) VALUES (?, ?, ?, ?)')
-    .run(articleSlug, cleanAuthor, cleanBody, normalizeVoter(voterId));
+    .prepare('INSERT INTO comments (article_slug, author, body, voter_id, client_id) VALUES (?, ?, ?, ?, ?)')
+    .run(articleSlug, cleanAuthor, cleanBody, normalizeVoter(voterId), cleanClientId);
 
   return toCommentApi(db.prepare('SELECT * FROM comments WHERE id = ?').get(info.lastInsertRowid));
 }
@@ -172,6 +212,7 @@ module.exports = {
   tallies,
   react,
   listComments,
+  listAllComments,
   countComments,
   addComment,
   removeComment,

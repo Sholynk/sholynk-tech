@@ -34,6 +34,72 @@ async function boot() {
 
 const flush = () => new Promise((resolve) => setImmediate(resolve));
 
+/**
+ * Boots engagement.js against a fake CMS that can switch between offline and
+ * online at runtime. Posted comments are "remembered" by the fake server and
+ * returned by the engagement endpoint, mirroring the real API.
+ */
+async function bootWithCms() {
+  const dom = new JSDOM('<!doctype html><html><body><div id="root"></div></body></html>', {
+    url: 'https://example.com/article_01.html',
+    runScripts: 'outside-only',
+    pretendToBeVisual: true
+  });
+
+  let online = false;
+  const server = [];
+  const calls = [];
+  const cms = {
+    async isApiAvailable() {
+      return online;
+    },
+    async apiRequest(path, options = {}) {
+      calls.push({ path, method: options.method || 'GET' });
+      if (options.method === 'POST' && path.endsWith('/comments')) {
+        const payload = JSON.parse(options.body);
+        // Mirror the real API: a submission with a known clientId is a retry
+        // and returns the original comment instead of a duplicate.
+        const existing = server.find((comment) => comment.clientId === payload.clientId);
+        if (existing) return { data: existing };
+        const comment = {
+          id: server.length + 1,
+          slug: 'test-article',
+          author: payload.author,
+          body: payload.body,
+          clientId: payload.clientId,
+          createdAt: new Date().toISOString()
+        };
+        server.push(comment);
+        return { data: comment };
+      }
+      return {
+        data: {
+          reactions: { likes: 0, dislikes: 0, mine: null },
+          comments: [...server]
+        }
+      };
+    },
+    refreshApiAvailability() {
+      /* the fake is stateless; nothing to refresh */
+    }
+  };
+  dom.window.SholynkCMS = cms;
+  dom.window.eval(SOURCE);
+
+  const container = dom.window.document.getElementById('root');
+  await dom.window.SholynkEngagement.mount(container, { slug: 'test-article' });
+
+  return {
+    dom,
+    document: dom.window.document,
+    window: dom.window,
+    cms,
+    calls,
+    server,
+    setOnline(value) { online = value; }
+  };
+}
+
 function widgets(document) {
   return {
     like: document.querySelector('.reaction-btn--like'),
@@ -269,4 +335,102 @@ test('the name field is retained after posting so a reader can comment again', a
 
   assert.equal(ui.name.value, 'Ada', 'the name should stick');
   assert.equal(ui.body.value, '', 'the comment box should clear');
+});
+
+/* ------------------------ offline queue and syncing ----------------------- */
+
+test('an offline comment is shown immediately and queued on the device', async () => {
+  const { window, document } = await bootWithCms();
+  const ui = widgets(document);
+
+  ui.name.value = 'Offline Reader';
+  ui.body.value = 'Written on the train.';
+  ui.form.dispatchEvent(new document.defaultView.Event('submit', { bubbles: true, cancelable: true }));
+  await flush();
+  await flush();
+
+  const comments = ui.comments();
+  assert.equal(comments.length, 1, 'the comment should appear right away');
+  assert.match(comments[0].textContent, /Written on the train/);
+  assert.equal(window.SholynkEngagement.newClientId().length > 0, true);
+  assert.ok(
+    window.localStorage.getItem('sholynk:comment-queue:test-article'),
+    'the comment should be queued for later syncing'
+  );
+});
+
+test('queued comments are pushed to the shared history when the API returns', async () => {
+  const env = await bootWithCms();
+  const ui = widgets(env.document);
+
+  // Offline: the comment only exists on this device.
+  ui.name.value = 'Train Reader';
+  ui.body.value = 'Synced later.';
+  ui.form.dispatchEvent(new env.document.defaultView.Event('submit', { bubbles: true, cancelable: true }));
+  await flush();
+  await flush();
+  assert.equal(env.server.length, 0, 'nothing reached the server while offline');
+
+  // The browser reconnects; the queue must flush into the shared history.
+  env.setOnline(true);
+  await env.window.SholynkEngagement.flushQueue('test-article');
+  await flush();
+
+  assert.equal(env.server.length, 1, 'the comment should reach the server');
+  assert.match(env.server[0].body, /Synced later/);
+  const queue = JSON.parse(env.window.localStorage.getItem('sholynk:comment-queue:test-article') || '[]');
+  assert.equal(queue.length, 0, 'the local queue should be empty after syncing');
+});
+
+test('syncing never duplicates a comment that already reached the server', async () => {
+  const env = await bootWithCms();
+
+  // Offline submit, then online: the flush reaches the server.
+  const ui = widgets(env.document);
+  ui.name.value = 'Grace';
+  ui.body.value = 'Exactly once.';
+  ui.form.dispatchEvent(new env.document.defaultView.Event('submit', { bubbles: true, cancelable: true }));
+  await flush();
+  await flush();
+
+  env.setOnline(true);
+  await env.window.SholynkEngagement.flushQueue('test-article');
+  await flush();
+
+  // Re-mount (simulating another page load / device): the server copy and any
+  // leftover queue must merge into a single comment.
+  const container = env.document.getElementById('root');
+  container.innerHTML = '';
+  await env.window.SholynkEngagement.mount(container, { slug: 'test-article' });
+  await flush();
+
+  const comments = widgets(env.document).comments();
+  assert.equal(comments.length, 1, 'one comment, never two');
+  assert.match(comments[0].textContent, /Exactly once/);
+});
+
+test('online comments carry a clientId so retries stay idempotent', async () => {
+  const env = await bootWithCms();
+  env.setOnline(true);
+  const ui = widgets(env.document);
+
+  ui.name.value = 'Ada';
+  ui.body.value = 'Idempotent.';
+  ui.form.dispatchEvent(new env.document.defaultView.Event('submit', { bubbles: true, cancelable: true }));
+  await flush();
+  await flush();
+
+  const post = env.calls.find((call) => call.method === 'POST');
+  assert.ok(post, 'a POST should have reached the server');
+  const submitted = JSON.parse(JSON.stringify(env.server[0]));
+  assert.ok(submitted.clientId, 'the submission should carry a clientId');
+
+  // The same submission retried must not add a second copy.
+  const retry = await env.window.SholynkEngagement.sendComment('test-article', {
+    author: 'Ada',
+    body: 'Idempotent.',
+    clientId: submitted.clientId
+  });
+  assert.equal(retry.id, submitted.id, 'the retry returns the original comment');
+  assert.equal(env.server.length, 1);
 });

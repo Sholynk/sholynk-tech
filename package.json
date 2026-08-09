@@ -8,6 +8,8 @@
     "start": "node cms/server.js",
     "dev": "node --watch cms/server.js",
     "seed": "node cms/seed.js",
+    "export": "node cms/export-fallback.js",
+    "sync": "node cms/seed.js && node cms/export-fallback.js",
     "test": "node --test cms/tests/*.test.js"
   },
   "engines": {
