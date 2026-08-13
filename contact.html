@@ -203,7 +203,7 @@
 
           <div class="contact-details contact-social-card">
             <h2>Follow along</h2>
-            <p class="page-intro" style="margin: 0 0 0.9rem">
+            <p class="page-intro contact-social-intro">
               Prefer social? We're active here too.
             </p>
             <div class="footer-social contact-social-links">
@@ -353,31 +353,50 @@
       const popup = document.getElementById("successPopup");
       const closeBtn = document.getElementById("closePopupBtn");
 
+      function closeSuccessPopup() {
+        popup.classList.add("hidden");
+        popup.setAttribute("aria-hidden", "true");
+      }
+
       form.addEventListener("submit", function (e) {
         e.preventDefault();
 
-        // Use fetch to submit form data to Netlify
+        // Use fetch to submit form data to Netlify.
         const formData = new FormData(form);
+        const submitBtn = form.querySelector('button[type="submit"]');
+        submitBtn.disabled = true;
 
         fetch("/", {
           method: "POST",
           headers: { "Content-Type": "application/x-www-form-urlencoded" },
           body: new URLSearchParams(formData).toString(),
         })
-          .then(() => {
-            // Show success popup
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error(`Form submission failed (${response.status})`);
+            }
             popup.classList.remove("hidden");
-            // Reset form
+            popup.setAttribute("aria-hidden", "false");
+            closeBtn.focus();
             form.reset();
           })
           .catch((error) => {
             alert("Oops! There was a problem submitting your form");
             console.error(error);
+          })
+          .finally(() => {
+            submitBtn.disabled = false;
           });
       });
 
-      closeBtn.addEventListener("click", () => {
-        popup.classList.add("hidden");
+      closeBtn.addEventListener("click", closeSuccessPopup);
+      popup.addEventListener("click", (event) => {
+        if (event.target === popup) closeSuccessPopup();
+      });
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && !popup.classList.contains("hidden")) {
+          closeSuccessPopup();
+        }
       });
     </script>
   </body>

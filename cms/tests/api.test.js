@@ -124,6 +124,23 @@ test('search and category filters work', async () => {
   assert.ok(category.body.data.every((article) => article.category === 'Web 3'));
 });
 
+test('hero-filter totals match the filtered result set', async () => {
+  await api('/api/articles', {
+    method: 'POST',
+    body: JSON.stringify({ title: 'Hero total test', category: 'Technology', hero: true })
+  });
+  await api('/api/articles', {
+    method: 'POST',
+    body: JSON.stringify({ title: 'Ordinary total test', category: 'Technology' })
+  });
+
+  const allHeroes = await api('/api/articles?hero=true');
+  const pagedHeroes = await api('/api/articles?hero=true&limit=1');
+  assert.ok(allHeroes.body.data.length >= 1);
+  assert.ok(allHeroes.body.data.every((article) => article.hero));
+  assert.equal(pagedHeroes.body.total, allHeroes.body.data.length);
+});
+
 test('structured editorial fields and sources round-trip through the API', async () => {
   const created = await api('/api/articles', {
     method: 'POST',
@@ -244,7 +261,9 @@ test('image upload stores a file and records metadata', async () => {
     'base64'
   );
   const form = new FormData();
-  form.append('image', new Blob([png], { type: 'image/png' }), 'pixel.png');
+  // The stored extension comes from verified content/MIME, never the supplied
+  // filename, so even a misleading original name cannot become executable.
+  form.append('image', new Blob([png], { type: 'image/png' }), 'pixel.html');
   form.append('alt', 'A single transparent pixel');
 
   const response = await fetch(`${base}/api/images`, { method: 'POST', body: form });
@@ -252,6 +271,7 @@ test('image upload stores a file and records metadata', async () => {
   const { data } = await response.json();
   assert.equal(data.alt, 'A single transparent pixel');
   assert.ok(data.url.startsWith('/uploads/'));
+  assert.match(data.url, /\.png$/);
 
   const served = await fetch(`${base}${data.url}`);
   assert.equal(served.status, 200);
@@ -270,6 +290,21 @@ test('non-image uploads are rejected', async () => {
   assert.ok(response.status >= 400);
 });
 
+test('spoofed image MIME headers cannot publish arbitrary files', async () => {
+  const form = new FormData();
+  form.append(
+    'image',
+    new Blob(['<script>alert("not an image")</script>'], { type: 'image/png' }),
+    'payload.png'
+  );
+  const response = await fetch(`${base}/api/images`, { method: 'POST', body: form });
+  assert.equal(response.status, 400);
+  const files = fs.existsSync(process.env.CMS_UPLOAD_DIR)
+    ? fs.readdirSync(process.env.CMS_UPLOAD_DIR)
+    : [];
+  assert.ok(!files.some((file) => file.startsWith('payload-')));
+});
+
 test('settings can be read and updated', async () => {
   const before = await api('/api/settings');
   assert.ok(before.body.data.siteTitle);
@@ -279,4 +314,56 @@ test('settings can be read and updated', async () => {
     body: JSON.stringify({ homeTagline: 'Fresh tagline' })
   });
   assert.equal(after.body.data.homeTagline, 'Fresh tagline');
+});
+
+test('admin tokens must match in full and protect unpublished content', async () => {
+  const draft = await api('/api/articles', {
+    method: 'POST',
+    body: JSON.stringify({
+      title: 'Private draft for token test',
+      category: 'Technology',
+      status: 'draft',
+      body: 'Unpublished copy'
+    })
+  });
+  const prefix = 'a'.repeat(64);
+  const expected = `${prefix}-expected`;
+  process.env.CMS_ADMIN_TOKEN = expected;
+
+  try {
+    const publicArticles = await api('/api/articles');
+    assert.equal(publicArticles.status, 200);
+    const privateList = await api('/api/articles?status=draft');
+    assert.equal(privateList.status, 401);
+    const privateArticle = await api(`/api/articles/${draft.body.data.id}`);
+    assert.equal(privateArticle.status, 401);
+    const authorizedDrafts = await api('/api/articles?status=draft', {
+      headers: { 'x-admin-token': expected }
+    });
+    assert.equal(authorizedDrafts.status, 200);
+    assert.ok(authorizedDrafts.body.data.some((article) => article.id === draft.body.data.id));
+
+    const rejected = await api('/api/settings', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-admin-token': `${prefix}-different`
+      },
+      body: JSON.stringify({ homeTagline: 'Must not be saved' })
+    });
+    assert.equal(rejected.status, 401);
+
+    const accepted = await api('/api/settings', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-admin-token': expected
+      },
+      body: JSON.stringify({ homeTagline: 'Exact token accepted' })
+    });
+    assert.equal(accepted.status, 200);
+    assert.equal(accepted.body.data.homeTagline, 'Exact token accepted');
+  } finally {
+    delete process.env.CMS_ADMIN_TOKEN;
+  }
 });

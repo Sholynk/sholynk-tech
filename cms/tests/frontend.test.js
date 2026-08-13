@@ -200,11 +200,21 @@ test('category pages use dedicated hero slides instead of the homepage slideshow
       }
       return [
         {
+          title: 'Existing full AI article',
+          category: 'AI Trends',
+          description: 'A complete category article.',
+          date: '2026-07-31',
+          readingTime: '4 min read',
+          body: '## Complete story',
+          link: 'articles/existing-full-ai-article/'
+        },
+        {
           title: 'Existing AI card',
           category: 'AI Trends',
           description: 'A category card.',
           date: '2026-07-30',
           readingTime: '1 min read',
+          body: '',
           link: 'index.html?category=AI%20Trends'
         },
         {
@@ -225,10 +235,52 @@ test('category pages use dedicated hero slides instead of the homepage slideshow
   dom.window.document.dispatchEvent(new dom.window.Event('DOMContentLoaded', { bubbles: true }));
   await new Promise((resolve) => dom.window.setTimeout(resolve, 0));
 
-  const titles = [...dom.window.document.querySelectorAll('.hero-slide h1')].map((node) => node.textContent);
+  const { document } = dom.window;
+  const titles = [...document.querySelectorAll('.hero-slide h1')].map((node) => node.textContent);
   assert.ok(titles.includes('How Artificial Intelligence Is Reshaping Every Industry'));
   assert.ok(!titles.includes('Mastering the art of coding'));
+  assert.match(document.querySelector('.hero-slide a').textContent, /Browse Artificial Intelligence/);
 
+  const fullCard = document.querySelector('[data-title="Existing full AI article"]');
+  assert.equal(fullCard.tagName, 'A');
+  assert.match(fullCard.querySelector('.card-footer').textContent, /Read more/);
+
+  const pendingCard = document.querySelector('[data-title="Existing AI card"]');
+  assert.equal(pendingCard.tagName, 'ARTICLE');
+  assert.ok(!pendingCard.hasAttribute('href'));
+  assert.ok(pendingCard.classList.contains('card--pending'));
+  assert.match(pendingCard.querySelector('.card-footer').textContent, /Full article coming soon/);
+
+  dom.window.close();
+});
+
+test('contact form shows success only after a successful HTTP response', async () => {
+  let response = { ok: false, status: 500 };
+  const html = fs.readFileSync(path.join(ROOT, 'contact.html'), 'utf8');
+  const dom = new JSDOM(html, {
+    url: 'https://example.com/contact.html',
+    runScripts: 'dangerously',
+    beforeParse(window) {
+      window.fetch = async () => response;
+      window.alert = () => {};
+      window.console.error = () => {};
+    }
+  });
+  const { document } = dom.window;
+  const form = document.getElementById('contactForm');
+  const popup = document.getElementById('successPopup');
+
+  form.dispatchEvent(new dom.window.Event('submit', { bubbles: true, cancelable: true }));
+  await new Promise((resolve) => dom.window.setTimeout(resolve, 0));
+  assert.ok(popup.classList.contains('hidden'));
+  assert.equal(popup.getAttribute('aria-hidden'), 'true');
+
+  response = { ok: true, status: 200 };
+  form.dispatchEvent(new dom.window.Event('submit', { bubbles: true, cancelable: true }));
+  await new Promise((resolve) => dom.window.setTimeout(resolve, 0));
+  assert.ok(!popup.classList.contains('hidden'));
+  assert.equal(popup.getAttribute('aria-hidden'), 'false');
+  assert.equal(document.activeElement, document.getElementById('closePopupBtn'));
   dom.window.close();
 });
 
@@ -356,8 +408,16 @@ test('article page dynamically renders article structure with TOC, hero, and eng
   };
 
   dom.window.SholynkMarkdown = {
-    renderMarkdown: async () =>
-      '<h2>Section 1</h2><p>Body text 1</p><h2>Section 2</h2><p>Body text 2</p><h2>Section 3</h2><p>Body text 3</p>'
+    renderMarkdown: async () => [
+      '<h2>Section 1</h2><p>Body text 1</p>',
+      '<h2>Section 2</h2><p>Body text 2</p>',
+      '<h2>Section 3</h2><p>Body text 3</p>',
+      '<script id="unsafe-script">window.compromised = true</script>',
+      '<a id="unsafe-link" href="java&#x0a;script:alert(1)">Unsafe link</a>',
+      '<img id="event-image" src="safe.jpg" onerror="window.compromised = true">',
+      '<img id="unsafe-image" src="data:text/html,unsafe">',
+      '<a id="safe-external" href="https://example.org/story">Safe link</a>'
+    ].join('')
   };
 
   const articleScript = fs.readFileSync(path.join(ROOT, 'article.js'), 'utf8');
@@ -380,6 +440,12 @@ test('article page dynamically renders article structure with TOC, hero, and eng
   assert.ok(document.querySelector('.article-share'), 'share row rendered');
   assert.ok(document.querySelector('#engagementRoot'), 'engagement root rendered');
   assert.ok(document.querySelector('.article-back'), 'back button rendered');
+  assert.ok(!document.getElementById('unsafe-script'), 'scripts returned by Markdown are removed');
+  assert.ok(!document.getElementById('unsafe-link').hasAttribute('href'), 'unsafe link schemes are removed');
+  assert.ok(!document.getElementById('event-image').hasAttribute('onerror'), 'event attributes are removed');
+  assert.ok(!document.getElementById('unsafe-image'), 'unsafe image schemes are removed');
+  assert.equal(document.getElementById('safe-external').target, '_blank');
+  assert.equal(document.getElementById('safe-external').rel, 'noopener noreferrer');
 
   dom.window.close();
 });

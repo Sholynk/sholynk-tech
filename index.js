@@ -174,6 +174,19 @@
     return icon;
   }
 
+  function formatCardDate(value) {
+    if (!value) return '';
+    const dateOnly = /^\d{4}-\d{2}-\d{2}$/.test(value);
+    const parsed = new Date(dateOnly ? `${value}T00:00:00Z` : value);
+    if (Number.isNaN(parsed.valueOf())) return value;
+    return parsed.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      ...(dateOnly ? { timeZone: 'UTC' } : {})
+    });
+  }
+
   function getRequestedCategory() {
     return new URLSearchParams(window.location.search).get('category') || '';
   }
@@ -229,7 +242,7 @@
       image.decoding = 'async';
       image.loading = index === 0 ? 'eager' : 'lazy';
       image.addEventListener('error', () => {
-        image.src = 'photo-1550751827-4bd374c3f58b[1].jpeg';
+        image.src = 'Images and Assets/photo-1550751827-4bd374c3f58b[1].jpeg';
       }, { once: true });
 
       const content = document.createElement('div');
@@ -246,9 +259,15 @@
       description.textContent = slide.description;
 
       const link = document.createElement('a');
+      const isTopicLink = /(?:^|\/)index\.html\?category=/i.test(slide.readMoreLink || '');
       link.href = slide.readMoreLink;
-      link.setAttribute('aria-label', `Read more about ${slide.title}`);
-      link.textContent = 'Read the story';
+      link.setAttribute(
+        'aria-label',
+        isTopicLink
+          ? `Browse more ${slide.category} articles`
+          : `Read more about ${slide.title}`
+      );
+      link.textContent = isTopicLink ? `Browse ${slide.category}` : 'Read the story';
       link.append(createIcon('fas fa-arrow-right'));
 
       content.append(category, title, description, link);
@@ -436,16 +455,19 @@
   }
 
   function createCard(article, index) {
-    const card = document.createElement('a');
+    const hasLongForm = Boolean(article.body && article.body.trim());
+    const hasExternalArticle = /^https?:\/\//i.test(article.externalLink || '');
+    const hasDestination = hasLongForm || hasExternalArticle;
+    const card = document.createElement(hasDestination ? 'a' : 'article');
     const hasImage = Boolean(article.img);
     const isWeb3NoImage = article.category === 'Web 3' && !hasImage;
 
     const knownRatio = getKnownAspectRatio(article);
     const initialShape = knownRatio ? classifyAspectRatio(knownRatio) : (hasImage ? 'landscape' : 'square');
 
-    card.href = article.link;
-    card.className = `card card--${initialShape}${isWeb3NoImage ? ' web3-dark' : ''}${hasImage ? '' : ' card--no-media'}`;
-    card.setAttribute('role', 'article');
+    if (hasDestination) card.href = article.link;
+    card.className = `card card--${initialShape}${isWeb3NoImage ? ' web3-dark' : ''}${hasImage ? '' : ' card--no-media'}${hasDestination ? '' : ' card--pending'}`;
+    if (hasDestination) card.setAttribute('role', 'article');
     card.dataset.title = article.title;
     card.dataset.category = article.category;
     card.dataset.index = index.toString();
@@ -478,7 +500,7 @@
       }
 
       image.addEventListener('error', () => {
-        image.src = 'photo-1550751827-4bd374c3f58b[1].jpeg';
+        image.src = 'Images and Assets/photo-1550751827-4bd374c3f58b[1].jpeg';
         image.addEventListener('load', updateShapeFromNaturalSize, { once: true });
       }, { once: true });
 
@@ -497,7 +519,7 @@
     category.textContent = article.category;
 
     const date = document.createElement('span');
-    date.textContent = article.date;
+    date.textContent = formatCardDate(article.date);
 
     meta.append(category, date);
 
@@ -510,10 +532,10 @@
     const footer = document.createElement('div');
     footer.className = 'card-footer';
     const time = document.createElement('span');
-    time.textContent = article.readingTime;
+    time.textContent = hasDestination ? article.readingTime : '';
     const cta = document.createElement('span');
-    cta.textContent = article.link.includes('article.html') ? 'Read more' : 'Explore topic';
-    cta.append(createIcon('fas fa-arrow-right'));
+    cta.textContent = hasDestination ? 'Read more' : 'Full article coming soon';
+    cta.append(createIcon(hasDestination ? 'fas fa-arrow-right' : 'fas fa-clock'));
     footer.append(time, cta);
 
     body.append(meta, title, description, footer);

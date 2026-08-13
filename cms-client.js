@@ -8,7 +8,19 @@
  */
 window.SholynkCMS = (() => {
   const API_BASE = (window.SHOLYNK_API_BASE || '/api').replace(/\/$/, '');
-  const FALLBACK_URL = 'content-fallback.json';
+
+  function resolveSitePath(target) {
+    const homeHref = document
+      .querySelector('header a[aria-label="Sholynk homepage"]')
+      ?.getAttribute('href') || 'index.html';
+    const pathOnly = homeHref.split(/[?#]/, 1)[0];
+    const prefix = /index\.html$/i.test(pathOnly)
+      ? pathOnly.replace(/index\.html$/i, '')
+      : '';
+    return `${prefix}${target}`;
+  }
+
+  const FALLBACK_URL = resolveSitePath('content-fallback.json');
 
   let fallbackPromise = null;
   // null = unknown, true = live API, false = use the static snapshot.

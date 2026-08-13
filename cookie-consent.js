@@ -49,6 +49,17 @@ window.SholynkConsent = (() => {
     return Boolean(getCookie(COOKIE_NAME));
   }
 
+  function resolveSitePath(target) {
+    const homeHref = document
+      .querySelector('header a[aria-label="Sholynk homepage"]')
+      ?.getAttribute('href') || 'index.html';
+    const pathOnly = homeHref.split(/[?#]/, 1)[0];
+    const prefix = /index\.html$/i.test(pathOnly)
+      ? pathOnly.replace(/index\.html$/i, '')
+      : '';
+    return `${prefix}${target}`;
+  }
+
   function buildBanner() {
     const banner = document.createElement('div');
     banner.className = 'cookie-banner';
@@ -63,7 +74,7 @@ window.SholynkConsent = (() => {
           <p class="cookie-banner-text">
             Sholynk uses essential cookies to keep the site running, plus optional cookies to remember
             your preferences. You can accept everything, decline the optional ones, or choose exactly
-            what to allow. Read our <a href="privacy_policy.html">Privacy Policy</a> for details.
+            what to allow. Read our <a href="${resolveSitePath('privacy_policy.html')}">Privacy Policy</a> for details.
           </p>
           <div class="cookie-banner-prefs" id="cookiePrefsPanel" hidden>
             <label class="cookie-pref-row cookie-pref-locked">

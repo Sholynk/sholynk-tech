@@ -25,7 +25,7 @@
   }
 
   function normalizeImage(image = '') {
-    return image || 'photo-1550751827-4bd374c3f58b[1].jpeg';
+    return image || 'Images and Assets/photo-1550751827-4bd374c3f58b[1].jpeg';
   }
 
   function createResult(article) {
@@ -41,7 +41,7 @@
     image.loading = 'lazy';
     image.decoding = 'async';
     image.addEventListener('error', () => {
-      image.src = 'photo-1550751827-4bd374c3f58b[1].jpeg';
+      image.src = 'Images and Assets/photo-1550751827-4bd374c3f58b[1].jpeg';
     }, { once: true });
 
     const content = document.createElement('div');

@@ -28,7 +28,8 @@ window.SholynkMarkdown = (() => {
       script.src = CDN;
       script.onload = () => {
         ready = true;
-        // XSS mitigation: link rendering off, no raw HTML passthrough
+        // Parsing options only. article.js applies the HTML allowlist before
+        // anything returned by marked is inserted into the page.
         if (marked.use) {
           marked.use({ gfm: true, breaks: false });
         }

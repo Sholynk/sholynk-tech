@@ -173,7 +173,9 @@ function renderHero(article, responsive) {
 function relatedFor(article, allArticles) {
   const explicit = Array.isArray(article.relatedSlugs) ? article.relatedSlugs : [];
   const bySlug = new Map(allArticles.map((item) => [item.slug, item]));
-  const chosen = explicit.map((slug) => bySlug.get(slug)).filter(Boolean);
+  const chosen = explicit
+    .map((slug) => bySlug.get(slug))
+    .filter((item) => item && (item.body || /^https?:\/\//i.test(item.externalLink || '')));
   for (const item of allArticles) {
     if (chosen.length >= 3) break;
     if (item.slug !== article.slug && item.body && !item.externalLink && item.category === article.category && !chosen.some((entry) => entry.slug === item.slug)) {
