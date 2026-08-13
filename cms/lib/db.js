@@ -1,13 +1,11 @@
 'use strict';
 
 /**
- * Database layer for the Sholynk CMS.
+ * SQLite database and additive migrations for the Sholynk CMS.
  *
- * The site is a static front-end with no previous build tooling, so the CMS
- * keeps the operational footprint tiny: it uses SQLite through Node's built-in
- * `node:sqlite` module. No native compilation, no external database server.
- * The schema below is a plain relational schema, so moving to Postgres later is
- * a matter of swapping this file's query implementations.
+ * The database is a runtime mirror of the version-controlled content files.
+ * Migrations are deliberately additive so an existing installation can be
+ * upgraded without deleting articles, engagement data or uploaded media.
  */
 
 const path = require('node:path');
@@ -31,26 +29,38 @@ db.exec(`
   PRAGMA foreign_keys = ON;
 
   CREATE TABLE IF NOT EXISTS articles (
-    id            INTEGER PRIMARY KEY AUTOINCREMENT,
-    slug          TEXT NOT NULL UNIQUE,
-    title         TEXT NOT NULL,
-    category      TEXT NOT NULL DEFAULT 'Technology',
-    description   TEXT NOT NULL DEFAULT '',
-    body          TEXT NOT NULL DEFAULT '',
-    img           TEXT NOT NULL DEFAULT '',
-    alt           TEXT NOT NULL DEFAULT '',
-    author        TEXT NOT NULL DEFAULT 'Sholynk Editorial',
-    published_at  TEXT NOT NULL DEFAULT (date('now')),
-    reading_time  TEXT NOT NULL DEFAULT '5 min read',
-    featured      INTEGER NOT NULL DEFAULT 0,
-    status        TEXT NOT NULL DEFAULT 'published',
-    hero          INTEGER NOT NULL DEFAULT 0,
-    hero_order    INTEGER,
-    external_link TEXT,
-    seo_title     TEXT,
+    id              INTEGER PRIMARY KEY AUTOINCREMENT,
+    slug            TEXT NOT NULL UNIQUE,
+    title           TEXT NOT NULL,
+    category        TEXT NOT NULL DEFAULT 'Technology',
+    description     TEXT NOT NULL DEFAULT '',
+    body            TEXT NOT NULL DEFAULT '',
+    img             TEXT NOT NULL DEFAULT '',
+    alt             TEXT NOT NULL DEFAULT '',
+    author          TEXT NOT NULL DEFAULT 'Sholynk Editorial',
+    author_slug     TEXT NOT NULL DEFAULT '',
+    published_at    TEXT NOT NULL DEFAULT (date('now')),
+    reading_time    TEXT NOT NULL DEFAULT '5 min read',
+    featured        INTEGER NOT NULL DEFAULT 0,
+    status          TEXT NOT NULL DEFAULT 'published',
+    hero            INTEGER NOT NULL DEFAULT 0,
+    hero_order      INTEGER,
+    external_link   TEXT,
+    seo_title       TEXT,
     seo_description TEXT,
-    created_at    TEXT NOT NULL DEFAULT (datetime('now')),
-    updated_at    TEXT NOT NULL DEFAULT (datetime('now'))
+    content_type    TEXT NOT NULL DEFAULT 'article',
+    subcategory     TEXT NOT NULL DEFAULT '',
+    tags_json       TEXT NOT NULL DEFAULT '[]',
+    hook            TEXT NOT NULL DEFAULT '',
+    direct_answer   TEXT NOT NULL DEFAULT '',
+    key_takeaways_json TEXT NOT NULL DEFAULT '[]',
+    faqs_json       TEXT NOT NULL DEFAULT '[]',
+    related_slugs_json TEXT NOT NULL DEFAULT '[]',
+    canonical_url   TEXT,
+    scheduled_at    TEXT,
+    review_notes    TEXT NOT NULL DEFAULT '',
+    created_at      TEXT NOT NULL DEFAULT (datetime('now')),
+    updated_at      TEXT NOT NULL DEFAULT (datetime('now'))
   );
 
   CREATE TABLE IF NOT EXISTS images (
@@ -69,9 +79,42 @@ db.exec(`
     updated_at TEXT NOT NULL DEFAULT (datetime('now'))
   );
 
-  -- Reader engagement. Keyed by article slug rather than a foreign key to
-  -- articles(id) on purpose: the legacy static page (article_01.html) needs
-  -- reactions too, and a slug keeps the tables usable for any page.
+  CREATE TABLE IF NOT EXISTS authors (
+    id          INTEGER PRIMARY KEY AUTOINCREMENT,
+    slug        TEXT NOT NULL UNIQUE,
+    name        TEXT NOT NULL,
+    bio         TEXT NOT NULL DEFAULT '',
+    role        TEXT NOT NULL DEFAULT '',
+    image       TEXT NOT NULL DEFAULT '',
+    image_alt   TEXT NOT NULL DEFAULT '',
+    profile_url TEXT NOT NULL DEFAULT '',
+    created_at  TEXT NOT NULL DEFAULT (datetime('now')),
+    updated_at  TEXT NOT NULL DEFAULT (datetime('now'))
+  );
+
+  CREATE TABLE IF NOT EXISTS article_sources (
+    id           INTEGER PRIMARY KEY AUTOINCREMENT,
+    article_id   INTEGER NOT NULL REFERENCES articles(id) ON DELETE CASCADE,
+    title        TEXT NOT NULL,
+    publisher    TEXT NOT NULL DEFAULT '',
+    author       TEXT NOT NULL DEFAULT '',
+    published_at TEXT NOT NULL DEFAULT '',
+    url          TEXT NOT NULL,
+    type         TEXT NOT NULL DEFAULT 'journalism',
+    doi          TEXT NOT NULL DEFAULT '',
+    accessed_at  TEXT NOT NULL DEFAULT '',
+    supports     TEXT NOT NULL DEFAULT '',
+    created_at   TEXT NOT NULL DEFAULT (datetime('now')),
+    updated_at   TEXT NOT NULL DEFAULT (datetime('now'))
+  );
+
+  CREATE TABLE IF NOT EXISTS redirects (
+    id         INTEGER PRIMARY KEY AUTOINCREMENT,
+    old_slug   TEXT NOT NULL UNIQUE,
+    new_slug   TEXT NOT NULL,
+    created_at TEXT NOT NULL DEFAULT (datetime('now'))
+  );
+
   CREATE TABLE IF NOT EXISTS reactions (
     id           INTEGER PRIMARY KEY AUTOINCREMENT,
     article_slug TEXT NOT NULL,
@@ -94,23 +137,33 @@ db.exec(`
 
   CREATE INDEX IF NOT EXISTS idx_articles_category ON articles(category);
   CREATE INDEX IF NOT EXISTS idx_articles_status ON articles(status);
+  CREATE INDEX IF NOT EXISTS idx_sources_article ON article_sources(article_id, id);
   CREATE INDEX IF NOT EXISTS idx_reactions_slug ON reactions(article_slug);
   CREATE INDEX IF NOT EXISTS idx_comments_slug ON comments(article_slug, id);
 `);
 
-// Migration for databases created before the client_id column existed.
-// client_id is a client-generated id per comment submission: it makes the
-// write endpoint idempotent (a retried submission returns the original
-// comment) and lets offline comments be synced without duplicating.
-// The index on client_id is created here (not in the main db.exec above)
-// because existing databases may not yet have the column when the CREATE
-// INDEX statement runs.
-{
-  const columns = db.prepare('PRAGMA table_info(comments)').all();
-  if (!columns.some((column) => column.name === 'client_id')) {
-    db.exec("ALTER TABLE comments ADD COLUMN client_id TEXT NOT NULL DEFAULT ''");
+/** Add a column to databases created by an older release. */
+function addColumn(table, name, definition) {
+  const columns = db.prepare(`PRAGMA table_info(${table})`).all();
+  if (!columns.some((column) => column.name === name)) {
+    db.exec(`ALTER TABLE ${table} ADD COLUMN ${name} ${definition}`);
   }
-  db.exec('CREATE INDEX IF NOT EXISTS idx_comments_client ON comments(client_id)');
 }
+
+addColumn('comments', 'client_id', "TEXT NOT NULL DEFAULT ''");
+addColumn('articles', 'author_slug', "TEXT NOT NULL DEFAULT ''");
+addColumn('articles', 'content_type', "TEXT NOT NULL DEFAULT 'article'");
+addColumn('articles', 'subcategory', "TEXT NOT NULL DEFAULT ''");
+addColumn('articles', 'tags_json', "TEXT NOT NULL DEFAULT '[]'");
+addColumn('articles', 'hook', "TEXT NOT NULL DEFAULT ''");
+addColumn('articles', 'direct_answer', "TEXT NOT NULL DEFAULT ''");
+addColumn('articles', 'key_takeaways_json', "TEXT NOT NULL DEFAULT '[]'");
+addColumn('articles', 'faqs_json', "TEXT NOT NULL DEFAULT '[]'");
+addColumn('articles', 'related_slugs_json', "TEXT NOT NULL DEFAULT '[]'");
+addColumn('articles', 'canonical_url', 'TEXT');
+addColumn('articles', 'scheduled_at', 'TEXT');
+addColumn('articles', 'review_notes', "TEXT NOT NULL DEFAULT ''");
+
+db.exec('CREATE INDEX IF NOT EXISTS idx_comments_client ON comments(client_id)');
 
 module.exports = { db, DB_FILE, DATA_DIR };

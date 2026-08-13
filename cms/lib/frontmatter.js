@@ -23,9 +23,11 @@
  *   author: Busari Oluwashola
  *   ---
  *
- * Values are single-line strings; `true`/`false` become booleans and bare
- * integers become numbers. Everything after the closing `---` is the article
- * body. Files without a front-matter block are returned unchanged.
+ * Values are single-line strings; `true`/`false` become booleans, bare
+ * integers become numbers, and valid JSON arrays/objects are parsed. This
+ * keeps Markdown dependency-free while supporting tags, takeaways, FAQs,
+ * related slugs and structured source records. Everything after the closing
+ * `---` is the article body. Files without front matter are unchanged.
  */
 
 function parseFrontMatter(source) {
@@ -45,7 +47,13 @@ function parseFrontMatter(source) {
 
     if (/^(true|false)$/i.test(value)) value = value.toLowerCase() === 'true';
     else if (/^-?\d+$/.test(value)) value = Number(value);
-    else value = value.replace(/^["']|["']$/g, '');
+    else if (/^[\[{]/.test(value)) {
+      try {
+        value = JSON.parse(value);
+      } catch {
+        value = value.replace(/^["']|["']$/g, '');
+      }
+    } else value = value.replace(/^["']|["']$/g, '');
 
     data[key] = value;
   }

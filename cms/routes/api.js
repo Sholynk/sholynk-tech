@@ -9,6 +9,7 @@ const articles = require('../lib/articles');
 const images = require('../lib/images');
 const settings = require('../lib/settings');
 const engagement = require('../lib/engagement');
+const authors = require('../lib/authors');
 
 const router = express.Router();
 
@@ -121,6 +122,62 @@ router.delete('/articles/:id', requireAdmin, (req, res) => {
   const removed = articles.remove(req.params.id);
   if (!removed) return res.status(404).json({ error: 'Article not found' });
   res.status(204).end();
+});
+
+router.get('/articles/:id/sources', (req, res) => {
+  const article = articles.getById(req.params.id);
+  if (!article) return res.status(404).json({ error: 'Article not found' });
+  return res.json({ data: article.sources });
+});
+
+router.post('/articles/:id/sources', requireAdmin, (req, res, next) => {
+  try {
+    const source = articles.addSource(req.params.id, req.body || {});
+    if (!source) return res.status(404).json({ error: 'Article not found' });
+    return res.status(201).json({ data: source });
+  } catch (error) {
+    return next(error);
+  }
+});
+
+router.delete('/articles/:id/sources/:sourceId', requireAdmin, (req, res) => {
+  if (!articles.removeSource(req.params.id, req.params.sourceId)) {
+    return res.status(404).json({ error: 'Source not found' });
+  }
+  return res.status(204).end();
+});
+
+/* ------------------------------- authors -------------------------------- */
+
+router.get('/authors', (req, res) => res.json({ data: authors.list() }));
+
+router.get('/authors/:idOrSlug', (req, res) => {
+  const author = authors.get(req.params.idOrSlug);
+  if (!author) return res.status(404).json({ error: 'Author not found' });
+  return res.json({ data: author });
+});
+
+router.post('/authors', requireAdmin, (req, res, next) => {
+  try {
+    return res.status(201).json({ data: authors.create(req.body || {}) });
+  } catch (error) {
+    return next(error);
+  }
+});
+
+router.patch('/authors/:id', requireAdmin, (req, res, next) => {
+  try {
+    const author = authors.update(req.params.id, req.body || {});
+    if (!author) return res.status(404).json({ error: 'Author not found' });
+    return res.json({ data: author });
+  } catch (error) {
+    return next(error);
+  }
+});
+
+router.delete('/authors/:id', requireAdmin, (req, res) => {
+  if (!authors.remove(req.params.id)) return res.status(404).json({ error: 'Author not found' });
+  return res.status(204).end();
 });
 
 /* ----------------------------- engagement -------------------------------- */

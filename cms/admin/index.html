@@ -30,6 +30,7 @@
 
   <nav class="admin-tabs" aria-label="Sections">
    <button class="tab active" type="button" data-panel="articles">Articles</button>
+   <button class="tab" type="button" data-panel="authors">Authors</button>
    <button class="tab" type="button" data-panel="media">Media library</button>
    <button class="tab" type="button" data-panel="comments">Comments</button>
    <button class="tab" type="button" data-panel="settings">Site metadata</button>
@@ -46,6 +47,7 @@
         <option value="all">All statuses</option>
         <option value="published">Published</option>
         <option value="draft">Drafts</option>
+        <option value="scheduled">Scheduled</option>
        </select>
        <button class="primary-button" id="newArticle" type="button">
         <i class="fas fa-plus" aria-hidden="true"></i> New
@@ -91,10 +93,38 @@
         </div>
        </div>
 
+       <div class="field-row">
+        <div class="field">
+         <label for="subcategory">Subcategory</label>
+         <input id="subcategory" name="subcategory" placeholder="e.g. Software Development"/>
+        </div>
+        <div class="field">
+         <label for="contentType">Content type</label>
+         <select id="contentType" name="contentType">
+          <option value="article">Article</option>
+          <option value="news">News</option>
+          <option value="guide">Guide</option>
+          <option value="analysis">Analysis</option>
+          <option value="opinion">Opinion</option>
+          <option value="review">Review</option>
+         </select>
+        </div>
+       </div>
+
        <div class="field">
         <label for="description">Teaser / description</label>
         <textarea id="description" name="description" rows="3"></textarea>
         <p class="hint">Shown on the homepage card and used as the meta description fallback.</p>
+       </div>
+
+       <div class="field">
+        <label for="hook">Article hook / standfirst</label>
+        <textarea id="hook" name="hook" rows="2"></textarea>
+       </div>
+
+       <div class="field">
+        <label for="directAnswer">Quick answer</label>
+        <textarea id="directAnswer" name="directAnswer" rows="3"></textarea>
        </div>
 
        <div class="field-row">
@@ -112,10 +142,10 @@
        </div>
 
        <div class="field">
-        <label for="body">Body (HTML)</label>
+         <label for="body">Body (Markdown or safe HTML)</label>
         <textarea id="body" name="body" rows="18" spellcheck="true"></textarea>
         <p class="hint">
-         Use &lt;h2&gt; for sections, &lt;figure&gt; + &lt;img alt="..."&gt; for images, &lt;blockquote&gt; for pull quotes.
+         Markdown is preferred for version-controlled stories. In HTML, use &lt;h2&gt; for sections, &lt;figure&gt; + &lt;img alt="..."&gt; for images and &lt;blockquote&gt; for pull quotes.
          Headings become the article's table of contents automatically.
         </p>
         <div class="body-tools">
@@ -126,10 +156,40 @@
         </div>
        </div>
 
+       <details class="seo-block">
+        <summary>Structured editorial fields</summary>
+        <div class="field">
+         <label for="tags">Tags (one per line or JSON array)</label>
+         <textarea id="tags" rows="3" placeholder="artificial intelligence&#10;software development"></textarea>
+        </div>
+        <div class="field">
+         <label for="keyTakeaways">Key takeaways (one per line or JSON array)</label>
+         <textarea id="keyTakeaways" rows="4"></textarea>
+        </div>
+        <div class="field">
+         <label for="relatedSlugs">Related article slugs (one per line or JSON array)</label>
+         <textarea id="relatedSlugs" rows="3"></textarea>
+        </div>
+        <div class="field">
+         <label for="faqs">FAQs (JSON array of question/answer objects)</label>
+         <textarea id="faqs" rows="6" placeholder='[{"question":"...","answer":"..."}]'></textarea>
+        </div>
+        <div class="field">
+         <label for="sources">Sources (JSON array)</label>
+         <textarea id="sources" rows="8" placeholder='[{"title":"...","publisher":"...","url":"https://...","type":"official","supports":"..."}]'></textarea>
+         <p class="hint">Record only sources you verified. Supported types: primary, official, research, journalism, reference and other.</p>
+        </div>
+       </details>
+
        <div class="field-row">
         <div class="field">
-         <label for="author">Author</label>
+         <label for="author">Author display name</label>
          <input id="author" name="author"/>
+        </div>
+        <div class="field">
+         <label for="authorSlug">Author entity slug</label>
+         <input id="authorSlug" name="authorSlug" list="authorOptions" placeholder="e.g. oluwashola-busari"/>
+         <datalist id="authorOptions"></datalist>
         </div>
         <div class="field">
          <label for="date">Publish date</label>
@@ -147,6 +207,7 @@
          <select id="status" name="status">
           <option value="published">Published</option>
           <option value="draft">Draft</option>
+          <option value="scheduled">Scheduled</option>
          </select>
         </div>
         <div class="field">
@@ -157,6 +218,21 @@
          <label for="externalLink">External link override</label>
          <input id="externalLink" name="externalLink" placeholder="leave empty to use the article page"/>
         </div>
+       </div>
+
+       <div class="field-row">
+        <div class="field">
+         <label for="scheduledAt">Scheduled publishing time</label>
+         <input id="scheduledAt" name="scheduledAt" type="datetime-local"/>
+        </div>
+        <div class="field">
+         <label for="canonicalUrl">Canonical URL override</label>
+         <input id="canonicalUrl" name="canonicalUrl" placeholder="normally generated automatically"/>
+        </div>
+       </div>
+       <div class="field">
+        <label for="reviewNotes">Editorial review notes</label>
+        <textarea id="reviewNotes" name="reviewNotes" rows="3"></textarea>
        </div>
 
        <div class="checkbox-row">
@@ -175,6 +251,30 @@
          <textarea id="seoDescription" name="seoDescription" rows="2"></textarea>
         </div>
        </details>
+      </form>
+     </div>
+    </div>
+   </section>
+
+   <!-- Authors -->
+   <section class="panel" id="panel-authors" aria-label="Authors" hidden>
+    <div class="panel-grid">
+     <div class="list-column">
+      <div class="list-toolbar">
+       <h2>Author entities</h2>
+       <button class="primary-button" id="newAuthor" type="button"><i class="fas fa-plus" aria-hidden="true"></i> New</button>
+      </div>
+      <ul class="article-list" id="authorList"></ul>
+     </div>
+     <div class="form-column">
+      <form id="authorForm">
+       <div class="form-head"><h2 id="authorFormTitle">New author</h2><div class="form-head-actions"><button class="danger-button" id="deleteAuthor" type="button" hidden>Delete</button><button class="primary-button" type="submit">Save</button></div></div>
+       <input id="authorId" type="hidden"/>
+       <div class="field"><label for="authorName">Name <span class="req">*</span></label><input id="authorName" required/></div>
+       <div class="field-row"><div class="field"><label for="authorEntitySlug">Slug</label><input id="authorEntitySlug"/></div><div class="field"><label for="authorRole">Role</label><input id="authorRole"/></div></div>
+       <div class="field"><label for="authorBio">Biography</label><textarea id="authorBio" rows="6"></textarea></div>
+       <div class="field-row"><div class="field"><label for="authorImage">Profile image</label><input id="authorImage"/></div><div class="field"><label for="authorImageAlt">Profile image alt text</label><input id="authorImageAlt"/></div></div>
+       <div class="field"><label for="authorProfileUrl">Profile URL</label><input id="authorProfileUrl" placeholder="https://... or leave empty"/></div>
       </form>
      </div>
     </div>

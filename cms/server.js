@@ -22,8 +22,15 @@ app.use('/uploads', express.static(UPLOAD_DIR, { maxAge: '7d' }));
 // Admin UI.
 app.use('/admin', express.static(path.join(__dirname, 'admin')));
 
-// The existing static site (index.html, article.html, styles.css, ...).
+// The existing static site (index.html, generated articles, styles.css, ...).
 app.use(express.static(ROOT, { extensions: ['html'] }));
+
+// A CMS article can exist before the next static generation run. Keep its
+// clean link usable on the Node server by falling back to the legacy renderer;
+// generated files are served by express.static above and never reach here.
+app.get('/articles/:slug', (req, res) => {
+  res.redirect(302, `/article.html?slug=${encodeURIComponent(req.params.slug)}`);
+});
 
 app.use((req, res) => {
   if (req.path.startsWith('/api')) return res.status(404).json({ error: 'Not found' });

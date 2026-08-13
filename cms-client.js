@@ -65,7 +65,7 @@ window.SholynkCMS = (() => {
 
   function matches(article, { category, q }) {
     const okCategory = !category || category === 'All' || article.category === category;
-    const haystack = `${article.title} ${article.category} ${article.description}`.toLowerCase();
+    const haystack = `${article.title} ${article.category} ${article.subcategory || ''} ${article.description} ${(article.tags || []).join(' ')}`.toLowerCase();
     const okQuery = !q || haystack.includes(String(q).toLowerCase());
     return okCategory && okQuery;
   }
@@ -107,6 +107,18 @@ window.SholynkCMS = (() => {
     ) || null;
   }
 
+  async function getAuthors() {
+    if (await isApiAvailable()) {
+      try {
+        const payload = await apiRequest('/authors');
+        return payload.data;
+      } catch (error) {
+        apiAvailable = false;
+      }
+    }
+    return (await loadFallback()).authors || [];
+  }
+
   async function getSettings() {
     if (await isApiAvailable()) {
       try {
@@ -136,6 +148,7 @@ window.SholynkCMS = (() => {
     refreshApiAvailability,
     getArticles,
     getArticle,
+    getAuthors,
     getSettings
   };
 })();

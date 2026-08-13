@@ -5,7 +5,8 @@
   if (!root) return;
 
   const params = new URLSearchParams(window.location.search);
-  const slug = params.get('slug') || params.get('id');
+  const slug = params.get('slug') || params.get('id') || root.dataset.slug;
+  const isPrerendered = root.dataset.prerendered === 'true';
 
   /** Detect whether raw content is Markdown (no leading HTML tags). */
   function isMarkdown(raw) {
@@ -77,17 +78,37 @@
     document.getElementById('ogDescription')?.setAttribute('content', description);
     if (article.img) document.getElementById('ogImage')?.setAttribute('content', article.img);
 
+    const canonicalUrl = article.canonicalUrl || new URL(
+      `articles/${encodeURIComponent(article.slug)}/`,
+      `${window.location.origin}${window.location.pathname.replace(/[^/]*$/, '')}`
+    ).href;
+    let canonical = document.querySelector('link[rel="canonical"]');
+    if (!canonical) {
+      canonical = document.createElement('link');
+      canonical.rel = 'canonical';
+      document.head.append(canonical);
+    }
+    canonical.href = canonicalUrl;
+    let ogUrl = document.querySelector('meta[property="og:url"]');
+    if (!ogUrl) {
+      ogUrl = document.createElement('meta');
+      ogUrl.setAttribute('property', 'og:url');
+      document.head.append(ogUrl);
+    }
+    ogUrl.setAttribute('content', canonicalUrl);
+
     const jsonLd = document.createElement('script');
     jsonLd.type = 'application/ld+json';
     jsonLd.textContent = JSON.stringify({
       '@context': 'https://schema.org',
       '@type': 'Article',
+      mainEntityOfPage: canonicalUrl,
       headline: article.title,
       description,
-      image: article.img ? [article.img] : undefined,
+      image: article.img ? [new URL(article.img, window.location.href).href] : undefined,
       datePublished: article.date,
-      author: { '@type': 'Person', name: article.author || 'Sholynk Editorial' },
-      publisher: { '@type': 'Organization', name: 'Sholynk Technology' }
+      author: { '@type': 'Person', name: article.author || 'Sholynk Editorial', url: new URL('about.html', window.location.href).href },
+      publisher: { '@type': 'Organization', name: 'Sholynk Technology', url: new URL('index.html', window.location.href).href }
     });
     document.head.append(jsonLd);
   }
@@ -308,6 +329,15 @@
   }
 
   async function init() {
+    // Clean-path pages already contain the full article in their initial HTML.
+    // Keep progressive enhancement (reading progress and engagement) without
+    // replacing crawlable content or requiring an API request.
+    if (isPrerendered) {
+      const engagementRoot = document.getElementById('engagementRoot');
+      if (engagementRoot && slug) window.SholynkEngagement?.mount(engagementRoot, { slug });
+      initReadingProgress();
+      return;
+    }
     if (!slug) {
       renderMissing();
       return;

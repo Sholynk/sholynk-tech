@@ -8,8 +8,16 @@ alt: Smartphone screen showing a Social Media folder with apps such as YouTube, 
 date: 2026-08-02
 readingTime: 9 min read
 seoTitle: Distraction by Design: Navigating Attention in the Social Media Era
-seoDescription: Social media turned attention into a commodity. How the attention economy captures our focus, why feeds feel addictive, and how to enjoy social platforms without being controlled by them.
-author: Busari Oluwashola
+seoDescription: How infinite scroll, variable rewards and personalized feeds compete for attention, plus practical ways to use social media more intentionally.
+author: Oluwashola Busari
+contentType: analysis
+subcategory: Digital Wellbeing
+tags: ["social media", "attention economy", "digital wellbeing", "algorithms", "online habits"]
+hook: Social platforms can educate and connect us, but their design also competes relentlessly for attention. Understanding that design makes more intentional use possible.
+directAnswer: Social media captures attention through features such as infinite scroll, variable rewards, social validation and personalized feeds; intentional limits and friction can help users regain control without abandoning its benefits.
+keyTakeaways: ["Many engagement features are optimized to keep attention inside the platform.", "Social media can provide genuine educational, professional and community value.", "Practical boundaries are more useful than treating technology itself as the enemy."]
+faqs: [{"question":"Why does social media feel difficult to stop using?","answer":"Infinite feeds, unpredictable rewards, social feedback and personalized recommendations reduce stopping cues and continually offer new stimuli."},{"question":"Is social media always harmful?","answer":"No. It can support learning, professional networking, creativity, business and social awareness; outcomes depend on design, context and patterns of use."},{"question":"How can people use social media more intentionally?","answer":"Create clear time boundaries, disable unnecessary notifications, add friction before opening apps and choose feeds and communities deliberately."}]
+relatedSlugs: ["mastering-the-art-of-coding", "the-rise-of-quantum-computing"]
 ---
 ## Introduction
 

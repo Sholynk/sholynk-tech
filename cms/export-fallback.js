@@ -13,6 +13,7 @@ const path = require('node:path');
 
 const articles = require('./lib/articles');
 const settings = require('./lib/settings');
+const authors = require('./lib/authors');
 
 /**
  * Builds the search-index snapshot used by articles.js (the site-wide search
@@ -22,7 +23,7 @@ const settings = require('./lib/settings');
 function buildSearchIndex() {
   return articles.list({ status: 'published' }).map((article) => ({
     title: article.title,
-    link: article.externalLink || `article.html?slug=${article.slug}`,
+    link: article.link,
     category: article.category,
     description: article.description,
     img: article.img,
@@ -34,6 +35,7 @@ function run() {
   const payload = {
     generatedAt: new Date().toISOString(),
     settings: settings.all(),
+    authors: authors.list(),
     articles: articles.list({ status: 'published' })
   };
   const target = path.join(__dirname, '..', 'content-fallback.json');
