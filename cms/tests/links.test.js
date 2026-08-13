@@ -165,3 +165,66 @@ test('CMS static fallback resolves from the site root on generated pages', async
   assert.equal(new URL(fallbackRequest, dom.window.location.href).pathname, '/content-fallback.json');
   dom.window.close();
 });
+
+/**
+ * Regression guard for sub-path deployments (e.g. GitHub Pages project sites
+ * served from https://<user>.github.io/<repo>/).
+ *
+ * A root-relative reference such as "/styles.css" or "/about.html" is resolved
+ * by the browser against the *domain* root, so under a sub-path it escapes the
+ * deployment prefix: the stylesheet 404s (pages render unstyled) and in-page
+ * links land on "page not found". Every local reference must therefore stay
+ * inside the deployment prefix once resolved.
+ */
+test('every local reference stays inside the deployment prefix on a sub-path host', () => {
+  const PREFIX = '/sholynk-tech/';
+
+  function subPathUrl(file) {
+    return new URL(
+      file.split(path.sep).map(encodeURIComponent).join('/'),
+      `https://example.github.io${PREFIX}`
+    ).href;
+  }
+
+  for (const file of [...ROOT_PAGES, ...generatedPages()]) {
+    const pageHref = subPathUrl(file);
+    const document = new JSDOM(fs.readFileSync(path.join(ROOT, file), 'utf8'), {
+      url: pageHref
+    }).window.document;
+
+    const references = [];
+    for (const [selector, attribute] of [
+      ['a[href]', 'href'],
+      ['link[href]', 'href'],
+      ['script[src]', 'src'],
+      ['img[src]', 'src'],
+      ['source[src]', 'src']
+    ]) {
+      for (const element of document.querySelectorAll(selector)) {
+        references.push(element.getAttribute(attribute));
+      }
+    }
+    for (const image of document.querySelectorAll('img[srcset]')) {
+      for (const candidate of image.getAttribute('srcset').split(',')) {
+        references.push(candidate.trim().split(/\s+/, 1)[0]);
+      }
+    }
+
+    for (const raw of references) {
+      if (!raw || /^(?:https?:|mailto:|tel:|data:|javascript:|#|\/\/)/i.test(raw)) continue;
+      const resolved = new URL(raw, pageHref);
+      assert.ok(
+        resolved.pathname.startsWith(PREFIX),
+        `${file}: "${raw}" escapes the deployment prefix and resolves to ${resolved.pathname}`
+      );
+
+      // It must also point at a file that actually exists in the repository.
+      let relative = decodeURIComponent(resolved.pathname.slice(PREFIX.length));
+      if (relative.endsWith('/') || relative === '') relative += 'index.html';
+      assert.ok(
+        fs.existsSync(path.join(ROOT, relative)),
+        `${file}: "${raw}" resolves to missing ${relative}`
+      );
+    }
+  }
+});

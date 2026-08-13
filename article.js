@@ -22,14 +22,28 @@
   }
 
   /**
-   * CMS content is written relative to the site root. Root-relative URLs avoid
-   * the nested clean-path bug where a link could resolve inside /articles/slug/.
+   * CMS content is authored relative to the site root, but this script also runs
+   * on generated pages at <site>/articles/<slug>/ and on sites served from a
+   * sub-path (e.g. GitHub Pages project sites at /<repo>/). Root-relative URLs
+   * would escape that sub-path and 404, so every local reference is rewritten
+   * against the site root derived from the page itself.
    */
+  const SITE_ROOT = (() => {
+    const homeHref = document
+      .querySelector('header a[aria-label="Sholynk homepage"]')
+      ?.getAttribute('href') || 'index.html';
+    const pathOnly = homeHref.split(/[?#]/, 1)[0];
+    const prefix = /index\.html$/i.test(pathOnly)
+      ? pathOnly.replace(/index\.html$/i, '')
+      : '';
+    return new URL(prefix || './', window.location.href);
+  })();
+
   function siteUrl(value = '') {
     const reference = String(value).trim();
     if (!reference || /^(?:[a-z][a-z0-9+.-]*:|\/\/|#|\?)/i.test(reference)) return reference;
-    if (reference.startsWith('/')) return reference;
-    return `/${reference.replace(/^(?:(?:\.\.?)\/)+/, '')}`;
+    const relative = reference.replace(/^(?:(?:\.\.?)\/)+/, '').replace(/^\/+/, '');
+    return new URL(relative, SITE_ROOT).href;
   }
 
   function enhanceExternalLinks(rootFragment) {
@@ -139,8 +153,8 @@
 
   function canonicalFor(article) {
     return article.canonicalUrl || new URL(
-      `/articles/${encodeURIComponent(article.slug || article.id)}/`,
-      window.location.origin
+      `articles/${encodeURIComponent(article.slug || article.id)}/`,
+      SITE_ROOT
     ).href;
   }
 
@@ -155,7 +169,7 @@
     if (article.img) {
       document.getElementById('ogImage')?.setAttribute(
         'content',
-        new URL(siteUrl(article.img), window.location.origin).href
+        siteUrl(article.img)
       );
     }
 
@@ -183,17 +197,17 @@
       mainEntityOfPage: canonicalUrl,
       headline: article.title,
       description,
-      image: article.img ? [new URL(siteUrl(article.img), window.location.origin).href] : undefined,
+      image: article.img ? [siteUrl(article.img)] : undefined,
       datePublished: article.date,
       author: {
         '@type': 'Person',
         name: article.author || 'Sholynk Editorial',
-        url: new URL('/about.html', window.location.origin).href
+        url: siteUrl('about.html')
       },
       publisher: {
         '@type': 'Organization',
         name: 'Sholynk Technology',
-        url: new URL('/index.html', window.location.origin).href
+        url: siteUrl('index.html')
       }
     });
     document.head.append(jsonLd);
@@ -230,8 +244,8 @@
 
   function articleDestination(article) {
     if (/^https?:\/\//i.test(article.externalLink || '')) return article.externalLink;
-    if (article.body && article.slug) return `/articles/${encodeURIComponent(article.slug)}/`;
-    return siteUrl(article.link || `/article.html?slug=${encodeURIComponent(article.slug || article.id)}`);
+    if (article.body && article.slug) return siteUrl(`articles/${encodeURIComponent(article.slug)}/`);
+    return siteUrl(article.link || `article.html?slug=${encodeURIComponent(article.slug || article.id)}`);
   }
 
   function renderRelated(related) {
@@ -256,7 +270,7 @@
         image.loading = 'lazy';
         image.decoding = 'async';
         image.addEventListener('error', () => {
-          image.src = '/Images and Assets/photo-1550751827-4bd374c3f58b[1].jpeg';
+          image.src = siteUrl('Images and Assets/photo-1550751827-4bd374c3f58b[1].jpeg');
         }, { once: true });
         media.append(image);
         card.append(media);
@@ -401,10 +415,10 @@
     const breadcrumb = create('nav', 'article-breadcrumb');
     breadcrumb.setAttribute('aria-label', 'Breadcrumb');
     const home = create('a');
-    home.href = '/index.html';
+    home.href = siteUrl('index.html');
     home.innerHTML = '<i class="fas fa-house" aria-hidden="true"></i><span>Home</span>';
     const category = create('a', '', article.category);
-    category.href = `/index.html?category=${encodeURIComponent(article.category)}`;
+    category.href = siteUrl(`index.html?category=${encodeURIComponent(article.category)}`);
     const current = create('span', '', article.title);
     current.setAttribute('aria-current', 'page');
     const divider = () => {
@@ -430,7 +444,7 @@
     const meta = create('div', 'article-meta');
     const byline = create('span', 'article-byline', 'By ');
     const author = create('a', '', article.author || 'Sholynk Editorial');
-    author.href = `/about.html#${encodeURIComponent(article.authorSlug || 'oluwashola-busari')}`;
+    author.href = siteUrl(`about.html#${encodeURIComponent(article.authorSlug || 'oluwashola-busari')}`);
     byline.append(author);
     const published = create('time', '', formatDate(article.date));
     published.dateTime = article.date || '';
@@ -451,7 +465,7 @@
     image.width = 1600;
     image.height = 900;
     image.addEventListener('error', () => {
-      image.src = '/Images and Assets/photo-1550751827-4bd374c3f58b[1].jpeg';
+      image.src = siteUrl('Images and Assets/photo-1550751827-4bd374c3f58b[1].jpeg');
     }, { once: true });
     media.append(image);
     hero.append(media);
@@ -577,10 +591,10 @@
     const nav = create('nav', 'article-end-nav');
     nav.setAttribute('aria-label', 'Article navigation');
     const back = create('a', 'article-back');
-    back.href = '/index.html';
+    back.href = siteUrl('index.html');
     back.innerHTML = '<i class="fas fa-arrow-left" aria-hidden="true"></i><span>Back to all articles</span>';
     const category = create('a', 'article-category-link');
-    category.href = `/index.html?category=${encodeURIComponent(article.category)}`;
+    category.href = siteUrl(`index.html?category=${encodeURIComponent(article.category)}`);
     category.append(create('span', '', `More in ${article.category}`));
     category.insertAdjacentHTML('beforeend', '<i class="fas fa-arrow-right" aria-hidden="true"></i>');
     nav.append(back, category);
@@ -606,7 +620,7 @@
     if (toc) {
       const rail = create('aside', 'article-rail');
       const railHome = create('a', 'article-rail-home');
-      railHome.href = '/index.html';
+      railHome.href = siteUrl('index.html');
       railHome.innerHTML = '<i class="fas fa-arrow-left" aria-hidden="true"></i><span>All stories</span>';
       rail.append(toc, railHome);
       layout.append(rail);
@@ -646,7 +660,7 @@
       create('p', '', 'This story may have been moved or unpublished. Browse the homepage for the latest articles.')
     );
     const link = create('a', 'article-back', 'Back to homepage');
-    link.href = '/index.html';
+    link.href = siteUrl('index.html');
     wrapper.append(link);
     root.append(wrapper);
   }
