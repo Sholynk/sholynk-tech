@@ -52,12 +52,21 @@ function headingSlug(value = '') {
 }
 
 /**
- * Markdown is authored from the site root, while generated pages live at
- * /articles/<slug>/. Turn every local reference into a root-relative URL so it
- * resolves identically with or without a trailing slash and at every viewport.
+ * Generated pages live at <site>/articles/<slug>/, which is two directories
+ * below the site root. Every local reference is therefore emitted relative to
+ * that depth ("../../about.html") rather than root-relative ("/about.html").
+ *
+ * Root-relative URLs are resolved by the browser against the *domain* root, so
+ * on a GitHub Pages project site (https://<user>.github.io/<repo>/) they escape
+ * the repository sub-path and 404. Relative URLs resolve against the page's own
+ * directory, so the same build works on a domain root (Netlify) and under any
+ * sub-path (GitHub Pages) without a base-URL rewrite step.
+ *
  * Fragments, query-only links and links with an explicit scheme are already
  * unambiguous and stay untouched.
  */
+const SITE_ROOT_PREFIX = '../../';
+
 function articlePageUrl(value = '') {
   const reference = String(value).trim();
   if (!reference || /^(?:[a-z][a-z0-9+.-]*:|\/\/|#|\?)/i.test(reference)) {
@@ -67,7 +76,7 @@ function articlePageUrl(value = '') {
   try {
     const parsed = new URL(reference, 'https://article-content.invalid/');
     const pathname = parsed.pathname.replace(/^\/+/, '');
-    return `/${pathname}${parsed.search}${parsed.hash}`;
+    return `${SITE_ROOT_PREFIX}${pathname}${parsed.search}${parsed.hash}`;
   } catch (error) {
     return reference;
   }
@@ -128,10 +137,15 @@ function renderToc(bodyHtml) {
   return `<details class="article-toc" open><summary><span><small>Navigate</small>In this article</span><i class="fas fa-chevron-down" aria-hidden="true"></i></summary><nav aria-label="Table of contents"><ol>${items}</ol></nav></details>`;
 }
 
+/**
+ * The shared shell (article.html) lives at the site root and uses references
+ * relative to it. Generated pages sit two directories deeper, so each local
+ * reference gets the "../../" prefix that points back at the site root.
+ */
 function localiseShell(shell) {
   return shell.replace(/\b(href|src)="([^"]+)"/g, (match, attribute, value) => {
     if (/^(?:https?:|mailto:|tel:|data:|#|\/)/i.test(value)) return match;
-    return `${attribute}="/${value}"`;
+    return `${attribute}="${SITE_ROOT_PREFIX}${value}"`;
   });
 }
 
@@ -180,7 +194,7 @@ async function responsiveHero(article) {
       .resize({ width, withoutEnlargement: true })
       .webp({ quality: 82, effort: 5 })
       .toFile(path.join(outputDir, filename));
-    variants.push({ width, path: `/generated-images/${article.slug}/${filename}` });
+    variants.push({ width, path: `${SITE_ROOT_PREFIX}generated-images/${article.slug}/${filename}` });
   }
   return { variants, width: metadata.width, height: metadata.height };
 }
@@ -218,7 +232,7 @@ function articleLink(article) {
 function renderRelated(article, allArticles) {
   const related = relatedFor(article, allArticles);
   if (!related.length) return '';
-  return `<section class="related-section" id="relatedSection" aria-labelledby="related-title"><div class="related-heading"><div><p class="eyebrow">Continue exploring</p><h2 class="section-heading" id="related-title">Read next</h2></div><a class="related-all-link" href="/index.html">View all stories <i class="fas fa-arrow-right" aria-hidden="true"></i></a></div><div class="related-grid" id="relatedGrid">${related.map((item) => {
+  return `<section class="related-section" id="relatedSection" aria-labelledby="related-title"><div class="related-heading"><div><p class="eyebrow">Continue exploring</p><h2 class="section-heading" id="related-title">Read next</h2></div><a class="related-all-link" href="${SITE_ROOT_PREFIX}index.html">View all stories <i class="fas fa-arrow-right" aria-hidden="true"></i></a></div><div class="related-grid" id="relatedGrid">${related.map((item) => {
     const link = articleLink(item);
     const external = /^https?:\/\//i.test(link);
     const image = item.img ? `<div class="related-card-media"><img src="${escapeHtml(/^https?:\/\//i.test(item.img) ? item.img : articlePageUrl(item.img))}" alt="${escapeHtml(item.alt || item.title)}" loading="lazy" decoding="async" /></div>` : '';
@@ -321,12 +335,12 @@ function renderHead(article, canonical, author) {
     <meta name="twitter:title" content="${escapeHtml(title)}" />
     <meta name="twitter:description" content="${escapeHtml(description)}" />
     <meta name="twitter:image" content="${escapeHtml(image)}" />
-    <link rel="shortcut icon" href="/Images and Assets/new_page_logo.jpg" type="image/x-icon" />
+    <link rel="shortcut icon" href="${SITE_ROOT_PREFIX}Images and Assets/new_page_logo.jpg" type="image/x-icon" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet" />
-    <link href="/styles.css" rel="stylesheet" />
+    <link href="${SITE_ROOT_PREFIX}styles.css" rel="stylesheet" />
     <script type="application/ld+json">${safeJson(schemaFor(article, canonical, author))}</script>
   </head>`;
 }
@@ -341,7 +355,9 @@ function renderArticle(article, bodyHtml, responsive, canonical, author) {
   const toc = renderToc(bodyHtml);
   const shareText = encodeURIComponent(`${article.title} ${canonical}`);
   const shareUrl = encodeURIComponent(canonical);
-  const authorHref = author.id.startsWith(SITE_URL) ? author.id.slice(SITE_URL.length) : author.id;
+  const authorHref = author.id.startsWith(SITE_URL)
+    ? articlePageUrl(author.id.slice(SITE_URL.length))
+    : author.id;
   const contentType = article.contentType
     ? `<span aria-hidden="true">•</span><span>${escapeHtml(article.contentType)}</span>`
     : '';
@@ -349,12 +365,12 @@ function renderArticle(article, bodyHtml, responsive, canonical, author) {
 
   return `<article class="article-page" id="articleRoot" data-prerendered="true" data-slug="${escapeHtml(article.slug)}" aria-busy="false">
     <div class="article-masthead">
-      <nav class="article-breadcrumb" aria-label="Breadcrumb"><a href="/index.html"><i class="fas fa-house" aria-hidden="true"></i><span>Home</span></a><i class="fas fa-chevron-right" aria-hidden="true"></i><a href="/index.html?category=${encodeURIComponent(article.category)}">${escapeHtml(article.category)}</a><i class="fas fa-chevron-right" aria-hidden="true"></i><span aria-current="page">${escapeHtml(article.title)}</span></nav>
+      <nav class="article-breadcrumb" aria-label="Breadcrumb"><a href="${SITE_ROOT_PREFIX}index.html"><i class="fas fa-house" aria-hidden="true"></i><span>Home</span></a><i class="fas fa-chevron-right" aria-hidden="true"></i><a href="${SITE_ROOT_PREFIX}index.html?category=${encodeURIComponent(article.category)}">${escapeHtml(article.category)}</a><i class="fas fa-chevron-right" aria-hidden="true"></i><span aria-current="page">${escapeHtml(article.title)}</span></nav>
       <header class="article-header"><div class="article-kicker"><span class="category-label">${escapeHtml(article.category)}</span>${contentType}<span aria-hidden="true">•</span><span>${escapeHtml(article.readingTime || 'Long read')}</span></div><h1>${escapeHtml(article.title)}</h1><p class="article-standfirst">${escapeHtml(article.hook || article.description)}</p><div class="article-meta"><span class="article-byline">By <a href="${escapeHtml(authorHref)}">${escapeHtml(author.name)}</a></span><span aria-hidden="true">•</span><time datetime="${escapeHtml(article.date)}">${escapeHtml(formatDate(article.date))}</time></div></header>
     </div>
     ${renderHero(article, responsive)}
     <div class="article-reading-layout">
-      ${toc ? `<aside class="article-rail">${toc}<a class="article-rail-home" href="/index.html"><i class="fas fa-arrow-left" aria-hidden="true"></i><span>All stories</span></a></aside>` : ''}
+      ${toc ? `<aside class="article-rail">${toc}<a class="article-rail-home" href="${SITE_ROOT_PREFIX}index.html"><i class="fas fa-arrow-left" aria-hidden="true"></i><span>All stories</span></a></aside>` : ''}
       <div class="article-content">
         ${quickAnswer}
         ${takeaways}
@@ -363,7 +379,7 @@ function renderArticle(article, bodyHtml, responsive, canonical, author) {
         ${renderSources(article.sources)}
         ${share}
         <div id="engagementRoot"></div>
-        <nav class="article-end-nav" aria-label="Article navigation"><a class="article-back" href="/index.html"><i class="fas fa-arrow-left" aria-hidden="true"></i><span>Back to all articles</span></a><a class="article-category-link" href="/index.html?category=${encodeURIComponent(article.category)}"><span>More in ${escapeHtml(article.category)}</span><i class="fas fa-arrow-right" aria-hidden="true"></i></a></nav>
+        <nav class="article-end-nav" aria-label="Article navigation"><a class="article-back" href="${SITE_ROOT_PREFIX}index.html"><i class="fas fa-arrow-left" aria-hidden="true"></i><span>Back to all articles</span></a><a class="article-category-link" href="${SITE_ROOT_PREFIX}index.html?category=${encodeURIComponent(article.category)}"><span>More in ${escapeHtml(article.category)}</span><i class="fas fa-arrow-right" aria-hidden="true"></i></a></nav>
       </div>
     </div>
   </article>`.replace(/^[ \t]+$/gm, '');

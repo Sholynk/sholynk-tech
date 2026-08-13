@@ -91,22 +91,25 @@ test('responsive derivatives preserve originals and use valid local files', () =
   }
 });
 
-test('related-story links retain the articles path with or without a trailing slash', () => {
+test('related-story links resolve at a domain root and under a deployment sub-path', () => {
   for (const article of fullArticles) {
     const document = new JSDOM(fs.readFileSync(pageFor(article.slug), 'utf8')).window.document;
     for (const link of document.querySelectorAll('.related-card[href]')) {
       const href = link.getAttribute('href');
-      assert.match(href, /^\/articles\/[a-z0-9-]+\/$/);
+      // Relative to the page's own directory, so the link survives being served
+      // from a sub-path (GitHub Pages project sites) as well as a domain root.
+      assert.match(href, /^\.\.\/\.\.\/articles\/[a-z0-9-]+\/$/);
 
-      const cleanPath = new URL(href, `https://example.com/articles/${article.slug}/`).pathname;
-      const slashlessPath = new URL(href, `https://example.com/articles/${article.slug}`).pathname;
-      assert.match(cleanPath, /^\/articles\/[a-z0-9-]+\/$/);
-      assert.equal(slashlessPath, cleanPath);
+      const atRoot = new URL(href, `https://example.com/articles/${article.slug}/`).pathname;
+      assert.match(atRoot, /^\/articles\/[a-z0-9-]+\/$/);
+
+      const underSubPath = new URL(href, `https://example.com/repo/articles/${article.slug}/`).pathname;
+      assert.match(underSubPath, /^\/repo\/articles\/[a-z0-9-]+\/$/);
     }
   }
 });
 
-test('Markdown links on generated article pages resolve from the site root', () => {
+test('Markdown links on generated article pages resolve from the site root at any deployment prefix', () => {
   const { renderMarkdown } = require('../build-site');
   const html = renderMarkdown(`
 [About](about.html?from=article#oluwashola-busari)
@@ -124,15 +127,29 @@ test('Markdown links on generated article pages resolve from the site root', () 
     [...document.querySelectorAll('a')].map((link) => [link.textContent, link])
   );
 
-  assert.equal(links.About.getAttribute('href'), '/about.html?from=article#oluwashola-busari');
+  assert.equal(links.About.getAttribute('href'), '../../about.html?from=article#oluwashola-busari');
   assert.equal(links.About.href, 'https://example.com/about.html?from=article#oluwashola-busari');
   assert.equal(links['Another story'].href, 'https://example.com/articles/another-story/');
   assert.equal(links['This section'].getAttribute('href'), '#details');
   assert.equal(links['Current view'].getAttribute('href'), '?view=compact');
-  assert.equal(links['Root path'].getAttribute('href'), '/contact.html');
+  // Author-written root-relative links are rewritten too: on a sub-path
+  // deployment a bare "/contact.html" would leave the site and 404.
+  assert.equal(links['Root path'].getAttribute('href'), '../../contact.html');
+  assert.equal(links['Root path'].href, 'https://example.com/contact.html');
   assert.equal(links.External.target, '_blank');
   assert.equal(links.External.rel, 'noopener noreferrer');
   assert.equal(links.Email.getAttribute('href'), 'mailto:editor@example.org');
+
+  // The same markup must also stay inside a sub-path deployment, which is where
+  // root-relative hrefs previously escaped to the domain root and 404'd.
+  const subPath = new JSDOM(html, {
+    url: 'https://example.com/repo/articles/current-story/'
+  }).window.document;
+  const subLinks = Object.fromEntries(
+    [...subPath.querySelectorAll('a')].map((link) => [link.textContent, link])
+  );
+  assert.equal(subLinks.About.href, 'https://example.com/repo/about.html?from=article#oluwashola-busari');
+  assert.equal(subLinks['Another story'].href, 'https://example.com/repo/articles/another-story/');
 });
 
 test('sitemap lists canonical article URLs and robots advertises the sitemap', () => {
