@@ -9,7 +9,11 @@
     "dev": "node --watch cms/server.js",
     "seed": "node cms/seed.js",
     "export": "node cms/export-fallback.js",
-    "sync": "node cms/seed.js && node cms/export-fallback.js",
+    "validate": "node cms/validate-content.js",
+    "generate": "node cms/build-site.js",
+    "build": "npm run validate && npm run generate",
+    "sync:data": "node cms/seed.js && node cms/export-fallback.js",
+    "sync": "npm run sync:data && npm run build",
     "test": "node --test cms/tests/*.test.js"
   },
   "engines": {
@@ -17,7 +21,10 @@
   },
   "dependencies": {
     "express": "^4.19.2",
-    "multer": "^2.2.0"
+    "marked": "^16.4.2",
+    "multer": "^2.2.0",
+    "sanitize-html": "^2.17.7",
+    "sharp": "^0.35.3"
   },
   "devDependencies": {
     "jsdom": "^25.0.1"

@@ -59,7 +59,11 @@ test('full CRUD lifecycle for an article', async () => {
   });
   assert.equal(created.status, 201);
   assert.equal(created.body.data.slug, 'edge-computing-in-2026');
-  assert.equal(created.body.data.link, 'article.html?slug=edge-computing-in-2026');
+  assert.equal(created.body.data.link, 'articles/edge-computing-in-2026/');
+  assert.equal(created.body.data.cleanLink, 'articles/edge-computing-in-2026/');
+  const cleanFallback = await fetch(`${base}/articles/edge-computing-in-2026/`, { redirect: 'manual' });
+  assert.equal(cleanFallback.status, 302);
+  assert.equal(cleanFallback.headers.get('location'), '/article.html?slug=edge-computing-in-2026');
 
   const id = created.body.data.id;
 
@@ -118,6 +122,119 @@ test('search and category filters work', async () => {
 
   const category = await api('/api/articles?category=Web%203');
   assert.ok(category.body.data.every((article) => article.category === 'Web 3'));
+});
+
+test('structured editorial fields and sources round-trip through the API', async () => {
+  const created = await api('/api/articles', {
+    method: 'POST',
+    body: JSON.stringify({
+      title: 'Structured publishing test',
+      category: 'Technology',
+      contentType: 'guide',
+      subcategory: 'Testing',
+      description: 'A structured article.',
+      tags: ['testing', 'publishing'],
+      directAnswer: 'Structured fields make editorial intent explicit.',
+      keyTakeaways: ['Use verified metadata.'],
+      faqs: [{ question: 'Does this render?', answer: 'Yes, after generation.' }],
+      relatedSlugs: ['edge-computing-in-2026'],
+      sources: [{
+        title: 'Node.js test runner documentation',
+        publisher: 'Node.js',
+        url: 'https://nodejs.org/api/test.html',
+        type: 'official',
+        supports: 'The test runner API used by this repository.'
+      }]
+    })
+  });
+  assert.equal(created.status, 201);
+  assert.deepEqual(created.body.data.tags, ['testing', 'publishing']);
+  assert.equal(created.body.data.sources.length, 1);
+  assert.equal(created.body.data.sources[0].type, 'official');
+
+  const id = created.body.data.id;
+  const added = await api(`/api/articles/${id}/sources`, {
+    method: 'POST',
+    body: JSON.stringify({ title: 'Express documentation', url: 'https://expressjs.com/', type: 'reference' })
+  });
+  assert.equal(added.status, 201);
+
+  const listed = await api(`/api/articles/${id}/sources`);
+  assert.equal(listed.body.data.length, 2);
+
+  const removed = await api(`/api/articles/${id}/sources/${added.body.data.id}`, { method: 'DELETE' });
+  assert.equal(removed.status, 204);
+});
+
+test('author entities support create, update and read operations', async () => {
+  const created = await api('/api/authors', {
+    method: 'POST',
+    body: JSON.stringify({
+      name: 'Ada Example',
+      role: 'Contributing Writer',
+      bio: 'Writes verified technology explainers.',
+      profileUrl: 'https://example.com/ada'
+    })
+  });
+  assert.equal(created.status, 201);
+  assert.equal(created.body.data.slug, 'ada-example');
+
+  const linkedArticle = await api('/api/articles', {
+    method: 'POST',
+    body: JSON.stringify({
+      title: 'Author linkage test',
+      category: 'Technology',
+      author: 'Ada Example',
+      authorSlug: 'ada-example'
+    })
+  });
+
+  const updated = await api(`/api/authors/${created.body.data.id}`, {
+    method: 'PATCH',
+    body: JSON.stringify({ role: 'Senior Contributing Writer', slug: 'ada-example-updated' })
+  });
+  assert.equal(updated.body.data.role, 'Senior Contributing Writer');
+
+  const bySlug = await api('/api/authors/ada-example-updated');
+  assert.equal(bySlug.body.data.name, 'Ada Example');
+  const linkedAfterRename = await api(`/api/articles/${linkedArticle.body.data.id}`);
+  assert.equal(linkedAfterRename.body.data.authorSlug, 'ada-example-updated');
+});
+
+test('malformed structured metadata and insecure canonical URLs are rejected', async () => {
+  const badSource = await api('/api/articles', {
+    method: 'POST',
+    body: JSON.stringify({
+      title: 'Bad source', category: 'Technology',
+      sources: [{ title: 'Placeholder', url: 'not-a-url' }]
+    })
+  });
+  assert.equal(badSource.status, 400);
+
+  const badFaq = await api('/api/articles', {
+    method: 'POST',
+    body: JSON.stringify({
+      title: 'Bad FAQ', category: 'Technology', faqs: [{ question: 'Missing answer' }]
+    })
+  });
+  assert.equal(badFaq.status, 400);
+
+  const badTags = await api('/api/articles', {
+    method: 'POST',
+    body: JSON.stringify({ title: 'Bad tags', category: 'Technology', tags: 'not-an-array' })
+  });
+  assert.equal(badTags.status, 400);
+
+  const insecureCanonical = await api('/api/articles', {
+    method: 'POST',
+    body: JSON.stringify({
+      title: 'Insecure canonical',
+      category: 'Technology',
+      canonicalUrl: 'http://example.com/insecure'
+    })
+  });
+  assert.equal(insecureCanonical.status, 400);
+  assert.ok(insecureCanonical.body.details.some((message) => message.includes('HTTPS')));
 });
 
 test('image upload stores a file and records metadata', async () => {

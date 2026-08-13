@@ -1,7 +1,7 @@
 /* Sholynk CMS admin dashboard. Talks to the same /api endpoints as the public site. */
 (() => {
   const API = '/api';
-  const state = { articles: [], selectedId: null, images: [] };
+  const state = { articles: [], selectedId: null, images: [], authors: [], selectedAuthorId: null };
 
   const $ = (id) => document.getElementById(id);
   const tokenInput = $('adminToken');
@@ -42,6 +42,7 @@
       document.querySelectorAll('.panel').forEach((panel) => {
         panel.hidden = panel.id !== `panel-${tab.dataset.panel}`;
       });
+      if (tab.dataset.panel === 'authors') loadAuthors();
       if (tab.dataset.panel === 'media') loadImages();
       if (tab.dataset.panel === 'comments') loadComments();
       if (tab.dataset.panel === 'settings') loadSettings();
@@ -98,17 +99,26 @@
 
   function fillForm(article) {
     const values = article || {
-      title: '', category: '', slug: '', description: '', img: '', alt: '', body: '',
-      author: 'Sholynk Editorial', date: new Date().toISOString().slice(0, 10),
-      readingTime: '', status: 'published', heroOrder: '', externalLink: '',
-      featured: false, hero: false, seoTitle: '', seoDescription: ''
+      title: '', category: '', subcategory: '', contentType: 'article', slug: '', description: '',
+      hook: '', directAnswer: '', img: '', alt: '', body: '', author: 'Oluwashola Busari',
+      authorSlug: 'oluwashola-busari', date: new Date().toISOString().slice(0, 10), readingTime: '', status: 'published',
+      scheduledAt: '', reviewNotes: '', heroOrder: '', externalLink: '', canonicalUrl: '',
+      featured: false, hero: false, seoTitle: '', seoDescription: '', tags: [],
+      keyTakeaways: [], relatedSlugs: [], faqs: [], sources: []
     };
 
     $('articleId').value = article?.id || '';
     $('formTitle').textContent = article ? `Editing: ${article.title}` : 'New article';
-    ['title', 'category', 'slug', 'description', 'img', 'alt', 'body', 'author', 'date',
-      'readingTime', 'status', 'externalLink', 'seoTitle', 'seoDescription'].forEach((key) => {
+    ['title', 'category', 'subcategory', 'contentType', 'slug', 'description', 'hook',
+      'directAnswer', 'img', 'alt', 'body', 'author', 'authorSlug', 'date', 'readingTime', 'status',
+      'scheduledAt', 'reviewNotes', 'externalLink', 'canonicalUrl', 'seoTitle', 'seoDescription'].forEach((key) => {
       $(key).value = values[key] ?? '';
+    });
+    ['tags', 'keyTakeaways', 'relatedSlugs'].forEach((key) => {
+      $(key).value = Array.isArray(values[key]) ? values[key].join('\n') : '';
+    });
+    ['faqs', 'sources'].forEach((key) => {
+      $(key).value = JSON.stringify(values[key] || [], null, 2);
     });
     $('heroOrder').value = values.heroOrder ?? '';
     $('featured').checked = Boolean(values.featured);
@@ -159,23 +169,60 @@
     $('title').focus();
   });
 
+  function parseLinesOrJson(id) {
+    const value = $(id).value.trim();
+    if (!value) return [];
+    if (value.startsWith('[')) return JSON.parse(value);
+    return value.split(/\r?\n/).map((item) => item.trim()).filter(Boolean);
+  }
+
+  function parseJsonArray(id) {
+    const value = $(id).value.trim();
+    if (!value) return [];
+    const parsed = JSON.parse(value);
+    if (!Array.isArray(parsed)) throw new Error(`${id} must be a JSON array`);
+    return parsed;
+  }
+
   $('articleForm').addEventListener('submit', async (event) => {
     event.preventDefault();
     const id = $('articleId').value;
+    let structured;
+    try {
+      structured = {
+        tags: parseLinesOrJson('tags'),
+        keyTakeaways: parseLinesOrJson('keyTakeaways'),
+        relatedSlugs: parseLinesOrJson('relatedSlugs'),
+        faqs: parseJsonArray('faqs'),
+        sources: parseJsonArray('sources')
+      };
+    } catch (error) {
+      toast(`Structured field error: ${error.message}`, true);
+      return;
+    }
     const payload = {
       title: $('title').value.trim(),
       category: $('category').value.trim(),
+      subcategory: $('subcategory').value.trim(),
+      contentType: $('contentType').value,
       slug: $('slug').value.trim(),
       description: $('description').value,
+      hook: $('hook').value,
+      directAnswer: $('directAnswer').value,
+      ...structured,
       img: $('img').value.trim(),
       alt: $('alt').value.trim(),
       body: $('body').value,
       author: $('author').value.trim(),
+      authorSlug: $('authorSlug').value.trim(),
       date: $('date').value,
       readingTime: $('readingTime').value.trim(),
       status: $('status').value,
+      scheduledAt: $('scheduledAt').value,
+      reviewNotes: $('reviewNotes').value,
       heroOrder: $('heroOrder').value,
       externalLink: $('externalLink').value.trim(),
+      canonicalUrl: $('canonicalUrl').value.trim(),
       featured: $('featured').checked,
       hero: $('hero').checked,
       seoTitle: $('seoTitle').value.trim(),
@@ -213,7 +260,13 @@
 
   $('previewArticle').addEventListener('click', () => {
     const article = state.articles.find((item) => item.id === Number($('articleId').value));
-    if (article) window.open(`/article.html?slug=${encodeURIComponent(article.slug)}`, '_blank', 'noopener');
+    if (article) window.open(
+      article.status === 'published' && article.body
+        ? `/articles/${encodeURIComponent(article.slug)}/`
+        : `/article.html?slug=${encodeURIComponent(article.slug)}`,
+      '_blank',
+      'noopener'
+    );
   });
 
   const SNIPPETS = {
@@ -232,6 +285,112 @@
       textarea.focus();
       textarea.selectionStart = textarea.selectionEnd = start + snippet.length;
     });
+  });
+
+  /* ------------------------------ authors ------------------------------- */
+
+  function fillAuthorForm(author = null) {
+    const values = author || { name: '', slug: '', role: '', bio: '', image: '', imageAlt: '', profileUrl: '' };
+    $('authorId').value = author?.id || '';
+    $('authorFormTitle').textContent = author ? `Editing: ${author.name}` : 'New author';
+    $('authorName').value = values.name || '';
+    $('authorEntitySlug').value = values.slug || '';
+    $('authorRole').value = values.role || '';
+    $('authorBio').value = values.bio || '';
+    $('authorImage').value = values.image || '';
+    $('authorImageAlt').value = values.imageAlt || '';
+    $('authorProfileUrl').value = values.profileUrl || '';
+    $('deleteAuthor').hidden = !author;
+  }
+
+  function renderAuthors() {
+    const list = $('authorList');
+    list.innerHTML = '';
+    state.authors.forEach((author) => {
+      const item = document.createElement('li');
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = author.id === state.selectedAuthorId ? 'selected' : '';
+      const name = document.createElement('strong');
+      name.textContent = author.name;
+      const meta = document.createElement('div');
+      meta.className = 'row-meta';
+      meta.textContent = author.role || author.slug;
+      button.append(name, meta);
+      button.addEventListener('click', () => {
+        state.selectedAuthorId = author.id;
+        fillAuthorForm(author);
+        renderAuthors();
+      });
+      item.append(button);
+      list.append(item);
+    });
+  }
+
+  async function loadAuthors() {
+    try {
+      const payload = await request('/authors');
+      state.authors = payload.data || [];
+      const options = $('authorOptions');
+      options.innerHTML = '';
+      state.authors.forEach((author) => {
+        const option = document.createElement('option');
+        option.value = author.slug;
+        option.label = author.name;
+        options.append(option);
+      });
+      renderAuthors();
+    } catch (error) {
+      toast(error.message, true);
+    }
+  }
+
+  $('newAuthor').addEventListener('click', () => {
+    state.selectedAuthorId = null;
+    fillAuthorForm();
+    renderAuthors();
+    $('authorName').focus();
+  });
+
+  $('authorForm').addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const id = $('authorId').value;
+    const payload = {
+      name: $('authorName').value.trim(),
+      slug: $('authorEntitySlug').value.trim(),
+      role: $('authorRole').value.trim(),
+      bio: $('authorBio').value,
+      image: $('authorImage').value.trim(),
+      imageAlt: $('authorImageAlt').value.trim(),
+      profileUrl: $('authorProfileUrl').value.trim()
+    };
+    if (!payload.slug) delete payload.slug;
+    try {
+      const response = await request(id ? `/authors/${id}` : '/authors', {
+        method: id ? 'PATCH' : 'POST', body: JSON.stringify(payload)
+      });
+      await loadAuthors();
+      state.selectedAuthorId = response.data.id;
+      fillAuthorForm(response.data);
+      renderAuthors();
+      toast(id ? 'Author updated' : 'Author created');
+    } catch (error) {
+      toast(error.message, true);
+    }
+  });
+
+  $('deleteAuthor').addEventListener('click', async () => {
+    const id = $('authorId').value;
+    if (!id || !window.confirm('Delete this author entity? Articles are kept.')) return;
+    try {
+      await request(`/authors/${id}`, { method: 'DELETE' });
+      state.selectedAuthorId = null;
+      fillAuthorForm();
+      await loadAuthors();
+      toast('Author deleted');
+    } catch (error) {
+      toast(error.message, true);
+    }
   });
 
   /* ------------------------------ images -------------------------------- */
@@ -448,4 +607,5 @@
 
   fillForm(null);
   loadArticles().catch((error) => toast(error.message, true));
+  loadAuthors();
 })();

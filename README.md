@@ -19,7 +19,7 @@ starter content manually.
 | URL                                                                     | What it is             |
 | ----------------------------------------------------------------------- | ---------------------- |
 | `http://localhost:3000/`                                                | Public homepage        |
-| `http://localhost:3000/article.html?slug=the-rise-of-quantum-computing` | Long-form article page |
+| `http://localhost:3000/articles/the-rise-of-quantum-computing/`          | Crawlable article page |
 | `http://localhost:3000/admin/`                                          | Admin dashboard        |
 | `http://localhost:3000/api/articles`                                    | Articles API           |
 
@@ -83,7 +83,9 @@ cms/
   server.js            Express app: API, /admin, static site, /uploads
   seed.js              Imports the previously hardcoded content
   export-fallback.js   Writes content-fallback.json for static hosting
-  lib/                 db, articles, images, settings
+  validate-content.js  Checks Markdown metadata and local assets
+  build-site.js        Generates clean article pages, schema and image derivatives
+  lib/                 db, articles, authors, images, settings
   routes/api.js        REST endpoints + multer upload handling
   admin/               Admin dashboard (vanilla HTML/CSS/JS)
   tests/               node:test integration suite
@@ -94,6 +96,9 @@ engagement.js          Like/dislike + comments widgets (API, offline queue)
 styles.css             The entire stylesheet — no Tailwind, no build step
 content-fallback.json  Generated snapshot — do not edit by hand
 articles.json          Generated search index — do not edit by hand
+articles/              Generated crawlable full-article pages
+generated-images/      Generated responsive WebP derivatives (originals are retained)
+sitemap.xml, robots.txt Generated discovery and crawler files
 ```
 
 ## Styling
@@ -104,7 +109,8 @@ hand-written rules in `styles.css`, which is organised into numbered sections
 (tokens, base, header, sidebar, hero, cards, article, engagement, footer,
 breakpoints) with a table of contents at the top.
 
-There is no build step: edit `styles.css` and reload.
+CSS has no compilation step: edit `styles.css` and reload. The separate content
+build (`npm run sync`) generates static article HTML and responsive images.
 
 Breakpoints mirror the Tailwind scale that was previously in use, so responsive
 behaviour is unchanged — `640px` (`sm:`) and `768px` (`md:`), plus the site's own
@@ -150,6 +156,11 @@ All write operations accept JSON.
 | `POST`          | `/api/articles`                  | Create (requires `title`, `category`)                             |
 | `PUT` / `PATCH` | `/api/articles/:id`              | Update                                                            |
 | `DELETE`        | `/api/articles/:id`              | Delete                                                            |
+| `GET` / `POST`  | `/api/articles/:id/sources`      | List or add structured source records                             |
+| `DELETE`        | `/api/articles/:id/sources/:sourceId` | Remove a source record                                       |
+| `GET` / `POST`  | `/api/authors`                   | List or create author entities                                    |
+| `GET` / `PATCH` | `/api/authors/:idOrSlug`         | Read or update an author entity                                   |
+| `DELETE`        | `/api/authors/:id`               | Delete an author entity (articles are retained)                   |
 | `GET`           | `/api/articles/:slug/engagement` | Reactions + comments in one call. Query: `voterId`                |
 | `GET`           | `/api/articles/:slug/reactions`  | Like/dislike tallies. Query: `voterId`                            |
 | `POST`          | `/api/articles/:slug/reactions`  | Cast a reaction (`type`, `voterId`)                               |
@@ -183,6 +194,7 @@ CMS_ADMIN_TOKEN=your-secret npm start
 | `CMS_ADMIN_TOKEN` | unset                 | Require a token for write operations |
 | `CMS_DB_FILE`     | `cms/data/cms.sqlite` | Database location                    |
 | `CMS_UPLOAD_DIR`  | `uploads/`            | Where uploaded images are stored     |
+| `SITE_URL`        | `https://sholynktech.netlify.app` | HTTPS origin used by generated canonical/schema URLs |
 
 ## Content workflow
 
@@ -207,7 +219,17 @@ hero: true                          # optional — show on the homepage hero
 heroOrder: 1                        # optional, with hero: true
 seoTitle: ...                       # optional
 seoDescription: ...                 # optional
-author: Busari Oluwashola           # optional
+author: Oluwashola Busari           # optional
+authorSlug: oluwashola-busari       # optional author-entity link
+contentType: guide                  # article, news, guide, analysis, opinion or review
+subcategory: Emerging Computing
+tags: ["quantum computing", "qubits"]
+hook: A concise opening promise.
+directAnswer: A self-contained answer to the article's main question.
+keyTakeaways: ["Verified point one", "Verified point two"]
+faqs: [{"question":"A real question?","answer":"A supported answer."}]
+relatedSlugs: ["another-published-slug"]
+sources: [{"title":"Verified source","url":"https://example.org/report","type":"research","supports":"The specific claim it supports"}]
 ---
 
 ## Introduction
@@ -227,10 +249,16 @@ npm run sync
 > troubleshooting checklist) for adding articles.
 
 `npm run sync` seeds the database from the Markdown files (plus the card-only
-entries in `cms/data/seed.json`) and regenerates both static snapshots
-(`content-fallback.json` and `articles.json`), so the site works identically
-whether it is served by the Node server or hosted statically. Editing an
-article is the same: change the `.md` and run `npm run sync` again.
+entries in `cms/data/seed.json`), regenerates the static snapshots, validates
+editorial metadata, and builds clean `/articles/<slug>/` HTML pages, responsive
+WebP hero derivatives, `sitemap.xml` and `robots.txt`. The legacy
+`article.html?slug=...` route remains available. Editing an article is the same:
+change the `.md` and run `npm run sync` again.
+
+Only published records with a genuine body become full article pages. Empty-body
+external records remain teaser cards and are deliberately excluded from Article
+schema and the article sitemap. Source fields must contain verified records;
+validation warns when none are present but never invents placeholders.
 
 ### Admin dashboard
 

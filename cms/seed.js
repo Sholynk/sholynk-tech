@@ -39,7 +39,9 @@ function loadLongformStories() {
   const stories = [];
   if (!fs.existsSync(STORIES_DIR)) return stories;
 
-  for (const item of fs.readdirSync(STORIES_DIR).filter((name) => name.endsWith('.md')).sort()) {
+  for (const item of fs.readdirSync(STORIES_DIR)
+    .filter((name) => name.endsWith('.md') && name.toLowerCase() !== 'readme.md')
+    .sort()) {
     const raw = fs.readFileSync(path.join(STORIES_DIR, item), 'utf8');
     const { data, body } = parseFrontMatter(raw);
     stories.push({ file: item, data, body: body.replace(/^\s+/, '') });
@@ -70,11 +72,43 @@ function toIsoDate(value) {
     : parsed.toISOString().slice(0, 10);
 }
 
+function comparableSource(source = {}) {
+  return {
+    title: String(source.title || ''),
+    publisher: String(source.publisher || ''),
+    author: String(source.author || ''),
+    publishedAt: String(source.publishedAt || ''),
+    url: String(source.url || ''),
+    type: source.type || 'journalism',
+    doi: String(source.doi || ''),
+    accessedAt: String(source.accessedAt || ''),
+    supports: String(source.supports || '')
+  };
+}
+
+function valuesMatch(key, current, incoming) {
+  if (key === 'sources') {
+    return JSON.stringify((current || []).map(comparableSource))
+      === JSON.stringify((incoming || []).map(comparableSource));
+  }
+  if (Array.isArray(incoming)) return JSON.stringify(current || []) === JSON.stringify(incoming);
+  if (typeof incoming === 'boolean') return Boolean(current) === incoming;
+  if (incoming == null) return current == null || current === '';
+  return String(current ?? '') === String(incoming);
+}
+
+function hasChanges(existing, payload) {
+  return Object.entries(payload).some(([key, value]) => (
+    key !== 'slug' && value !== undefined && !valuesMatch(key, existing[key], value)
+  ));
+}
+
 function upsert(payload) {
-  const slug = articles.slugify(payload.slug || payload.title);
+  const cleanPayload = Object.fromEntries(Object.entries(payload).filter(([, value]) => value !== undefined));
+  const slug = articles.slugify(cleanPayload.slug || cleanPayload.title);
   const existing = articles.getBySlug(slug);
-  if (existing) return articles.update(existing.id, payload);
-  return articles.create({ ...payload, slug });
+  if (existing) return hasChanges(existing, cleanPayload) ? articles.update(existing.id, cleanPayload) : existing;
+  return articles.create({ ...cleanPayload, slug });
 }
 
 /**
@@ -101,14 +135,27 @@ function seedStories() {
       slug,
       title,
       category: data.category || 'Technology',
+      subcategory: data.subcategory || '',
+      tags: data.tags || [],
+      contentType: data.contentType || 'article',
       description: data.description || '',
+      hook: data.hook || '',
+      directAnswer: data.directAnswer || '',
+      keyTakeaways: data.keyTakeaways || [],
+      faqs: data.faqs || [],
+      relatedSlugs: data.relatedSlugs || [],
+      sources: data.sources || [],
       img: data.img || '',
       alt: data.alt || title,
       date: toIsoDate(data.date),
       readingTime: data.readingTime || estimateReadingTime(body),
       featured: Boolean(data.featured),
-      status: 'published',
+      status: data.status || 'published',
+      scheduledAt: data.scheduledAt || null,
+      reviewNotes: data.reviewNotes || '',
+      canonicalUrl: data.canonicalUrl || null,
       author: data.author || 'Sholynk Editorial',
+      authorSlug: data.authorSlug || 'oluwashola-busari',
       body,
       // Stories live at their own page; there is no external link.
       externalLink: null,
@@ -148,7 +195,8 @@ function run() {
       readingTime: isLongform ? estimateReadingTime(longformBody) : article.readingTime,
       featured: Boolean(article.featured),
       status: 'published',
-      author: 'Busari Oluwashola',
+      author: 'Oluwashola Busari',
+      authorSlug: 'oluwashola-busari',
       body: isLongform ? longformBody : '',
       externalLink: isLongform
         ? null
@@ -170,7 +218,8 @@ function run() {
         (item) => slug.startsWith(item.slug) || item.slug.startsWith(slug)
       );
     if (existing) {
-      articles.update(existing.id, { hero: true, heroOrder: index, img: slide.img });
+      const heroPayload = { hero: true, heroOrder: index, img: slide.img };
+      if (hasChanges(existing, heroPayload)) articles.update(existing.id, heroPayload);
       return;
     }
     upsert({
@@ -191,7 +240,7 @@ function run() {
 
   const total = db.prepare('SELECT COUNT(*) AS n FROM articles').get().n;
   console.log(`Seeded ${created} card articles + ${longformSlugs.size} Markdown stories. Database now holds ${total} articles.`);
-  console.log(`Long-form article available at: /article.html?slug=${LONGFORM_SLUG}`);
+  console.log(`Long-form article available at: /articles/${LONGFORM_SLUG}/ (legacy: /article.html?slug=${LONGFORM_SLUG})`);
 }
 
 function isArticleTableEmpty() {

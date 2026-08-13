@@ -16,6 +16,7 @@ delete process.env.CMS_ADMIN_TOKEN;
 
 const seed = require('../seed');
 const articles = require('../lib/articles');
+const { db } = require('../lib/db');
 
 test.after(() => {
   fs.rmSync(tmp, { recursive: true, force: true });
@@ -33,6 +34,13 @@ test('ensureSeeded populates an empty CMS database once', () => {
 
   assert.equal(seed.ensureSeeded(), false);
   assert.equal(articles.list({ status: 'published' }).length, 56);
+});
+
+test('re-running the seed does not mark unchanged articles as modified', () => {
+  const slug = 'distraction-by-design';
+  db.prepare("UPDATE articles SET updated_at = '2000-01-01 00:00:00' WHERE slug = ?").run(slug);
+  seed.run();
+  assert.equal(articles.getBySlug(slug).updatedAt, '2000-01-01 00:00:00');
 });
 
 test('Markdown files without a front-matter block are skipped, not published', () => {

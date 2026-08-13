@@ -1894,6 +1894,38 @@ textarea:focus {
   font-style: italic;
 }
 
+.article-answer,
+.article-takeaways {
+  margin: 1.5rem 0 2rem;
+  padding: 1.2rem 1.3rem;
+  border: 1px solid #cce4f7;
+  border-left: 4px solid #1d9bf0;
+  border-radius: 0.9rem;
+  background: #f5fbff;
+  color: #1e293b;
+  line-height: 1.65;
+}
+
+.article-answer > :last-child,
+.article-takeaways > :last-child {
+  margin-bottom: 0;
+}
+
+.article-takeaways h2,
+.article-faq h2,
+.article-sources h2 {
+  margin: 0 0 0.8rem;
+  font-size: 1.25rem;
+  color: #000000;
+}
+
+.takeaway-list {
+  margin: 0;
+  padding-left: 1.2rem;
+  display: grid;
+  gap: 0.55rem;
+}
+
 .article-toc {
   background: #e8f5fd;
   border: 1px solid #cce4f7;
@@ -1991,6 +2023,50 @@ textarea:focus {
   color: #1d9bf0;
   text-decoration: underline;
   text-underline-offset: 2px;
+}
+
+.article-faq,
+.article-sources {
+  margin-top: 2.6rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e2e8f0;
+}
+
+.article-faq details {
+  padding: 0.9rem 0;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.article-faq summary {
+  cursor: pointer;
+  font-weight: 800;
+  color: #1e293b;
+}
+
+.article-faq details p {
+  margin: 0.7rem 0 0;
+  color: #475569;
+  line-height: 1.7;
+}
+
+.article-sources ol {
+  padding-left: 1.25rem;
+  display: grid;
+  gap: 0.75rem;
+  color: #475569;
+}
+
+.article-sources a,
+.article-meta a {
+  color: #1d9bf0;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.article-sources li span {
+  display: block;
+  font-size: 0.82rem;
+  color: #64748b;
 }
 
 .article-share {

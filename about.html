@@ -15,8 +15,33 @@
       property="og:description"
       content="A digital publication dedicated to insightful analysis, news and trends shaping the future of AI, Web3 and emerging technology."
     />
-    <meta property="og:type" content="website" />
-    <meta property="og:image" content="Images and Assets/page_logo.png" />
+    <meta property="og:type" content="profile" />
+    <meta property="og:url" content="https://sholynktech.netlify.app/about.html" />
+    <meta property="og:image" content="https://sholynktech.netlify.app/Images%20and%20Assets/my_pic.png" />
+    <link rel="canonical" href="https://sholynktech.netlify.app/about.html" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Person",
+            "@id": "https://sholynktech.netlify.app/about.html#oluwashola-busari",
+            "name": "Oluwashola Busari",
+            "url": "https://sholynktech.netlify.app/about.html",
+            "image": "https://sholynktech.netlify.app/Images%20and%20Assets/my_pic.png",
+            "jobTitle": "Founder, Software Engineer and Tech Journalist",
+            "worksFor": { "@id": "https://sholynktech.netlify.app/#organization" }
+          },
+          {
+            "@type": "Organization",
+            "@id": "https://sholynktech.netlify.app/#organization",
+            "name": "Sholynk Technology",
+            "url": "https://sholynktech.netlify.app/",
+            "founder": { "@id": "https://sholynktech.netlify.app/about.html#oluwashola-busari" }
+          }
+        ]
+      }
+    </script>
     <link rel="shortcut icon" href="Images and Assets/new_page_logo.jpg" type="image/x-icon" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -109,7 +134,7 @@
     <!-- About Content -->
     <main id="main-content">
       <section class="page-section about-layout">
-        <div class="about-profile">
+        <div class="about-profile" id="oluwashola-busari">
           <img
             alt="Portrait photo of Oluwashola Busari, smiling, wearing a blue jacket against a neutral background"
             class="about-photo"
