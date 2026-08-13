@@ -19,7 +19,7 @@
     />
     <meta property="og:type" content="article" />
     <meta property="og:image" content="Images and Assets/page_logo.png" id="ogImage" />
-    <link rel="shortcut icon" href="Images and Assets/new_page_logo.jpg" type="image/x-icon" />
+    <link rel="shortcut icon" href="/Images and Assets/new_page_logo.jpg" type="image/x-icon" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -30,18 +30,18 @@
       href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&amp;display=swap"
       rel="stylesheet"
     />
-    <link href="styles.css" rel="stylesheet" />
+    <link href="/styles.css" rel="stylesheet" />
   </head>
-  <body>
+  <body class="article-view">
     <!-- Header -->
     <header class="site-header">
       <div class="site-header-inner">
-        <a href="index.html" aria-label="Sholynk homepage">
+        <a href="/index.html" aria-label="Sholynk homepage">
           <img
             alt="Sholynk logo"
             class="site-logo"
             height="24"
-            src="Images and Assets/page_logo.png"
+            src="/Images and Assets/page_logo.png"
             width="120"
           />
         </a>
@@ -57,14 +57,14 @@
           ></a>
         </div>
         <nav class="site-nav" aria-label="Primary navigation">
-          <a href="index.html">Home</a>
-          <a href="index.html?category=Technology">Technology</a>
-          <a href="index.html?category=AI%20Trends">AI</a>
-          <a href="index.html?category=Cryptocurrency">Cryptocurrency</a>
-          <a href="index.html?category=Game">Game</a>
-          <a href="index.html?category=Web%203">Web 3</a>
-          <a href="about.html">About</a>
-          <a href="contact.html">Contact</a>
+          <a href="/index.html">Home</a>
+          <a href="/index.html?category=Technology">Technology</a>
+          <a href="/index.html?category=AI%20Trends">AI</a>
+          <a href="/index.html?category=Cryptocurrency">Cryptocurrency</a>
+          <a href="/index.html?category=Game">Game</a>
+          <a href="/index.html?category=Web%203">Web 3</a>
+          <a href="/about.html">About</a>
+          <a href="/contact.html">Contact</a>
         </nav>
         <button
           class="hamburger"
@@ -82,14 +82,14 @@
     <div class="sidebar" id="sidebar">
       <h3>Explore Sholynk</h3>
       <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="index.html?category=Technology">Technology</a></li>
-        <li><a href="index.html?category=AI%20Trends">AI</a></li>
-        <li><a href="index.html?category=Cryptocurrency">Cryptocurrency</a></li>
-        <li><a href="index.html?category=Web%203">Web 3</a></li>
-        <li><a href="index.html?category=Game">Game</a></li>
-        <li><a href="about.html">About</a></li>
-        <li><a href="contact.html">Contact</a></li>
+        <li><a href="/index.html">Home</a></li>
+        <li><a href="/index.html?category=Technology">Technology</a></li>
+        <li><a href="/index.html?category=AI%20Trends">AI</a></li>
+        <li><a href="/index.html?category=Cryptocurrency">Cryptocurrency</a></li>
+        <li><a href="/index.html?category=Web%203">Web 3</a></li>
+        <li><a href="/index.html?category=Game">Game</a></li>
+        <li><a href="/about.html">About</a></li>
+        <li><a href="/contact.html">Contact</a></li>
       </ul>
       <div class="sidebar-social">
         <a aria-label="WhatsApp" href="https://wa.me/qr/CV4VS7HDF2PHD1"
@@ -108,7 +108,7 @@
       <span id="readingProgressBar"></span>
     </div>
 
-    <main id="main-content">
+    <main class="article-main" id="main-content">
       <article class="article-page" id="articleRoot" aria-busy="true">
         <div class="article-status" id="articleStatus">Loading article...</div>
       </article>
@@ -119,11 +119,14 @@
         hidden
         aria-labelledby="related-title"
       >
-        <div class="section-title-row">
+        <div class="related-heading">
           <div>
-            <p class="eyebrow">Keep reading</p>
-            <h2 class="section-heading" id="related-title">Related stories</h2>
+            <p class="eyebrow">Continue exploring</p>
+            <h2 class="section-heading" id="related-title">Read next</h2>
           </div>
+          <a class="related-all-link" href="/index.html">
+            View all stories <i class="fas fa-arrow-right" aria-hidden="true"></i>
+          </a>
         </div>
         <div class="related-grid" id="relatedGrid"></div>
       </section>
@@ -137,7 +140,7 @@
             alt="Sholynk logo"
             class="site-logo footer-logo"
             height="24"
-            src="Images and Assets/page_logo.png"
+            src="/Images and Assets/page_logo.png"
             width="120"
           />
           <p class="footer-tagline">
@@ -182,10 +185,10 @@
         <div>
           <h4>Quick Links</h4>
           <ul class="footer-links">
-            <li><a href="help_&_support.html">Help &amp; Support</a></li>
-            <li><a href="privacy_policy.html">Privacy Policy</a></li>
-            <li><a href="about.html">About</a></li>
-            <li><a href="contact.html">Contact</a></li>
+            <li><a href="/help_&_support.html">Help &amp; Support</a></li>
+            <li><a href="/privacy_policy.html">Privacy Policy</a></li>
+            <li><a href="/about.html">About</a></li>
+            <li><a href="/contact.html">Contact</a></li>
             <li>
               <button
                 class="footer-link-button"

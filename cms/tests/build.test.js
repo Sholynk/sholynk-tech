@@ -59,6 +59,28 @@ test('generated pages contain full initial HTML, canonical metadata and structur
   }
 });
 
+test('generated long-form pages use the rebuilt responsive reading shell', () => {
+  for (const article of fullArticles) {
+    const document = new JSDOM(fs.readFileSync(pageFor(article.slug), 'utf8')).window.document;
+    const layout = document.querySelector('.article-reading-layout');
+    const toc = document.querySelector('details.article-toc');
+
+    assert.ok(document.body.classList.contains('article-view'), `${article.slug}: article body scope missing`);
+    assert.ok(document.querySelector('.article-masthead'), `${article.slug}: masthead missing`);
+    assert.ok(document.querySelector('.article-hero-media img[srcset]'), `${article.slug}: responsive hero missing`);
+    assert.ok(layout, `${article.slug}: reading layout missing`);
+    assert.ok(layout.querySelector('.article-rail'), `${article.slug}: navigation rail missing`);
+    assert.ok(layout.querySelector('.article-content .article-body'), `${article.slug}: content column missing`);
+    assert.ok(toc?.querySelector('summary'), `${article.slug}: compact TOC disclosure missing`);
+    assert.ok(document.querySelector('[data-copy-article]'), `${article.slug}: copy-link action missing`);
+
+    for (const link of toc.querySelectorAll('a[href^="#"]')) {
+      const targetId = decodeURIComponent(link.getAttribute('href').slice(1));
+      assert.ok(document.getElementById(targetId), `${article.slug}: broken TOC target #${targetId}`);
+    }
+  }
+});
+
 test('responsive derivatives preserve originals and use valid local files', () => {
   for (const article of fullArticles) {
     assert.ok(fs.existsSync(path.join(ROOT, article.img)), `original missing for ${article.slug}`);
@@ -74,7 +96,7 @@ test('related-story links retain the articles path with or without a trailing sl
     const document = new JSDOM(fs.readFileSync(pageFor(article.slug), 'utf8')).window.document;
     for (const link of document.querySelectorAll('.related-card[href]')) {
       const href = link.getAttribute('href');
-      assert.match(href, /^\.\.\/\.\.\/articles\/[a-z0-9-]+\/$/);
+      assert.match(href, /^\/articles\/[a-z0-9-]+\/$/);
 
       const cleanPath = new URL(href, `https://example.com/articles/${article.slug}/`).pathname;
       const slashlessPath = new URL(href, `https://example.com/articles/${article.slug}`).pathname;
@@ -102,7 +124,7 @@ test('Markdown links on generated article pages resolve from the site root', () 
     [...document.querySelectorAll('a')].map((link) => [link.textContent, link])
   );
 
-  assert.equal(links.About.getAttribute('href'), '../../about.html?from=article#oluwashola-busari');
+  assert.equal(links.About.getAttribute('href'), '/about.html?from=article#oluwashola-busari');
   assert.equal(links.About.href, 'https://example.com/about.html?from=article#oluwashola-busari');
   assert.equal(links['Another story'].href, 'https://example.com/articles/another-story/');
   assert.equal(links['This section'].getAttribute('href'), '#details');

@@ -450,6 +450,53 @@ test('article page dynamically renders article structure with TOC, hero, and eng
   dom.window.close();
 });
 
+test('prerendered article navigation and copy-link controls respond on mobile', async () => {
+  const file = path.join('articles', 'the-rise-of-quantum-computing', 'index.html');
+  const html = fs.readFileSync(path.join(ROOT, file), 'utf8');
+  const dom = new JSDOM(html, {
+    url: 'https://example.com/articles/the-rise-of-quantum-computing/',
+    runScripts: 'outside-only'
+  });
+  const copied = [];
+  Object.defineProperty(dom.window.navigator, 'clipboard', {
+    configurable: true,
+    value: { writeText: async (value) => copied.push(value) }
+  });
+  dom.window.matchMedia = (query) => ({
+    matches: query.includes('max-width') || query.includes('prefers-reduced-motion'),
+    addEventListener() {},
+    removeEventListener() {}
+  });
+  dom.window.HTMLElement.prototype.scrollIntoView = function scrollIntoView() {
+    this.dataset.scrolledIntoView = 'true';
+  };
+
+  dom.window.eval(fs.readFileSync(path.join(ROOT, 'article.js'), 'utf8'));
+  dom.window.document.dispatchEvent(new dom.window.Event('DOMContentLoaded', { bubbles: true }));
+  await new Promise((resolve) => dom.window.setTimeout(resolve, 0));
+
+  const { document } = dom.window;
+  const toc = document.querySelector('details.article-toc');
+  assert.equal(toc.open, false, 'the TOC starts collapsed at compact widths');
+  toc.open = true;
+  const link = [...toc.querySelectorAll('a[href^="#"]')][1];
+  const target = document.getElementById(decodeURIComponent(link.getAttribute('href').slice(1)));
+  link.dispatchEvent(new dom.window.MouseEvent('click', { bubbles: true, cancelable: true }));
+  await new Promise((resolve) => dom.window.setTimeout(resolve, 0));
+
+  assert.equal(dom.window.location.hash, link.getAttribute('href'));
+  assert.equal(target.dataset.scrolledIntoView, 'true');
+  assert.equal(link.getAttribute('aria-current'), 'location');
+  assert.equal(toc.open, false, 'the TOC closes after selecting a mobile destination');
+
+  document.querySelector('[data-copy-article]').click();
+  await new Promise((resolve) => dom.window.setTimeout(resolve, 0));
+  assert.deepEqual(copied, ['https://sholynktech.netlify.app/articles/the-rise-of-quantum-computing/']);
+  assert.match(document.querySelector('.article-share-status').textContent, /copied/i);
+
+  dom.window.close();
+});
+
 /* ------------------------------ shared shell ------------------------------- */
 
 test('every page shares the same header, sidebar and footer structure', () => {
