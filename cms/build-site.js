@@ -51,6 +51,28 @@ function headingSlug(value = '') {
     .replace(/-+/g, '-') || 'section';
 }
 
+/**
+ * Markdown is authored from the site root, but generated article pages live at
+ * /articles/<slug>/. Rebase local links so `about.html` and
+ * `articles/another-story/` do not incorrectly resolve inside the current
+ * article directory. Fragments, query-only links, root-relative URLs and links
+ * with an explicit scheme already have unambiguous destinations.
+ */
+function articlePageUrl(value = '') {
+  const reference = String(value).trim();
+  if (!reference || /^(?:[a-z][a-z0-9+.-]*:|\/\/|#|\/|\?)/i.test(reference)) {
+    return reference;
+  }
+
+  try {
+    const parsed = new URL(reference, 'https://article-content.invalid/');
+    const pathname = parsed.pathname.replace(/^\/+/, '');
+    return `../../${pathname}${parsed.search}${parsed.hash}`;
+  } catch (error) {
+    return reference;
+  }
+}
+
 function renderMarkdown(markdown = '') {
   const raw = marked.parse(markdown, { gfm: true });
   const usedIds = new Set();
@@ -74,12 +96,14 @@ function renderMarkdown(markdown = '') {
     allowedSchemes: ['http', 'https', 'mailto'],
     transformTags: {
       a(tagName, attribs) {
-        const external = /^https?:\/\//i.test(attribs.href || '');
+        const href = articlePageUrl(attribs.href || '');
+        const localised = href ? { ...attribs, href } : attribs;
+        const external = /^(?:https?:)?\/\//i.test(href);
         return {
           tagName,
           attribs: external
-            ? { ...attribs, target: '_blank', rel: 'noopener noreferrer' }
-            : attribs
+            ? { ...localised, target: '_blank', rel: 'noopener noreferrer' }
+            : localised
         };
       },
       img(tagName, attribs) {
@@ -186,9 +210,9 @@ function relatedFor(article, allArticles) {
 }
 
 function articleLink(article) {
-  if (article.externalLink) return article.externalLink;
-  if (article.body) return `../${encodeURIComponent(article.slug)}/`;
-  return `../../article.html?slug=${encodeURIComponent(article.slug)}`;
+  if (article.externalLink) return articlePageUrl(article.externalLink);
+  if (article.body) return articlePageUrl(`articles/${encodeURIComponent(article.slug)}/`);
+  return articlePageUrl(`article.html?slug=${encodeURIComponent(article.slug)}`);
 }
 
 function renderRelated(article, allArticles) {
