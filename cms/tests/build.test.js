@@ -69,6 +69,50 @@ test('responsive derivatives preserve originals and use valid local files', () =
   }
 });
 
+test('related-story links retain the articles path with or without a trailing slash', () => {
+  for (const article of fullArticles) {
+    const document = new JSDOM(fs.readFileSync(pageFor(article.slug), 'utf8')).window.document;
+    for (const link of document.querySelectorAll('.related-card[href]')) {
+      const href = link.getAttribute('href');
+      assert.match(href, /^\.\.\/\.\.\/articles\/[a-z0-9-]+\/$/);
+
+      const cleanPath = new URL(href, `https://example.com/articles/${article.slug}/`).pathname;
+      const slashlessPath = new URL(href, `https://example.com/articles/${article.slug}`).pathname;
+      assert.match(cleanPath, /^\/articles\/[a-z0-9-]+\/$/);
+      assert.equal(slashlessPath, cleanPath);
+    }
+  }
+});
+
+test('Markdown links on generated article pages resolve from the site root', () => {
+  const { renderMarkdown } = require('../build-site');
+  const html = renderMarkdown(`
+[About](about.html?from=article#oluwashola-busari)
+[Another story](articles/another-story/)
+[This section](#details)
+[Current view](?view=compact)
+[Root path](/contact.html)
+[External](https://example.org/report)
+[Email](mailto:editor@example.org)
+  `);
+  const document = new JSDOM(html, {
+    url: 'https://example.com/articles/current-story/'
+  }).window.document;
+  const links = Object.fromEntries(
+    [...document.querySelectorAll('a')].map((link) => [link.textContent, link])
+  );
+
+  assert.equal(links.About.getAttribute('href'), '../../about.html?from=article#oluwashola-busari');
+  assert.equal(links.About.href, 'https://example.com/about.html?from=article#oluwashola-busari');
+  assert.equal(links['Another story'].href, 'https://example.com/articles/another-story/');
+  assert.equal(links['This section'].getAttribute('href'), '#details');
+  assert.equal(links['Current view'].getAttribute('href'), '?view=compact');
+  assert.equal(links['Root path'].getAttribute('href'), '/contact.html');
+  assert.equal(links.External.target, '_blank');
+  assert.equal(links.External.rel, 'noopener noreferrer');
+  assert.equal(links.Email.getAttribute('href'), 'mailto:editor@example.org');
+});
+
 test('sitemap lists canonical article URLs and robots advertises the sitemap', () => {
   const sitemap = fs.readFileSync(path.join(ROOT, 'sitemap.xml'), 'utf8');
   const robots = fs.readFileSync(path.join(ROOT, 'robots.txt'), 'utf8');
