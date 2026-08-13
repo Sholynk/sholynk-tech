@@ -52,22 +52,22 @@ function headingSlug(value = '') {
 }
 
 /**
- * Markdown is authored from the site root, but generated article pages live at
- * /articles/<slug>/. Rebase local links so `about.html` and
- * `articles/another-story/` do not incorrectly resolve inside the current
- * article directory. Fragments, query-only links, root-relative URLs and links
- * with an explicit scheme already have unambiguous destinations.
+ * Markdown is authored from the site root, while generated pages live at
+ * /articles/<slug>/. Turn every local reference into a root-relative URL so it
+ * resolves identically with or without a trailing slash and at every viewport.
+ * Fragments, query-only links and links with an explicit scheme are already
+ * unambiguous and stay untouched.
  */
 function articlePageUrl(value = '') {
   const reference = String(value).trim();
-  if (!reference || /^(?:[a-z][a-z0-9+.-]*:|\/\/|#|\/|\?)/i.test(reference)) {
+  if (!reference || /^(?:[a-z][a-z0-9+.-]*:|\/\/|#|\?)/i.test(reference)) {
     return reference;
   }
 
   try {
     const parsed = new URL(reference, 'https://article-content.invalid/');
     const pathname = parsed.pathname.replace(/^\/+/, '');
-    return `../../${pathname}${parsed.search}${parsed.hash}`;
+    return `/${pathname}${parsed.search}${parsed.hash}`;
   } catch (error) {
     return reference;
   }
@@ -108,7 +108,7 @@ function renderMarkdown(markdown = '') {
       },
       img(tagName, attribs) {
         let src = attribs.src || '';
-        if (src && !/^(?:https?:|data:|\/)/i.test(src) && !src.includes('..')) src = `../../${src}`;
+        if (src && !/^(?:https?:|data:|\/\/)/i.test(src)) src = articlePageUrl(src);
         return {
           tagName,
           attribs: { ...attribs, src, alt: attribs.alt || '', loading: 'lazy', decoding: 'async' }
@@ -122,16 +122,16 @@ function renderMarkdown(markdown = '') {
 function renderToc(bodyHtml) {
   const headings = [...bodyHtml.matchAll(/<h2 id="([^"]+)">([\s\S]*?)<\/h2>/g)];
   if (headings.length < 3) return '';
-  const items = headings.map((heading) => (
-    `<li><a href="#${escapeHtml(heading[1])}">${escapeHtml(heading[2].replace(/<[^>]*>/g, ''))}</a></li>`
+  const items = headings.map((heading, index) => (
+    `<li><a href="#${escapeHtml(heading[1])}"${index === 0 ? ' aria-current="location"' : ''}><span>${escapeHtml(heading[2].replace(/<[^>]*>/g, ''))}</span></a></li>`
   )).join('');
-  return `<nav class="article-toc" aria-label="Table of contents"><p class="eyebrow">In this article</p><ol>${items}</ol></nav>`;
+  return `<details class="article-toc" open><summary><span><small>Navigate</small>In this article</span><i class="fas fa-chevron-down" aria-hidden="true"></i></summary><nav aria-label="Table of contents"><ol>${items}</ol></nav></details>`;
 }
 
 function localiseShell(shell) {
   return shell.replace(/\b(href|src)="([^"]+)"/g, (match, attribute, value) => {
     if (/^(?:https?:|mailto:|tel:|data:|#|\/)/i.test(value)) return match;
-    return `${attribute}="../../${value}"`;
+    return `${attribute}="/${value}"`;
   });
 }
 
@@ -180,18 +180,18 @@ async function responsiveHero(article) {
       .resize({ width, withoutEnlargement: true })
       .webp({ quality: 82, effort: 5 })
       .toFile(path.join(outputDir, filename));
-    variants.push({ width, path: `../../generated-images/${article.slug}/${filename}` });
+    variants.push({ width, path: `/generated-images/${article.slug}/${filename}` });
   }
   return { variants, width: metadata.width, height: metadata.height };
 }
 
 function renderHero(article, responsive) {
   if (!article.img) return '';
-  const original = /^https?:\/\//i.test(article.img) ? article.img : `../../${article.img}`;
+  const original = /^https?:\/\//i.test(article.img) ? article.img : articlePageUrl(article.img);
   const responsiveAttributes = responsive
-    ? ` srcset="${responsive.variants.map((item) => `${escapeHtml(item.path)} ${item.width}w`).join(', ')}" sizes="(max-width: 760px) 100vw, 1120px" width="${responsive.width}" height="${responsive.height}"`
+    ? ` srcset="${responsive.variants.map((item) => `${escapeHtml(item.path)} ${item.width}w`).join(', ')}" sizes="(max-width: 760px) calc(100vw - 32px), (max-width: 1200px) calc(100vw - 64px), 1184px" width="${responsive.width}" height="${responsive.height}"`
     : '';
-  return `<figure class="article-hero"><img src="${escapeHtml(original)}"${responsiveAttributes} alt="${escapeHtml(article.alt || article.title)}" decoding="async" fetchpriority="high" /><figcaption>${escapeHtml(article.alt || '')}</figcaption></figure>`;
+  return `<figure class="article-hero"><div class="article-hero-media"><img src="${escapeHtml(original)}"${responsiveAttributes} alt="${escapeHtml(article.alt || article.title)}" decoding="async" fetchpriority="high" /></div>${article.alt ? `<figcaption>${escapeHtml(article.alt)}</figcaption>` : ''}</figure>`;
 }
 
 function relatedFor(article, allArticles) {
@@ -218,11 +218,11 @@ function articleLink(article) {
 function renderRelated(article, allArticles) {
   const related = relatedFor(article, allArticles);
   if (!related.length) return '';
-  return `<section class="related-section" id="relatedSection" aria-labelledby="related-title"><div class="section-title-row"><div><p class="eyebrow">Keep reading</p><h2 class="section-heading" id="related-title">Related stories</h2></div></div><div class="related-grid" id="relatedGrid">${related.map((item) => {
+  return `<section class="related-section" id="relatedSection" aria-labelledby="related-title"><div class="related-heading"><div><p class="eyebrow">Continue exploring</p><h2 class="section-heading" id="related-title">Read next</h2></div><a class="related-all-link" href="/index.html">View all stories <i class="fas fa-arrow-right" aria-hidden="true"></i></a></div><div class="related-grid" id="relatedGrid">${related.map((item) => {
     const link = articleLink(item);
     const external = /^https?:\/\//i.test(link);
-    const image = item.img ? `<img src="${escapeHtml(/^https?:\/\//i.test(item.img) ? item.img : `../../${item.img}`)}" alt="${escapeHtml(item.alt || item.title)}" loading="lazy" decoding="async" />` : '';
-    return `<a class="related-card" href="${escapeHtml(link)}"${external ? ' target="_blank" rel="noopener noreferrer"' : ''}>${image}<div><span class="category-label">${escapeHtml(item.category)}</span><h3>${escapeHtml(item.title)}</h3><p>${escapeHtml(item.description)}</p></div></a>`;
+    const image = item.img ? `<div class="related-card-media"><img src="${escapeHtml(/^https?:\/\//i.test(item.img) ? item.img : articlePageUrl(item.img))}" alt="${escapeHtml(item.alt || item.title)}" loading="lazy" decoding="async" /></div>` : '';
+    return `<a class="related-card" href="${escapeHtml(link)}"${external ? ' target="_blank" rel="noopener noreferrer"' : ''}>${image}<div class="related-card-body"><span class="category-label">${escapeHtml(item.category)}</span><h3>${escapeHtml(item.title)}</h3><p>${escapeHtml(item.description)}</p><span class="related-card-cta">Read article <i class="fas fa-arrow-right" aria-hidden="true"></i></span></div></a>`;
   }).join('')}</div></section>`;
 }
 
@@ -321,41 +321,51 @@ function renderHead(article, canonical, author) {
     <meta name="twitter:title" content="${escapeHtml(title)}" />
     <meta name="twitter:description" content="${escapeHtml(description)}" />
     <meta name="twitter:image" content="${escapeHtml(image)}" />
-    <link rel="shortcut icon" href="../../Images and Assets/new_page_logo.jpg" type="image/x-icon" />
+    <link rel="shortcut icon" href="/Images and Assets/new_page_logo.jpg" type="image/x-icon" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet" />
-    <link href="../../styles.css" rel="stylesheet" />
+    <link href="/styles.css" rel="stylesheet" />
     <script type="application/ld+json">${safeJson(schemaFor(article, canonical, author))}</script>
   </head>`;
 }
 
 function renderArticle(article, bodyHtml, responsive, canonical, author) {
   const quickAnswer = article.directAnswer
-    ? `<aside class="article-answer" aria-labelledby="quick-answer-heading"><p class="eyebrow" id="quick-answer-heading">Quick answer</p><p>${escapeHtml(article.directAnswer)}</p></aside>`
+    ? `<aside class="article-answer" aria-labelledby="quick-answer-heading"><div class="article-callout-icon" aria-hidden="true"><i class="fas fa-bolt"></i></div><div><p class="eyebrow" id="quick-answer-heading">Quick answer</p><p>${escapeHtml(article.directAnswer)}</p></div></aside>`
     : '';
   const takeaways = article.keyTakeaways?.length
-    ? `<aside class="article-takeaways" aria-labelledby="takeaways-heading"><h2 id="takeaways-heading">Key takeaways</h2>${renderList(article.keyTakeaways, 'takeaway-list')}</aside>`
+    ? `<aside class="article-takeaways" aria-labelledby="takeaways-heading"><div class="article-callout-heading"><span class="article-callout-icon" aria-hidden="true"><i class="fas fa-check"></i></span><div><p class="eyebrow">The essentials</p><h2 id="takeaways-heading">Key takeaways</h2></div></div>${renderList(article.keyTakeaways, 'takeaway-list')}</aside>`
     : '';
+  const toc = renderToc(bodyHtml);
   const shareText = encodeURIComponent(`${article.title} ${canonical}`);
   const shareUrl = encodeURIComponent(canonical);
-  const authorHref = author.profileUrl === `${SITE_URL}/about.html`
-    ? `../../about.html#${encodeURIComponent(author.slug)}`
-    : author.profileUrl;
+  const authorHref = author.id.startsWith(SITE_URL) ? author.id.slice(SITE_URL.length) : author.id;
+  const contentType = article.contentType
+    ? `<span aria-hidden="true">•</span><span>${escapeHtml(article.contentType)}</span>`
+    : '';
+  const share = `<section class="article-share" aria-labelledby="share-heading"><div class="article-share-copy"><p class="eyebrow">Worth sharing?</p><h2 id="share-heading">Pass this story on</h2></div><div class="article-share-actions"><a href="https://twitter.com/intent/tweet?text=${shareText}" target="_blank" rel="noopener noreferrer" aria-label="Share on X"><i class="fa-brands fa-x-twitter" aria-hidden="true"></i><span>X</span></a><a href="https://www.facebook.com/sharer/sharer.php?u=${shareUrl}" target="_blank" rel="noopener noreferrer" aria-label="Share on Facebook"><i class="fab fa-facebook-f" aria-hidden="true"></i><span>Facebook</span></a><a href="https://wa.me/?text=${shareText}" target="_blank" rel="noopener noreferrer" aria-label="Share on WhatsApp"><i class="fab fa-whatsapp" aria-hidden="true"></i><span>WhatsApp</span></a><button type="button" data-copy-article data-copy-url="${escapeHtml(canonical)}" aria-label="Copy article link"><i class="fas fa-link" aria-hidden="true"></i><span>Copy link</span></button></div><p class="article-share-status" role="status" aria-live="polite"></p></section>`;
+
   return `<article class="article-page" id="articleRoot" data-prerendered="true" data-slug="${escapeHtml(article.slug)}" aria-busy="false">
-    <nav class="article-breadcrumb" aria-label="Breadcrumb"><a href="../../index.html">Home</a><span aria-hidden="true">/</span><a href="../../index.html?category=${encodeURIComponent(article.category)}">${escapeHtml(article.category)}</a><span aria-hidden="true">/</span><span aria-current="page">${escapeHtml(article.title)}</span></nav>
-    <header class="article-header"><span class="category-label">${escapeHtml(article.category)}</span><h1>${escapeHtml(article.title)}</h1><p class="article-standfirst">${escapeHtml(article.hook || article.description)}</p><div class="article-meta"><span><i class="fas fa-user" aria-hidden="true"></i> <a href="${escapeHtml(authorHref)}">${escapeHtml(author.name)}</a></span><span><i class="fas fa-calendar" aria-hidden="true"></i> <time datetime="${escapeHtml(article.date)}">${escapeHtml(formatDate(article.date))}</time></span><span><i class="fas fa-clock" aria-hidden="true"></i> ${escapeHtml(article.readingTime || '')}</span></div></header>
+    <div class="article-masthead">
+      <nav class="article-breadcrumb" aria-label="Breadcrumb"><a href="/index.html"><i class="fas fa-house" aria-hidden="true"></i><span>Home</span></a><i class="fas fa-chevron-right" aria-hidden="true"></i><a href="/index.html?category=${encodeURIComponent(article.category)}">${escapeHtml(article.category)}</a><i class="fas fa-chevron-right" aria-hidden="true"></i><span aria-current="page">${escapeHtml(article.title)}</span></nav>
+      <header class="article-header"><div class="article-kicker"><span class="category-label">${escapeHtml(article.category)}</span>${contentType}<span aria-hidden="true">•</span><span>${escapeHtml(article.readingTime || 'Long read')}</span></div><h1>${escapeHtml(article.title)}</h1><p class="article-standfirst">${escapeHtml(article.hook || article.description)}</p><div class="article-meta"><span class="article-byline">By <a href="${escapeHtml(authorHref)}">${escapeHtml(author.name)}</a></span><span aria-hidden="true">•</span><time datetime="${escapeHtml(article.date)}">${escapeHtml(formatDate(article.date))}</time></div></header>
+    </div>
     ${renderHero(article, responsive)}
-    ${quickAnswer}
-    ${takeaways}
-    ${renderToc(bodyHtml)}
-    <div class="article-body">${bodyHtml}</div>
-    ${renderFaqs(article.faqs)}
-    ${renderSources(article.sources)}
-    <div class="article-share"><span>Share this article</span><a href="https://twitter.com/intent/tweet?text=${shareText}" target="_blank" rel="noopener noreferrer" aria-label="Share on X"><i class="fa-brands fa-x-twitter" aria-hidden="true"></i></a><a href="https://www.facebook.com/sharer/sharer.php?u=${shareUrl}" target="_blank" rel="noopener noreferrer" aria-label="Share on Facebook"><i class="fab fa-facebook-f" aria-hidden="true"></i></a><a href="https://wa.me/?text=${shareText}" target="_blank" rel="noopener noreferrer" aria-label="Share on WhatsApp"><i class="fab fa-whatsapp" aria-hidden="true"></i></a></div>
-    <div id="engagementRoot"></div>
-    <a class="article-back" href="../../index.html"><i class="fas fa-arrow-left" aria-hidden="true"></i> Back to all articles</a>
+    <div class="article-reading-layout">
+      ${toc ? `<aside class="article-rail">${toc}<a class="article-rail-home" href="/index.html"><i class="fas fa-arrow-left" aria-hidden="true"></i><span>All stories</span></a></aside>` : ''}
+      <div class="article-content">
+        ${quickAnswer}
+        ${takeaways}
+        <div class="article-body">${bodyHtml}</div>
+        ${renderFaqs(article.faqs)}
+        ${renderSources(article.sources)}
+        ${share}
+        <div id="engagementRoot"></div>
+        <nav class="article-end-nav" aria-label="Article navigation"><a class="article-back" href="/index.html"><i class="fas fa-arrow-left" aria-hidden="true"></i><span>Back to all articles</span></a><a class="article-category-link" href="/index.html?category=${encodeURIComponent(article.category)}"><span>More in ${escapeHtml(article.category)}</span><i class="fas fa-arrow-right" aria-hidden="true"></i></a></nav>
+      </div>
+    </div>
   </article>`.replace(/^[ \t]+$/gm, '');
 }
 
