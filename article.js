@@ -14,6 +14,16 @@
     return !trimmed.startsWith('<');
   }
 
+  function enhanceExternalLinks(rootFragment) {
+    rootFragment.querySelectorAll('a[href]').forEach((anchor) => {
+      const href = anchor.getAttribute('href') || '';
+      if (/^https?:\/\//i.test(href)) {
+        anchor.target = '_blank';
+        anchor.rel = 'noopener noreferrer';
+      }
+    });
+  }
+
   /** Render content: pass Markdown through the renderer, HTML through the sanitizer. */
   async function renderBody(raw) {
     if (!raw || !raw.trim()) return null;
@@ -26,6 +36,7 @@
         image.decoding = 'async';
         if (!image.hasAttribute('alt')) image.setAttribute('alt', '');
       });
+      enhanceExternalLinks(template.content);
       return template.content;
     }
     return sanitizeHtml(raw);
@@ -47,6 +58,7 @@
       image.decoding = 'async';
       if (!image.hasAttribute('alt')) image.setAttribute('alt', '');
     });
+    enhanceExternalLinks(template.content);
     return template.content;
   }
 
@@ -238,14 +250,20 @@
     const url = window.location.href;
     const twitter = document.createElement('a');
     twitter.href = `https://twitter.com/intent/tweet?text=${encodeURIComponent(article.title)}&url=${encodeURIComponent(url)}`;
+    twitter.target = '_blank';
+    twitter.rel = 'noopener noreferrer';
     twitter.setAttribute('aria-label', 'Share on X');
     twitter.innerHTML = '<i class="fa-brands fa-x-twitter" aria-hidden="true"></i>';
     const facebook = document.createElement('a');
     facebook.href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+    facebook.target = '_blank';
+    facebook.rel = 'noopener noreferrer';
     facebook.setAttribute('aria-label', 'Share on Facebook');
     facebook.innerHTML = '<i class="fab fa-facebook-f" aria-hidden="true"></i>';
     const whatsapp = document.createElement('a');
     whatsapp.href = `https://wa.me/?text=${encodeURIComponent(`${article.title} ${url}`)}`;
+    whatsapp.target = '_blank';
+    whatsapp.rel = 'noopener noreferrer';
     whatsapp.setAttribute('aria-label', 'Share on WhatsApp');
     whatsapp.innerHTML = '<i class="fab fa-whatsapp" aria-hidden="true"></i>';
     share.append(shareLabel, twitter, facebook, whatsapp);
