@@ -30,30 +30,68 @@
     if (!raw || !raw.trim()) return null;
     if (isMarkdown(raw)) {
       const html = await window.SholynkMarkdown.renderMarkdown(raw);
-      const template = document.createElement('template');
-      template.innerHTML = html;
-      template.content.querySelectorAll('img').forEach((image) => {
-        image.loading = 'lazy';
-        image.decoding = 'async';
-        if (!image.hasAttribute('alt')) image.setAttribute('alt', '');
-      });
-      enhanceExternalLinks(template.content);
-      return template.content;
+      return sanitizeHtml(html);
     }
     return sanitizeHtml(raw);
+  }
+
+  function hasSafeUrl(value, { image = false } = {}) {
+    const raw = String(value || '').trim();
+    const compact = raw.replace(/[\u0000-\u0020]+/g, '');
+    if (!compact) return false;
+    if (compact.startsWith('#') && !image) return true;
+    if (/^(?:\.?\.?\/|\/)(?!\/)/.test(compact)) return true;
+    if (!/^[a-z][a-z0-9+.-]*:/i.test(compact)) return !compact.startsWith('//');
+    return image ? /^https?:/i.test(compact) : /^(?:https?:|mailto:)/i.test(compact);
   }
 
   function sanitizeHtml(html) {
     const template = document.createElement('template');
     template.innerHTML = html || '';
-    template.content.querySelectorAll('script, style, iframe, object, embed').forEach((node) => node.remove());
+    template.content
+      .querySelectorAll('script, style, iframe, object, embed, svg, math, form, input, button, textarea, select')
+      .forEach((node) => node.remove());
+
+    const allowedTags = new Set([
+      'a', 'abbr', 'b', 'blockquote', 'br', 'code', 'del', 'details', 'div', 'em',
+      'figcaption', 'figure', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'hr', 'i', 'img',
+      'kbd', 'li', 'mark', 'ol', 'p', 'pre', 's', 'small', 'span', 'strong', 'sub',
+      'summary', 'sup', 'table', 'tbody', 'td', 'tfoot', 'th', 'thead', 'tr', 'ul'
+    ]);
+    const globalAttributes = new Set(['id', 'class']);
+    const attributesByTag = {
+      a: new Set(['href', 'title', 'target', 'rel']),
+      img: new Set(['src', 'alt', 'title', 'width', 'height', 'loading', 'decoding']),
+      code: new Set(['class']),
+      th: new Set(['scope', 'colspan', 'rowspan']),
+      td: new Set(['colspan', 'rowspan'])
+    };
+
     template.content.querySelectorAll('*').forEach((node) => {
+      const tag = node.tagName.toLowerCase();
+      if (!allowedTags.has(tag)) {
+        node.replaceWith(...node.childNodes);
+        return;
+      }
+
+      const allowedAttributes = attributesByTag[tag] || new Set();
       [...node.attributes].forEach((attribute) => {
         const name = attribute.name.toLowerCase();
-        const value = attribute.value.trim().toLowerCase();
-        if (name.startsWith('on') || value.startsWith('javascript:')) node.removeAttribute(attribute.name);
+        if (!globalAttributes.has(name) && !allowedAttributes.has(name)) {
+          node.removeAttribute(attribute.name);
+        }
       });
+
+      if (tag === 'a' && node.hasAttribute('href') && !hasSafeUrl(node.getAttribute('href'))) {
+        node.removeAttribute('href');
+        node.removeAttribute('target');
+        node.removeAttribute('rel');
+      }
+      if (tag === 'img' && (!node.hasAttribute('src') || !hasSafeUrl(node.getAttribute('src'), { image: true }))) {
+        node.remove();
+      }
     });
+
     template.content.querySelectorAll('img').forEach((image) => {
       image.loading = 'lazy';
       image.decoding = 'async';
@@ -76,7 +114,11 @@
     document.getElementById('metaDescription')?.setAttribute('content', description);
     document.getElementById('ogTitle')?.setAttribute('content', title);
     document.getElementById('ogDescription')?.setAttribute('content', description);
-    if (article.img) document.getElementById('ogImage')?.setAttribute('content', article.img);
+    if (article.img) {
+      document
+        .getElementById('ogImage')
+        ?.setAttribute('content', new URL(article.img, window.location.href).href);
+    }
 
     const canonicalUrl = article.canonicalUrl || new URL(
       `articles/${encodeURIComponent(article.slug)}/`,
@@ -157,7 +199,7 @@
         image.loading = 'lazy';
         image.decoding = 'async';
         image.addEventListener('error', () => {
-          image.src = 'photo-1550751827-4bd374c3f58b[1].jpeg';
+          image.src = 'Images and Assets/photo-1550751827-4bd374c3f58b[1].jpeg';
         }, { once: true });
         card.append(image);
       }
@@ -242,7 +284,7 @@
       image.width = 1600;
       image.height = 900;
       image.addEventListener('error', () => {
-        image.src = 'photo-1550751827-4bd374c3f58b[1].jpeg';
+        image.src = 'Images and Assets/photo-1550751827-4bd374c3f58b[1].jpeg';
       }, { once: true });
       hero.append(image);
       if (article.alt) {
@@ -350,8 +392,11 @@
       }
       await renderArticle(article);
 
-      const siblings = await window.SholynkCMS.getArticles({ category: article.category, limit: 6 });
-      renderRelated(siblings.filter((item) => item.slug !== article.slug).slice(0, 3));
+      const siblings = await window.SholynkCMS.getArticles({ category: article.category });
+      renderRelated(siblings.filter((item) => (
+        item.slug !== article.slug
+        && (Boolean(item.body && item.body.trim()) || /^https?:\/\//i.test(item.externalLink || ''))
+      )).slice(0, 3));
     } catch (error) {
       console.error(error);
       if (statusEl) statusEl.textContent = 'Unable to load this article right now.';

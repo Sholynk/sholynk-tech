@@ -1,8 +1,8 @@
-// Behaviour for hand-authored article pages (article_01.html).
+// Behaviour for optional hand-authored article pages.
 //
 // The CMS-rendered page gets these from article.js. This file provides the same
 // enhancements — Markdown rendering, reading progress bar, TOC generation and
-// engagement widgets — for pages whose content lives in a .md file.
+// engagement widgets — when an article body declares a `data-markdown-src`.
 (() => {
   function initReadingProgress() {
     const bar = document.getElementById('readingProgressBar');
@@ -57,13 +57,19 @@
     toc.hidden = false;
   }
 
-  /** Load and render the Markdown file for this article. */
+  /** Load and render the Markdown file declared by this article. */
   async function renderContent() {
     const body = document.getElementById('articleBody');
     if (!body) return;
 
+    const markdownSource = body.dataset.markdownSrc;
+    if (!markdownSource) {
+      buildToc(body);
+      return;
+    }
+
     try {
-      const response = await fetch('article_01.md');
+      const response = await fetch(markdownSource);
       if (!response.ok) throw new Error(`Failed to load: ${response.status}`);
       const raw = await response.text();
       const html = await window.SholynkMarkdown.renderMarkdown(raw);

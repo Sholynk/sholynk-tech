@@ -253,8 +253,8 @@ function list({ category, q, status, limit, offset, hero } = {}) {
   return db.prepare(sql).all(...params).map(toApi);
 }
 
-function count({ category, q, status } = {}) {
-  return list({ category, q, status }).length;
+function count({ category, q, status, hero } = {}) {
+  return list({ category, q, status, hero }).length;
 }
 
 function getById(id) {

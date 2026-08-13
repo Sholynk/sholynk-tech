@@ -15,6 +15,29 @@
 
   const normalizeText = (text = '') => text.trim().replace(/\s+/g, ' ').toLowerCase();
 
+  // Root pages use `index.html`, while generated articles live two directories
+  // deeper and use `../../index.html`. Derive the public-site prefix from the
+  // logo link so shared scripts never turn a valid nested-page link into a
+  // broken path.
+  function getSitePrefix() {
+    const homeHref = document
+      .querySelector('header a[aria-label="Sholynk homepage"]')
+      ?.getAttribute('href') || 'index.html';
+    const pathOnly = homeHref.split(/[?#]/, 1)[0];
+    return /index\.html$/i.test(pathOnly)
+      ? pathOnly.replace(/index\.html$/i, '')
+      : '';
+  }
+
+  function resolveSitePath(target) {
+    return `${getSitePrefix()}${target}`;
+  }
+
+  function comparablePathname(pathname) {
+    const decoded = decodeURIComponent(pathname || '/');
+    return decoded.endsWith('/') ? `${decoded}index.html` : decoded;
+  }
+
   function setCopyrightYear() {
     const year = document.getElementById('copyrightYear');
     if (year) year.textContent = new Date().getFullYear().toString();
@@ -34,7 +57,7 @@
   }
 
   function normalizeNavigationLinks() {
-    const currentFile = (window.location.pathname.split('/').pop() || 'index.html').toLowerCase();
+    const currentPath = comparablePathname(window.location.pathname);
     const currentCategory = new URLSearchParams(window.location.search).get('category');
 
     document.querySelectorAll('header nav a, .sidebar a, footer a').forEach((link) => {
@@ -47,7 +70,7 @@
 
       const label = normalizeText(link.textContent);
       if (pageLinks[label]) {
-        link.setAttribute('href', pageLinks[label]);
+        link.setAttribute('href', resolveSitePath(pageLinks[label]));
         link.removeAttribute('target');
         link.removeAttribute('rel');
       }
@@ -55,12 +78,23 @@
       const href = link.getAttribute('href') || '';
       if (!href || href.startsWith('#')) return;
 
-      const linkFile = (href.split('?')[0].split('#')[0] || 'index.html').toLowerCase();
-      const linkCategory = href.includes('?') ? new URLSearchParams(href.split('?')[1]).get('category') : null;
-      const isCurrentPage = linkFile === currentFile || (currentFile === '' && linkFile === 'index.html');
-      const isCurrentCategory = linkCategory && currentCategory && linkCategory.toLowerCase() === currentCategory.toLowerCase();
-      const homeWithoutCategory = isCurrentPage && linkFile === 'index.html' && !linkCategory && !currentCategory;
-      const active = (isCurrentPage && linkFile !== 'index.html') || homeWithoutCategory || isCurrentCategory;
+      let target;
+      try {
+        target = new URL(href, window.location.href);
+      } catch (error) {
+        return;
+      }
+
+      const linkCategory = target.searchParams.get('category');
+      const isCurrentPage = comparablePathname(target.pathname) === currentPath;
+      const isCurrentCategory = isCurrentPage
+        && linkCategory
+        && currentCategory
+        && linkCategory.toLowerCase() === currentCategory.toLowerCase();
+      const isIndexPage = /\/index\.html$/i.test(target.pathname);
+      const isHome = isIndexPage && !linkCategory;
+      const homeWithoutCategory = isCurrentPage && isHome && !currentCategory;
+      const active = isCurrentCategory || homeWithoutCategory || (isCurrentPage && !isIndexPage);
 
       if (active) {
         link.setAttribute('aria-current', 'page');

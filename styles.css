@@ -1106,6 +1106,16 @@ textarea:focus {
   z-index: 2;
 }
 
+.bento-feed .card--pending:hover {
+  transform: translateY(0);
+  box-shadow: var(--shadow-sm);
+  z-index: auto;
+}
+
+.bento-feed .card--pending .card-footer span:last-child {
+  color: var(--muted);
+}
+
 .bento-feed .card-media {
   position: relative;
   flex: 1 1 0;
@@ -1125,7 +1135,7 @@ textarea:focus {
   transition: transform 460ms ease;
 }
 
-.bento-feed .card:hover .card-media img,
+.bento-feed .card:not(.card--pending):hover .card-media img,
 .bento-feed .card:focus-visible .card-media img {
   transform: scale(1.06);
 }
@@ -1716,6 +1726,10 @@ textarea:focus {
   border-top: 1px dashed rgba(148, 163, 184, 0.4);
   color: var(--muted);
   font-size: 0.8rem;
+}
+
+.contact-details .contact-social-intro {
+  margin: 0 0 0.9rem;
 }
 
 .contact-social-links {

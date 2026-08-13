@@ -1,9 +1,11 @@
 'use strict';
 
+const fs = require('node:fs');
 const path = require('node:path');
 const crypto = require('node:crypto');
 const express = require('express');
 const multer = require('multer');
+const sharp = require('sharp');
 
 const articles = require('../lib/articles');
 const images = require('../lib/images');
@@ -15,12 +17,26 @@ const router = express.Router();
 
 /* ------------------------------- uploads -------------------------------- */
 
-const ALLOWED_MIME = new Set(['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/avif']);
+const IMAGE_EXTENSIONS = new Map([
+  ['image/jpeg', '.jpg'],
+  ['image/png', '.png'],
+  ['image/webp', '.webp'],
+  ['image/gif', '.gif'],
+  ['image/avif', '.avif']
+]);
+const ALLOWED_MIME = new Set(IMAGE_EXTENSIONS.keys());
+const IMAGE_FORMATS = new Map([
+  ['image/jpeg', 'jpeg'],
+  ['image/png', 'png'],
+  ['image/webp', 'webp'],
+  ['image/gif', 'gif'],
+  ['image/avif', 'heif']
+]);
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, images.UPLOAD_DIR),
   filename: (req, file, cb) => {
-    const ext = (path.extname(file.originalname) || '.jpg').toLowerCase();
+    const ext = IMAGE_EXTENSIONS.get(file.mimetype) || '.img';
     const base = path
       .basename(file.originalname, path.extname(file.originalname))
       .toLowerCase()
@@ -36,7 +52,9 @@ const upload = multer({
   limits: { fileSize: 8 * 1024 * 1024 },
   fileFilter: (req, file, cb) => {
     if (!ALLOWED_MIME.has(file.mimetype)) {
-      cb(new Error('Unsupported image type. Use JPEG, PNG, WebP, GIF or AVIF.'));
+      const error = new Error('Unsupported image type. Use JPEG, PNG, WebP, GIF or AVIF.');
+      error.status = 400;
+      cb(error);
       return;
     }
     cb(null, true);
@@ -51,11 +69,15 @@ function requireAdmin(req, res, next) {
   const expected = process.env.CMS_ADMIN_TOKEN;
   if (!expected) return next();
   const provided = req.get('x-admin-token') || req.query.token;
-  if (provided && crypto.timingSafeEqual(
-    Buffer.from(String(provided).padEnd(64).slice(0, 64)),
-    Buffer.from(String(expected).padEnd(64).slice(0, 64))
-  )) {
-    return next();
+  if (provided) {
+    const providedBuffer = Buffer.from(String(provided));
+    const expectedBuffer = Buffer.from(String(expected));
+    if (
+      providedBuffer.length === expectedBuffer.length
+      && crypto.timingSafeEqual(providedBuffer, expectedBuffer)
+    ) {
+      return next();
+    }
   }
   return res.status(401).json({ error: 'Unauthorized. Provide a valid x-admin-token header.' });
 }
@@ -64,17 +86,25 @@ function requireAdmin(req, res, next) {
 
 router.get('/articles', (req, res) => {
   const { category, q, status = 'published', hero } = req.query;
-  const limit = req.query.limit ? Number(req.query.limit) : undefined;
-  const offset = req.query.offset ? Number(req.query.offset) : undefined;
-  const data = articles.list({
-    category,
-    q,
-    status,
-    limit,
-    offset,
-    hero: hero === 'true' || hero === '1'
-  });
-  res.json({ data, total: articles.count({ category, q, status }) });
+  const respond = () => {
+    const limit = req.query.limit ? Number(req.query.limit) : undefined;
+    const offset = req.query.offset ? Number(req.query.offset) : undefined;
+    const heroOnly = hero === 'true' || hero === '1';
+    const data = articles.list({
+      category,
+      q,
+      status,
+      limit,
+      offset,
+      hero: heroOnly
+    });
+    return res.json({ data, total: articles.count({ category, q, status, hero: heroOnly }) });
+  };
+
+  // When an admin token is configured, previews and status=all must not expose
+  // draft or scheduled copy through the otherwise-public content API.
+  if (status !== 'published') return requireAdmin(req, res, respond);
+  return respond();
 });
 
 router.get('/articles/categories', (req, res) => {
@@ -87,7 +117,9 @@ router.get('/articles/:idOrSlug', (req, res) => {
     ? articles.getById(idOrSlug)
     : articles.getBySlug(idOrSlug);
   if (!article) return res.status(404).json({ error: 'Article not found' });
-  res.json({ data: article });
+  const respond = () => res.json({ data: article });
+  if (article.status !== 'published') return requireAdmin(req, res, respond);
+  return respond();
 });
 
 router.post('/articles', requireAdmin, (req, res, next) => {
@@ -127,7 +159,9 @@ router.delete('/articles/:id', requireAdmin, (req, res) => {
 router.get('/articles/:id/sources', (req, res) => {
   const article = articles.getById(req.params.id);
   if (!article) return res.status(404).json({ error: 'Article not found' });
-  return res.json({ data: article.sources });
+  const respond = () => res.json({ data: article.sources });
+  if (article.status !== 'published') return requireAdmin(req, res, respond);
+  return respond();
 });
 
 router.post('/articles/:id/sources', requireAdmin, (req, res, next) => {
@@ -182,8 +216,8 @@ router.delete('/authors/:id', requireAdmin, (req, res) => {
 
 /* ----------------------------- engagement -------------------------------- */
 
-// Reactions and comments are keyed by slug so the legacy static page
-// (article_01.html) can use the same endpoints as CMS-backed articles.
+// Reactions and comments are keyed by slug so generated and legacy query-string
+// article pages can use the same endpoints and share their engagement history.
 // The voter id is a client-generated anonymous token, passed as a query
 // parameter on reads and in the body on writes.
 
@@ -251,15 +285,34 @@ router.get('/images', (req, res) => {
   res.json({ data: images.list() });
 });
 
-router.post('/images', requireAdmin, upload.single('image'), (req, res) => {
+router.post('/images', requireAdmin, upload.single('image'), async (req, res, next) => {
   if (!req.file) return res.status(400).json({ error: 'No image file received (field name: image)' });
-  const record = images.create({
-    filename: req.file.filename,
-    alt: req.body.alt || '',
-    mimeType: req.file.mimetype,
-    sizeBytes: req.file.size
-  });
-  res.status(201).json({ data: record });
+
+  // MIME headers are supplied by the uploader and can be spoofed. Decode the
+  // file before recording it so HTML or arbitrary bytes cannot be published
+  // from /uploads under an image-looking extension.
+  try {
+    const metadata = await sharp(req.file.path).metadata();
+    if (metadata.format !== IMAGE_FORMATS.get(req.file.mimetype)) {
+      throw new Error('Image content does not match its declared MIME type.');
+    }
+  } catch {
+    fs.rmSync(req.file.path, { force: true });
+    return res.status(400).json({ error: 'The uploaded file is not a valid supported image.' });
+  }
+
+  try {
+    const record = images.create({
+      filename: req.file.filename,
+      alt: req.body.alt || '',
+      mimeType: req.file.mimetype,
+      sizeBytes: req.file.size
+    });
+    return res.status(201).json({ data: record });
+  } catch (error) {
+    fs.rmSync(req.file.path, { force: true });
+    return next(error);
+  }
 });
 
 router.patch('/images/:id', requireAdmin, (req, res) => {
@@ -290,8 +343,11 @@ router.use((error, req, res, next) => { // eslint-disable-line no-unused-vars
   if (error?.code === 'LIMIT_FILE_SIZE') {
     return res.status(413).json({ error: 'Image too large. Maximum size is 8 MB.' });
   }
+  if (Number(error?.status) >= 400 && Number(error?.status) < 500) {
+    return res.status(Number(error.status)).json({ error: error.message || 'Invalid request' });
+  }
   console.error(error);
-  return res.status(error?.status || 500).json({ error: error?.message || 'Internal server error' });
+  return res.status(500).json({ error: 'Internal server error' });
 });
 
 module.exports = router;
