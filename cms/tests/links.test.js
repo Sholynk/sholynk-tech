@@ -60,6 +60,17 @@ function assertLocalReference(raw, sourceFile, document) {
   }
 }
 
+test('Netlify publishes the complete static site from the repository root', () => {
+  const configPath = path.join(ROOT, 'netlify.toml');
+  assert.ok(fs.existsSync(configPath), 'a tracked Netlify configuration is required');
+
+  const config = fs.readFileSync(configPath, 'utf8');
+  assert.match(config, /\[build\][\s\S]*?base\s*=\s*"\."/);
+  assert.match(config, /\[build\][\s\S]*?command\s*=\s*"npm run build"/);
+  assert.match(config, /\[build\][\s\S]*?publish\s*=\s*"\."/);
+  assert.match(config, /\[build\.environment\][\s\S]*?NODE_VERSION\s*=\s*"22"/);
+});
+
 test('all public HTML links, scripts, images and responsive sources resolve locally', () => {
   for (const file of [...ROOT_PAGES, ...generatedPages()]) {
     const document = new JSDOM(fs.readFileSync(path.join(ROOT, file), 'utf8'), {

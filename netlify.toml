@@ -1,0 +1,14 @@
+# Netlify must publish the repository root: it contains the shared pages,
+# assets, and generated /articles/<slug>/ directories. Publishing only
+# `articles/` makes a long-form story load but leaves its navigation and footer
+# destinations outside of the deployed site.
+[build]
+  base = "."
+  command = "npm run build"
+  publish = "."
+
+[build.environment]
+  # The CMS build uses Node's built-in SQLite APIs and the package requires
+  # Node 22.5 or newer. Pin the major version so Netlify does not fall back to
+  # an older default runtime.
+  NODE_VERSION = "22"

@@ -52,6 +52,25 @@ CMS database is empty. Run `npm run seed` once, then restart with `npm start`.
 With the current code, `npm start` also auto-seeds an empty database unless you
 set `CMS_AUTO_SEED=false`.
 
+## Deploying to Netlify
+
+This repository includes a root-level `netlify.toml`. It makes the repository
+root the Netlify publish directory and runs `npm run build` before each deploy.
+That is important because the root contains both the regular pages
+(`index.html`, `about.html`, `contact.html`, and so on) and the generated
+long-form pages under `articles/<slug>/`.
+
+When connecting the repository in Netlify, deploy the `sholynk-tech` branch and
+leave **Base directory** and **Publish directory** empty in the Netlify UI so
+the tracked configuration is used. In particular, do **not** publish only the
+`articles/` directory: that can make an article appear to load while its header
+and footer links point to pages that were never deployed, producing Netlify's
+"Page not found" screen.
+
+After changing these settings, trigger **Deploy site** → **Clear cache and
+deploy site** once. Future GitHub pushes to the selected branch will use the
+same configuration automatically.
+
 ## Architecture
 
 The site was a set of static HTML pages with content hardcoded inside `index.js`.
