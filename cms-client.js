@@ -7,8 +7,6 @@
  * exported from the same database, so the site never renders empty.
  */
 window.SholynkCMS = (() => {
-  const API_BASE = (window.SHOLYNK_API_BASE || '/api').replace(/\/$/, '');
-
   function resolveSitePath(target) {
     const homeHref = document
       .querySelector('header a[aria-label="Sholynk homepage"]')
@@ -19,6 +17,15 @@ window.SholynkCMS = (() => {
       : '';
     return `${prefix}${target}`;
   }
+
+  /**
+   * The API lives beside the site, not at the domain root. A root-absolute
+   * "/api" would escape a sub-path deployment (GitHub Pages project sites are
+   * served from /<repo>/) and probe an unrelated origin path, so the default is
+   * resolved against the same site root every other reference uses. An explicit
+   * window.SHOLYNK_API_BASE still wins for custom deployments.
+   */
+  const API_BASE = (window.SHOLYNK_API_BASE || resolveSitePath('api')).replace(/\/$/, '');
 
   const FALLBACK_URL = resolveSitePath('content-fallback.json');
 
