@@ -1968,6 +1968,19 @@ textarea:focus {
   font-weight: 600;
 }
 
+.article-byline,
+.article-meta time {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.article-byline i,
+.article-meta time i {
+  color: #98a2b3;
+  font-size: 0.95em;
+}
+
 .article-meta a {
   position: relative;
   z-index: 1;
