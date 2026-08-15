@@ -497,6 +497,96 @@ test('prerendered article navigation and copy-link controls respond on mobile', 
   dom.window.close();
 });
 
+test('table-of-contents links land on the section title even when the body reflows', async () => {
+  const file = path.join('articles', 'the-rise-of-quantum-computing', 'index.html');
+  const html = fs.readFileSync(path.join(ROOT, file), 'utf8');
+  const dom = new JSDOM(html, {
+    url: 'https://example.com/articles/the-rise-of-quantum-computing/',
+    runScripts: 'outside-only'
+  });
+  const { window } = dom;
+
+  window.matchMedia = (query) => ({
+    matches: false, // desktop, motion allowed
+    addEventListener() {},
+    removeEventListener() {}
+  });
+
+  const HEADER_HEIGHT = 70;
+  const HEADING_HEIGHT = 40;
+  const SPACING = 1200;
+
+  // Synthetic layout: each H2 sits SPACING apart down the page.
+  const headings = [...window.document.querySelectorAll('.article-body h2')];
+  const layout = new Map();
+  headings.forEach((heading, index) => layout.set(heading, 500 + index * SPACING));
+
+  let scrollY = 0;
+  Object.defineProperty(window, 'scrollY', { configurable: true, get: () => scrollY });
+  Object.defineProperty(window, 'innerHeight', { configurable: true, get: () => 800 });
+  Object.defineProperty(window.document.documentElement, 'scrollHeight', {
+    configurable: true,
+    get: () => 500 + headings.length * SPACING + 2000
+  });
+
+  window.HTMLElement.prototype.getBoundingClientRect = function getBoundingClientRect() {
+    if (this.classList.contains('site-header')) {
+      return { top: 0, height: HEADER_HEIGHT, bottom: HEADER_HEIGHT };
+    }
+    if (layout.has(this)) {
+      const top = layout.get(this) - scrollY;
+      return { top, height: HEADING_HEIGHT, bottom: top + HEADING_HEIGHT };
+    }
+    return { top: 0, height: 0, bottom: 0 };
+  };
+
+  // Late-loading images push everything below them down: the classic cause of
+  // a jump landing past the section title.
+  let reflowed = false;
+  const applyReflow = () => {
+    if (reflowed) return;
+    reflowed = true;
+    layout.forEach((top, heading) => layout.set(heading, top + 900));
+  };
+
+  window.scrollTo = (options) => {
+    scrollY = Math.max(0, Math.round(typeof options === 'object' ? options.top : arguments[1] || 0));
+  };
+  window.HTMLElement.prototype.scrollIntoView = function scrollIntoView() {
+    if (!layout.has(this)) return;
+    scrollY = Math.max(0, layout.get(this) - HEADER_HEIGHT - 16);
+    // The reflow happens right after the browser starts moving.
+    applyReflow();
+  };
+
+  window.eval(fs.readFileSync(path.join(ROOT, 'article.js'), 'utf8'));
+  window.document.dispatchEvent(new window.Event('DOMContentLoaded', { bubbles: true }));
+  await new Promise((resolve) => window.setTimeout(resolve, 0));
+
+  const toc = window.document.querySelector('details.article-toc');
+  const link = [...toc.querySelectorAll('a[href^="#"]')][3];
+  const target = window.document.getElementById(
+    decodeURIComponent(link.getAttribute('href').slice(1))
+  );
+
+  link.dispatchEvent(new window.MouseEvent('click', { bubbles: true, cancelable: true }));
+
+  // Let the post-scroll correction settle.
+  await new Promise((resolve) => setTimeout(resolve, 900));
+
+  const headingTop = target.getBoundingClientRect().top;
+  assert.ok(
+    headingTop >= 0,
+    `the section title must not be scrolled above the viewport (top was ${headingTop})`
+  );
+  assert.ok(
+    headingTop <= HEADER_HEIGHT + 24,
+    `the section title must sit at the top of the reading area, not its bottom (top was ${headingTop})`
+  );
+
+  window.close();
+});
+
 /* ------------------------------ shared shell ------------------------------- */
 
 test('every page shares the same header, sidebar and footer structure', () => {

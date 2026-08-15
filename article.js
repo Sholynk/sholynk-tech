@@ -355,6 +355,89 @@
     });
   }
 
+  /**
+   * Distance to keep between the top of the viewport and the heading we land
+   * on. The site header is sticky, so a heading parked at scroll offset 0 would
+   * sit underneath it; reserve its height plus a small breathing gap.
+   */
+  function headingOffset(element) {
+    // Headings declare `scroll-margin-top` in the stylesheet; honour it so the
+    // scripted landing matches native anchor behaviour exactly.
+    const declared = typeof window.getComputedStyle === 'function'
+      ? parseFloat(window.getComputedStyle(element).scrollMarginTop)
+      : NaN;
+    if (Number.isFinite(declared) && declared > 0) return declared;
+
+    const header = document.querySelector('.site-header');
+    // getBoundingClientRect().height still reports the real height while the
+    // auto-hiding header is translated off-screen, which is what we want: the
+    // header can slide back into view at any moment.
+    const headerHeight = header ? header.getBoundingClientRect().height : 0;
+    return Math.round((Number.isFinite(headerHeight) ? headerHeight : 0) + 16);
+  }
+
+  /** Absolute page offset that puts `element`'s own top edge into view. */
+  function desiredScrollTop(element) {
+    const top = element.getBoundingClientRect().top + window.scrollY - headingOffset(element);
+    const maxTop = Math.max(
+      0,
+      (document.documentElement.scrollHeight || 0) - window.innerHeight
+    );
+    return Math.max(0, Math.min(top, maxTop));
+  }
+
+  function scrollWindowTo(top, smooth) {
+    try {
+      window.scrollTo({ top, behavior: smooth ? 'smooth' : 'auto' });
+    } catch (error) {
+      window.scrollTo(0, top);
+    }
+  }
+
+  /**
+   * Scroll a heading to the top of the reading area and keep it there.
+   *
+   * Article bodies are full of lazily loaded images that have no intrinsic
+   * width/height, so they occupy zero space until they decode. Any measurement
+   * taken at click time is therefore provisional: as images above and around
+   * the target resolve, the document reflows and the heading drifts away from
+   * where it was aimed — which is how a jump to a section title ends up parked
+   * somewhere inside (or past) that section. After the initial scroll we
+   * re-measure for a short while and correct the landing, bailing out the
+   * moment the reader takes over scrolling themselves.
+   */
+  function scrollHeadingIntoView(heading, { smooth = true } = {}) {
+    // `scrollIntoView` with block:'start' honours the heading's
+    // `scroll-margin-top`, so it is the most faithful first move.
+    if (typeof heading.scrollIntoView === 'function') {
+      heading.scrollIntoView({ behavior: smooth ? 'smooth' : 'auto', block: 'start' });
+    } else {
+      scrollWindowTo(desiredScrollTop(heading), smooth);
+    }
+
+    if (typeof window.scrollTo !== 'function') return;
+
+    let cancelled = false;
+    const cancel = () => { cancelled = true; };
+    const userEvents = ['wheel', 'touchstart', 'keydown', 'mousedown'];
+    userEvents.forEach((type) => window.addEventListener(type, cancel, { passive: true, once: true }));
+
+    const deadline = Date.now() + 1600;
+    const settle = () => {
+      if (cancelled) return;
+      const desired = desiredScrollTop(heading);
+      // Only correct once the smooth animation has come to rest, otherwise we
+      // would fight it mid-flight.
+      if (Math.abs(desired - window.scrollY) > 2) scrollWindowTo(desired, false);
+      if (Date.now() < deadline) {
+        window.setTimeout(settle, 120);
+      } else {
+        userEvents.forEach((type) => window.removeEventListener(type, cancel));
+      }
+    };
+    window.setTimeout(settle, smooth ? 420 : 60);
+  }
+
   function initToc(articleRoot) {
     const toc = articleRoot.querySelector('.article-toc');
     if (!toc || toc.dataset.enhanced === 'true') return;
@@ -377,7 +460,10 @@
       link.addEventListener('click', (event) => {
         event.preventDefault();
         const reducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
-        heading.scrollIntoView?.({ behavior: reducedMotion ? 'auto' : 'smooth', block: 'start' });
+        // Collapsing the compact TOC removes height above the body, so do it
+        // before measuring where the heading needs to land.
+        if (compact?.matches) toc.open = false;
+        scrollHeadingIntoView(heading, { smooth: !reducedMotion });
         try {
           window.history.pushState(null, '', `#${encodeURIComponent(id)}`);
         } catch (error) {
@@ -386,9 +472,23 @@
         window.setTimeout(() => heading.focus({ preventScroll: true }), reducedMotion ? 0 : 350);
         links.forEach((item) => item.removeAttribute('aria-current'));
         link.setAttribute('aria-current', 'location');
-        if (compact?.matches) toc.open = false;
       });
     });
+
+    // Deep links (and back/forward between sections) must land on the heading
+    // too, not wherever the browser guessed before the images resolved.
+    const settleHash = () => {
+      const id = decodeURIComponent((window.location.hash || '').slice(1));
+      if (!id) return;
+      const heading = document.getElementById(id);
+      if (!heading || !headingLinks.has(heading)) return;
+      const reducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+      scrollHeadingIntoView(heading, { smooth: !reducedMotion });
+      links.forEach((item) => item.removeAttribute('aria-current'));
+      headingLinks.get(heading).setAttribute('aria-current', 'location');
+    };
+    if (window.location.hash) window.setTimeout(settleHash, 0);
+    window.addEventListener('hashchange', settleHash);
 
     if ('IntersectionObserver' in window && headingLinks.size) {
       const observer = new IntersectionObserver((entries) => {
