@@ -549,8 +549,9 @@ test('table-of-contents links land on the section title even when the body reflo
     layout.forEach((top, heading) => layout.set(heading, top + 900));
   };
 
-  window.scrollTo = (options) => {
-    scrollY = Math.max(0, Math.round(typeof options === 'object' ? options.top : arguments[1] || 0));
+  window.scrollTo = function scrollTo(options, y) {
+    const top = options && typeof options === 'object' ? options.top : y;
+    scrollY = Math.max(0, Math.round(Number(top) || 0));
   };
   window.HTMLElement.prototype.scrollIntoView = function scrollIntoView() {
     if (!layout.has(this)) return;

@@ -82,6 +82,75 @@ function articlePageUrl(value = '') {
   }
 }
 
+/**
+ * Intrinsic pixel dimensions for a local image, cached across the build.
+ *
+ * Returns null for remote images and anything sharp cannot read, in which case
+ * the caller simply omits the attributes.
+ */
+const imageSizeCache = new Map();
+
+async function intrinsicSize(src = '') {
+  const reference = String(src).trim();
+  if (!reference || /^(?:https?:|data:|\/\/)/i.test(reference)) return null;
+  if (imageSizeCache.has(reference)) return imageSizeCache.get(reference);
+
+  // Markdown authors write paths relative to the site root, sometimes
+  // URL-encoded (e.g. "Article%20cards%20images/...").
+  let relative = reference.split(/[?#]/, 1)[0].replace(/^(?:(?:\.\.?)\/)+/, '').replace(/^\/+/, '');
+  try {
+    relative = decodeURIComponent(relative);
+  } catch (error) {
+    // Malformed escape sequence: fall back to the raw path.
+  }
+
+  const input = path.resolve(ROOT, relative);
+  let size = null;
+  if (input.startsWith(`${ROOT}${path.sep}`) && fs.existsSync(input)) {
+    try {
+      const metadata = await sharp(input).metadata();
+      if (metadata.width && metadata.height) {
+        size = { width: metadata.width, height: metadata.height };
+      }
+    } catch (error) {
+      size = null;
+    }
+  }
+  imageSizeCache.set(reference, size);
+  return size;
+}
+
+/**
+ * Stamp intrinsic width/height onto every body image that lacks them.
+ *
+ * Without these attributes an image occupies zero height until it decodes, so
+ * the page reflows as each one arrives. That shifts every heading below it and
+ * is what made in-page navigation land past the section it aimed at. Declaring
+ * the real dimensions lets the browser reserve the space up front, so the
+ * layout is stable from first paint and anchors resolve correctly even with
+ * JavaScript disabled.
+ */
+async function addIntrinsicImageSizes(html = '') {
+  const tags = [...html.matchAll(/<img\b[^>]*>/gi)].map((match) => match[0]);
+  const unique = [...new Set(tags)];
+  const replacements = new Map();
+
+  for (const tag of unique) {
+    if (/\bwidth\s*=/i.test(tag) && /\bheight\s*=/i.test(tag)) continue;
+    const src = tag.match(/\bsrc\s*=\s*"([^"]*)"/i)?.[1];
+    if (!src) continue;
+    const size = await intrinsicSize(src);
+    if (!size) continue;
+    replacements.set(
+      tag,
+      tag.replace(/\s*\/?>$/, ` width="${size.width}" height="${size.height}" />`)
+    );
+  }
+
+  if (!replacements.size) return html;
+  return html.replace(/<img\b[^>]*>/gi, (tag) => replacements.get(tag) || tag);
+}
+
 function renderMarkdown(markdown = '') {
   const raw = marked.parse(markdown, { gfm: true });
   const usedIds = new Set();
@@ -390,6 +459,7 @@ function writeDiscoveryFiles(articles) {
     { path: '/', priority: '1.0', frequency: 'daily' },
     { path: '/about.html', priority: '0.7', frequency: 'monthly' },
     { path: '/contact.html', priority: '0.6', frequency: 'monthly' },
+    { path: '/help_&_support.html', priority: '0.5', frequency: 'monthly' },
     { path: '/privacy_policy.html', priority: '0.4', frequency: 'yearly' }
   ];
   const urls = staticPages.map((page) => ({ loc: `${SITE_URL}${page.path}`, ...page }));
@@ -421,10 +491,12 @@ async function run() {
   for (const article of articles) {
     const canonical = article.canonicalUrl || `${SITE_URL}/articles/${encodeURIComponent(article.slug)}/`;
     const author = resolveAuthor(article, authors);
-    const bodyHtml = renderMarkdown(article.body);
+    const bodyHtml = await addIntrinsicImageSizes(renderMarkdown(article.body));
     const responsive = await responsiveHero(article);
     const rootHtml = renderArticle(article, bodyHtml, responsive, canonical, author);
-    const relatedHtml = renderRelated(article, allArticles.filter((item) => item.status === 'published'));
+    const relatedHtml = await addIntrinsicImageSizes(
+      renderRelated(article, allArticles.filter((item) => item.status === 'published'))
+    );
     const html = baseShell
       .replace(/<head>[\s\S]*?<\/head>/, renderHead(article, canonical, author))
       .replace(/<article class="article-page"[\s\S]*?<\/article>/, rootHtml)

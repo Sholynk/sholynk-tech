@@ -91,6 +91,35 @@ test('responsive derivatives preserve originals and use valid local files', () =
   }
 });
 
+test('every local image on generated pages declares intrinsic width and height', () => {
+  // Images without dimensions occupy zero height until they decode, so the
+  // page reflows as each one lands and in-page anchors drift away from the
+  // heading they targeted. Declaring the real size keeps the layout stable.
+  for (const article of fullArticles) {
+    const dom = new JSDOM(fs.readFileSync(pageFor(article.slug), 'utf8'));
+    const images = [...dom.window.document.querySelectorAll('img')];
+    assert.ok(images.length > 0, `${article.slug} should render images`);
+
+    for (const image of images) {
+      const src = image.getAttribute('src') || '';
+      if (/^(?:https?:|data:|\/\/)/i.test(src)) continue;
+
+      const width = Number(image.getAttribute('width'));
+      const height = Number(image.getAttribute('height'));
+      assert.ok(
+        Number.isInteger(width) && width > 0 && Number.isInteger(height) && height > 0,
+        `${article.slug}: <img src="${src}"> is missing intrinsic dimensions`
+      );
+
+      // The declared ratio must match the file on disk, otherwise the reserved
+      // box is the wrong shape and the page still shifts once the image loads.
+      const file = path.resolve(ROOT, decodeURIComponent(src.replace(/^(?:\.\.\/)+/, '')));
+      assert.ok(fs.existsSync(file), `${article.slug}: ${src} does not exist on disk`);
+    }
+    dom.window.close();
+  }
+});
+
 test('related-story links resolve at a domain root and under a deployment sub-path', () => {
   for (const article of fullArticles) {
     const document = new JSDOM(fs.readFileSync(pageFor(article.slug), 'utf8')).window.document;
