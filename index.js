@@ -252,7 +252,10 @@
       category.className = 'hero-kicker';
       category.textContent = slide.category;
 
-      const title = document.createElement('h1');
+      // Each slide is a featured story, not the page subject: the document's
+      // single H1 lives in the hero section itself. Five competing H1s would
+      // leave assistive technology and crawlers with no clear page title.
+      const title = document.createElement('h2');
       title.textContent = slide.title;
 
       const description = document.createElement('p');

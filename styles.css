@@ -624,7 +624,21 @@ code {
    effectively invisible. The colour is now set explicitly here, with a soft
    shadow so the headline keeps its contrast over the lighter regions of any
    photo in the rotation rather than only the dark ones. */
-.hero-content h1 {
+/* Visually hidden but available to screen readers and search engines. */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.hero-content h2 {
   max-width: 100%;
   margin: 0 0 1rem;
   color: #fff;
@@ -3832,7 +3846,7 @@ textarea:focus {
     min-height: 34rem;
   }
 
-  .hero-content h1 {
+  .hero-content h2 {
     letter-spacing: -0.045em;
     -webkit-line-clamp: 3;
     font-size: clamp(1.65rem, 7vw, 2.6rem);

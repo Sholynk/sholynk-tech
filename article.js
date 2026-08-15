@@ -379,11 +379,18 @@
   /** Absolute page offset that puts `element`'s own top edge into view. */
   function desiredScrollTop(element) {
     const top = element.getBoundingClientRect().top + window.scrollY - headingOffset(element);
-    const maxTop = Math.max(
-      0,
-      (document.documentElement.scrollHeight || 0) - window.innerHeight
+
+    // Clamp to the last scrollable pixel so the correction cannot request an
+    // offset the page can never reach. Only trust a document height that is
+    // actually measurable: if it is missing or absurdly small the clamp would
+    // otherwise collapse every target to the top of the page.
+    const documentHeight = Math.max(
+      document.documentElement?.scrollHeight || 0,
+      document.body?.scrollHeight || 0
     );
-    return Math.max(0, Math.min(top, maxTop));
+    const target = Math.max(0, top);
+    if (documentHeight <= window.innerHeight) return target;
+    return Math.min(target, documentHeight - window.innerHeight);
   }
 
   function scrollWindowTo(top, smooth) {

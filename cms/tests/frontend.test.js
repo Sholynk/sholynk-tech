@@ -113,7 +113,7 @@ test('every page links the shared stylesheet exactly once and has no inline <sty
 
 /* ----------------------- Hero headline contrast --------------------------- */
 
-test('the hero H1 renders white, not the dark interior-page colour', () => {
+test('the hero headline renders white, not the dark interior-page colour', () => {
   const dom = withStyles(load('index.html'));
   const { document, getComputedStyle } = dom.window;
 
@@ -123,13 +123,14 @@ test('the hero H1 renders white, not the dark interior-page colour', () => {
   slide.className = 'hero-slide active';
   const content = document.createElement('div');
   content.className = 'hero-content';
-  const h1 = document.createElement('h1');
-  h1.textContent = 'A featured story headline';
-  content.append(h1);
+  // Slide titles are H2: the page's single H1 is the hero section heading.
+  const heading = document.createElement('h2');
+  heading.textContent = 'A featured story headline';
+  content.append(heading);
   slide.append(content);
   hero.append(slide);
 
-  const colour = getComputedStyle(h1).color;
+  const colour = getComputedStyle(heading).color;
 
   assert.equal(colour, 'rgb(255, 255, 255)', 'hero headline must be white');
   assert.notEqual(
@@ -144,10 +145,10 @@ test('the hero headline carries a text-shadow for legibility over bright photos'
   const { document } = dom.window;
 
   const rule = [...document.styleSheets[0].cssRules].find(
-    (item) => item.selectorText === '.hero-content h1'
+    (item) => item.selectorText === '.hero-content h2'
   );
 
-  assert.ok(rule, '.hero-content h1 rule should exist');
+  assert.ok(rule, '.hero-content h2 rule should exist');
   // cssRules reports the authored value, so compare case-insensitively against
   // either notation for white.
   assert.match(rule.style.color.toLowerCase(), /^(#fff|#ffffff|white|rgb\(255, 255, 255\))$/);
@@ -168,7 +169,7 @@ test('no generic section rule can recolour the hero headline', () => {
 
   const offenders = [...document.styleSheets[0].cssRules]
     .filter((rule) => rule.selectorText)
-    .filter((rule) => /^(body|main)\s*>\s*section\s+h1/.test(rule.selectorText));
+    .filter((rule) => /^(body|main)\s*>\s*section\s+h[12]/.test(rule.selectorText));
 
   assert.deepEqual(
     offenders.map((rule) => rule.selectorText),
@@ -236,7 +237,7 @@ test('category pages use dedicated hero slides instead of the homepage slideshow
   await new Promise((resolve) => dom.window.setTimeout(resolve, 0));
 
   const { document } = dom.window;
-  const titles = [...document.querySelectorAll('.hero-slide h1')].map((node) => node.textContent);
+  const titles = [...document.querySelectorAll('.hero-slide h2')].map((node) => node.textContent);
   assert.ok(titles.includes('How Artificial Intelligence Is Reshaping Every Industry'));
   assert.ok(!titles.includes('Mastering the art of coding'));
   assert.match(document.querySelector('.hero-slide a').textContent, /Browse Artificial Intelligence/);
@@ -586,6 +587,184 @@ test('table-of-contents links land on the section title even when the body reflo
   );
 
   window.close();
+});
+
+test('an unmeasurable document height cannot drag TOC jumps back to the top', async () => {
+  // jsdom (and a browser mid-layout) can report scrollHeight as 0. Clamping the
+  // target against that bogus height collapsed every jump to offset 0.
+  const file = path.join('articles', 'the-rise-of-quantum-computing', 'index.html');
+  const html = fs.readFileSync(path.join(ROOT, file), 'utf8');
+  const dom = new JSDOM(html, {
+    url: 'https://example.com/articles/the-rise-of-quantum-computing/',
+    runScripts: 'outside-only'
+  });
+  const { window } = dom;
+
+  window.matchMedia = () => ({ matches: false, addEventListener() {}, removeEventListener() {} });
+
+  const HEADER = 70;
+  let scrollY = 0;
+  const layout = new Map();
+  Object.defineProperty(window, 'scrollY', { configurable: true, get: () => scrollY });
+  Object.defineProperty(window, 'innerHeight', { configurable: true, get: () => 800 });
+  window.scrollTo = (options, y) => {
+    const top = options && typeof options === 'object' ? options.top : y;
+    scrollY = Math.max(0, Math.round(Number(top) || 0));
+  };
+  window.HTMLElement.prototype.getBoundingClientRect = function getBoundingClientRect() {
+    if (this.classList.contains('site-header')) return { top: 0, height: HEADER, bottom: HEADER };
+    if (layout.has(this)) {
+      const top = layout.get(this) - scrollY;
+      return { top, height: 40, bottom: top + 40 };
+    }
+    return { top: 0, height: 0, bottom: 0 };
+  };
+  window.HTMLElement.prototype.scrollIntoView = function scrollIntoView() {
+    if (layout.has(this)) scrollY = Math.max(0, layout.get(this) - HEADER - 16);
+  };
+
+  window.eval(fs.readFileSync(path.join(ROOT, 'article.js'), 'utf8'));
+  window.document.dispatchEvent(new window.Event('DOMContentLoaded', { bubbles: true }));
+  await new Promise((resolve) => window.setTimeout(resolve, 0));
+
+  const headings = [...window.document.querySelectorAll('.article-body h2')];
+  headings.forEach((heading, index) => layout.set(heading, 600 + index * 1100));
+
+  const link = [...window.document.querySelectorAll('.article-toc a[href^="#"]')][2];
+  const target = window.document.getElementById(
+    decodeURIComponent(link.getAttribute('href').slice(1))
+  );
+
+  link.dispatchEvent(new window.MouseEvent('click', { bubbles: true, cancelable: true }));
+  await new Promise((resolve) => setTimeout(resolve, 900));
+
+  assert.ok(scrollY > 0, 'the jump must not collapse to the top of the page');
+  const top = layout.get(target) - scrollY;
+  assert.ok(top >= 0 && top <= HEADER + 26, `heading should rest below the header (top was ${top})`);
+
+  window.close();
+});
+
+/* -------------------- deployment portability (root vs sub-path) ------------ */
+
+test('no page uses root-absolute local references that escape a sub-path deployment', () => {
+  // GitHub Pages project sites are served from https://<user>.github.io/<repo>/.
+  // A leading-slash reference resolves against the domain root and 404s there.
+  const files = ['index.html', 'article.html', ...PAGES.filter((page) => page !== 'index.html' && page !== 'article.html')];
+  for (const page of files) {
+    const html = fs.readFileSync(path.join(ROOT, page), 'utf8');
+    const offenders = [...html.matchAll(/\b(?:href|src)="(\/[^/"][^"]*)"/g)].map((match) => match[1]);
+    assert.deepEqual(offenders, [], `${page} must not use root-absolute local references`);
+  }
+});
+
+test('the CMS API base stays inside the deployment prefix', async () => {
+  const source = fs.readFileSync(path.join(ROOT, 'cms-client.js'), 'utf8');
+  assert.ok(
+    !/\|\|\s*'\/api'/.test(source),
+    "the API base must not default to a root-absolute '/api', which escapes a sub-path deployment"
+  );
+
+  const cases = [
+    ['https://example.com/index.html', 'index.html', 'https://example.com/api/settings'],
+    ['https://sholynk.github.io/sholynk-tech/index.html', 'index.html', 'https://sholynk.github.io/sholynk-tech/api/settings'],
+    ['https://sholynk.github.io/sholynk-tech/articles/x/index.html', '../../index.html', 'https://sholynk.github.io/sholynk-tech/api/settings']
+  ];
+
+  for (const [url, homeHref, expected] of cases) {
+    const dom = new JSDOM(
+      `<!doctype html><header><a aria-label="Sholynk homepage" href="${homeHref}"></a></header>`,
+      { url, runScripts: 'outside-only' }
+    );
+    const requested = [];
+    const href = dom.window.location.href;
+    dom.window.fetch = (input) => {
+      requested.push(new URL(input, href).href);
+      // The fallback snapshot is fetched too; answer everything the same way.
+      return Promise.resolve({ ok: false, headers: { get: () => '' }, json: async () => ({}) });
+    };
+    dom.window.eval(source);
+    // Let the probe settle before closing the window, otherwise the pending
+    // request resolves against a torn-down document.
+    await dom.window.SholynkCMS.getArticles().catch(() => {});
+    assert.equal(requested[0], expected, `API probe from ${url}`);
+    dom.window.close();
+  }
+});
+
+/* ------------------------- offline Markdown fallback ----------------------- */
+
+test('articles still render headings when the Markdown CDN is unreachable', async () => {
+  const dom = new JSDOM('<!doctype html><body></body>', { runScripts: 'outside-only' });
+  // No script element ever loads, so `ensure()` must time out rather than hang.
+  dom.window.eval(fs.readFileSync(path.join(ROOT, 'markdown.js'), 'utf8'));
+
+  const markdown = [
+    '## Introduction',
+    '',
+    'Attention is **valuable** and *scarce*.',
+    '',
+    '- one',
+    '- two',
+    '',
+    '### Detail',
+    '',
+    'Read [the site](https://example.com) or run `npm test`.'
+  ].join('\n');
+
+  const html = await dom.window.SholynkMarkdown.renderMarkdown(markdown);
+
+  // Headings are what the table of contents is built from: without them the
+  // in-article navigation silently disappears.
+  assert.match(html, /<h2>Introduction<\/h2>/, 'H2 headings must survive the fallback');
+  assert.match(html, /<h3>Detail<\/h3>/, 'H3 headings must survive the fallback');
+  assert.match(html, /<strong>valuable<\/strong>/);
+  assert.match(html, /<em>scarce<\/em>/);
+  assert.match(html, /<ul><li>one<\/li><li>two<\/li><\/ul>/);
+  assert.match(html, /<a href="https:\/\/example\.com">the site<\/a>/);
+  assert.match(html, /<code>npm test<\/code>/);
+  assert.ok(!/(^|\n)##\s/.test(html), 'raw Markdown syntax must not leak into the page');
+
+  dom.window.close();
+});
+
+/* ---------------------------- document outline ----------------------------- */
+
+test('the homepage exposes exactly one H1 and no skipped heading levels', async () => {
+  const html = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
+  const dom = new JSDOM(html, {
+    url: 'https://example.com/index.html',
+    runScripts: 'outside-only'
+  });
+
+  const slides = [
+    { title: 'First featured story', category: 'Technology', description: 'One.', img: 'a.jpg', alt: 'A', link: 'article.html?slug=a' },
+    { title: 'Second featured story', category: 'AI Trends', description: 'Two.', img: 'b.jpg', alt: 'B', link: 'article.html?slug=b' }
+  ];
+  dom.window.SholynkCMS = {
+    getArticles: async (params = {}) => (params.hero ? slides : slides),
+    getSettings: async () => ({})
+  };
+
+  dom.window.eval(fs.readFileSync(path.join(ROOT, 'index.js'), 'utf8'));
+  dom.window.document.dispatchEvent(new dom.window.Event('DOMContentLoaded', { bubbles: true }));
+  await new Promise((resolve) => dom.window.setTimeout(resolve, 0));
+
+  const { document } = dom.window;
+  const h1s = [...document.querySelectorAll('h1')];
+  assert.equal(h1s.length, 1, 'a page must have exactly one H1, even with several hero slides');
+  assert.ok(document.querySelectorAll('.hero-slide').length > 1, 'the slideshow should still build slides');
+  assert.ok(
+    document.querySelectorAll('.hero-content h2').length > 1,
+    'slide titles should be H2 so they sit under the page H1'
+  );
+
+  const levels = [...document.querySelectorAll('main :is(h1,h2,h3,h4,h5,h6)')]
+    .map((node) => Number(node.tagName.slice(1)));
+  const skips = levels.filter((level, index) => index > 0 && level - levels[index - 1] > 1);
+  assert.deepEqual(skips, [], 'heading levels must not skip a rank');
+
+  dom.window.close();
 });
 
 /* ------------------------------ shared shell ------------------------------- */
