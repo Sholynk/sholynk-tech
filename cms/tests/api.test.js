@@ -747,3 +747,82 @@ test('the reporting window is always a whole number of days', async () => {
     );
   }
 });
+
+test('an article naming an author entity that does not exist falls back to the owner', async () => {
+  // A typo in the admin form, a stale slug from an import, or an author deleted
+  // between page load and save would otherwise write an article that belongs to
+  // nobody — counted in the site totals but absent from the author table.
+  const created = await api('/api/articles', {
+    method: 'POST',
+    body: JSON.stringify({
+      title: 'Unknown author entity probe',
+      category: 'Technology',
+      description: 'Names an author entity that was never registered.',
+      body: '<p>Body.</p>',
+      author: 'Ghost Writer',
+      authorSlug: 'ghost-writer-does-not-exist'
+    })
+  });
+  assert.equal(created.status, 201);
+  assert.equal(created.body.data.authorSlug, 'oluwashola-busari');
+  // The byline follows the entity, so the page never credits one person while
+  // the dashboard credits another.
+  assert.equal(created.body.data.author, 'Oluwashola Busari');
+
+  const data = (await api('/api/analytics/overview')).body.data;
+  assert.equal(
+    data.authors.reduce((sum, row) => sum + row.published, 0),
+    data.totals.published,
+    'the author table still accounts for every published article'
+  );
+});
+
+test('editing an article cannot detach it from a real author', async () => {
+  const created = await api('/api/articles', {
+    method: 'POST',
+    body: JSON.stringify({
+      title: 'Detach probe',
+      category: 'Technology',
+      description: 'Its author link will be cleared.',
+      body: '<p>Body.</p>'
+    })
+  });
+  const id = created.body.data.id;
+
+  for (const attempt of ['', 'no-such-author']) {
+    const updated = await api(`/api/articles/${id}`, {
+      method: 'PATCH',
+      body: JSON.stringify({ authorSlug: attempt })
+    });
+    assert.equal(updated.status, 200);
+    assert.equal(
+      updated.body.data.authorSlug,
+      'oluwashola-busari',
+      `authorSlug=${JSON.stringify(attempt)} must resolve back to the owner`
+    );
+  }
+});
+
+test('a registered contributor may still use a custom byline', async () => {
+  // Falling back must not flatten legitimate pen names: when the entity is
+  // real, the supplied display name is kept as written.
+  const contributor = await api('/api/authors', {
+    method: 'POST',
+    body: JSON.stringify({ name: 'Adaeze Nwosu' })
+  });
+  const authorSlug = contributor.body.data.slug;
+
+  const created = await api('/api/articles', {
+    method: 'POST',
+    body: JSON.stringify({
+      title: 'Pen name probe',
+      category: 'Technology',
+      description: 'Uses a shortened byline.',
+      body: '<p>Body.</p>',
+      author: 'A. Nwosu',
+      authorSlug
+    })
+  });
+  assert.equal(created.body.data.authorSlug, authorSlug);
+  assert.equal(created.body.data.author, 'A. Nwosu');
+});
