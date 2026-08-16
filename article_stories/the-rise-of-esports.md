@@ -9,7 +9,7 @@ img: article-images/the-rise-of-esports/esports-arena-stage.jpg
 alt: A packed esports arena viewed from behind the crowd, facing a lit main stage with two player booths and large blank screens. Illustration generated with AI for Sholynk.
 date: 2026-08-16
 readingTime: 9 min read
-author: Busari Oluwashola
+author: Oluwashola Busari
 authorSlug: oluwashola-busari
 tags: ["esports", "competitive gaming", "olympic esports games", "games industry", "sponsorship"]
 hook: In July 2024 the International Olympic Committee voted unanimously to create an Olympic Esports Games. For a pursuit that spent thirty years being told it was not a sport, that vote was the argument ending.

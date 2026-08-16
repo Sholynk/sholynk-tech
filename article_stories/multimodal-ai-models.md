@@ -9,7 +9,7 @@ img: article-images/multimodal-ai-models/multimodal-inputs.jpg
 alt: A monitor showing a photograph, an audio waveform, a scanned handwritten page and a line chart converging into a single processing point. Illustration generated with AI for Sholynk.
 date: 2026-08-16
 readingTime: 9 min read
-author: Busari Oluwashola
+author: Oluwashola Busari
 authorSlug: oluwashola-busari
 tags: ["multimodal ai", "vision language models", "foundation models", "benchmarks", "document understanding"]
 hook: For most of computing history, software could only read what we typed. Multimodal models are the first systems that treat a photograph, a recording and a spreadsheet as the same kind of input.

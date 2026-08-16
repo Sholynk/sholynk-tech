@@ -1,229 +1,109 @@
 ---
-title: The Rise of Quantum Computing: The Computing Revolution Beyond Silicon
+title: "The Rise of Quantum Computing: The Computing Revolution Beyond Silicon"
 slug: the-rise-of-quantum-computing
 category: Technology
-description: A comprehensive guide to quantum computing, from qubits and superposition to real-world applications in healthcare, AI, cybersecurity, and scientific research.
+subcategory: Emerging Computing
+contentType: guide
+description: Quantum computers approach certain problems in a fundamentally different way. What qubits do, where the technology is useful, and why encryption is already changing.
 img: article-images/quantum/quantum-computer-chandelier.jpg
 alt: Golden chandelier-like cryostat of a superconducting quantum computer, layered with control wiring
 date: 2026-08-02
-readingTime: 12 min read
+readingTime: 11 min read
 featured: true
 hero: true
 heroOrder: 1
-seoTitle: The Rise of Quantum Computing: The Computing Revolution Beyond Silicon
-seoDescription: A comprehensive guide to quantum computing, from qubits and superposition to real-world applications in healthcare, AI, cybersecurity, and scientific research.
 author: Oluwashola Busari
-contentType: guide
-subcategory: Emerging Computing
-tags: ["quantum computing", "qubits", "superposition", "cybersecurity", "scientific computing"]
-hook: Quantum computers approach selected problems with qubits, superposition and entanglement rather than simply making conventional computers faster.
-directAnswer: Quantum computing uses qubits and quantum effects to explore some calculations differently from classical machines, with potential applications in simulation, optimisation, research and cryptography, while major engineering challenges remain.
-keyTakeaways: ["Quantum computers are specialised systems, not replacements for everyday laptops.", "Promising applications include molecular simulation, optimisation and scientific research.", "Error correction, fragile quantum states and high costs still limit practical deployment."]
-faqs: [{"question":"Will quantum computers replace classical computers?","answer":"No. Quantum systems are designed for selected classes of problems, while classical computers remain better suited to everyday workloads."},{"question":"What is a qubit?","answer":"A qubit is the basic unit of quantum information and can represent a quantum state that differs from a classical bit's fixed zero or one."},{"question":"What prevents widespread quantum computing today?","answer":"Quantum states are fragile, error correction is demanding, hardware is expensive and many useful systems are still experimental."}]
-relatedSlugs: ["mastering-the-art-of-coding", "distraction-by-design"]
+authorSlug: oluwashola-busari
+tags: ["quantum computing", "qubits", "post-quantum cryptography", "NIST", "scientific computing"]
+hook: In August 2024 the United States finalised three new encryption standards. Nothing had been broken, and no attack had occurred. The standards exist because of a machine that does not yet work properly.
+directAnswer: Quantum computing uses qubits, which exploit superposition and entanglement, to approach certain classes of problems differently from classical machines. It is a specialised accelerator for particular tasks such as simulation, optimisation and cryptanalysis, not a faster replacement for everyday computers.
+keyTakeaways: ["Quantum computers are specialised instruments for particular problems, not general replacements for classical machines.", "The advantage comes from algorithms that exploit interference, not from trying every answer simultaneously as popular accounts suggest.", "The most credible near-term applications are simulating molecules and materials, which are quantum systems already.", "Cryptography is the clearest practical consequence: NIST finalised three post-quantum standards in August 2024 and urges migration now.", "Fragile qubits and the overhead of error correction remain the binding constraints, and useful fault-tolerant machines are not here yet."]
+faqs: [{"question":"Will quantum computers replace the computer I am using now?","answer":"No. They are poor at ordinary tasks such as browsing, spreadsheets or video. Expect them to work as specialised accelerators attached to classical systems, in the way graphics processors are used today."},{"question":"Do quantum computers try every possible answer at once?","answer":"No, and this is the most persistent misconception. A measurement returns a single outcome. Useful quantum algorithms are designed so that wrong answers cancel out through interference and correct ones reinforce."},{"question":"Should I worry about quantum computers breaking encryption today?","answer":"Not for everyday activity, because no machine capable of it exists publicly. It matters now for data that must stay confidential for a decade or more, because encrypted traffic captured today could be decrypted later."},{"question":"What is a qubit?","answer":"The basic unit of quantum information. Unlike a bit fixed at zero or one, a qubit can occupy a combination of both states until measured, and can be entangled with other qubits so their outcomes are correlated."},{"question":"When will quantum computing be genuinely useful?","answer":"Nobody credible gives a firm date. NIST notes some experts expect a machine capable of breaking current encryption within a decade, but expert opinion varies widely and any specific year should be treated as an estimate."}]
+sources: [{"title":"NIST Releases First 3 Finalized Post-Quantum Encryption Standards","publisher":"National Institute of Standards and Technology","publishedAt":"2024-08-13","url":"https://www.nist.gov/news-events/news/2024/08/nist-releases-first-3-finalized-post-quantum-encryption-standards","type":"primary","accessedAt":"2026-08-16","supports":"NIST finalised its principal set of quantum-resistant encryption standards after an eight-year effort, encourages administrators to begin transitioning immediately, and notes that some experts predict a device able to break current encryption could appear within a decade."},{"title":"What Is Post-Quantum Cryptography?","publisher":"National Institute of Standards and Technology","url":"https://www.nist.gov/cybersecurity-and-privacy/what-post-quantum-cryptography","type":"official","accessedAt":"2026-08-16","supports":"NIST's explanation of why current public-key cryptography is vulnerable to quantum attack and what replacing it involves."},{"title":"Elliptic-curve cryptography","publisher":"Wikipedia","url":"https://en.wikipedia.org/wiki/Elliptic-curve_cryptography","type":"reference","accessedAt":"2026-08-16","supports":"Elliptic-curve cryptography underpins widely used protocols including Transport Layer Security and Bitcoin, which is why a quantum attack on it would have broad consequences."}]
+seoTitle: "The Rise of Quantum Computing: Beyond Silicon"
+seoDescription: What qubits actually do, where quantum computing is genuinely useful, why encryption standards have already changed, and which limits still hold the technology back.
+status: published
 ---
 ## Introduction
 
-Every technological revolution begins when humanity reaches the limits of what its current tools can achieve.
+In August 2024 the United States finalised three new encryption standards. No system had been broken. No attack had taken place. The standards were published because of a machine that does not yet work properly.
 
-The Industrial Revolution was born from the need to multiply human labour. The internet emerged because traditional communication could no longer keep pace with an increasingly connected world. Artificial intelligence rose to prominence because conventional programming struggled to solve problems requiring perception, learning, and decision-making.
+That is an unusual way for a technology to announce itself. Governments do not normally rewrite the mathematics protecting bank transfers and medical records on the strength of a device still confined to a handful of laboratories. They did it because the timing of the threat is uncertain while the cost of being late is not.
 
-Today, computing stands at a similar crossroads.
-
-Modern computers are astonishingly powerful. They process trillions of calculations every second, train sophisticated AI models, simulate weather patterns, and power nearly every aspect of modern life. Yet despite these remarkable achievements, they remain fundamentally constrained by the same binary architecture that has underpinned computing for over seven decades.
-
-Some of the world's most important scientific and engineering problems, from accurately simulating molecules to optimising global supply chains, have become so computationally demanding that even the fastest supercomputers would require centuries, if not millennia, to solve them.
-
-This challenge has given rise to **quantum computing**, a revolutionary computing paradigm that leverages the principles of quantum mechanics to solve certain classes of problems far more efficiently than classical computers ever could.
-
-Although practical quantum computers are still in their infancy, governments, universities, and some of the world's largest technology companies are investing billions of dollars into their development. The reason is simple: quantum computing has the potential to reshape medicine, cybersecurity, artificial intelligence, finance, scientific research, and countless other industries.
-
-Understanding quantum computing today is not merely about keeping pace with technology; it is about understanding where the next computing revolution may lead.
+Quantum computing sits in an awkward position: over-promised in marketing, under-appreciated in what it has genuinely achieved, and surrounded by explanations that are memorable and wrong. It is worth understanding properly, partly because it is interesting, and partly because one of its consequences is already changing the security of systems you use daily.
 
 ## Understanding the Technology
 
-### What Is Quantum Computing?
+### What a classical computer does
 
-To appreciate why quantum computing has generated so much excitement, we must first understand how today's computers work.
+Everything a conventional computer does reduces to bits. A bit is definitively zero or one. Enough of them, switched quickly enough, gives you every piece of software ever written.
 
-Classical computers process information using **bits**, the smallest unit of digital information. Every bit exists in one of only two possible states:
+This works extraordinarily well, and for most problems nothing else is needed. But certain problems have a structure that punishes this approach: as the problem grows a little, the work grows enormously. Simulating how a modest molecule behaves is the classic example. The molecule does it effortlessly, several times a second. A classical computer modelling it faithfully runs out of time and memory very quickly.
 
-- 0
-- 1
+### What a qubit adds
 
-Regardless of whether you're sending an email, editing a photograph, or training an AI model, every digital operation ultimately relies on billions of these binary decisions occurring every second.
+A quantum bit, or **qubit**, obeys quantum mechanics. Before measurement it can occupy a combination of the zero and one states, a condition known as **superposition**. Qubits can also be **entangled**, meaning their outcomes are correlated in ways that have no classical equivalent.
 
-Quantum computers, however, operate differently.
+Here is the part popular explanations get wrong. It is often said that a quantum computer "tries every possible answer at once". It does not, and believing this makes the rest incomprehensible. When you measure the system you get one outcome, not a catalogue of them.
 
-Instead of bits, they use **quantum bits**, or **qubits**.
+The real mechanism is **interference**. A quantum algorithm is constructed so that the paths leading to wrong answers cancel each other out, while the paths leading to the right answer reinforce. The skill lies in arranging that cancellation, which is why quantum algorithms are rare and hard to design. Only a handful of genuinely useful ones are known.
 
-Unlike classical bits, qubits obey the laws of quantum mechanics and can exist in multiple quantum states simultaneously through a phenomenon known as **superposition**.
+### What this is not
 
-Another defining property is **entanglement**, where qubits become linked so that the state of one is intrinsically related to the state of another. Quantum computers also exploit **interference**, allowing quantum algorithms to reinforce correct solutions while cancelling incorrect ones.
+Quantum computers are not simply faster computers. For the overwhelming majority of tasks, including everything on your phone, they are worse than the machine you already own, and will remain so. The sensible expectation is a specialised accelerator sitting alongside classical infrastructure, called on for the narrow class of problems it suits, much as graphics processors are used today.
 
-Contrary to popular belief, quantum computers do not simply "try every possible answer at once." Their advantage comes from carefully designed algorithms that exploit these quantum properties to solve particular problems more efficiently than classical systems.
+## Why It Matters
 
-This distinction is important because quantum computing is not about replacing conventional computers; it is about solving problems that conventional computers struggle to solve.
+For researchers, the appeal is direct: nature is quantum mechanical, so simulating it on a machine that is also quantum mechanical removes a translation layer that currently costs enormous computational effort. Chemistry and materials science are the fields where a genuine advantage is most plausible, because the problem and the tool share a structure.
 
-### Why Quantum Computing Matters
+For everyone else, the consequence that has already arrived is cryptographic. Much of the confidentiality on the internet rests on mathematics that is hard for classical computers and, in principle, tractable for a sufficiently large quantum machine. <a href="https://en.wikipedia.org/wiki/Elliptic-curve_cryptography" target="_blank" rel="noopener noreferrer">Elliptic-curve cryptography</a>, one of the main schemes involved, underpins Transport Layer Security and Bitcoin among many other systems.
 
-The digital world is producing data at an unprecedented rate.
+This is why the <a href="https://www.nist.gov/news-events/news/2024/08/nist-releases-first-3-finalized-post-quantum-encryption-standards" target="_blank" rel="noopener noreferrer">National Institute of Standards and Technology</a> (NIST) finalised replacement standards in August 2024, after an eight-year selection process, and urged administrators to start migrating immediately. NIST notes that some experts expect a machine capable of breaking current encryption within a decade, while being careful to present that as prediction rather than schedule.
 
-Researchers model climate systems involving countless variables. Pharmaceutical companies simulate molecular interactions. Financial institutions analyse enormous markets in real time. Logistics companies optimise millions of delivery routes every day.
-
-These problems share one characteristic:
-
-**Their complexity grows exponentially.**
-
-As complexity increases, the computational effort required by classical computers grows dramatically, often making certain problems impractical to solve within a reasonable timeframe.
-
-Quantum computing offers a fundamentally different computational approach.
-
-Rather than processing information strictly through binary logic, quantum systems manipulate quantum states in ways that can provide substantial speed advantages for carefully selected computational tasks.
-
-If these systems mature as expected, they could unlock scientific discoveries and technological breakthroughs that are currently beyond humanity's computational reach.
+The urgency has a specific logic that is easy to miss. An adversary can capture encrypted traffic today and store it until a capable machine exists. For anything that must stay secret for ten or twenty years, such as state communications, medical records or long-lived intellectual property, the risk is not in the future. It is now, and it is retrospective.
 
 ## Real-World Applications
 
-### Healthcare and Drug Discovery
+### Chemistry, materials and medicine
 
-Healthcare is widely regarded as one of the industries that stands to benefit most from quantum computing.
+The strongest case. Simulating molecular behaviour accurately could shorten the path from candidate compound to viable treatment, and inform the design of catalysts, batteries and materials. Progress here is real but early, and most published results are demonstrations on small systems rather than discoveries that could not have been made otherwise.
 
-Since molecules themselves obey quantum mechanical laws, classical computers often struggle to model their behaviour accurately.
+### Optimisation
 
-Quantum computers could enable researchers to:
+Logistics, scheduling and portfolio construction all involve searching enormous spaces of possible arrangements. Quantum approaches are being investigated, though classical methods remain very strong and the evidence of a decisive advantage is not yet there.
 
-- Discover new medicines faster.
-- Simulate protein interactions more accurately.
-- Develop personalised treatment strategies.
-- Improve cancer research.
-- Accelerate vaccine development.
+### Machine learning
 
-By reducing dependence on expensive laboratory trial-and-error processes, quantum computing could significantly shorten the journey from scientific discovery to life-saving treatment.
+An active research area and an overheated marketing one. Some mathematical operations underlying machine learning have quantum analogues. Whether that produces practical benefit on real workloads is unresolved, and claims in this space deserve particular scepticism.
 
-### Artificial Intelligence
+### Cryptanalysis
 
-Artificial intelligence has transformed industries through machine learning and data analysis.
-
-However, training increasingly sophisticated AI systems requires enormous computational resources.
-
-Researchers are investigating how quantum computing may enhance AI by improving optimisation algorithms, probabilistic models, and specific mathematical operations used in machine learning.
-
-Although quantum AI remains largely experimental, it represents one of the most exciting frontiers where two transformative technologies may eventually complement one another.
-
-### Cybersecurity
-
-Perhaps no field has received as much attention regarding quantum computing as cybersecurity.
-
-Today's internet relies heavily on encryption systems such as RSA and elliptic-curve cryptography, whose security depends on mathematical problems that are computationally difficult for classical computers.
-
-A sufficiently advanced fault-tolerant quantum computer could eventually solve some of these problems much faster using algorithms such as **Shor's algorithm**, potentially compromising many current public-key encryption systems.
-
-Fortunately, this threat is already driving innovation.
-
-Researchers are developing **post-quantum cryptography**, new encryption methods specifically designed to remain secure against both classical and quantum attacks.
-
-### Scientific Research
-
-Beyond commercial applications, quantum computing promises to transform scientific discovery itself.
-
-Potential research applications include:
-
-- Designing stronger and lighter materials.
-- Developing more efficient batteries.
-- Simulating chemical reactions.
-- Improving renewable energy technologies.
-- Enhancing climate prediction models.
-- Solving complex engineering optimisation problems.
-
-These are areas where computational limitations have long slowed scientific progress.
+The application driving policy. A large fault-tolerant machine running Shor's algorithm could break widely deployed public-key schemes. No such machine exists publicly, which is precisely why the migration is happening in advance.
 
 ## Benefits and Opportunities
 
-The excitement surrounding quantum computing is rooted in its ability to expand the boundaries of what computers can achieve.
+Where the technology suits the problem, the potential gain is not incremental. Being able to model a reaction accurately rather than approximately changes what questions researchers can ask, and that is a different kind of benefit from doing existing work faster.
 
-Some of its most significant opportunities include:
+There is also a substantial adjacent opportunity that requires no quantum hardware at all. The migration to post-quantum cryptography is a large, concrete, and immediate engineering programme: inventorying where cryptography is used, planning replacement, testing interoperability. That work is available now, and it is where most practical demand currently sits.
 
-### Accelerated Scientific Discovery
+## Limitations, Risks and Trade-offs
 
-Quantum simulations may enable researchers to investigate problems previously considered computationally impossible.
+**Qubits are exceptionally fragile.** Quantum states are disturbed by heat, vibration and stray electromagnetic fields. Many systems operate near absolute zero in heavily isolated environments, which is the reason for the chandelier-like apparatus in photographs of these machines, most of which is refrigeration and wiring rather than computer.
 
-### Faster Optimisation
+**Error correction is the central obstacle.** Because qubits are noisy, useful computation requires encoding one reliable logical qubit across many physical ones. The overhead is severe, and it is the main reason today's machines cannot run the algorithms most often cited for them.
 
-Industries such as transportation, manufacturing, logistics, and finance could optimise highly complex systems more efficiently.
+**Cost and access.** These are laboratory instruments requiring specialist facilities and staff. Cloud access has widened experimentation, but this is not a technology that democratises quickly.
 
-### Medical Innovation
+**Persistent overstatement.** Commercial claims frequently outrun demonstrated capability, and "quantum" has become a marketing prefix. A useful test when reading an announcement: does it report a problem solved that a classical computer could not have solved, or a demonstration that a quantum device performed a task at all?
 
-Improved molecular simulations may dramatically reduce both the cost and time required to develop new treatments.
-
-### Economic Growth
-
-Quantum computing is expected to create entirely new industries, careers, software ecosystems, and research opportunities over the coming decades.
-
-Perhaps most importantly, quantum computing could become a foundational technology supporting future breakthroughs across multiple scientific disciplines.
-
-## Challenges and Misconceptions
-
-Despite its enormous promise, quantum computing remains one of the most difficult engineering challenges ever attempted.
-
-### Misconception: Quantum Computers Will Replace Laptops
-
-This is perhaps the most common misconception.
-
-Quantum computers are **not** general-purpose replacements for personal computers.
-
-Tasks such as browsing the internet, writing documents, programming websites, and gaming will continue to rely on classical processors.
-
-Instead, quantum computers will most likely function as specialised accelerators working alongside classical systems.
-
-### Fragile Quantum States
-
-Quantum information is extraordinarily delicate.
-
-Heat, electromagnetic interference, vibration, and even tiny environmental disturbances can disrupt qubits through a process known as **decoherence**, introducing computational errors.
-
-### Error Correction
-
-Reliable quantum computing requires sophisticated error-correction techniques.
-
-Current hardware often needs many physical qubits to create a single stable logical qubit, making large-scale quantum computers extremely difficult to build.
-
-### High Development Costs
-
-Most quantum processors operate at temperatures close to absolute zero and require highly specialised laboratories and equipment.
-
-This makes research, manufacturing, and maintenance exceptionally expensive.
-
-### Separating Hype from Reality
-
-Quantum computing has become one of the technology industry's most heavily marketed innovations.
-
-While the long-term potential is undeniable, many popular claims exaggerate the current state of the technology.
-
-Today's quantum computers remain experimental.
-
-Significant engineering breakthroughs are still required before fault-tolerant, large-scale quantum computers become commercially practical.
-
-Understanding this distinction allows us to appreciate quantum computing's promise without overstating its current capabilities.
-
-## What's Next?
-
-Quantum computing is progressing steadily rather than suddenly.
-
-Researchers continue improving hardware stability, reducing error rates, and developing more powerful quantum algorithms. At the same time, governments are expanding national quantum initiatives, universities are producing a new generation of quantum scientists, and technology companies are competing to achieve practical quantum advantage.
-
-Organisations including IBM, Google, Microsoft, IonQ, Rigetti Computing, Quantinuum, and PsiQuantum are among those shaping this rapidly evolving field.
-
-The transition to practical quantum computing will likely be gradual, much like the early evolution of artificial intelligence and cloud computing. As the technology matures, we can expect it to become an essential tool for solving problems that are currently beyond the reach of classical machines.
-
-For students, developers, entrepreneurs, and researchers, now is an ideal time to begin understanding quantum computing. Those who develop foundational knowledge today will be better positioned to contribute to one of the most significant technological transformations of the coming decades.
+**The timeline is genuinely unknown.** Estimates for fault-tolerant machines range from years to decades, and anyone offering a confident date is expressing an opinion rather than reporting a finding.
 
 ## Conclusion
 
-Throughout history, every major leap in computing has expanded, not replaced, what came before. Quantum computing is poised to continue that tradition.
+Quantum computing is neither imminent nor overhyped, which is an unsatisfying position but an accurate one. The engineering is advancing steadily, the fundamental obstacle of error correction remains unsolved at scale, and the most credible near-term uses are narrower and more scientific than the marketing suggests.
 
-Rather than rendering classical computers obsolete, quantum computers will complement them, tackling specialised problems that demand capabilities beyond binary computation. Their greatest impact will not be measured by faster laptops or smartphones, but by breakthroughs in medicine, cybersecurity, artificial intelligence, materials science, and countless other disciplines.
+What has already changed is worth holding onto, because it is concrete. The world's cryptographic standards were rewritten in anticipation of a machine that does not yet exist, and organisations are migrating now on the reasoning that data stolen today can be read later. That is a rare case of institutions acting well ahead of a threat, and it is the part of this story with practical consequences for systems in use right now.
 
-Yet perhaps the most important lesson is that quantum computing is not simply about building more powerful machines. It represents a new way of thinking about computation itself, one inspired by the very laws that govern the universe.
+If quantum computing does mature, the effect will not be that everything gets faster. It will be that a small set of previously unanswerable questions, mostly about how matter behaves, become answerable. That is a narrower claim than the headlines make, and a more interesting one.
 
-The rise of quantum computing is therefore more than a technological milestone. It is a reminder that as humanity pushes against the limits of what is possible, innovation often begins by questioning the assumptions that once seemed unchangeable. Those who understand this emerging field today will be better equipped to navigate and help shape the next era of computing.
+The cryptography under discussion here is the same mathematics securing blockchain settlement, which we examine in [stablecoins and the future of digital payments](/articles/stablecoins-and-digital-payments/).

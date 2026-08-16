@@ -9,7 +9,7 @@ img: article-images/stablecoins-and-digital-payments/stablecoin-payment-rails.jp
 alt: A hand holding a smartphone above a shop payment terminal mid-transaction, with faint network lines suggesting settlement moving between two points. Illustration generated with AI for Sholynk.
 date: 2026-08-16
 readingTime: 10 min read
-author: Busari Oluwashola
+author: Oluwashola Busari
 authorSlug: oluwashola-busari
 tags: ["stablecoins", "digital payments", "genius act", "bis", "financial regulation"]
 hook: A token that promises to be worth exactly one dollar sounds like the least interesting idea in cryptocurrency. It has turned out to be the one that regulators and central banks are arguing about most.
