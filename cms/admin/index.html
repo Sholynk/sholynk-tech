@@ -68,11 +68,21 @@
          <button class="ghost-button" id="previewArticle" type="button" hidden>
           <i class="fas fa-eye" aria-hidden="true"></i> Preview
          </button>
-         <button class="primary-button" type="submit">
-          <i class="fas fa-save" aria-hidden="true"></i> Save
+         <button class="ghost-button" id="saveDraftBtn" type="button">
+          <i class="fas fa-file" aria-hidden="true"></i> Save draft
+         </button>
+         <button class="primary-button" type="submit" id="submitBtn">
+          <i class="fas fa-paper-plane" aria-hidden="true"></i> Submit for review
          </button>
         </div>
        </div>
+
+       <div class="validation-panel" id="validationPanel" hidden>
+        <p class="validation-title"><i class="fas fa-exclamation-triangle" aria-hidden="true"></i> Please fix the following before submitting:</p>
+        <ul id="validationList"></ul>
+       </div>
+
+       <div class="review-banner" id="reviewBanner" hidden></div>
 
        <input type="hidden" id="articleId"/>
 
@@ -141,6 +151,12 @@
         <img id="imagePreviewTag" alt=""/>
        </div>
 
+       <div class="field pdf-import-card">
+        <label for="pdfImportFile"><i class="fas fa-file-pdf" aria-hidden="true"></i> Import from PDF (autofill draft)</label>
+        <input id="pdfImportFile" type="file" accept="application/pdf"/>
+        <p class="hint" id="pdfImportStatus">Select a manuscript PDF. The CMS will extract the title, teaser, body (converted to Markdown), and suggested tags, then fill the form below for you to review and edit before saving.</p>
+       </div>
+
        <div class="field">
          <label for="body">Body (Markdown or safe HTML)</label>
         <textarea id="body" name="body" rows="18" spellcheck="true"></textarea>
@@ -184,13 +200,20 @@
        <div class="field-row">
         <div class="field">
          <label for="author">Author display name</label>
-         <input id="author" name="author"/>
+         <input id="author" name="author" required/>
         </div>
         <div class="field">
          <label for="authorSlug">Author entity slug</label>
          <input id="authorSlug" name="authorSlug" list="authorOptions" placeholder="e.g. oluwashola-busari"/>
          <datalist id="authorOptions"></datalist>
         </div>
+        <div class="field">
+         <label for="submitterEmail">Submitter email</label>
+         <input id="submitterEmail" name="submitterEmail" type="email" placeholder="you@example.com (required for review)"/>
+        </div>
+       </div>
+
+       <div class="field-row">
         <div class="field">
          <label for="date">Publish date</label>
          <input id="date" name="date" type="date"/>
@@ -205,10 +228,12 @@
         <div class="field">
          <label for="status">Status</label>
          <select id="status" name="status">
-          <option value="published">Published</option>
+          <option value="pending">Pending review</option>
           <option value="draft">Draft</option>
+          <option value="published">Published</option>
           <option value="scheduled">Scheduled</option>
          </select>
+         <p class="hint" id="statusHelp">Choose "Pending review" to send the article to Sholynk Tech for approval.</p>
         </div>
         <div class="field">
          <label for="heroOrder">Hero slide order</label>
@@ -272,8 +297,23 @@
        <input id="authorId" type="hidden"/>
        <div class="field"><label for="authorName">Name <span class="req">*</span></label><input id="authorName" required/></div>
        <div class="field-row"><div class="field"><label for="authorEntitySlug">Slug</label><input id="authorEntitySlug"/></div><div class="field"><label for="authorRole">Role</label><input id="authorRole"/></div></div>
-       <div class="field"><label for="authorBio">Biography</label><textarea id="authorBio" rows="6"></textarea></div>
-       <div class="field-row"><div class="field"><label for="authorImage">Profile image</label><input id="authorImage"/></div><div class="field"><label for="authorImageAlt">Profile image alt text</label><input id="authorImageAlt"/></div></div>
+       <div class="field">
+        <label for="authorBio">Biography / brief intro</label>
+        <textarea id="authorBio" rows="6" placeholder="A short author bio shown at the end of long-form articles. 2-4 sentences work best."></textarea>
+        <p class="hint">Appears with the author photo at the bottom of the in-article navigation (desktop) and before "Continue exploring" on mobile.</p>
+       </div>
+       <div class="field-row">
+        <div class="field">
+         <label for="authorImageFile">Upload profile photo</label>
+         <input id="authorImageFile" type="file" accept="image/*"/>
+         <p class="hint">JPEG, PNG, WebP, GIF or AVIF, up to 8 MB. Uploading replaces the URL field below.</p>
+        </div>
+        <div class="field"><label for="authorImageAlt">Photo alt text</label><input id="authorImageAlt" placeholder="e.g. Photo of Oluwashola Busari"/></div>
+       </div>
+       <div class="image-preview" id="authorImagePreview" hidden>
+        <img id="authorImagePreviewTag" alt=""/>
+       </div>
+       <div class="field"><label for="authorImage">Profile image URL</label><input id="authorImage" placeholder="/uploads/... or https://..."/></div>
        <div class="field"><label for="authorProfileUrl">Profile URL</label><input id="authorProfileUrl" placeholder="https://... or leave empty"/></div>
       </form>
      </div>

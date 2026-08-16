@@ -6,6 +6,7 @@ npm-debug.log*
 cms/data/*.sqlite
 cms/data/*.sqlite-shm
 cms/data/*.sqlite-wal
+cms/data/notifications.log
 uploads/*
 !uploads/.gitkeep
 

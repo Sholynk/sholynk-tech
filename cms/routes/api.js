@@ -2,6 +2,7 @@
 
 const fs = require('node:fs');
 const path = require('node:path');
+const os = require('node:os');
 const crypto = require('node:crypto');
 const express = require('express');
 const multer = require('multer');
@@ -12,6 +13,9 @@ const images = require('../lib/images');
 const settings = require('../lib/settings');
 const engagement = require('../lib/engagement');
 const authors = require('../lib/authors');
+const pdfImport = require('../lib/pdf-import');
+const notifications = require('../lib/notifications');
+const { db } = require('../lib/db');
 
 const router = express.Router();
 
@@ -64,7 +68,10 @@ const upload = multer({
 /* ------------------------------- auth ----------------------------------- */
 
 // Write operations require a token when CMS_ADMIN_TOKEN is configured.
-// Left open by default so local development stays frictionless.
+// Left open by default so local development stays frictionless. When a token
+// is set, any route that calls requireAdmin rejects unauthenticated requests,
+// which also protects unpublished articles (draft/pending/scheduled) from the
+// public content API.
 function requireAdmin(req, res, next) {
   const expected = process.env.CMS_ADMIN_TOKEN;
   if (!expected) return next();
@@ -79,32 +86,36 @@ function requireAdmin(req, res, next) {
       return next();
     }
   }
+  // Fall through to 401.
   return res.status(401).json({ error: 'Unauthorized. Provide a valid x-admin-token header.' });
 }
 
 /* ------------------------------ articles -------------------------------- */
 
 router.get('/articles', (req, res) => {
-  const { category, q, status = 'published', hero } = req.query;
-  const respond = () => {
+  const { category, q, status: requestedStatus = 'published', hero } = req.query;
+  // The public site only ever fetches status=published. Anything else (drafts,
+  // pending review, scheduled, all) is admin-only.
+  if (requestedStatus !== 'published') {
+    return requireAdmin(req, res, () => respond(requestedStatus));
+  }
+  return respond(requestedStatus);
+
+  function respond(status) {
+    const effectiveStatus = status === 'all' ? undefined : status;
     const limit = req.query.limit ? Number(req.query.limit) : undefined;
     const offset = req.query.offset ? Number(req.query.offset) : undefined;
     const heroOnly = hero === 'true' || hero === '1';
     const data = articles.list({
       category,
       q,
-      status,
+      status: effectiveStatus,
       limit,
       offset,
       hero: heroOnly
     });
-    return res.json({ data, total: articles.count({ category, q, status, hero: heroOnly }) });
-  };
-
-  // When an admin token is configured, previews and status=all must not expose
-  // draft or scheduled copy through the otherwise-public content API.
-  if (status !== 'published') return requireAdmin(req, res, respond);
-  return respond();
+    return res.json({ data, total: articles.count({ category, q, status: effectiveStatus, hero: heroOnly }) });
+  }
 });
 
 router.get('/articles/categories', (req, res) => {
@@ -122,29 +133,128 @@ router.get('/articles/:idOrSlug', (req, res) => {
   return respond();
 });
 
-router.post('/articles', requireAdmin, (req, res, next) => {
+function requireSubmissionFields(payload, { isNew = false } = {}) {
+  const errors = [];
+  const requireString = (key, label, min = 1) => {
+    const v = String(payload[key] || '').trim();
+    if (v.length < min) errors.push(`${label} is required${min > 1 ? ` (min ${min} characters)` : ''}`);
+    return v;
+  };
+  if (payload.status === 'pending') {
+    requireString('title', 'Title', 6);
+    requireString('category', 'Category');
+    const body = String(payload.body || '').trim();
+    if (body.length < 200) errors.push('Article body must be at least 200 characters for review');
+    if (!/<h2\b/i.test(body) && !/^##\s+/m.test(body)) {
+      errors.push('Add at least one <h2> section heading or Markdown ## heading so readers can navigate the article');
+    }
+    const desc = String(payload.description || '').trim();
+    if (desc.length < 40) errors.push('Description/teaser is required (min 40 characters)');
+    if (desc.length > 200) errors.push('Description must be under 200 characters');
+    if (isNew && !String(payload.author || '').trim()) {
+      errors.push('Author name is required');
+    }
+    const tags = Array.isArray(payload.tags) ? payload.tags : [];
+    if (tags.length < 2) errors.push('Add at least 2 tags');
+    if (String(payload.img || '').trim() && !String(payload.alt || '').trim()) {
+      errors.push('Image alt text is required whenever a hero image is set');
+    }
+  }
+  if (errors.length) {
+    const error = new Error(errors.join('; '));
+    error.status = 400;
+    error.details = errors;
+    throw error;
+  }
+}
+
+function recordSubmission(article, notes = '') {
+  if (!article) return null;
   try {
-    res.status(201).json({ data: articles.create(req.body || {}) });
+    db.prepare(`INSERT INTO submissions
+      (article_id, article_slug, title, author_name, submitter_email, notes)
+      VALUES (?, ?, ?, ?, ?, ?)`).run(
+      Number(article.id),
+      String(article.slug || ''),
+      String(article.title || ''),
+      String(article.author || ''),
+      String(article.submitterEmail || ''),
+      String(notes || '')
+    );
+    db.prepare("UPDATE articles SET submitted_at = COALESCE(submitted_at, datetime('now')) WHERE id = ?")
+      .run(Number(article.id));
+  } catch (err) {
+    console.error('[notifications] Failed to record submission row', err);
+  }
+  return article;
+}
+
+router.post('/articles', requireAdmin, async (req, res, next) => {
+  try {
+    const payload = req.body || {};
+    // If CMS_REQUIRE_APPROVAL is set, force non-draft, non-published saves
+    // into "pending" so editors can't self-publish by accident.
+    if (process.env.CMS_REQUIRE_APPROVAL === 'true' && payload.status === 'published') {
+      payload.status = 'pending';
+    }
+    requireSubmissionFields(payload, { isNew: true });
+    const created = articles.create(payload);
+    let data = created;
+    if (created.status === 'pending') {
+      recordSubmission(created, payload.reviewNotes || '');
+      await notifications.notifyReviewNeeded(created).catch((err) => console.error(err));
+      data = { ...created, reviewNotice: 'Article submitted for review. Sholynk Tech has been notified.' };
+    }
+    res.status(201).json({ data });
   } catch (error) {
     next(error);
   }
 });
 
-router.put('/articles/:id', requireAdmin, (req, res, next) => {
+router.put('/articles/:id', requireAdmin, async (req, res, next) => {
   try {
-    const updated = articles.update(req.params.id, req.body || {});
+    const payload = req.body || {};
+    const existing = articles.getById(req.params.id);
+    if (!existing) return res.status(404).json({ error: 'Article not found' });
+    // Only allow publishing directly if CMS_REQUIRE_APPROVAL is not enforced
+    // or the user is explicitly setting status to "published" while approval
+    // mode is off. Draft -> pending transitions always validate.
+    if (process.env.CMS_REQUIRE_APPROVAL === 'true' && payload.status === 'published' && existing.status !== 'published') {
+      payload.status = 'pending';
+    }
+    requireSubmissionFields({ ...existing, ...payload }, { isNew: false });
+    const updated = articles.update(req.params.id, payload);
     if (!updated) return res.status(404).json({ error: 'Article not found' });
-    res.json({ data: updated });
+    let data = updated;
+    if (updated.status === 'pending' && existing.status !== 'pending') {
+      recordSubmission(updated, payload.reviewNotes || '');
+      await notifications.notifyReviewNeeded(updated).catch((err) => console.error(err));
+      data = { ...updated, reviewNotice: 'Article submitted for review. Sholynk Tech has been notified.' };
+    }
+    res.json({ data });
   } catch (error) {
     next(error);
   }
 });
 
-router.patch('/articles/:id', requireAdmin, (req, res, next) => {
+router.patch('/articles/:id', requireAdmin, async (req, res, next) => {
   try {
-    const updated = articles.update(req.params.id, req.body || {});
+    const payload = req.body || {};
+    const existing = articles.getById(req.params.id);
+    if (!existing) return res.status(404).json({ error: 'Article not found' });
+    if (process.env.CMS_REQUIRE_APPROVAL === 'true' && payload.status === 'published' && existing.status !== 'published') {
+      payload.status = 'pending';
+    }
+    requireSubmissionFields({ ...existing, ...payload }, { isNew: false });
+    const updated = articles.update(req.params.id, payload);
     if (!updated) return res.status(404).json({ error: 'Article not found' });
-    res.json({ data: updated });
+    let data = updated;
+    if (updated.status === 'pending' && existing.status !== 'pending') {
+      recordSubmission(updated, payload.reviewNotes || '');
+      await notifications.notifyReviewNeeded(updated).catch((err) => console.error(err));
+      data = { ...updated, reviewNotice: 'Article submitted for review. Sholynk Tech has been notified.' };
+    }
+    res.json({ data });
   } catch (error) {
     next(error);
   }
@@ -324,6 +434,48 @@ router.patch('/images/:id', requireAdmin, (req, res) => {
 router.delete('/images/:id', requireAdmin, (req, res) => {
   if (!images.remove(req.params.id)) return res.status(404).json({ error: 'Image not found' });
   res.status(204).end();
+});
+
+/* --------------------------- PDF import -------------------------------- */
+
+// Store uploaded PDFs to a temp directory and delete them once parsed.
+const pdfStorage = multer.diskStorage({
+  destination: (_req, _file, cb) => cb(null, os.tmpdir()),
+  filename: (_req, file, cb) => {
+    const base = path
+      .basename(file.originalname, path.extname(file.originalname))
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-|-$/g, '')
+      .slice(0, 40) || 'manuscript';
+    cb(null, `sholynk-pdf-${base}-${crypto.randomBytes(6).toString('hex')}.pdf`);
+  }
+});
+
+const pdfUpload = multer({
+  storage: pdfStorage,
+  limits: { fileSize: 25 * 1024 * 1024 },
+  fileFilter: (req, file, cb) => {
+    if (file.mimetype !== 'application/pdf') {
+      const error = new Error('Only PDF files are accepted for import.');
+      error.status = 400;
+      cb(error);
+      return;
+    }
+    cb(null, true);
+  }
+});
+
+router.post('/import/pdf', requireAdmin, pdfUpload.single('pdf'), async (req, res, next) => {
+  if (!req.file) return res.status(400).json({ error: 'No PDF file received (field name: pdf)' });
+  try {
+    const draft = await pdfImport.extractPdfDraft(req.file.path);
+    return res.json({ data: draft });
+  } catch (error) {
+    return next(error);
+  } finally {
+    fs.promises.unlink(req.file.path).catch(() => {});
+  }
 });
 
 /* ------------------------------ settings -------------------------------- */

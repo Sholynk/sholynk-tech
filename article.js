@@ -714,9 +714,68 @@
     return nav;
   }
 
+  function createAuthorCard(author) {
+    if (!author || (!author.image && !(author.bio || '').trim() && !(author.name || '').trim())) {
+      return null;
+    }
+    const card = create('aside', 'article-author-card');
+    card.setAttribute('aria-label', `About ${author.name || 'the author'}`);
+    const media = create('div', 'article-author-media');
+    if (author.image) {
+      const img = document.createElement('img');
+      img.src = siteUrl(author.image);
+      img.alt = author.imageAlt || `Photo of ${author.name || 'the author'}`;
+      img.loading = 'lazy';
+      img.decoding = 'async';
+      img.addEventListener('error', () => { img.remove(); }, { once: true });
+      media.append(img);
+    } else {
+      const placeholder = create('div', 'article-author-avatar');
+      const initials = (author.name || 'A')
+        .split(/\s+/)
+        .filter(Boolean)
+        .slice(0, 2)
+        .map((w) => w[0]?.toUpperCase() || '')
+        .join('');
+      placeholder.textContent = initials || 'A';
+      media.append(placeholder);
+    }
+    const body = create('div', 'article-author-body');
+    const eyebrow = create('p', 'eyebrow', 'Written by');
+    const name = create('h3', '', author.name || 'Sholynk Editorial');
+    if (author.role) name.dataset.role = author.role;
+    body.append(eyebrow, name);
+    if (author.role) body.append(create('p', 'article-author-role', author.role));
+    if (author.bio) body.append(create('p', 'article-author-bio', author.bio));
+    if (author.profileUrl) {
+      const link = create('a', 'article-author-link');
+      link.href = author.profileUrl;
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+      link.append(document.createTextNode('View full profile '));
+      link.insertAdjacentHTML('beforeend', '<i class="fas fa-arrow-right" aria-hidden="true"></i>');
+      body.append(link);
+    }
+    card.append(media, body);
+    return card;
+  }
+
+  async function lookupAuthor(article) {
+    const slug = article.authorSlug;
+    if (!slug) return null;
+    try {
+      const authors = await window.SholynkCMS.getAuthors();
+      return (authors || []).find((a) => a.slug === slug) || null;
+    } catch (error) {
+      return null;
+    }
+  }
+
   async function renderArticle(article) {
     root.innerHTML = '';
     root.setAttribute('aria-busy', 'false');
+
+    const author = await lookupAuthor(article);
 
     const masthead = create('div', 'article-masthead');
     masthead.append(createBreadcrumb(article), createHeader(article));
@@ -730,12 +789,18 @@
 
     const layout = create('div', 'article-reading-layout');
     const toc = buildToc(body);
-    if (toc) {
+    const railAuthor = author ? createAuthorCard(author) : null;
+    if (toc || railAuthor) {
       const rail = create('aside', 'article-rail');
+      if (toc) rail.append(toc);
+      if (railAuthor) {
+        railAuthor.classList.add('article-author-card--rail');
+        rail.append(railAuthor);
+      }
       const railHome = create('a', 'article-rail-home');
       railHome.href = siteUrl('index.html');
       railHome.innerHTML = '<i class="fas fa-arrow-left" aria-hidden="true"></i><span>All stories</span>';
-      rail.append(toc, railHome);
+      rail.append(railHome);
       layout.append(rail);
     }
 
@@ -746,6 +811,13 @@
     const sources = createSources(article);
     if (sources) content.append(sources);
     content.append(createShare(article));
+    // Mobile / bottom-of-article author card (placed before "Continue exploring").
+    // On desktop this copy is hidden in favor of the one in the left rail.
+    const contentAuthor = author ? createAuthorCard(author) : null;
+    if (contentAuthor) {
+      contentAuthor.classList.add('article-author-card--inline');
+      content.append(contentAuthor);
+    }
     const engagementRoot = document.createElement('div');
     engagementRoot.id = 'engagementRoot';
     content.append(engagementRoot, createEndNavigation(article));
