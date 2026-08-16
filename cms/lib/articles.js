@@ -2,6 +2,19 @@
 
 const { db } = require('./db');
 
+/**
+ * The site owner, who every article belongs to unless it names someone else.
+ *
+ * Content created before any contributor registered — the original seed, hero
+ * slides, imports — is his work, so this is the fallback rather than a generic
+ * "editorial" byline that would leave articles attributed to nobody.
+ * Contributors who register later are attributed to their own entity.
+ */
+const HOUSE_AUTHOR = Object.freeze({
+  slug: 'oluwashola-busari',
+  name: 'Oluwashola Busari'
+});
+
 const VALID_STATUS = new Set(['published', 'draft', 'scheduled', 'pending']);
 const VALID_CONTENT_TYPES = new Set(['article', 'news', 'guide', 'opinion', 'review', 'analysis']);
 const VALID_SOURCE_TYPES = new Set(['primary', 'official', 'research', 'journalism', 'reference', 'other']);
@@ -289,8 +302,11 @@ function create(payload = {}) {
     String(payload.body || ''),
     String(payload.img || ''),
     String(payload.alt || ''),
-    String(payload.author || 'Sholynk Editorial'),
-    String(payload.authorSlug || ''),
+    String(payload.author || HOUSE_AUTHOR.name),
+    // An article always belongs to someone. Without this fallback a create
+    // that omits the slug would leave the piece attributed to no author
+    // entity, so it would count in the site totals but appear under nobody.
+    String(payload.authorSlug || HOUSE_AUTHOR.slug),
     String(payload.date || payload.publishedAt || new Date().toISOString().slice(0, 10)),
     String(payload.readingTime || estimateReadingTime(payload.body)),
     payload.featured ? 1 : 0,
@@ -498,5 +514,5 @@ function categories() {
 module.exports = {
   list, count, getById, getBySlug, create, update, remove, categories, slugify,
   estimateReadingTime, replaceSources, sourcesForArticle, addSource, removeSource, validate, ValidationError,
-  VALID_STATUS, VALID_CONTENT_TYPES, VALID_SOURCE_TYPES
+  VALID_STATUS, VALID_CONTENT_TYPES, VALID_SOURCE_TYPES, HOUSE_AUTHOR
 };

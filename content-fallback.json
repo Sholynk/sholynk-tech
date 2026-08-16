@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-16T13:53:45.767Z",
+  "generatedAt": "2026-08-16T14:26:35.566Z",
   "settings": {
     "siteTitle": "Sholynk Technology - AI, Web3 and Emerging Tech Insights",
     "siteDescription": "Explore editor picks, practical guides and analysis on AI trends, Web3, software development, cybersecurity and emerging technology.",
@@ -169,8 +169,8 @@
       "body": "",
       "img": "Article cards images/AI/article_card_09.jpg",
       "alt": "The future of artificial intelligence in everyday life",
-      "author": "Sholynk Editorial",
-      "authorSlug": "",
+      "author": "Oluwashola Busari",
+      "authorSlug": "oluwashola-busari",
       "date": "2026-08-16",
       "readingTime": "1 min read",
       "featured": false,
@@ -189,7 +189,7 @@
       "link": "index.html?category=AI%20Trends",
       "cleanLink": "index.html?category=AI%20Trends",
       "createdAt": "2026-08-16 12:02:53",
-      "updatedAt": "2026-08-16 12:02:53"
+      "updatedAt": "2026-08-16 14:24:06"
     },
     {
       "id": 55,
@@ -208,8 +208,8 @@
       "body": "",
       "img": "Article cards images/Cryptocurrency/article_card_05.webp",
       "alt": "Decentralized finance is reshaping access to money",
-      "author": "Sholynk Editorial",
-      "authorSlug": "",
+      "author": "Oluwashola Busari",
+      "authorSlug": "oluwashola-busari",
       "date": "2026-08-16",
       "readingTime": "1 min read",
       "featured": false,
@@ -228,7 +228,7 @@
       "link": "index.html?category=Web%203",
       "cleanLink": "index.html?category=Web%203",
       "createdAt": "2026-08-16 12:02:53",
-      "updatedAt": "2026-08-16 12:02:53"
+      "updatedAt": "2026-08-16 14:24:06"
     },
     {
       "id": 56,
@@ -247,8 +247,8 @@
       "body": "",
       "img": "Article cards images/Technology/article_card_03.jpg",
       "alt": "Cybersecurity habits every growing team needs",
-      "author": "Sholynk Editorial",
-      "authorSlug": "",
+      "author": "Oluwashola Busari",
+      "authorSlug": "oluwashola-busari",
       "date": "2026-08-16",
       "readingTime": "1 min read",
       "featured": false,
@@ -267,7 +267,7 @@
       "link": "index.html?category=Technology",
       "cleanLink": "index.html?category=Technology",
       "createdAt": "2026-08-16 12:02:53",
-      "updatedAt": "2026-08-16 12:02:53"
+      "updatedAt": "2026-08-16 14:24:06"
     },
     {
       "id": 46,

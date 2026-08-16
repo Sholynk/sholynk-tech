@@ -1193,21 +1193,10 @@
     data.authors.forEach((author) => {
       const row = document.createElement('tr');
 
-      if (author.unattributed) row.className = 'row-unattributed';
-
       const nameCell = document.createElement('td');
       const identity = document.createElement('span');
       identity.className = 'table-identity';
-      // The unattributed bucket is not a person, so it gets a neutral marker
-      // rather than initials that would read as somebody's name.
-      if (author.unattributed) {
-        const marker = document.createElement('span');
-        marker.className = 'author-avatar author-avatar--placeholder';
-        marker.innerHTML = '<i class="fas fa-question" aria-hidden="true"></i>';
-        identity.append(marker);
-      } else {
-        identity.append(authorAvatar(author));
-      }
+      identity.append(authorAvatar(author));
       const text = document.createElement('span');
       const strong = document.createElement('strong');
       strong.textContent = author.name;

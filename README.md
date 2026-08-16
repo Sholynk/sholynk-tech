@@ -198,10 +198,20 @@ on the dashboard can never disagree with the content it counts.
 Reader history is keyed by article slug rather than by a foreign key, so the
 CMS maintains it explicitly: deleting an article also deletes its reads,
 reactions and comments, and renaming one carries them across to the new slug
-(recording a 301 redirect so the old link keeps working). Articles left without
-an author profile — because the author was deleted, or the content was imported
-unlinked — are reported as an "Unattributed" row, so the per-author figures
-always add up to the headline totals instead of quietly under-counting.
+(recording a 301 redirect so the old link keeps working).
+
+### Attribution
+
+Every article belongs to a registered author entity, so the per-author figures
+always add up to the headline totals. The site owner is the fallback: articles
+saved without an author entity, and those belonging to a contributor whose
+profile is later deleted, are attributed to him rather than left pointing at
+nobody. Existing databases are repaired on startup, and the owner's own profile
+cannot be deleted because the rest of the archive depends on it.
+
+A contributor who registers on the **Authors** tab and is named on an article
+keeps their own attribution, and appears in the dashboard's author table with
+the work they have published.
 
 ### Live updates
 

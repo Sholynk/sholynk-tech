@@ -641,17 +641,17 @@ test('a renamed article keeps its old URL working', async () => {
   assert.equal(response.headers.get('location'), `/articles/${newSlug}/`);
 });
 
-test('articles with no author profile still reconcile with the headline totals', async () => {
+test("a departed author's articles pass to the site owner, not to nobody", async () => {
   const author = await api('/api/authors', {
     method: 'POST',
     body: JSON.stringify({ name: 'Departing Author' })
   });
   const authorSlug = author.body.data.slug;
 
-  await api('/api/articles', {
+  const article = await api('/api/articles', {
     method: 'POST',
     body: JSON.stringify({
-      title: 'Orphan probe',
+      title: 'Reassignment probe',
       category: 'Technology',
       description: 'Its author will be deleted.',
       body: '<p>Body.</p>',
@@ -659,20 +659,81 @@ test('articles with no author profile still reconcile with the headline totals',
       authorSlug
     })
   });
+  const slug = article.body.data.slug;
 
-  // Deleting an author keeps their articles but clears the link.
   await api(`/api/authors/${author.body.data.id}`, { method: 'DELETE' });
 
+  // The article survives and is attributed to the owner rather than left
+  // pointing at an author entity that no longer exists.
+  const reassigned = await api(`/api/articles/${slug}`);
+  assert.equal(reassigned.body.data.authorSlug, 'oluwashola-busari');
+  assert.equal(reassigned.body.data.author, 'Oluwashola Busari');
+
   const data = (await api('/api/analytics/overview')).body.data;
-  const perAuthorPublished = data.authors.reduce((sum, row) => sum + row.published, 0);
-  assert.equal(
-    perAuthorPublished,
-    data.totals.published,
-    'the author table must account for every published article'
+  assert.ok(
+    !data.authors.some((row) => row.name === 'Unattributed'),
+    'no placeholder author appears in the registered author list'
   );
-  const orphanRow = data.authors.find((row) => row.unattributed);
-  assert.ok(orphanRow, 'unattributed articles are reported rather than silently dropped');
-  assert.ok(orphanRow.published >= 1);
+  assert.ok(
+    data.authors.every((row) => row.slug),
+    'every row in the table is a real registered author'
+  );
+  assert.equal(
+    data.authors.reduce((sum, row) => sum + row.published, 0),
+    data.totals.published,
+    'the author table still accounts for every published article'
+  );
+});
+
+test('the site owner profile cannot be deleted', async () => {
+  // Every article falls back to it, so removing it would orphan the archive.
+  const owner = await api('/api/authors/oluwashola-busari');
+  const response = await api(`/api/authors/${owner.body.data.id}`, { method: 'DELETE' });
+  assert.equal(response.status, 400);
+
+  const still = await api('/api/authors/oluwashola-busari');
+  assert.equal(still.status, 200);
+});
+
+test('an article saved without an author entity is attributed to the site owner', async () => {
+  const created = await api('/api/articles', {
+    method: 'POST',
+    body: JSON.stringify({
+      title: 'No author slug supplied',
+      category: 'Technology',
+      description: 'Submitted without an author entity.',
+      body: '<p>Body.</p>'
+    })
+  });
+  assert.equal(created.status, 201);
+  assert.equal(created.body.data.authorSlug, 'oluwashola-busari');
+});
+
+test('a registered contributor keeps their own attribution', async () => {
+  // The owner is only a fallback: an article that names a registered author
+  // must stay with them and surface under their name on the dashboard.
+  const contributor = await api('/api/authors', {
+    method: 'POST',
+    body: JSON.stringify({ name: 'Registered Contributor', role: 'Guest writer' })
+  });
+  const authorSlug = contributor.body.data.slug;
+
+  await api('/api/articles', {
+    method: 'POST',
+    body: JSON.stringify({
+      title: 'Contributor submission',
+      category: 'Technology',
+      description: 'Written by a registered contributor.',
+      body: '<p>Body.</p>',
+      author: 'Registered Contributor',
+      authorSlug
+    })
+  });
+
+  const data = (await api('/api/analytics/overview')).body.data;
+  const row = data.authors.find((item) => item.slug === authorSlug);
+  assert.ok(row, 'the contributor appears in the registered author list');
+  assert.equal(row.published, 1, 'their article is credited to them, not the owner');
 });
 
 test('the reporting window is always a whole number of days', async () => {

@@ -328,10 +328,16 @@ router.patch('/authors/:id', requireAdmin, (req, res, next) => {
   }
 });
 
-router.delete('/authors/:id', requireAdmin, (req, res) => {
-  if (!authors.remove(req.params.id)) return res.status(404).json({ error: 'Author not found' });
-  events.publish('author');
-  return res.status(204).end();
+router.delete('/authors/:id', requireAdmin, (req, res, next) => {
+  try {
+    // Removing the site owner is refused with a 400, not a crash: every
+    // article falls back to that profile.
+    if (!authors.remove(req.params.id)) return res.status(404).json({ error: 'Author not found' });
+    events.publish('author');
+    return res.status(204).end();
+  } catch (error) {
+    return next(error);
+  }
 });
 
 /* ----------------------------- engagement -------------------------------- */

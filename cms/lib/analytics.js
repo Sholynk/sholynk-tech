@@ -194,54 +194,6 @@ function trends({ days = 30 } = {}) {
   };
 }
 
-/**
- * Articles that belong to no registered author entity.
- *
- * Deleting an author clears `author_slug` on their articles, and imported
- * content may never have been linked to one. Those articles still count in the
- * site totals, so without this row the per-author figures would not add up to
- * the headline numbers and the difference would be invisible.
- */
-function unattributedRow() {
-  const row = db.prepare(`
-    SELECT
-      COUNT(*) AS total_articles,
-      COUNT(CASE WHEN status = 'published' THEN 1 END) AS published,
-      COUNT(CASE WHEN status = 'draft'     THEN 1 END) AS drafts,
-      COUNT(CASE WHEN status = 'pending'   THEN 1 END) AS pending,
-      COUNT(CASE WHEN status = 'scheduled' THEN 1 END) AS scheduled
-    FROM articles a
-    WHERE a.author_slug = '' OR a.author_slug NOT IN (SELECT slug FROM authors)
-  `).get();
-
-  if (!row || Number(row.total_articles) === 0) return null;
-
-  const engagementFor = (table) => Number(db.prepare(`
-    SELECT COUNT(*) AS total FROM ${table} t
-    JOIN articles a ON a.slug = t.article_slug
-    WHERE a.author_slug = '' OR a.author_slug NOT IN (SELECT slug FROM authors)
-  `).get()?.total || 0);
-
-  return {
-    id: null,
-    slug: '',
-    name: 'Unattributed',
-    role: 'No author profile linked',
-    image: '',
-    imageAlt: '',
-    registeredAt: null,
-    unattributed: true,
-    articles: Number(row.total_articles),
-    published: Number(row.published),
-    drafts: Number(row.drafts),
-    pending: Number(row.pending),
-    scheduled: Number(row.scheduled),
-    views: engagementFor('article_views'),
-    reactions: engagementFor('reactions'),
-    comments: engagementFor('comments')
-  };
-}
-
 /** Per-author productivity and the engagement their work earned. */
 function authorLeaderboard() {
   const rows = db.prepare(`
@@ -270,7 +222,6 @@ function authorLeaderboard() {
     image: row.image,
     imageAlt: row.image_alt,
     registeredAt: row.created_at,
-    unattributed: false,
     articles: Number(row.total_articles),
     published: Number(row.published),
     drafts: Number(row.drafts),
@@ -281,9 +232,7 @@ function authorLeaderboard() {
     comments: Number(row.comments)
   }));
 
-  // Appended last so registered authors always lead the table.
-  const orphans = unattributedRow();
-  return orphans ? [...rows, orphans] : rows;
+  return rows;
 }
 
 /** Best performing articles by counted reads. */

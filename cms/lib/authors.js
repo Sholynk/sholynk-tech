@@ -103,13 +103,29 @@ function update(id, payload = {}) {
   return get(existing.id);
 }
 
+/**
+ * Deletes an author entity, keeping their articles.
+ *
+ * Those articles are reassigned to the site owner rather than left with an
+ * empty slug: an article with no author entity still counts in the site totals
+ * but belongs to nobody, so the dashboard's per-author figures would no longer
+ * add up to the headline numbers.
+ *
+ * Deleting the house author itself is refused — it is the fallback every other
+ * article depends on, so removing it would orphan the entire archive.
+ */
 function remove(id) {
   const existing = get(id);
   if (!existing) return false;
+  if (existing.slug === DEFAULT_AUTHOR.slug) {
+    throw new ValidationError([
+      'the site owner profile cannot be deleted; every article falls back to it'
+    ]);
+  }
   db.exec('BEGIN');
   try {
-    db.prepare("UPDATE articles SET author_slug = '', updated_at = datetime('now') WHERE author_slug = ?")
-      .run(existing.slug);
+    db.prepare("UPDATE articles SET author_slug = ?, author = ?, updated_at = datetime('now') WHERE author_slug = ?")
+      .run(DEFAULT_AUTHOR.slug, DEFAULT_AUTHOR.name, existing.slug);
     db.prepare('DELETE FROM authors WHERE id = ?').run(existing.id);
     db.exec('COMMIT');
     return true;
@@ -152,6 +168,34 @@ function ensureDefault() {
   return toApi(existing);
 }
 
-ensureDefault();
+/**
+ * Attributes any article that points at no author entity to the site owner.
+ *
+ * Existing installations carry articles written before contributor profiles
+ * existed (the original seed and hero slides), and older releases cleared the
+ * link when an author was deleted. Those articles still count in the site
+ * totals, so left unlinked they belong to nobody and the dashboard's per-author
+ * figures cannot reconcile with the headline numbers.
+ *
+ * Runs once at startup and is a no-op when everything is already attributed,
+ * so it never rewrites `updated_at` on a healthy database.
+ */
+function attributeOrphanedArticles() {
+  const owner = ensureDefault();
+  const orphaned = db.prepare(`
+    SELECT COUNT(*) AS total FROM articles
+    WHERE author_slug = '' OR author_slug NOT IN (SELECT slug FROM authors)
+  `).get();
+  if (!orphaned || Number(orphaned.total) === 0) return 0;
 
-module.exports = { list, get, create, update, remove, ensureDefault };
+  const result = db.prepare(`
+    UPDATE articles SET author_slug = ?, author = ?, updated_at = datetime('now')
+    WHERE author_slug = '' OR author_slug NOT IN (SELECT slug FROM authors)
+  `).run(owner.slug, owner.name);
+  return result.changes;
+}
+
+ensureDefault();
+attributeOrphanedArticles();
+
+module.exports = { list, get, create, update, remove, ensureDefault, attributeOrphanedArticles };
