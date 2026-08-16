@@ -91,7 +91,7 @@ description: AI agents interpret goals, plan actions and use tools to complete m
 img: article-images/ai-agents/agent-orchestration.jpg
 alt: Diagram-style illustration of a language model calling external tools in sequence
 date: 2026-08-16
-author: Busari Oluwashola
+author: Oluwashola Busari
 authorSlug: oluwashola-busari
 tags: ["ai agents", "autonomous systems", "tool use", "llm orchestration"]
 hook: Software has traditionally waited for humans to tell it what to do. AI agents are beginning to change that relationship.
@@ -116,8 +116,11 @@ truncates it. If the editorial headline needs to be longer, keep it in `title` a
 put a shorter version in `seoTitle`.
 
 **`author` / `authorSlug` — Formula stage 2.**
-Default byline is `Busari Oluwashola`, and `authorSlug` links the byline to the author
-profile (default `oluwashola-busari`). The name appears twice on the page: in the meta
+The byline is **`Oluwashola Busari`**, in that order, and `authorSlug` links it to the
+author profile (default `oluwashola-busari`). Note that the rendered byline is taken
+from the author record in the CMS, not from this field, so a mismatch here will not
+show on the page but will make the source files disagree with the site. Keep them the
+same. The name appears twice on the page: in the meta
 row under the headline, and in the author card in the reading rail and at the end of
 the article. Never invent credentials — the author card text is a published claim.
 

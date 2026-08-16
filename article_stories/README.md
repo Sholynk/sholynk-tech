@@ -54,7 +54,7 @@ description: One or two sentences about the article. This is shown on the homepa
 img: Article cards images/Technology/article_card_01.jpg
 alt: A short description of the image for people who cannot see it
 date: 2026-08-09
-author: Busari Oluwashola
+author: Oluwashola Busari
 ---
 
 ## Introduction
@@ -141,7 +141,7 @@ alt: A smartphone showing a 5G network signal icon
 date: 2026-08-09
 hero: true
 heroOrder: 0
-author: Busari Oluwashola
+author: Oluwashola Busari
 ---
 
 ## Introduction
