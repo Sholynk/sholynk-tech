@@ -383,9 +383,6 @@ Set your editor's spellchecker to English (United Kingdom) before you start, and
 the piece once specifically for spelling before running the build. The build does not
 check spelling — this is enforced editorially, not by tooling.
 
-The two existing legacy articles predate this rule and still contain American
-spellings. They are being retrofitted separately; do not treat them as a model.
-
 **Punctuation.** No em dashes between words — use commas, semicolons or full stops.
 Keep correct compound hyphens: `real-world`, `open-source`, `problem-solving`,
 `multi-step`.
