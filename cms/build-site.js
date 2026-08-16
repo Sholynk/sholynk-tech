@@ -218,7 +218,10 @@ function renderAuthorCard(author, variant = 'rail') {
   const media = hasImage
     ? `<div class="article-author-media"><img src="${escapeHtml(/^https?:\/\//i.test(author.image) ? author.image : articlePageUrl(author.image))}" alt="${escapeHtml(author.imageAlt || `Photo of ${author.name}`)}" loading="lazy" decoding="async"/></div>`
     : `<div class="article-author-media"><div class="article-author-avatar" aria-hidden="true">${escapeHtml(initials || 'A')}</div></div>`;
-  const role = author.role ? `<p class="article-author-role">${escapeHtml(author.role)}</p>` : '';
+  // The role line is deliberately not rendered: the bio already states what the
+  // author does, so printing both repeats the same sentence twice on the card.
+  // `role` is still stored and still feeds schema.org jobTitle and the admin list.
+  const role = '';
   const bio = author.bio ? `<p class="article-author-bio">${escapeHtml(author.bio)}</p>` : '';
   const link = author.profileUrl
     ? `<a class="article-author-link" href="${escapeHtml(author.profileUrl)}" target="_blank" rel="noopener noreferrer">View full profile <i class="fas fa-arrow-right" aria-hidden="true"></i></a>`

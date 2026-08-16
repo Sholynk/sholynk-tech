@@ -745,7 +745,9 @@
     const name = create('h3', '', author.name || 'Sholynk Editorial');
     if (author.role) name.dataset.role = author.role;
     body.append(eyebrow, name);
-    if (author.role) body.append(create('p', 'article-author-role', author.role));
+    // The role is intentionally omitted from the card: the bio already covers
+    // it, so rendering both repeats the same information. The field is still
+    // stored and used for structured data and the admin author list.
     if (author.bio) body.append(create('p', 'article-author-bio', author.bio));
     if (author.profileUrl) {
       const link = create('a', 'article-author-link');

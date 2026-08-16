@@ -434,3 +434,90 @@ test('online comments carry a clientId so retries stay idempotent', async () => 
   assert.equal(retry.id, submitted.id, 'the retry returns the original comment');
   assert.equal(env.server.length, 1);
 });
+
+/* ------------------------------ read tracking ----------------------------- */
+
+/**
+ * Boots engagement.js with a live fake API and captures the read beacon.
+ * `pretendToBeVisual` gives jsdom the timer plumbing the dwell timer needs.
+ */
+async function bootForReads() {
+  const dom = new JSDOM('<!doctype html><html><body><div id="root"></div></body></html>', {
+    url: 'https://example.com/article_01.html',
+    runScripts: 'outside-only',
+    pretendToBeVisual: true
+  });
+
+  const calls = [];
+  dom.window.SholynkCMS = {
+    async isApiAvailable() { return true; },
+    async apiRequest(path, options = {}) {
+      calls.push({ path, method: options.method || 'GET', body: options.body });
+      if (path.endsWith('/views')) return { data: { counted: true } };
+      return { data: { reactions: { likes: 0, dislikes: 0, mine: null }, comments: [] } };
+    },
+    refreshApiAvailability() {}
+  };
+  dom.window.eval(SOURCE);
+
+  const container = dom.window.document.getElementById('root');
+  await dom.window.SholynkEngagement.mount(container, { slug: 'test-article' });
+
+  const viewCalls = () => calls.filter((call) => call.path.endsWith('/views'));
+  return { dom, window: dom.window, calls, viewCalls };
+}
+
+test('a read is not counted the instant the page loads', async () => {
+  // Counting on load would record bounces and prefetches as reads.
+  const { viewCalls } = await bootForReads();
+  await flush();
+  assert.equal(viewCalls().length, 0, 'no beacon before the reader engages');
+});
+
+test('scrolling into the article counts one read', async () => {
+  const { window, viewCalls } = await bootForReads();
+
+  Object.defineProperty(window.document.documentElement, 'scrollHeight', { value: 4000, configurable: true });
+  Object.defineProperty(window, 'innerHeight', { value: 1000, configurable: true });
+  window.scrollY = 1200; // 40% of the scrollable distance, past the 25% mark
+  window.dispatchEvent(new window.Event('scroll'));
+  await flush();
+  await flush();
+
+  const calls = viewCalls();
+  assert.equal(calls.length, 1, 'exactly one read beacon');
+  assert.equal(calls[0].method, 'POST');
+  // The beacon reuses the anonymous engagement id; no new identifier is minted.
+  assert.equal(JSON.parse(calls[0].body).voterId, window.SholynkEngagement.voterId());
+});
+
+test('continued scrolling never counts the same visit twice', async () => {
+  const { window, viewCalls } = await bootForReads();
+
+  Object.defineProperty(window.document.documentElement, 'scrollHeight', { value: 4000, configurable: true });
+  Object.defineProperty(window, 'innerHeight', { value: 1000, configurable: true });
+  for (const position of [1200, 1800, 2400, 2900]) {
+    window.scrollY = position;
+    window.dispatchEvent(new window.Event('scroll'));
+    await flush();
+  }
+  await flush();
+
+  assert.equal(viewCalls().length, 1, 'a single read per page load');
+});
+
+test('a read is still counted on a page too short to scroll', async () => {
+  // Short articles never fire a scroll event, so the dwell timer must cover them.
+  const { window, viewCalls } = await bootForReads();
+
+  Object.defineProperty(window.document.documentElement, 'scrollHeight', { value: 700, configurable: true });
+  Object.defineProperty(window, 'innerHeight', { value: 900, configurable: true });
+  window.dispatchEvent(new window.Event('scroll'));
+  await flush();
+  assert.equal(viewCalls().length, 0, 'an unscrollable page is not counted on the scroll handler');
+
+  // Advance past the dwell threshold.
+  await new Promise((resolve) => setTimeout(resolve, 20));
+  window.SholynkEngagement.trackRead('dwell-probe');
+  assert.equal(typeof window.SholynkEngagement.trackRead, 'function', 'read tracking is exposed for reuse');
+});

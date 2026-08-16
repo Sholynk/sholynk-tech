@@ -29,7 +29,8 @@
   </header>
 
   <nav class="admin-tabs" aria-label="Sections">
-   <button class="tab active" type="button" data-panel="articles">Articles</button>
+   <button class="tab active" type="button" data-panel="dashboard">Dashboard</button>
+   <button class="tab" type="button" data-panel="articles">Articles</button>
    <button class="tab" type="button" data-panel="authors">Authors</button>
    <button class="tab" type="button" data-panel="media">Media library</button>
    <button class="tab" type="button" data-panel="comments">Comments</button>
@@ -37,8 +38,142 @@
   </nav>
 
   <main>
+   <!-- Dashboard -->
+   <section class="panel active" id="panel-dashboard" aria-label="Analytics dashboard">
+    <div class="dash-toolbar">
+     <div>
+      <h2>Editorial analytics</h2>
+      <p class="dash-subtitle" id="dashUpdated">Loading analytics...</p>
+     </div>
+     <div class="dash-toolbar-actions">
+      <span class="live-badge" id="dashLive" data-state="connecting">
+       <span class="live-dot" aria-hidden="true"></span><span id="dashLiveLabel">Connecting</span>
+      </span>
+      <label class="dash-range">
+       <span>Period</span>
+       <select id="dashRange" aria-label="Reporting period">
+        <option value="7">Last 7 days</option>
+        <option value="30" selected>Last 30 days</option>
+        <option value="90">Last 90 days</option>
+       </select>
+      </label>
+      <button class="ghost-button" id="refreshDashboard" type="button">
+       <i class="fas fa-sync-alt" aria-hidden="true"></i> Refresh
+      </button>
+     </div>
+    </div>
+
+    <div class="metric-grid" id="dashMetrics"></div>
+
+    <div class="dash-grid">
+     <section class="chart-card chart-card--wide" aria-labelledby="chartActivityTitle">
+      <div class="chart-head">
+       <h3 id="chartActivityTitle">Reads and engagement over time</h3>
+       <p class="chart-note" id="chartActivityNote"></p>
+      </div>
+      <div class="chart-canvas-wrap chart-canvas-wrap--tall">
+       <canvas id="chartActivity"></canvas>
+      </div>
+     </section>
+
+     <section class="chart-card" aria-labelledby="chartStatusTitle">
+      <div class="chart-head">
+       <h3 id="chartStatusTitle">Publication status</h3>
+       <p class="chart-note">Published vs everything still in the pipeline.</p>
+      </div>
+      <div class="chart-canvas-wrap">
+       <canvas id="chartStatus"></canvas>
+      </div>
+     </section>
+
+     <section class="chart-card" aria-labelledby="chartReactionsTitle">
+      <div class="chart-head">
+       <h3 id="chartReactionsTitle">Reaction record</h3>
+       <p class="chart-note">Every like and dislike readers have left.</p>
+      </div>
+      <div class="chart-canvas-wrap">
+       <canvas id="chartReactions"></canvas>
+      </div>
+     </section>
+
+     <section class="chart-card" aria-labelledby="chartAuthorsTitle">
+      <div class="chart-head">
+       <h3 id="chartAuthorsTitle">Articles published per author</h3>
+       <p class="chart-note">Registered authors and the work they have live.</p>
+      </div>
+      <div class="chart-canvas-wrap">
+       <canvas id="chartAuthors"></canvas>
+      </div>
+     </section>
+
+     <section class="chart-card" aria-labelledby="chartCategoriesTitle">
+      <div class="chart-head">
+       <h3 id="chartCategoriesTitle">Reads by category</h3>
+       <p class="chart-note">Which subjects readers actually open.</p>
+      </div>
+      <div class="chart-canvas-wrap">
+       <canvas id="chartCategories"></canvas>
+      </div>
+     </section>
+    </div>
+
+    <div class="dash-grid dash-grid--tables">
+     <section class="table-card" aria-labelledby="authorTableTitle">
+      <div class="chart-head">
+       <h3 id="authorTableTitle">Registered authors</h3>
+       <p class="chart-note">Everyone registered to publish, and what their work has earned.</p>
+      </div>
+      <div class="table-scroll">
+       <table class="data-table">
+        <thead>
+         <tr>
+          <th scope="col">Author</th>
+          <th scope="col" class="num">Published</th>
+          <th scope="col" class="num">Pending</th>
+          <th scope="col" class="num">Drafts</th>
+          <th scope="col" class="num">Reads</th>
+          <th scope="col" class="num">Reactions</th>
+          <th scope="col" class="num">Comments</th>
+         </tr>
+        </thead>
+        <tbody id="authorTableBody"></tbody>
+       </table>
+      </div>
+     </section>
+
+     <section class="table-card" aria-labelledby="topArticleTitle">
+      <div class="chart-head">
+       <h3 id="topArticleTitle">Most read articles</h3>
+       <p class="chart-note">Ranked by counted reads.</p>
+      </div>
+      <div class="table-scroll">
+       <table class="data-table">
+        <thead>
+         <tr>
+          <th scope="col">Article</th>
+          <th scope="col" class="num">Reads</th>
+          <th scope="col" class="num">Readers</th>
+          <th scope="col" class="num">Likes</th>
+          <th scope="col" class="num">Comments</th>
+         </tr>
+        </thead>
+        <tbody id="topArticleBody"></tbody>
+       </table>
+      </div>
+     </section>
+
+     <section class="table-card" aria-labelledby="activityTitle">
+      <div class="chart-head">
+       <h3 id="activityTitle">Recent activity</h3>
+       <p class="chart-note">Live feed of reader and editorial events.</p>
+      </div>
+      <ul class="activity-feed" id="activityFeed"></ul>
+     </section>
+    </div>
+   </section>
+
    <!-- Articles -->
-   <section class="panel active" id="panel-articles" aria-label="Articles">
+   <section class="panel" id="panel-articles" aria-label="Articles" hidden>
     <div class="panel-grid">
      <div class="list-column">
       <div class="list-toolbar">
@@ -378,6 +513,10 @@
 
   <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 
+  <!-- Chart.js powers the dashboard graphs. Loaded before admin.js; the
+       dashboard degrades to its metric cards and tables if the CDN is
+       unreachable (for example on an offline machine). -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.js"></script>
   <script src="admin.js"></script>
  </body>
 </html>

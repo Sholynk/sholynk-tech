@@ -367,3 +367,180 @@ test('admin tokens must match in full and protect unpublished content', async ()
     delete process.env.CMS_ADMIN_TOKEN;
   }
 });
+
+/* ------------------------------ analytics -------------------------------- */
+
+test('article reads are counted once per reader per day', async () => {
+  const article = await api('/api/articles', {
+    method: 'POST',
+    body: JSON.stringify({
+      title: 'Read tracking probe',
+      category: 'Technology',
+      description: 'Verifies the read counter.',
+      body: '<p>Body.</p>',
+      author: 'Ada Example'
+    })
+  });
+  assert.equal(article.status, 201);
+  const slug = article.body.data.slug;
+
+  const first = await api(`/api/articles/${slug}/views`, {
+    method: 'POST',
+    body: JSON.stringify({ voterId: 'reader-a' })
+  });
+  assert.equal(first.status, 202);
+  assert.equal(first.body.data.counted, true);
+
+  // The same reader refreshing must not inflate the figure.
+  const repeat = await api(`/api/articles/${slug}/views`, {
+    method: 'POST',
+    body: JSON.stringify({ voterId: 'reader-a' })
+  });
+  assert.equal(repeat.body.data.counted, false);
+  assert.equal(repeat.body.data.reason, 'already-counted-today');
+
+  const second = await api(`/api/articles/${slug}/views`, {
+    method: 'POST',
+    body: JSON.stringify({ voterId: 'reader-b' })
+  });
+  assert.equal(second.body.data.counted, true);
+
+  const overview = await api('/api/analytics/overview');
+  const top = overview.body.data.topArticles.find((item) => item.slug === slug);
+  assert.equal(top.views, 2, 'two distinct readers counted');
+  assert.equal(top.readers, 2, 'both readers counted as unique');
+});
+
+test('reads are rejected for slugs that do not exist', async () => {
+  const response = await api('/api/articles/no-such-article-anywhere/views', {
+    method: 'POST',
+    body: JSON.stringify({ voterId: 'reader-a' })
+  });
+  // The endpoint is public, so it must not become an open write for any string.
+  assert.equal(response.body.data.counted, false);
+  assert.equal(response.body.data.reason, 'unknown-article');
+});
+
+test('analytics overview reports status counts, authors and engagement', async () => {
+  const draft = await api('/api/articles', {
+    method: 'POST',
+    body: JSON.stringify({
+      title: 'Unpublished analytics probe',
+      category: 'Technology',
+      description: 'A draft used to verify status counts.',
+      body: '<p>Body.</p>',
+      status: 'draft',
+      author: 'Ada Example'
+    })
+  });
+  assert.equal(draft.status, 201);
+
+  const { status, body } = await api('/api/analytics/overview?days=7');
+  assert.equal(status, 200);
+  const data = body.data;
+
+  // Published and unpublished must always account for every article.
+  assert.equal(data.totals.published + data.totals.unpublished, data.totals.articles);
+  assert.ok(data.totals.drafts >= 1, 'the draft is counted as unpublished');
+  assert.equal(data.trends.days, 7);
+  assert.equal(data.series.length, 7, 'the series is zero-filled to the full window');
+
+  // Every day in the window is present, including days with no activity.
+  const days = new Set(data.series.map((point) => point.date));
+  assert.equal(days.size, 7, 'no duplicate or missing days');
+
+  assert.ok(Array.isArray(data.authors));
+  assert.ok(Array.isArray(data.topArticles));
+  assert.ok(Array.isArray(data.categories));
+  assert.ok(Array.isArray(data.activity));
+  assert.equal(data.totals.reactions, data.totals.likes + data.totals.dislikes);
+});
+
+test('the author leaderboard counts each author published work and engagement', async () => {
+  const created = await api('/api/authors', {
+    method: 'POST',
+    body: JSON.stringify({ name: 'Leaderboard Author', role: 'Contributor' })
+  });
+  assert.equal(created.status, 201);
+  const authorSlug = created.body.data.slug;
+
+  const article = await api('/api/articles', {
+    method: 'POST',
+    body: JSON.stringify({
+      title: 'Leaderboard probe article',
+      category: 'Technology',
+      description: 'Counts against one author.',
+      body: '<p>Body.</p>',
+      author: 'Leaderboard Author',
+      authorSlug
+    })
+  });
+  const slug = article.body.data.slug;
+
+  await api(`/api/articles/${slug}/views`, {
+    method: 'POST', body: JSON.stringify({ voterId: 'lb-reader' })
+  });
+  await api(`/api/articles/${slug}/reactions`, {
+    method: 'POST', body: JSON.stringify({ voterId: 'lb-voter', type: 'like' })
+  });
+  await api(`/api/articles/${slug}/comments`, {
+    method: 'POST', body: JSON.stringify({ author: 'Reader', body: 'Great piece.' })
+  });
+
+  const overview = await api('/api/analytics/overview');
+  const row = overview.body.data.authors.find((item) => item.slug === authorSlug);
+  assert.ok(row, 'the registered author appears on the leaderboard');
+  assert.equal(row.published, 1);
+  assert.equal(row.views, 1);
+  assert.equal(row.reactions, 1);
+  assert.equal(row.comments, 1);
+});
+
+test('the live stream announces reader activity to connected dashboards', async () => {
+  const article = await api('/api/articles', {
+    method: 'POST',
+    body: JSON.stringify({
+      title: 'Streaming probe',
+      category: 'Technology',
+      description: 'Verifies the SSE change feed.',
+      body: '<p>Body.</p>',
+      author: 'Ada Example'
+    })
+  });
+  const slug = article.body.data.slug;
+
+  const controller = new AbortController();
+  const response = await fetch(`${base}/api/analytics/stream`, { signal: controller.signal });
+  assert.equal(response.status, 200);
+  assert.match(response.headers.get('content-type'), /text\/event-stream/);
+
+  const reader = response.body.getReader();
+  const decoder = new TextDecoder();
+
+  async function readUntil(predicate, budgetMs = 5000) {
+    const deadline = Date.now() + budgetMs;
+    let buffer = '';
+    while (Date.now() < deadline) {
+      const { value, done } = await reader.read();
+      if (done) break;
+      buffer += decoder.decode(value, { stream: true });
+      if (predicate(buffer)) return buffer;
+    }
+    return buffer;
+  }
+
+  // The stream opens with a ready frame so the client can show "live".
+  const opening = await readUntil((text) => text.includes('event: ready'));
+  assert.match(opening, /event: ready/);
+
+  await api(`/api/articles/${slug}/comments`, {
+    method: 'POST',
+    body: JSON.stringify({ author: 'Reader', body: 'Pushed live.' })
+  });
+
+  const pushed = await readUntil((text) => text.includes('event: change'));
+  assert.match(pushed, /event: change/);
+  assert.match(pushed, /"type":"comment"/);
+
+  controller.abort();
+});

@@ -42,6 +42,13 @@
       document.querySelectorAll('.panel').forEach((panel) => {
         panel.hidden = panel.id !== `panel-${tab.dataset.panel}`;
       });
+      if (tab.dataset.panel === 'dashboard') {
+        loadDashboard();
+        connectDashboardStream();
+      } else {
+        // Only hold the live stream open while the dashboard is on screen.
+        disconnectDashboardStream();
+      }
       if (tab.dataset.panel === 'authors') loadAuthors();
       if (tab.dataset.panel === 'media') loadImages();
       if (tab.dataset.panel === 'comments') loadComments();
@@ -847,9 +854,507 @@
     }
   });
 
+  /* ----------------------------- dashboard ------------------------------ */
+
+  const charts = {};
+  let dashboardLoading = false;
+  let dashboardQueued = false;
+  let dashboardStream = null;
+  let streamRetry = null;
+
+  const PALETTE = {
+    blue: '#1d9bf0',
+    blueSoft: 'rgba(29, 155, 240, 0.16)',
+    green: '#16a34a',
+    amber: '#f59e0b',
+    violet: '#7c3aed',
+    slate: '#64748b',
+    red: '#dc2626',
+    pink: '#db2777',
+    teal: '#0d9488'
+  };
+
+  const numberFormat = new Intl.NumberFormat('en-US');
+  const fmt = (value) => numberFormat.format(Number(value) || 0);
+
+  function shortDate(value) {
+    const parsed = new Date(`${value}T00:00:00Z`);
+    if (Number.isNaN(parsed.getTime())) return value;
+    return parsed.toLocaleDateString('en-US', { month: 'short', day: 'numeric', timeZone: 'UTC' });
+  }
+
+  function relativeTime(value) {
+    if (!value) return '';
+    // SQLite timestamps are UTC but carry no zone marker; label them so the
+    // browser does not read them as local time and report "in 1 hour".
+    const iso = /Z|[+-]\d\d:?\d\d$/.test(value) ? value : `${String(value).replace(' ', 'T')}Z`;
+    const then = new Date(iso);
+    if (Number.isNaN(then.getTime())) return '';
+    const seconds = Math.round((Date.now() - then.getTime()) / 1000);
+    if (seconds < 60) return 'just now';
+    const steps = [
+      { limit: 3600, div: 60, unit: 'minute' },
+      { limit: 86400, div: 3600, unit: 'hour' },
+      { limit: 2592000, div: 86400, unit: 'day' },
+      { limit: 31536000, div: 2592000, unit: 'month' }
+    ];
+    for (const step of steps) {
+      if (seconds < step.limit) {
+        const amount = Math.round(seconds / step.div);
+        return `${amount} ${step.unit}${amount === 1 ? '' : 's'} ago`;
+      }
+    }
+    const years = Math.round(seconds / 31536000);
+    return `${years} year${years === 1 ? '' : 's'} ago`;
+  }
+
+  /** A metric card, optionally with a period-over-period delta. */
+  function metricCard({ label, value, hint, trend, tone = 'blue' }) {
+    const card = document.createElement('article');
+    card.className = `metric-card metric-card--${tone}`;
+
+    const labelEl = document.createElement('p');
+    labelEl.className = 'metric-label';
+    labelEl.textContent = label;
+
+    const valueEl = document.createElement('p');
+    valueEl.className = 'metric-value';
+    valueEl.textContent = fmt(value);
+
+    card.append(labelEl, valueEl);
+
+    if (trend && trend.change !== null && trend.change !== undefined) {
+      const delta = document.createElement('p');
+      const rising = trend.change >= 0;
+      delta.className = `metric-delta ${rising ? 'up' : 'down'}`;
+      delta.innerHTML = `<i class="fas fa-arrow-${rising ? 'up' : 'down'}" aria-hidden="true"></i> ${Math.abs(trend.change)}% vs previous period`;
+      card.append(delta);
+    } else if (trend) {
+      // No baseline to compare against: state the raw figure instead of
+      // implying a change we cannot compute.
+      const delta = document.createElement('p');
+      delta.className = 'metric-delta neutral';
+      delta.textContent = `${fmt(trend.current)} this period`;
+      card.append(delta);
+    }
+
+    if (hint) {
+      const hintEl = document.createElement('p');
+      hintEl.className = 'metric-hint';
+      hintEl.textContent = hint;
+      card.append(hintEl);
+    }
+    return card;
+  }
+
+  function renderMetrics(data) {
+    const grid = $('dashMetrics');
+    grid.innerHTML = '';
+    const t = data.totals;
+    const cards = [
+      { label: 'Articles published', value: t.published, tone: 'green', trend: data.trends.published, hint: `${fmt(t.articles)} articles in total` },
+      { label: 'Unpublished', value: t.unpublished, tone: 'slate', hint: `${fmt(t.drafts)} drafts, ${fmt(t.scheduled)} scheduled` },
+      { label: 'Pending approval', value: t.pending, tone: t.pending > 0 ? 'amber' : 'slate', hint: t.pending > 0 ? 'Waiting on an editorial decision' : 'Nothing awaiting review' },
+      { label: 'Articles read', value: t.views, tone: 'blue', trend: data.trends.views, hint: `${fmt(t.readers)} unique readers` },
+      { label: 'Reactions', value: t.reactions, tone: 'violet', trend: data.trends.reactions, hint: `${fmt(t.likes)} likes, ${fmt(t.dislikes)} dislikes` },
+      { label: 'Comments', value: t.comments, tone: 'pink', trend: data.trends.comments, hint: 'Across every article' },
+      { label: 'Registered authors', value: t.authors, tone: 'teal', hint: 'Able to publish on the site' }
+    ];
+    cards.forEach((card) => grid.append(metricCard(card)));
+  }
+
+  /**
+   * Creates a chart, or updates the existing one in place.
+   *
+   * Re-creating on every refresh would restart the animation and drop the
+   * reader's hover state every few seconds on a live dashboard, so an existing
+   * chart has its data swapped instead.
+   */
+  function paintChart(key, canvasId, config) {
+    if (typeof window.Chart === 'undefined') return;
+    const canvas = $(canvasId);
+    if (!canvas) return;
+
+    const existing = charts[key];
+    if (existing) {
+      existing.data = config.data;
+      if (config.options) existing.options = { ...existing.options, ...config.options };
+      existing.update();
+      return;
+    }
+    charts[key] = new window.Chart(canvas, config);
+  }
+
+  const baseOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    interaction: { mode: 'index', intersect: false },
+    plugins: {
+      legend: { labels: { boxWidth: 12, boxHeight: 12, usePointStyle: true, font: { size: 11 } } }
+    }
+  };
+
+  function renderCharts(data) {
+    if (typeof window.Chart === 'undefined') return;
+
+    const labels = data.series.map((point) => shortDate(point.date));
+    paintChart('activity', 'chartActivity', {
+      type: 'line',
+      data: {
+        labels,
+        datasets: [
+          {
+            label: 'Reads',
+            data: data.series.map((p) => p.views),
+            borderColor: PALETTE.blue,
+            backgroundColor: PALETTE.blueSoft,
+            fill: true,
+            tension: 0.35,
+            borderWidth: 2,
+            pointRadius: 0,
+            pointHoverRadius: 4
+          },
+          {
+            label: 'Unique readers',
+            data: data.series.map((p) => p.readers),
+            borderColor: PALETTE.teal,
+            tension: 0.35,
+            borderWidth: 2,
+            pointRadius: 0,
+            pointHoverRadius: 4
+          },
+          {
+            label: 'Reactions',
+            data: data.series.map((p) => p.reactions),
+            borderColor: PALETTE.violet,
+            tension: 0.35,
+            borderWidth: 2,
+            pointRadius: 0,
+            pointHoverRadius: 4
+          },
+          {
+            label: 'Comments',
+            data: data.series.map((p) => p.comments),
+            borderColor: PALETTE.pink,
+            tension: 0.35,
+            borderWidth: 2,
+            pointRadius: 0,
+            pointHoverRadius: 4
+          }
+        ]
+      },
+      options: {
+        ...baseOptions,
+        scales: {
+          y: { beginAtZero: true, ticks: { precision: 0 }, grid: { color: 'rgba(15,23,42,0.06)' } },
+          x: { grid: { display: false }, ticks: { maxTicksLimit: 10, autoSkip: true } }
+        }
+      }
+    });
+
+    const statuses = data.statuses;
+    paintChart('status', 'chartStatus', {
+      type: 'doughnut',
+      data: {
+        labels: ['Published', 'Draft', 'Scheduled', 'Pending approval'],
+        datasets: [{
+          data: [statuses.published, statuses.draft, statuses.scheduled, statuses.pending],
+          backgroundColor: [PALETTE.green, PALETTE.slate, PALETTE.blue, PALETTE.amber],
+          borderWidth: 0
+        }]
+      },
+      options: { ...baseOptions, cutout: '58%', plugins: { ...baseOptions.plugins, legend: { position: 'bottom', labels: { boxWidth: 12, usePointStyle: true, font: { size: 11 } } } } }
+    });
+
+    paintChart('reactions', 'chartReactions', {
+      type: 'doughnut',
+      data: {
+        labels: ['Likes', 'Dislikes'],
+        datasets: [{
+          data: [data.totals.likes, data.totals.dislikes],
+          backgroundColor: [PALETTE.green, PALETTE.red],
+          borderWidth: 0
+        }]
+      },
+      options: { ...baseOptions, cutout: '58%', plugins: { ...baseOptions.plugins, legend: { position: 'bottom', labels: { boxWidth: 12, usePointStyle: true, font: { size: 11 } } } } }
+    });
+
+    const topAuthors = data.authors.slice(0, 6);
+    paintChart('authors', 'chartAuthors', {
+      type: 'bar',
+      data: {
+        labels: topAuthors.map((a) => a.name),
+        datasets: [
+          { label: 'Published', data: topAuthors.map((a) => a.published), backgroundColor: PALETTE.green, borderRadius: 4 },
+          { label: 'Pending', data: topAuthors.map((a) => a.pending), backgroundColor: PALETTE.amber, borderRadius: 4 },
+          { label: 'Drafts', data: topAuthors.map((a) => a.drafts), backgroundColor: PALETTE.slate, borderRadius: 4 }
+        ]
+      },
+      options: {
+        ...baseOptions,
+        scales: {
+          x: { stacked: true, grid: { display: false } },
+          y: { stacked: true, beginAtZero: true, ticks: { precision: 0 }, grid: { color: 'rgba(15,23,42,0.06)' } }
+        }
+      }
+    });
+
+    const categories = data.categories.slice(0, 8);
+    paintChart('categories', 'chartCategories', {
+      type: 'bar',
+      data: {
+        labels: categories.map((c) => c.category),
+        datasets: [{ label: 'Reads', data: categories.map((c) => c.views), backgroundColor: PALETTE.blue, borderRadius: 4 }]
+      },
+      options: {
+        ...baseOptions,
+        indexAxis: 'y',
+        plugins: { ...baseOptions.plugins, legend: { display: false } },
+        scales: {
+          x: { beginAtZero: true, ticks: { precision: 0 }, grid: { color: 'rgba(15,23,42,0.06)' } },
+          y: { grid: { display: false } }
+        }
+      }
+    });
+  }
+
+  function emptyRow(table, columns, message) {
+    const row = document.createElement('tr');
+    const cell = document.createElement('td');
+    cell.colSpan = columns;
+    cell.className = 'table-empty';
+    cell.textContent = message;
+    row.append(cell);
+    table.append(row);
+  }
+
+  function renderAuthorTable(data) {
+    const body = $('authorTableBody');
+    body.innerHTML = '';
+    if (!data.authors.length) {
+      emptyRow(body, 7, 'No authors registered yet.');
+      return;
+    }
+    data.authors.forEach((author) => {
+      const row = document.createElement('tr');
+
+      const nameCell = document.createElement('td');
+      const identity = document.createElement('span');
+      identity.className = 'table-identity';
+      identity.append(authorAvatar(author));
+      const text = document.createElement('span');
+      const strong = document.createElement('strong');
+      strong.textContent = author.name;
+      const meta = document.createElement('small');
+      meta.textContent = author.role || author.slug;
+      text.append(strong, document.createElement('br'), meta);
+      identity.append(text);
+      nameCell.append(identity);
+      row.append(nameCell);
+
+      [author.published, author.pending, author.drafts, author.views, author.reactions, author.comments]
+        .forEach((value) => {
+          const cell = document.createElement('td');
+          cell.className = 'num';
+          cell.textContent = fmt(value);
+          row.append(cell);
+        });
+      body.append(row);
+    });
+  }
+
+  function renderTopArticles(data) {
+    const body = $('topArticleBody');
+    body.innerHTML = '';
+    const rows = data.topArticles.filter((article) => article.views > 0);
+    if (!rows.length) {
+      emptyRow(body, 5, 'No reads recorded yet. Figures appear here as readers open articles.');
+      return;
+    }
+    rows.forEach((article) => {
+      const row = document.createElement('tr');
+      const titleCell = document.createElement('td');
+      const strong = document.createElement('strong');
+      strong.textContent = article.title;
+      const meta = document.createElement('small');
+      meta.textContent = `${article.category} - ${article.author}`;
+      titleCell.append(strong, document.createElement('br'), meta);
+      row.append(titleCell);
+      [article.views, article.readers, article.likes, article.comments].forEach((value) => {
+        const cell = document.createElement('td');
+        cell.className = 'num';
+        cell.textContent = fmt(value);
+        row.append(cell);
+      });
+      body.append(row);
+    });
+  }
+
+  const ACTIVITY_ICONS = {
+    comment: 'fa-comment',
+    like: 'fa-thumbs-up',
+    dislike: 'fa-thumbs-down',
+    published: 'fa-circle-check',
+    article: 'fa-pen-nib'
+  };
+
+  function renderActivity(data) {
+    const feed = $('activityFeed');
+    feed.innerHTML = '';
+    if (!data.activity.length) {
+      const empty = document.createElement('li');
+      empty.className = 'activity-empty';
+      empty.textContent = 'No activity recorded yet.';
+      feed.append(empty);
+      return;
+    }
+    data.activity.forEach((event) => {
+      const item = document.createElement('li');
+      item.className = `activity-item activity-item--${event.type}`;
+
+      const icon = document.createElement('span');
+      icon.className = 'activity-icon';
+      icon.innerHTML = `<i class="fas ${ACTIVITY_ICONS[event.type] || 'fa-circle'}" aria-hidden="true"></i>`;
+
+      const bodyEl = document.createElement('div');
+      const title = document.createElement('strong');
+      title.textContent = event.title;
+      const detail = document.createElement('small');
+      detail.textContent = `${event.detail} - ${relativeTime(event.at)}`;
+      bodyEl.append(title, document.createElement('br'), detail);
+      if (event.body) {
+        const quote = document.createElement('p');
+        quote.className = 'activity-quote';
+        quote.textContent = event.body;
+        bodyEl.append(quote);
+      }
+      item.append(icon, bodyEl);
+      feed.append(item);
+    });
+  }
+
+  function setLiveState(state, label) {
+    const badge = $('dashLive');
+    if (!badge) return;
+    badge.dataset.state = state;
+    $('dashLiveLabel').textContent = label;
+  }
+
+  async function loadDashboard() {
+    // A burst of reader activity can fire several change events at once.
+    // Collapse them: run one refresh, and queue at most one more behind it.
+    if (dashboardLoading) {
+      dashboardQueued = true;
+      return;
+    }
+    dashboardLoading = true;
+    try {
+      const days = Number($('dashRange').value) || 30;
+      const payload = await request(`/analytics/overview?days=${days}`);
+      const data = payload.data;
+
+      renderMetrics(data);
+      renderAuthorTable(data);
+      renderTopArticles(data);
+      renderActivity(data);
+      // Charts are the one part that depends on a third-party library and a
+      // live canvas. If that fails, the numbers and tables above are still
+      // correct and must stay on screen rather than being taken down with it.
+      let chartError = null;
+      try {
+        renderCharts(data);
+      } catch (error) {
+        chartError = error;
+        console.error('Dashboard charts failed to render:', error);
+      }
+
+      $('chartActivityNote').textContent = `Daily totals over the last ${data.trends.days} days.`;
+      const stamp = new Date(data.generatedAt).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+      if (typeof window.Chart === 'undefined') {
+        $('dashUpdated').textContent = `Updated ${stamp}. Charts unavailable offline - metrics and tables still live.`;
+      } else if (chartError) {
+        $('dashUpdated').textContent = `Updated ${stamp}. Charts could not be drawn - metrics and tables are current.`;
+      } else {
+        $('dashUpdated').textContent = `Updated ${stamp}`;
+      }
+    } catch (error) {
+      $('dashUpdated').textContent = error.message;
+      toast(error.message, true);
+    } finally {
+      dashboardLoading = false;
+      if (dashboardQueued) {
+        dashboardQueued = false;
+        loadDashboard();
+      }
+    }
+  }
+
+  /**
+   * Subscribes to the server's change stream so the dashboard reflects reader
+   * and editorial activity without anyone pressing refresh.
+   *
+   * EventSource cannot send headers, so a configured admin token travels as a
+   * query parameter here (the API accepts either). If the stream cannot be
+   * established the dashboard falls back to polling rather than going stale.
+   */
+  function connectDashboardStream() {
+    if (dashboardStream || typeof window.EventSource === 'undefined') return;
+    const token = tokenInput.value.trim();
+    const url = `${API}/analytics/stream${token ? `?token=${encodeURIComponent(token)}` : ''}`;
+
+    setLiveState('connecting', 'Connecting');
+    const source = new EventSource(url);
+    dashboardStream = source;
+
+    source.addEventListener('ready', () => setLiveState('live', 'Live'));
+    source.addEventListener('change', () => {
+      if (!$('panel-dashboard').hidden) loadDashboard();
+    });
+    source.onerror = () => {
+      setLiveState('reconnecting', 'Reconnecting');
+      // EventSource retries on its own; only rebuild if it gave up entirely.
+      if (source.readyState === EventSource.CLOSED) {
+        dashboardStream = null;
+        clearTimeout(streamRetry);
+        streamRetry = setTimeout(connectDashboardStream, 8000);
+      }
+    };
+  }
+
+  function disconnectDashboardStream() {
+    clearTimeout(streamRetry);
+    dashboardStream?.close();
+    dashboardStream = null;
+  }
+
+  $('refreshDashboard').addEventListener('click', () => loadDashboard());
+  $('dashRange').addEventListener('change', () => loadDashboard());
+
+  // A changed token means the stream must be re-authenticated.
+  tokenInput.addEventListener('change', () => {
+    if ($('panel-dashboard').hidden) return;
+    disconnectDashboardStream();
+    connectDashboardStream();
+    loadDashboard();
+  });
+
+  // Nothing to update while the tab is in the background; reconnect and catch
+  // up as soon as it is visible again.
+  document.addEventListener('visibilitychange', () => {
+    if ($('panel-dashboard').hidden) return;
+    if (document.hidden) {
+      disconnectDashboardStream();
+    } else {
+      connectDashboardStream();
+      loadDashboard();
+    }
+  });
+
   /* -------------------------------- boot -------------------------------- */
 
   fillForm(null);
   loadArticles().catch((error) => toast(error.message, true));
   loadAuthors();
+  loadDashboard();
+  connectDashboardStream();
 })();

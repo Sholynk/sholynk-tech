@@ -135,6 +135,23 @@ db.exec(`
     created_at   TEXT NOT NULL DEFAULT (datetime('now'))
   );
 
+  /*
+   * Article reads.
+   *
+   * One row per counted read. viewer_id is the same anonymous browser id the
+   * engagement widgets use, so "unique readers" can be derived without any
+   * account system or personal data. A read is only counted once per viewer per
+   * article per day (enforced by the unique index below) so a reader who
+   * refreshes, or leaves a tab open, cannot inflate the number.
+   */
+  CREATE TABLE IF NOT EXISTS article_views (
+    id           INTEGER PRIMARY KEY AUTOINCREMENT,
+    article_slug TEXT NOT NULL,
+    viewer_id    TEXT NOT NULL DEFAULT '',
+    viewed_on    TEXT NOT NULL DEFAULT (date('now')),
+    created_at   TEXT NOT NULL DEFAULT (datetime('now'))
+  );
+
   CREATE INDEX IF NOT EXISTS idx_articles_category ON articles(category);
   CREATE INDEX IF NOT EXISTS idx_articles_status ON articles(status);
   CREATE INDEX IF NOT EXISTS idx_sources_article ON article_sources(article_id, id);
@@ -180,5 +197,11 @@ db.exec(`CREATE TABLE IF NOT EXISTS submissions (
 
 db.exec('CREATE INDEX IF NOT EXISTS idx_comments_client ON comments(client_id)');
 db.exec('CREATE INDEX IF NOT EXISTS idx_submissions_article ON submissions(article_id, id)');
+db.exec('CREATE INDEX IF NOT EXISTS idx_views_slug ON article_views(article_slug, viewed_on)');
+db.exec('CREATE INDEX IF NOT EXISTS idx_views_day ON article_views(viewed_on)');
+// One counted read per viewer, per article, per day. Anonymous reads (no viewer
+// id, e.g. a browser blocking storage) are exempt so they are still tallied.
+db.exec(`CREATE UNIQUE INDEX IF NOT EXISTS idx_views_unique
+  ON article_views(article_slug, viewer_id, viewed_on) WHERE viewer_id != ''`);
 
 module.exports = { db, DB_FILE, DATA_DIR };

@@ -15,6 +15,8 @@ const engagement = require('../lib/engagement');
 const authors = require('../lib/authors');
 const pdfImport = require('../lib/pdf-import');
 const notifications = require('../lib/notifications');
+const analytics = require('../lib/analytics');
+const events = require('../lib/events');
 const { db } = require('../lib/db');
 
 const router = express.Router();
@@ -205,6 +207,7 @@ router.post('/articles', requireAdmin, async (req, res, next) => {
       await notifications.notifyReviewNeeded(created).catch((err) => console.error(err));
       data = { ...created, reviewNotice: 'Article submitted for review. Sholynk Tech has been notified.' };
     }
+    events.publish('article', { slug: created.slug, status: created.status });
     res.status(201).json({ data });
   } catch (error) {
     next(error);
@@ -231,6 +234,7 @@ router.put('/articles/:id', requireAdmin, async (req, res, next) => {
       await notifications.notifyReviewNeeded(updated).catch((err) => console.error(err));
       data = { ...updated, reviewNotice: 'Article submitted for review. Sholynk Tech has been notified.' };
     }
+    events.publish('article', { slug: updated.slug, status: updated.status });
     res.json({ data });
   } catch (error) {
     next(error);
@@ -254,6 +258,7 @@ router.patch('/articles/:id', requireAdmin, async (req, res, next) => {
       await notifications.notifyReviewNeeded(updated).catch((err) => console.error(err));
       data = { ...updated, reviewNotice: 'Article submitted for review. Sholynk Tech has been notified.' };
     }
+    events.publish('article', { slug: updated.slug, status: updated.status });
     res.json({ data });
   } catch (error) {
     next(error);
@@ -263,6 +268,7 @@ router.patch('/articles/:id', requireAdmin, async (req, res, next) => {
 router.delete('/articles/:id', requireAdmin, (req, res) => {
   const removed = articles.remove(req.params.id);
   if (!removed) return res.status(404).json({ error: 'Article not found' });
+  events.publish('article');
   res.status(204).end();
 });
 
@@ -303,7 +309,9 @@ router.get('/authors/:idOrSlug', (req, res) => {
 
 router.post('/authors', requireAdmin, (req, res, next) => {
   try {
-    return res.status(201).json({ data: authors.create(req.body || {}) });
+    const author = authors.create(req.body || {});
+    events.publish('author', { slug: author.slug });
+    return res.status(201).json({ data: author });
   } catch (error) {
     return next(error);
   }
@@ -313,6 +321,7 @@ router.patch('/authors/:id', requireAdmin, (req, res, next) => {
   try {
     const author = authors.update(req.params.id, req.body || {});
     if (!author) return res.status(404).json({ error: 'Author not found' });
+    events.publish('author', { slug: author.slug });
     return res.json({ data: author });
   } catch (error) {
     return next(error);
@@ -321,6 +330,7 @@ router.patch('/authors/:id', requireAdmin, (req, res, next) => {
 
 router.delete('/authors/:id', requireAdmin, (req, res) => {
   if (!authors.remove(req.params.id)) return res.status(404).json({ error: 'Author not found' });
+  events.publish('author');
   return res.status(204).end();
 });
 
@@ -349,7 +359,9 @@ router.get('/articles/:slug/reactions', (req, res, next) => {
 
 router.post('/articles/:slug/reactions', (req, res, next) => {
   try {
-    res.json({ data: engagement.react(req.params.slug, req.body || {}) });
+    const data = engagement.react(req.params.slug, req.body || {});
+    events.publish('reaction', { slug: req.params.slug });
+    res.json({ data });
   } catch (error) {
     next(error);
   }
@@ -366,10 +378,74 @@ router.get('/articles/:slug/comments', (req, res, next) => {
 
 router.post('/articles/:slug/comments', (req, res, next) => {
   try {
-    res.status(201).json({ data: engagement.addComment(req.params.slug, req.body || {}) });
+    const data = engagement.addComment(req.params.slug, req.body || {});
+    events.publish('comment', { slug: req.params.slug });
+    res.status(201).json({ data });
   } catch (error) {
     next(error);
   }
+});
+
+/* ------------------------------ analytics ------------------------------- */
+
+/**
+ * Records one article read. Public and unauthenticated by design: it is called
+ * by readers. `recordView` only accepts slugs that exist and collapses repeat
+ * reads by the same anonymous viewer on the same day, so the endpoint cannot be
+ * used to write arbitrary rows or inflate a count by refreshing.
+ */
+router.post('/articles/:slug/views', (req, res, next) => {
+  try {
+    const result = analytics.recordView(req.params.slug, req.body || {});
+    if (result.counted) events.publish('view', { slug: req.params.slug });
+    res.status(202).json({ data: result });
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get('/analytics/overview', requireAdmin, (req, res, next) => {
+  try {
+    const days = req.query.days ? Number(req.query.days) : undefined;
+    res.json({ data: analytics.overview({ days }) });
+  } catch (error) {
+    next(error);
+  }
+});
+
+/**
+ * Live dashboard updates over Server-Sent Events.
+ *
+ * Only a change *signal* is pushed, never figures: the dashboard refetches the
+ * aggregates when it is nudged. That keeps a dropped reconnect or a duplicated
+ * event harmless, and means the stream stays tiny no matter how much traffic
+ * the site is getting.
+ */
+router.get('/analytics/stream', requireAdmin, (req, res) => {
+  res.writeHead(200, {
+    'Content-Type': 'text/event-stream',
+    'Cache-Control': 'no-cache, no-transform',
+    Connection: 'keep-alive',
+    // Proxies that buffer would defeat the point of a stream.
+    'X-Accel-Buffering': 'no'
+  });
+  res.write('retry: 5000\n\n');
+  res.write(`event: ready\ndata: ${JSON.stringify({ at: new Date().toISOString() })}\n\n`);
+
+  const unsubscribe = events.subscribe((event) => {
+    res.write(`event: change\ndata: ${JSON.stringify(event)}\n\n`);
+  });
+
+  // Idle connections are dropped by proxies and some hosts after ~60s; a
+  // comment frame keeps the socket warm without waking the client.
+  const heartbeat = setInterval(() => res.write(': keep-alive\n\n'), 25000);
+  heartbeat.unref?.();
+
+  req.on('close', () => {
+    clearInterval(heartbeat);
+    unsubscribe();
+    res.end();
+  });
 });
 
 // Moderation stays behind the admin token.
@@ -386,6 +462,7 @@ router.delete('/comments/:id', requireAdmin, (req, res) => {
   if (!engagement.removeComment(req.params.id)) {
     return res.status(404).json({ error: 'Comment not found' });
   }
+  events.publish('comment');
   return res.status(204).end();
 });
 

@@ -652,6 +652,59 @@ window.SholynkEngagement = (() => {
     };
   }
 
+  /* ------------------------------ read tracking ---------------------------- */
+
+  /**
+   * Counts an article read once the reader has actually engaged with the page.
+   *
+   * A hit on load would count bounces and prefetches as reads, so the beacon
+   * waits for a real signal of attention: either scrolling past the top of the
+   * article, or spending long enough on the page to have read something. It
+   * fires at most once per page load, and the server collapses repeats by the
+   * same anonymous reader on the same day.
+   */
+  const VIEW_DWELL_MS = 12000;
+  const VIEW_SCROLL_RATIO = 0.25;
+
+  function trackRead(slug) {
+    if (!slug) return () => {};
+
+    let sent = false;
+    let timer = null;
+
+    async function send() {
+      if (sent) return;
+      sent = true;
+      cleanup();
+      if (!(await apiAvailable())) return;
+      try {
+        await cms.apiRequest(`/articles/${encodeURIComponent(slug)}/views`, {
+          method: 'POST',
+          body: JSON.stringify({ voterId: voterId() })
+        });
+      } catch (error) {
+        // A missed read is not worth surfacing to the reader.
+      }
+    }
+
+    function onScroll() {
+      const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+      // A page too short to scroll counts on the dwell timer instead.
+      if (scrollable <= 0) return;
+      if (window.scrollY / scrollable >= VIEW_SCROLL_RATIO) send();
+    }
+
+    function cleanup() {
+      window.removeEventListener('scroll', onScroll);
+      if (timer) clearTimeout(timer);
+      timer = null;
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    timer = setTimeout(send, VIEW_DWELL_MS);
+    return cleanup;
+  }
+
   /* -------------------------------- mount ---------------------------------- */
 
   /**
@@ -681,6 +734,9 @@ window.SholynkEngagement = (() => {
     // Push any comments written while the API was unreachable into the shared
     // history now that the page is up, and again whenever the browser
     // reconnects — so a comment left on one device appears on every device.
+    // Start counting this read once the reader shows genuine attention.
+    trackRead(slug);
+
     flushQueue(slug);
     window.addEventListener('online', () => {
       // The CMS client caches its API probe; force a fresh one so a browser
@@ -694,5 +750,5 @@ window.SholynkEngagement = (() => {
     return wrapper;
   }
 
-  return { mount, voterId, getEngagement, sendReaction, sendComment, flushQueue, newClientId };
+  return { mount, voterId, getEngagement, sendReaction, sendComment, flushQueue, newClientId, trackRead };
 })();
