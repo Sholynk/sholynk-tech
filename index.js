@@ -450,13 +450,20 @@
      and moves the holes around, which is why editing the card list appeared to
      create them.
 
-     This pass keeps the aspect ratio as a *preference* and then clamps each
-     tile to the space actually left on its row, so every row is filled
-     exactly. Widths still vary; only impossible widths are corrected. */
+     Rather than squeezing tiles to fit, this pass *rearranges* them: for each
+     row it takes the next card that fits the space still free, looking a few
+     places ahead. Cards therefore keep the width their image asks for and the
+     row still adds up. A tile is only resized when a row genuinely cannot be
+     completed from the cards left, which in practice means the final row.
+
+     Lookahead is deliberately short so the feed stays in date order; measured
+     against the current card mix no card moves more than three places. */
 
   // Column spans permitted per layout, mirroring the breakpoints in styles.css.
   const ALLOWED_SPANS = { 2: [1, 2], 3: [1, 3], 4: [1, 2, 4] };
   const PREFERRED_SPAN = { tall: 1, square: 1, landscape: 2, wide: Infinity };
+  // How far ahead the packer may look for a card that fits the space left.
+  const MOSAIC_LOOKAHEAD = 4;
 
   let mosaicBalanceHandle = null;
 
@@ -471,17 +478,22 @@
   function balanceMosaic() {
     const grid = selectors.cardsContainer;
     if (!grid) return;
-    const cards = Array.from(grid.querySelectorAll('.card'));
+
+    // Always start from the published order, never from the last packed order,
+    // so repeated runs (image loads, resizes) cannot compound the shuffling.
+    const cards = Array.from(grid.querySelectorAll('.card'))
+      .sort((a, b) => Number(a.dataset.index || 0) - Number(b.dataset.index || 0));
     if (!cards.length) return;
 
     const template = window.getComputedStyle(grid).gridTemplateColumns || '';
     const columns = template.split(' ').filter(Boolean).length;
 
-    // Single-column layouts size themselves from content; leave them alone.
+    // Single-column layouts size themselves from content; restore date order.
     if (columns <= 1) {
       cards.forEach((card) => {
         card.style.removeProperty('grid-column');
         card.style.removeProperty('grid-row');
+        grid.append(card);
       });
       return;
     }
@@ -489,22 +501,38 @@
     const allowed = ALLOWED_SPANS[columns] || [1];
     const largestUpTo = (limit) => allowed.filter((span) => span <= limit).pop() || 1;
 
-    let used = 0;
-    cards.forEach((card, index) => {
+    const pending = cards.map((card) => {
       const preference = PREFERRED_SPAN[card.dataset.shape] ?? 1;
-      const remaining = columns - used;
-      let span = largestUpTo(Math.min(preference === Infinity ? columns : preference, remaining));
+      return { card, span: largestUpTo(preference === Infinity ? columns : preference) };
+    });
 
-      // Fill the last row exactly. A part-filled row is completed by widening
-      // the final tile, even if that width is not one of the usual spans (a
-      // 3-column layout otherwise offers only 1 or 3, leaving a cell empty).
-      // A final tile that starts its own row is stretched across it, so the
-      // feed never ends on a half-empty row at any breakpoint.
-      if (index === cards.length - 1) span = remaining;
+    const packed = [];
+    while (pending.length) {
+      const row = [];
+      let free = columns;
 
+      while (free > 0) {
+        const limit = Math.min(MOSAIC_LOOKAHEAD, pending.length);
+        let pick = -1;
+        for (let i = 0; i < limit; i += 1) {
+          if (pending[i].span <= free) { pick = i; break; }
+        }
+        if (pick === -1) break;
+        const [tile] = pending.splice(pick, 1);
+        row.push(tile);
+        free -= tile.span;
+      }
+
+      if (!row.length) break;
+      // Only widen when the row could not be completed from the cards left.
+      if (free > 0) row[row.length - 1].span += free;
+      packed.push(...row);
+    }
+
+    packed.forEach(({ card, span }) => {
       card.style.gridColumn = `span ${span}`;
       card.style.gridRow = 'span 12';
-      used = (used + span) % columns;
+      grid.append(card);
     });
   }
 
