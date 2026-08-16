@@ -436,6 +436,76 @@
     card.classList.remove('card--tall', 'card--square', 'card--landscape', 'card--wide');
     card.classList.add(`card--${shape}`);
     card.dataset.shape = shape;
+    scheduleMosaicBalance();
+  }
+
+  /* Gap-free mosaic packing.
+
+     The class-based spans above come from each image's aspect ratio, so the
+     widths on any given row rarely add up to the column count. A 'wide' tile
+     needs the full row: if only two of four columns are free, it cannot fit
+     there and CSS drops it to the next row, stranding an empty cell. Dense
+     packing only heals that when a later tile happens to be small enough, so
+     holes survive in the middle of the feed. Removing cards changes the mix
+     and moves the holes around, which is why editing the card list appeared to
+     create them.
+
+     This pass keeps the aspect ratio as a *preference* and then clamps each
+     tile to the space actually left on its row, so every row is filled
+     exactly. Widths still vary; only impossible widths are corrected. */
+
+  // Column spans permitted per layout, mirroring the breakpoints in styles.css.
+  const ALLOWED_SPANS = { 2: [1, 2], 3: [1, 3], 4: [1, 2, 4] };
+  const PREFERRED_SPAN = { tall: 1, square: 1, landscape: 2, wide: Infinity };
+
+  let mosaicBalanceHandle = null;
+
+  function scheduleMosaicBalance() {
+    if (mosaicBalanceHandle) return;
+    mosaicBalanceHandle = window.requestAnimationFrame(() => {
+      mosaicBalanceHandle = null;
+      balanceMosaic();
+    });
+  }
+
+  function balanceMosaic() {
+    const grid = selectors.cardsContainer;
+    if (!grid) return;
+    const cards = Array.from(grid.querySelectorAll('.card'));
+    if (!cards.length) return;
+
+    const template = window.getComputedStyle(grid).gridTemplateColumns || '';
+    const columns = template.split(' ').filter(Boolean).length;
+
+    // Single-column layouts size themselves from content; leave them alone.
+    if (columns <= 1) {
+      cards.forEach((card) => {
+        card.style.removeProperty('grid-column');
+        card.style.removeProperty('grid-row');
+      });
+      return;
+    }
+
+    const allowed = ALLOWED_SPANS[columns] || [1];
+    const largestUpTo = (limit) => allowed.filter((span) => span <= limit).pop() || 1;
+
+    let used = 0;
+    cards.forEach((card, index) => {
+      const preference = PREFERRED_SPAN[card.dataset.shape] ?? 1;
+      const remaining = columns - used;
+      let span = largestUpTo(Math.min(preference === Infinity ? columns : preference, remaining));
+
+      // Fill the last row exactly. A part-filled row is completed by widening
+      // the final tile, even if that width is not one of the usual spans (a
+      // 3-column layout otherwise offers only 1 or 3, leaving a cell empty).
+      // A final tile that starts its own row is stretched across it, so the
+      // feed never ends on a half-empty row at any breakpoint.
+      if (index === cards.length - 1) span = remaining;
+
+      card.style.gridColumn = `span ${span}`;
+      card.style.gridRow = 'span 12';
+      used = (used + span) % columns;
+    });
   }
 
   function getKnownAspectRatio(article) {
@@ -576,6 +646,7 @@
     updateResultsCount(filteredArticles.length);
     renderPagination(totalPages);
     observeCards();
+    balanceMosaic();
   }
 
   function updateResultsCount(count) {
@@ -736,6 +807,11 @@
     renderCategoryFilters();
     renderCards();
     applySettings();
+
+    // Column count changes at each breakpoint, so the packing has to be
+    // recalculated when the viewport is resized or the device is rotated.
+    window.addEventListener('resize', scheduleMosaicBalance, { passive: true });
+    window.addEventListener('orientationchange', scheduleMosaicBalance, { passive: true });
   }
 
   if (document.readyState === 'loading') {

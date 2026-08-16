@@ -86,4 +86,4 @@ Esports did not become an industry because someone won the argument about whethe
 
 What is still unsettled is whether the sector can fund itself. A business resting on sponsorship and strategic national investment is a business dependent on other people's enthusiasm. The transition that matters over the next few years is not further institutional recognition, which it now has, but whether esports can build revenue that survives a cold funding market.
 
-Esports sells the same thing the social platforms sell: hours of human attention, bought by sponsors. Our piece on <a href="/articles/distraction-by-design/" target="_blank" rel="noopener noreferrer">distraction by design</a> examines how that market for attention actually works, and who pays for it.
+Esports sells the same thing the social platforms sell: hours of human attention, bought by sponsors. Our piece on [distraction by design](/articles/distraction-by-design/) examines how that market for attention actually works, and who pays for it.
