@@ -58,3 +58,37 @@ test('Markdown files without a front-matter block are skipped, not published', (
     fs.rmSync(probe, { force: true });
   }
 });
+
+test('re-running the seed leaves every article untouched, including hero slides', () => {
+  // The earlier test only checked one article, which happens to have no hero
+  // slide. A story promoted by a slide in seed.json is written twice per run —
+  // once by the Markdown step and once by the hero step — so the two can
+  // overwrite each other indefinitely. That churns updated_at, and with it the
+  // dateModified in each page's structured data, on content nobody edited.
+  seed.run();
+
+  const marker = '2000-01-01 00:00:00';
+  db.prepare('UPDATE articles SET updated_at = ?').run(marker);
+
+  seed.run();
+
+  const touched = articles
+    .list({ status: 'all' })
+    .filter((article) => article.updatedAt !== marker)
+    .map((article) => article.slug);
+
+  assert.deepEqual(touched, [], 'a second seed run must not rewrite any article');
+});
+
+test('hero placement from seed.json survives repeated seeding', () => {
+  seed.run();
+  seed.run();
+
+  const heroes = articles.list({ status: 'all' }).filter((article) => article.hero);
+  assert.ok(heroes.length > 0, 'hero slides still promote their articles');
+
+  // The Markdown step must not clear a placement that seed.json owns.
+  const promoted = articles.getBySlug('mastering-the-art-of-coding');
+  assert.equal(promoted.hero, true, 'a story promoted by a slide stays in the hero slider');
+  assert.equal(promoted.heroOrder, 0);
+});

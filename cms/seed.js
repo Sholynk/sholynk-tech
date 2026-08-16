@@ -161,9 +161,16 @@ function seedStories() {
       externalLink: null,
       seoTitle: data.seoTitle || null,
       seoDescription: data.seoDescription || null,
-      // Hero placement is controlled from the front matter.
-      hero: Boolean(data.hero),
-      heroOrder: data.hero && Number.isFinite(Number(data.heroOrder)) ? Number(data.heroOrder) : null
+      // Hero placement is only written when the front matter actually declares
+      // it. A story can also be promoted by a slide in seed.json (step 3), so
+      // unconditionally writing `hero: false` here would clear that placement
+      // and the two steps would overwrite each other on every sync — bumping
+      // updated_at, and with it the dateModified in each page's structured
+      // data, on articles whose content never changed.
+      ...(data.hero === undefined ? {} : {
+        hero: Boolean(data.hero),
+        heroOrder: data.hero && Number.isFinite(Number(data.heroOrder)) ? Number(data.heroOrder) : null
+      })
     });
     ownedSlugs.add(slug);
   }

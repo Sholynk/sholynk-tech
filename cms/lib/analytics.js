@@ -155,9 +155,13 @@ function trends({ days = 30 } = {}) {
   const previousStart = `-${span * 2 - 1} days`;
   const previousEnd = `-${span} days`;
 
+  // Both windows are closed at both ends. Without the upper bound on the
+  // current window, a future-dated row (a backdated or scheduled publish date)
+  // would count towards "this period" while falling outside the chart series
+  // covering the same period, and the two would disagree.
   const windowed = (table, column) => ({
     current: count(
-      `SELECT COUNT(*) AS total FROM ${table} WHERE date(${column}) >= date('now', ?)`,
+      `SELECT COUNT(*) AS total FROM ${table} WHERE date(${column}) >= date('now', ?) AND date(${column}) <= date('now')`,
       current
     ),
     previous: count(
@@ -179,7 +183,7 @@ function trends({ days = 30 } = {}) {
     reactions: build(windowed('reactions', 'created_at')),
     published: build({
       current: count(
-        "SELECT COUNT(*) AS total FROM articles WHERE status = 'published' AND published_at >= date('now', ?)",
+        "SELECT COUNT(*) AS total FROM articles WHERE status = 'published' AND published_at >= date('now', ?) AND published_at <= date('now')",
         current
       ),
       previous: count(
