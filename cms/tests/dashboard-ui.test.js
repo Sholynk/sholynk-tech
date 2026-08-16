@@ -329,3 +329,72 @@ test('zero-valued statuses are left out of the ring', async () => {
   const statusChart = window.__charts.find((c) => c.canvasId === 'chartStatus');
   assert.deepEqual(statusChart.config.data.labels, ['Published']);
 });
+
+/* --------------------------- form placeholders ---------------------------- */
+
+/**
+ * Placeholders only render on free-text controls. A select shows its options, a
+ * checkbox has none, and date/file inputs render their own native widget — so
+ * those are excluded rather than counted as gaps.
+ */
+const PLACEHOLDER_INPUT_TYPES = new Set(['text', 'email', 'search', 'url', 'tel', 'password', 'number', '']);
+
+function placeholderFields(panel) {
+  return [...panel.querySelectorAll('input, textarea')].filter((element) => {
+    if (element.type === 'hidden') return false;
+    if (element.tagName === 'TEXTAREA') return true;
+    return PLACEHOLDER_INPUT_TYPES.has(element.type);
+  });
+}
+
+test('every free-text field on the Articles and Authors forms guides the writer', async () => {
+  const { document } = await bootDashboard();
+
+  for (const panelId of ['panel-articles', 'panel-authors']) {
+    const panel = document.getElementById(panelId);
+    const missing = placeholderFields(panel)
+      .filter((element) => !(element.getAttribute('placeholder') || '').trim())
+      .map((element) => element.id);
+    assert.deepEqual(missing, [], `${panelId}: fields with no placeholder`);
+  }
+});
+
+test('placeholders stay short enough to read inside the field', async () => {
+  const { document } = await bootDashboard();
+  const tooLong = [];
+
+  for (const panelId of ['panel-articles', 'panel-authors']) {
+    for (const element of placeholderFields(document.getElementById(panelId))) {
+      const placeholder = element.getAttribute('placeholder') || '';
+      // Single-line inputs clip; a textarea can carry a longer example.
+      const limit = element.tagName === 'TEXTAREA' ? 110 : 60;
+      if (placeholder.length > limit) tooLong.push(`${element.id} (${placeholder.length})`);
+    }
+  }
+  assert.deepEqual(tooLong, [], 'placeholders that would be clipped');
+});
+
+test('placeholders supplement labels rather than replacing them', async () => {
+  // A placeholder disappears as soon as the writer types and is not reliably
+  // announced by screen readers, so every field must still have a real label.
+  const { document } = await bootDashboard();
+
+  for (const panelId of ['panel-articles', 'panel-authors']) {
+    const panel = document.getElementById(panelId);
+    for (const element of placeholderFields(panel)) {
+      const labelled = panel.querySelector(`label[for="${element.id}"]`)
+        || element.getAttribute('aria-label');
+      assert.ok(labelled, `${element.id} has no label or aria-label`);
+    }
+  }
+});
+
+test('placeholder text is never saved as real content', async () => {
+  // A placeholder must be a visual hint only: an untouched field saves empty.
+  const { document } = await bootDashboard();
+  for (const id of ['title', 'body', 'authorName', 'authorRole', 'authorEntitySlug']) {
+    const element = document.getElementById(id);
+    assert.ok(element.getAttribute('placeholder'), `${id} has a placeholder`);
+    assert.equal(element.value, '', `${id} starts empty despite showing a placeholder`);
+  }
+});

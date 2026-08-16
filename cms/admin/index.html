@@ -228,13 +228,13 @@
 
        <div class="field">
         <label for="title">Title <span class="req">*</span></label>
-        <input id="title" name="title" required/>
+        <input id="title" name="title" required placeholder="e.g. How AI Is Changing Everyday Software"/>
        </div>
 
        <div class="field-row">
         <div class="field">
          <label for="category">Category <span class="req">*</span></label>
-         <input id="category" name="category" list="categoryOptions" required/>
+         <input id="category" name="category" list="categoryOptions" required placeholder="e.g. Technology, AI Trends, Web 3"/>
          <datalist id="categoryOptions"></datalist>
         </div>
         <div class="field">
@@ -263,18 +263,18 @@
 
        <div class="field">
         <label for="description">Teaser / description</label>
-        <textarea id="description" name="description" rows="3"></textarea>
+        <textarea id="description" name="description" rows="3" placeholder="One or two sentences summarising the story for the homepage card."></textarea>
         <p class="hint">Shown on the homepage card and used as the meta description fallback.</p>
        </div>
 
        <div class="field">
         <label for="hook">Article hook / standfirst</label>
-        <textarea id="hook" name="hook" rows="2"></textarea>
+        <textarea id="hook" name="hook" rows="2" placeholder="The opening line under the headline that pulls the reader in."></textarea>
        </div>
 
        <div class="field">
         <label for="directAnswer">Quick answer</label>
-        <textarea id="directAnswer" name="directAnswer" rows="3"></textarea>
+        <textarea id="directAnswer" name="directAnswer" rows="3" placeholder="Answer the article's core question in 1-2 plain sentences."></textarea>
        </div>
 
        <div class="field-row">
@@ -299,7 +299,7 @@
 
        <div class="field">
          <label for="body">Body (Markdown or safe HTML)</label>
-        <textarea id="body" name="body" rows="18" spellcheck="true"></textarea>
+        <textarea id="body" name="body" rows="18" spellcheck="true" placeholder="Write the full story here. Start sections with ## Heading, and leave a blank line between paragraphs."></textarea>
         <p class="hint">
          Markdown is preferred for version-controlled stories. In HTML, use &lt;h2&gt; for sections, &lt;figure&gt; + &lt;img alt="..."&gt; for images and &lt;blockquote&gt; for pull quotes.
          Headings become the article's table of contents automatically.
@@ -320,11 +320,11 @@
         </div>
         <div class="field">
          <label for="keyTakeaways">Key takeaways (one per line or JSON array)</label>
-         <textarea id="keyTakeaways" rows="4"></textarea>
+         <textarea id="keyTakeaways" rows="4" placeholder="Quantum computers use qubits, not bits&#10;Useful machines are still years away"></textarea>
         </div>
         <div class="field">
          <label for="relatedSlugs">Related article slugs (one per line or JSON array)</label>
-         <textarea id="relatedSlugs" rows="3"></textarea>
+         <textarea id="relatedSlugs" rows="3" placeholder="the-rise-of-quantum-computing&#10;mastering-the-art-of-coding"></textarea>
         </div>
         <div class="field">
          <label for="faqs">FAQs (JSON array of question/answer objects)</label>
@@ -340,7 +340,7 @@
        <div class="field-row">
         <div class="field">
          <label for="author">Author display name</label>
-         <input id="author" name="author" required/>
+         <input id="author" name="author" required placeholder="Name as it should appear on the article"/>
         </div>
         <div class="field">
          <label for="authorSlug">Author entity slug</label>
@@ -360,7 +360,7 @@
         </div>
         <div class="field">
          <label for="readingTime">Reading time</label>
-         <input id="readingTime" name="readingTime" placeholder="auto"/>
+         <input id="readingTime" name="readingTime" placeholder="auto, or override e.g. 8 min read"/>
         </div>
        </div>
 
@@ -397,7 +397,7 @@
        </div>
        <div class="field">
         <label for="reviewNotes">Editorial review notes</label>
-        <textarea id="reviewNotes" name="reviewNotes" rows="3"></textarea>
+        <textarea id="reviewNotes" name="reviewNotes" rows="3" placeholder="Anything the reviewer should know, e.g. sources still to confirm."></textarea>
        </div>
 
        <div class="checkbox-row">
@@ -409,11 +409,11 @@
         <summary>SEO overrides</summary>
         <div class="field">
          <label for="seoTitle">SEO title</label>
-         <input id="seoTitle" name="seoTitle"/>
+         <input id="seoTitle" name="seoTitle" placeholder="Search-result headline, ideally under 60 characters"/>
         </div>
         <div class="field">
          <label for="seoDescription">SEO description</label>
-         <textarea id="seoDescription" name="seoDescription" rows="2"></textarea>
+         <textarea id="seoDescription" name="seoDescription" rows="2" placeholder="Search-result summary, ideally 150-160 characters."></textarea>
         </div>
        </details>
       </form>
@@ -435,11 +435,11 @@
       <form id="authorForm">
        <div class="form-head"><h2 id="authorFormTitle">New author</h2><div class="form-head-actions"><button class="danger-button" id="deleteAuthor" type="button" hidden>Delete</button><button class="primary-button" type="submit">Save</button></div></div>
        <input id="authorId" type="hidden"/>
-       <div class="field"><label for="authorName">Name <span class="req">*</span></label><input id="authorName" required/></div>
-       <div class="field-row"><div class="field"><label for="authorEntitySlug">Slug</label><input id="authorEntitySlug"/></div><div class="field"><label for="authorRole">Role</label><input id="authorRole"/></div></div>
+       <div class="field"><label for="authorName">Name <span class="req">*</span></label><input id="authorName" required placeholder="Full name, e.g. Oluwashola Busari"/></div>
+       <div class="field-row"><div class="field"><label for="authorEntitySlug">Slug</label><input id="authorEntitySlug" placeholder="auto-generated from the name"/></div><div class="field"><label for="authorRole">Role</label><input id="authorRole" placeholder="e.g. Founder and Tech Journalist"/></div></div>
        <div class="field">
         <label for="authorBio">Biography / brief intro</label>
-        <textarea id="authorBio" rows="6" placeholder="A short author bio shown at the end of long-form articles. 2-4 sentences work best."></textarea>
+        <textarea id="authorBio" rows="6" placeholder="2-4 sentences: who the author is, their background, and what they write about."></textarea>
         <p class="hint">Appears with the author photo under the in-article navigation (desktop) and after the comment section on mobile.</p>
        </div>
        <div class="field-row">
