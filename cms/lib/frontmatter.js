@@ -20,7 +20,7 @@
  *   heroOrder: 1
  *   seoTitle: ...
  *   seoDescription: ...
- *   author: Busari Oluwashola
+ *   author: Oluwashola Busari
  *   ---
  *
  * Values are single-line strings; `true`/`false` become booleans, bare

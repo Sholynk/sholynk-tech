@@ -2,6 +2,16 @@
 
 An aesthetic website for NEWS articles, now backed by a lightweight Node.js CMS.
 
+## Writing for Sholynk
+
+- [`docs/AUTHOR_PUBLISHING_GUIDE.md`](docs/AUTHOR_PUBLISHING_GUIDE.md) — step-by-step
+  guide for authors: how to tailor an article to the Sholynk Formula and to the
+  website's layout slots (front matter vs body, callouts, TOC, sources, FAQs).
+- [`article_stories/README.md`](article_stories/README.md) — the mechanics of adding,
+  editing and removing an article file.
+- [`docs/EDITORIAL_AND_SEO_HANDOVER.md`](docs/EDITORIAL_AND_SEO_HANDOVER.md) — build,
+  validation and SEO reference.
+
 ## Quick start
 
 Requires Node.js 22.5 or newer because the local CMS uses Node's built-in SQLite

@@ -436,6 +436,112 @@
     card.classList.remove('card--tall', 'card--square', 'card--landscape', 'card--wide');
     card.classList.add(`card--${shape}`);
     card.dataset.shape = shape;
+    scheduleMosaicBalance();
+  }
+
+  /* Gap-free mosaic packing.
+
+     The class-based spans above come from each image's aspect ratio, so the
+     widths on any given row rarely add up to the column count. A 'wide' tile
+     needs the full row: if only two of four columns are free, it cannot fit
+     there and CSS drops it to the next row, stranding an empty cell. Dense
+     packing only heals that when a later tile happens to be small enough, so
+     holes survive in the middle of the feed. Removing cards changes the mix
+     and moves the holes around, which is why editing the card list appeared to
+     create them.
+
+     Rather than squeezing tiles to fit, this pass *rearranges* them: for each
+     row it takes the next card that fits the space still free, looking a few
+     places ahead. Cards therefore keep the width their image asks for and the
+     row still adds up. A tile is only resized when a row genuinely cannot be
+     completed from the cards left, which in practice means the final row.
+
+     Lookahead is deliberately short so the feed stays in date order; measured
+     against the current card mix no card moves more than three places. */
+
+  // Column spans permitted per layout, mirroring the breakpoints in styles.css.
+  const ALLOWED_SPANS = { 2: [1, 2], 3: [1, 3], 4: [1, 2, 4] };
+  const PREFERRED_SPAN = { tall: 1, square: 1, landscape: 2, wide: Infinity };
+  // How far ahead the packer may look for a card that fits the space left.
+  const MOSAIC_LOOKAHEAD = 4;
+
+  let mosaicBalanceHandle = null;
+
+  function scheduleMosaicBalance() {
+    if (mosaicBalanceHandle) return;
+    mosaicBalanceHandle = window.requestAnimationFrame(() => {
+      mosaicBalanceHandle = null;
+      balanceMosaic();
+    });
+  }
+
+  function balanceMosaic() {
+    const grid = selectors.cardsContainer;
+    if (!grid) return;
+
+    // Always start from the published order, never from the last packed order,
+    // so repeated runs (image loads, resizes) cannot compound the shuffling.
+    const cards = Array.from(grid.querySelectorAll('.card'))
+      .sort((a, b) => Number(a.dataset.index || 0) - Number(b.dataset.index || 0));
+    if (!cards.length) return;
+
+    const restore = () => cards.forEach((card) => {
+      card.style.removeProperty('grid-column');
+      card.style.removeProperty('grid-row');
+      grid.append(card);
+    });
+
+    const template = window.getComputedStyle(grid).gridTemplateColumns || '';
+    const columns = template.split(' ').filter(Boolean).length;
+
+    // Single-column layouts size themselves from content; restore date order.
+    if (columns <= 1) { restore(); return; }
+
+    // From 1280px up, styles.css deliberately gives every card a single column
+    // so cards never stretch across a wide container. Uniform widths already
+    // tile exactly, so packing is unnecessary here, and applying inline spans
+    // would override that decision and bring the over-wide cards back.
+    if (window.matchMedia && window.matchMedia('(min-width: 1280px)').matches) {
+      restore();
+      return;
+    }
+
+    const allowed = ALLOWED_SPANS[columns] || [1];
+    const largestUpTo = (limit) => allowed.filter((span) => span <= limit).pop() || 1;
+
+    const pending = cards.map((card) => {
+      const preference = PREFERRED_SPAN[card.dataset.shape] ?? 1;
+      return { card, span: largestUpTo(preference === Infinity ? columns : preference) };
+    });
+
+    const packed = [];
+    while (pending.length) {
+      const row = [];
+      let free = columns;
+
+      while (free > 0) {
+        const limit = Math.min(MOSAIC_LOOKAHEAD, pending.length);
+        let pick = -1;
+        for (let i = 0; i < limit; i += 1) {
+          if (pending[i].span <= free) { pick = i; break; }
+        }
+        if (pick === -1) break;
+        const [tile] = pending.splice(pick, 1);
+        row.push(tile);
+        free -= tile.span;
+      }
+
+      if (!row.length) break;
+      // Only widen when the row could not be completed from the cards left.
+      if (free > 0) row[row.length - 1].span += free;
+      packed.push(...row);
+    }
+
+    packed.forEach(({ card, span }) => {
+      card.style.gridColumn = `span ${span}`;
+      card.style.gridRow = 'span 12';
+      grid.append(card);
+    });
   }
 
   function getKnownAspectRatio(article) {
@@ -576,6 +682,7 @@
     updateResultsCount(filteredArticles.length);
     renderPagination(totalPages);
     observeCards();
+    balanceMosaic();
   }
 
   function updateResultsCount(count) {
@@ -736,6 +843,11 @@
     renderCategoryFilters();
     renderCards();
     applySettings();
+
+    // Column count changes at each breakpoint, so the packing has to be
+    // recalculated when the viewport is resized or the device is rotated.
+    window.addEventListener('resize', scheduleMosaicBalance, { passive: true });
+    window.addEventListener('orientationchange', scheduleMosaicBalance, { passive: true });
   }
 
   if (document.readyState === 'loading') {

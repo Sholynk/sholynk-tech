@@ -3,7 +3,7 @@
     "title": "Mastering the Art of Coding: 10 Areas Every Developer Should Focus On",
     "link": "articles/mastering-the-art-of-coding/",
     "category": "Technology",
-    "description": "Learning to code has never been more accessible, but knowing a language is not the same as knowing how to build software. These ten areas represent the foundations upon which exceptional developers are built.",
+    "description": "Knowing a language is not the same as knowing how to build software. Ten areas that separate people who can write code from people who can ship systems.",
     "img": "Article cards images/Home/article_card_05.jpg",
     "alt": "Developer working at a modern desk with a widescreen monitor displaying syntax-highlighted source code in an IDE"
   },
@@ -11,7 +11,7 @@
     "title": "The Rise of Quantum Computing: The Computing Revolution Beyond Silicon",
     "link": "articles/the-rise-of-quantum-computing/",
     "category": "Technology",
-    "description": "A comprehensive guide to quantum computing, from qubits and superposition to real-world applications in healthcare, AI, cybersecurity, and scientific research.",
+    "description": "Quantum computers approach certain problems in a fundamentally different way. What qubits do, where the technology is useful, and why encryption is already changing.",
     "img": "article-images/quantum/quantum-computer-chandelier.jpg",
     "alt": "Golden chandelier-like cryostat of a superconducting quantum computer, layered with control wiring"
   },
@@ -40,18 +40,34 @@
     "alt": "Cybersecurity habits every growing team needs"
   },
   {
-    "title": "The Rise of Esports: How Competitive Gaming Became a Global Industry",
-    "link": "index.html?category=Game",
+    "title": "The Rise of Esports: How Competitive Gaming Became an Industry",
+    "link": "articles/the-rise-of-esports/",
     "category": "Game",
-    "description": "Competitive gaming has grown from local tournaments into a global entertainment industry built on players, teams, leagues and loyal communities.",
-    "img": "Article cards images/Game/article_card_05.jpg",
-    "alt": "Gamer playing at a neon-lit esports desk"
+    "description": "Competitive gaming grew from local tournaments into a global business with Olympic recognition. How it happened, and why the money is harder to pin down than it looks.",
+    "img": "article-images/the-rise-of-esports/esports-arena-stage.jpg",
+    "alt": "A packed esports arena viewed from behind the crowd, facing a lit main stage with two player booths and large blank screens. Illustration generated with AI for Sholynk."
+  },
+  {
+    "title": "Stablecoins and the Future of Digital Payments",
+    "link": "articles/stablecoins-and-digital-payments/",
+    "category": "Cryptocurrency",
+    "description": "Stablecoins now carry serious payment volume and a US legal framework. This is how they work, what regulators have decided, and why central bankers still object.",
+    "img": "article-images/stablecoins-and-digital-payments/stablecoin-payment-rails.jpg",
+    "alt": "A hand holding a smartphone above a shop payment terminal mid-transaction, with faint network lines suggesting settlement moving between two points. Illustration generated with AI for Sholynk."
+  },
+  {
+    "title": "Multimodal AI Models Are Changing How Software Understands the World",
+    "link": "articles/multimodal-ai-models/",
+    "category": "AI Trends",
+    "description": "Multimodal models read text, images, audio and video in one system. Here is how they work, where they are genuinely deployed, and what the benchmarks still expose.",
+    "img": "article-images/multimodal-ai-models/multimodal-inputs.jpg",
+    "alt": "A monitor showing a photograph, an audio waveform, a scanned handwritten page and a line chart converging into a single processing point. Illustration generated with AI for Sholynk."
   },
   {
     "title": "Distraction by Design: Navigating Attention in the Social Media Era",
     "link": "articles/distraction-by-design/",
     "category": "Technology",
-    "description": "Notifications, infinite scroll and AI-driven feeds turned attention into the internet's most valuable commodity: how the attention economy works, and how to enjoy social media without being controlled by it.",
+    "description": "Infinite scroll and algorithmic feeds are engineered to hold attention. How the design works, what the UK evidence shows, and how to use these platforms deliberately.",
     "img": "article-images/distraction-by-design/social-media-apps-hero.jpg",
     "alt": "Smartphone screen showing a Social Media folder with apps such as YouTube, Instagram, Facebook and TikTok"
   },
@@ -86,14 +102,6 @@
     "description": "The best games balance challenge, discovery and meaningful progress to create experiences that feel rewarding without becoming exhausting.",
     "img": "Article cards images/Game/article_card_09.jpg",
     "alt": "Person holding a game controller in front of a screen"
-  },
-  {
-    "title": "Multimodal AI Models Are Changing How Software Understands the World",
-    "link": "index.html?category=AI%20Trends",
-    "category": "AI Trends",
-    "description": "Systems that reason across text, images, audio and video are opening new product surfaces for builders.",
-    "img": "Article cards images/AI/article_card_09.jpg",
-    "alt": "Abstract visualization of a multimodal artificial intelligence network"
   },
   {
     "title": "Chip Design Breakthroughs Driving Faster Devices",
@@ -393,8 +401,8 @@
   },
   {
     "title": "Cryptocurrency Regulations Worldwide",
-    "link": "index.html?category=Web%203",
-    "category": "Web 3",
+    "link": "index.html?category=Cryptocurrency",
+    "category": "Cryptocurrency",
     "description": "Regulatory clarity is shaping the future of digital assets, exchanges and stablecoin adoption.",
     "img": "Article cards images/Web 3/article_card_02.jpg",
     "alt": "Cryptocurrency Regulations Worldwide"
@@ -438,13 +446,5 @@
     "description": "Streaming infrastructure, mobile hardware and creator ecosystems are changing how players discover games.",
     "img": "Article cards images/Game/article_card_01.jpg",
     "alt": "Gaming controller on a neon-lit desk"
-  },
-  {
-    "title": "Stablecoins and the Future of Digital Payments",
-    "link": "index.html?category=Cryptocurrency",
-    "category": "Cryptocurrency",
-    "description": "Stablecoins are becoming a bridge between traditional finance and programmable internet-native money.",
-    "img": "Article cards images/Cryptocurrency/article_card_06.jpg",
-    "alt": "Cryptocurrency coins and a financial chart"
   }
 ]
