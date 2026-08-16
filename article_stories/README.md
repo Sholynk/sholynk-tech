@@ -1,5 +1,10 @@
 # Adding an Article to Sholynk Tech — A Beginner's Guide
 
+> **Writing for publication?** This file covers the mechanics. For the full
+> editorial walkthrough — how to map the Sholynk Formula (hook, direct answer,
+> key takeaways, evidence, FAQs) onto the website's layout slots — read
+> [`docs/AUTHOR_PUBLISHING_GUIDE.md`](../docs/AUTHOR_PUBLISHING_GUIDE.md).
+
 > **The whole system in one sentence:** one file = one article. You write the
 > article as a simple text file with a small "form" at the top, save it, and
 > run one command. Everything else happens by itself.
