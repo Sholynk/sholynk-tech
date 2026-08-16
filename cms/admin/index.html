@@ -43,10 +43,10 @@
     <div class="dash-toolbar">
      <div>
       <h2>Editorial analytics</h2>
-      <p class="dash-subtitle" id="dashUpdated">Loading analytics...</p>
+      <p class="dash-subtitle" id="dashUpdated" role="status" aria-live="polite">Loading analytics...</p>
      </div>
      <div class="dash-toolbar-actions">
-      <span class="live-badge" id="dashLive" data-state="connecting">
+      <span class="live-badge" id="dashLive" data-state="connecting" role="status" aria-live="polite">
        <span class="live-dot" aria-hidden="true"></span><span id="dashLiveLabel">Connecting</span>
       </span>
       <label class="dash-range">
@@ -72,7 +72,8 @@
        <p class="chart-note" id="chartActivityNote"></p>
       </div>
       <div class="chart-canvas-wrap chart-canvas-wrap--tall">
-       <canvas id="chartActivity"></canvas>
+       <canvas id="chartActivity" role="img" aria-label="Line chart of reads, unique readers, reactions and comments per day."></canvas>
+       <p class="chart-summary visually-hidden" id="chartActivitySummary"></p>
       </div>
      </section>
 
@@ -82,7 +83,8 @@
        <p class="chart-note">Published vs everything still in the pipeline.</p>
       </div>
       <div class="chart-canvas-wrap">
-       <canvas id="chartStatus"></canvas>
+       <canvas id="chartStatus" role="img" aria-label="Doughnut chart breaking articles down by publication status."></canvas>
+       <p class="chart-summary visually-hidden" id="chartStatusSummary"></p>
       </div>
      </section>
 
@@ -92,7 +94,8 @@
        <p class="chart-note">Every like and dislike readers have left.</p>
       </div>
       <div class="chart-canvas-wrap">
-       <canvas id="chartReactions"></canvas>
+       <canvas id="chartReactions" role="img" aria-label="Doughnut chart comparing likes with dislikes."></canvas>
+       <p class="chart-summary visually-hidden" id="chartReactionsSummary"></p>
       </div>
      </section>
 
@@ -102,7 +105,8 @@
        <p class="chart-note">Registered authors and the work they have live.</p>
       </div>
       <div class="chart-canvas-wrap">
-       <canvas id="chartAuthors"></canvas>
+       <canvas id="chartAuthors" role="img" aria-label="Bar chart of published, pending and draft articles per author."></canvas>
+       <p class="chart-summary visually-hidden" id="chartAuthorsSummary"></p>
       </div>
      </section>
 
@@ -112,7 +116,8 @@
        <p class="chart-note">Which subjects readers actually open.</p>
       </div>
       <div class="chart-canvas-wrap">
-       <canvas id="chartCategories"></canvas>
+       <canvas id="chartCategories" role="img" aria-label="Bar chart of reads per category."></canvas>
+       <p class="chart-summary visually-hidden" id="chartCategoriesSummary"></p>
       </div>
      </section>
     </div>

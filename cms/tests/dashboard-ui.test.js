@@ -90,9 +90,29 @@ function sampleOverview(overrides = {}) {
 }
 
 /**
+ * A stand-in for Chart.js that records what it was asked to draw.
+ *
+ * jsdom has no canvas, so the real library cannot run here. Capturing the
+ * config instead lets the tests assert on the data reaching each chart, which
+ * is the part this codebase owns.
+ */
+function makeChartStub() {
+  function ChartStub(canvas, config) {
+    this.canvasId = canvas?.id;
+    this.config = config;
+    this.data = config.data;
+    this.options = config.options;
+    ChartStub._instances.push(this);
+  }
+  ChartStub.prototype.update = function update() {};
+  ChartStub._instances = [];
+  return ChartStub;
+}
+
+/**
  * Boots the admin page with a stubbed API.
- * `chart` controls what window.Chart is: undefined (CDN blocked), or a
- * constructor that throws (canvas unavailable).
+ * `chart` controls what window.Chart is: undefined (CDN blocked), a
+ * constructor that throws (canvas unavailable), or a recording stub.
  */
 async function bootDashboard({ overview = sampleOverview(), chart } = {}) {
   const dom = new JSDOM(ADMIN_HTML, {
@@ -118,6 +138,8 @@ async function bootDashboard({ overview = sampleOverview(), chart } = {}) {
 
   window.eval(ADMIN_JS);
   await new Promise((resolve) => setTimeout(resolve, 60));
+  // Expose whatever the stub recorded so tests can inspect chart inputs.
+  window.__charts = chart?._instances || [];
   return { dom, window, document: window.document };
 }
 
@@ -246,4 +268,64 @@ test('the dashboard exposes a live-status indicator and period selector', async 
   assert.ok(range, 'period selector present');
   assert.deepEqual([...range.options].map((option) => option.value), ['7', '30', '90']);
   assert.equal(range.value, '30');
+});
+
+test('auto-updating status text is announced to screen readers', async () => {
+  // The dashboard refreshes itself, so a sighted user sees the change but a
+  // screen-reader user would not be told unless these are live regions.
+  const { document } = await bootDashboard();
+  const updated = document.getElementById('dashUpdated');
+  assert.equal(updated.getAttribute('role'), 'status');
+  assert.equal(updated.getAttribute('aria-live'), 'polite');
+
+  const live = document.getElementById('dashLive');
+  assert.equal(live.getAttribute('aria-live'), 'polite');
+});
+
+test('every chart carries a text equivalent describing its data', async () => {
+  // A <canvas> is opaque to assistive technology; without this the graphs are
+  // simply missing for anyone not looking at the screen.
+  const chartIds = ['chartActivity', 'chartStatus', 'chartReactions', 'chartAuthors', 'chartCategories'];
+  const { document } = await bootDashboard({ chart: makeChartStub() });
+
+  for (const id of chartIds) {
+    const canvas = document.getElementById(id);
+    assert.equal(canvas.getAttribute('role'), 'img', `${id} is exposed as an image`);
+    const summary = document.getElementById(`${id}Summary`);
+    assert.ok(summary, `${id} has a summary element`);
+    assert.ok(summary.textContent.trim().length > 0, `${id} summary is populated`);
+    assert.equal(canvas.getAttribute('aria-label'), summary.textContent, `${id} label matches its summary`);
+  }
+
+  // The descriptions must carry the real figures, not boilerplate.
+  assert.match(document.getElementById('chartReactionsSummary').textContent, /40 likes and 6 dislikes/);
+  assert.match(document.getElementById('chartStatusSummary').textContent, /8 published/);
+});
+
+test('the status chart accounts for every article, including unusual statuses', async () => {
+  // If a slice is omitted the ring silently disagrees with the metric cards.
+  const overview = sampleOverview({
+    totals: { ...sampleOverview().totals, articles: 14 },
+    statuses: { published: 8, draft: 2, scheduled: 1, pending: 1, other: 2 }
+  });
+  const chart = makeChartStub();
+  const { window, document } = await bootDashboard({ overview, chart });
+
+  const statusChart = window.__charts.find((c) => c.canvasId === 'chartStatus');
+  const plotted = statusChart.config.data.datasets[0].data.reduce((a, b) => a + b, 0);
+  assert.equal(plotted, 14, 'the plotted slices sum to the article total');
+  assert.ok(statusChart.config.data.labels.includes('Other'), 'unusual statuses are shown, not dropped');
+
+  assert.match(document.getElementById('chartStatusSummary').textContent, /2 other/);
+});
+
+test('zero-valued statuses are left out of the ring', async () => {
+  const overview = sampleOverview({
+    totals: { ...sampleOverview().totals, articles: 8 },
+    statuses: { published: 8, draft: 0, scheduled: 0, pending: 0, other: 0 }
+  });
+  const chart = makeChartStub();
+  const { window } = await bootDashboard({ overview, chart });
+  const statusChart = window.__charts.find((c) => c.canvasId === 'chartStatus');
+  assert.deepEqual(statusChart.config.data.labels, ['Published']);
 });

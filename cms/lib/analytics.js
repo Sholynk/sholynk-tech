@@ -28,6 +28,20 @@ function count(sql, ...params) {
   return Number(db.prepare(sql).get(...params)?.total || 0);
 }
 
+/**
+ * Clamps a requested reporting window to a whole number of days.
+ *
+ * The value arrives from a query string, so it can be a float, negative, zero
+ * or nonsense. Rounding matters: a fractional span would ask SQLite for a
+ * fractional day offset and produce a series whose length disagrees with the
+ * period the dashboard says it is showing.
+ */
+function normalizeSpan(days) {
+  const parsed = Math.floor(Number(days));
+  if (!Number.isFinite(parsed) || parsed < 1) return 30;
+  return Math.min(parsed, 365);
+}
+
 /* -------------------------------- writes --------------------------------- */
 
 /**
@@ -85,7 +99,7 @@ function statusBreakdown() {
  * happened. Every day in the window is emitted, zero-filled.
  */
 function dailySeries({ days = 30 } = {}) {
-  const span = Math.min(Math.max(Number(days) || 30, 1), 365);
+  const span = normalizeSpan(days);
   const since = `-${span - 1} days`;
 
   const viewRows = db.prepare(`
@@ -136,7 +150,7 @@ function dailySeries({ days = 30 } = {}) {
  * the previous window was empty (growth from zero has no meaningful percentage).
  */
 function trends({ days = 30 } = {}) {
-  const span = Math.min(Math.max(Number(days) || 30, 1), 365);
+  const span = normalizeSpan(days);
   const current = `-${span - 1} days`;
   const previousStart = `-${span * 2 - 1} days`;
   const previousEnd = `-${span} days`;
@@ -176,9 +190,57 @@ function trends({ days = 30 } = {}) {
   };
 }
 
+/**
+ * Articles that belong to no registered author entity.
+ *
+ * Deleting an author clears `author_slug` on their articles, and imported
+ * content may never have been linked to one. Those articles still count in the
+ * site totals, so without this row the per-author figures would not add up to
+ * the headline numbers and the difference would be invisible.
+ */
+function unattributedRow() {
+  const row = db.prepare(`
+    SELECT
+      COUNT(*) AS total_articles,
+      COUNT(CASE WHEN status = 'published' THEN 1 END) AS published,
+      COUNT(CASE WHEN status = 'draft'     THEN 1 END) AS drafts,
+      COUNT(CASE WHEN status = 'pending'   THEN 1 END) AS pending,
+      COUNT(CASE WHEN status = 'scheduled' THEN 1 END) AS scheduled
+    FROM articles a
+    WHERE a.author_slug = '' OR a.author_slug NOT IN (SELECT slug FROM authors)
+  `).get();
+
+  if (!row || Number(row.total_articles) === 0) return null;
+
+  const engagementFor = (table) => Number(db.prepare(`
+    SELECT COUNT(*) AS total FROM ${table} t
+    JOIN articles a ON a.slug = t.article_slug
+    WHERE a.author_slug = '' OR a.author_slug NOT IN (SELECT slug FROM authors)
+  `).get()?.total || 0);
+
+  return {
+    id: null,
+    slug: '',
+    name: 'Unattributed',
+    role: 'No author profile linked',
+    image: '',
+    imageAlt: '',
+    registeredAt: null,
+    unattributed: true,
+    articles: Number(row.total_articles),
+    published: Number(row.published),
+    drafts: Number(row.drafts),
+    pending: Number(row.pending),
+    scheduled: Number(row.scheduled),
+    views: engagementFor('article_views'),
+    reactions: engagementFor('reactions'),
+    comments: engagementFor('comments')
+  };
+}
+
 /** Per-author productivity and the engagement their work earned. */
 function authorLeaderboard() {
-  return db.prepare(`
+  const rows = db.prepare(`
     SELECT
       au.id, au.slug, au.name, au.role, au.image, au.image_alt, au.created_at,
       COUNT(DISTINCT ar.id) AS total_articles,
@@ -204,6 +266,7 @@ function authorLeaderboard() {
     image: row.image,
     imageAlt: row.image_alt,
     registeredAt: row.created_at,
+    unattributed: false,
     articles: Number(row.total_articles),
     published: Number(row.published),
     drafts: Number(row.drafts),
@@ -213,6 +276,10 @@ function authorLeaderboard() {
     reactions: Number(row.reactions),
     comments: Number(row.comments)
   }));
+
+  // Appended last so registered authors always lead the table.
+  const orphans = unattributedRow();
+  return orphans ? [...rows, orphans] : rows;
 }
 
 /** Best performing articles by counted reads. */

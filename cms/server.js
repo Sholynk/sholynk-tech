@@ -5,6 +5,7 @@ const express = require('express');
 
 const apiRouter = require('./routes/api');
 const { UPLOAD_DIR } = require('./lib/images');
+const { db } = require('./lib/db');
 
 const ROOT = path.join(__dirname, '..');
 const app = express();
@@ -28,8 +29,19 @@ app.use(express.static(ROOT, { extensions: ['html'] }));
 // A CMS article can exist before the next static generation run. Keep its
 // clean link usable on the Node server by falling back to the legacy renderer;
 // generated files are served by express.static above and never reach here.
+//
+// Renaming an article's slug records the old one in `redirects`, so links that
+// were already shared or indexed resolve to the new address instead of 404ing.
 app.get('/articles/:slug', (req, res) => {
-  res.redirect(302, `/article.html?slug=${encodeURIComponent(req.params.slug)}`);
+  const { slug } = req.params;
+  const moved = db
+    .prepare('SELECT new_slug FROM redirects WHERE old_slug = ?')
+    .get(slug);
+  if (moved?.new_slug) {
+    // 301: the move is permanent, so search engines transfer the old ranking.
+    return res.redirect(301, `/articles/${encodeURIComponent(moved.new_slug)}/`);
+  }
+  return res.redirect(302, `/article.html?slug=${encodeURIComponent(slug)}`);
 });
 
 app.use((req, res) => {

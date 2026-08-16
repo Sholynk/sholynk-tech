@@ -2687,14 +2687,6 @@ textarea:focus {
   line-height: 1.25;
 }
 
-.article-author-role {
-  margin: 0.25rem 0 0;
-  color: #475467;
-  font-size: 0.76rem;
-  font-weight: 700;
-  line-height: 1.4;
-}
-
 .article-author-bio {
   margin: 0.7rem 0 0;
   color: #344054;

@@ -985,14 +985,33 @@
     charts[key] = new window.Chart(canvas, config);
   }
 
+  // Respect the operating-system "reduce motion" setting: a dashboard that
+  // refreshes itself would otherwise re-animate every few seconds.
+  const prefersReducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
+
   const baseOptions = {
     responsive: true,
     maintainAspectRatio: false,
+    animation: prefersReducedMotion ? false : undefined,
     interaction: { mode: 'index', intersect: false },
     plugins: {
       legend: { labels: { boxWidth: 12, boxHeight: 12, usePointStyle: true, font: { size: 11 } } }
     }
   };
+
+  /**
+   * Describes a chart in words for screen readers.
+   *
+   * A <canvas> is opaque to assistive technology, so each graph carries a
+   * hidden text equivalent that is refreshed with the same data the chart is
+   * drawn from — it can never drift from what is on screen.
+   */
+  function describeChart(canvasId, description) {
+    const target = $(`${canvasId}Summary`);
+    if (target) target.textContent = description;
+    const canvas = $(canvasId);
+    if (canvas) canvas.setAttribute('aria-label', description);
+  }
 
   function renderCharts(data) {
     if (typeof window.Chart === 'undefined') return;
@@ -1053,13 +1072,24 @@
     });
 
     const statuses = data.statuses;
+    // "Other" covers any legacy or unexpected status. Including it keeps the
+    // ring equal to the total article count, so the chart can never quietly
+    // disagree with the "Articles published" and "Unpublished" cards above it.
+    const statusSlices = [
+      { label: 'Published', value: statuses.published, colour: PALETTE.green },
+      { label: 'Draft', value: statuses.draft, colour: PALETTE.slate },
+      { label: 'Scheduled', value: statuses.scheduled, colour: PALETTE.blue },
+      { label: 'Pending approval', value: statuses.pending, colour: PALETTE.amber },
+      { label: 'Other', value: statuses.other, colour: PALETTE.violet }
+    ].filter((slice) => slice.value > 0);
+
     paintChart('status', 'chartStatus', {
       type: 'doughnut',
       data: {
-        labels: ['Published', 'Draft', 'Scheduled', 'Pending approval'],
+        labels: statusSlices.map((slice) => slice.label),
         datasets: [{
-          data: [statuses.published, statuses.draft, statuses.scheduled, statuses.pending],
-          backgroundColor: [PALETTE.green, PALETTE.slate, PALETTE.blue, PALETTE.amber],
+          data: statusSlices.map((slice) => slice.value),
+          backgroundColor: statusSlices.map((slice) => slice.colour),
           borderWidth: 0
         }]
       },
@@ -1116,6 +1146,31 @@
         }
       }
     });
+
+    // Text equivalents, generated from the same figures the charts just drew.
+    const totalPeriodViews = data.series.reduce((sum, point) => sum + point.views, 0);
+    const busiest = data.series.reduce(
+      (best, point) => (point.views > best.views ? point : best),
+      data.series[0] || { date: '', views: 0 }
+    );
+    describeChart('chartActivity',
+      `Daily activity over ${data.trends.days} days: ${fmt(totalPeriodViews)} reads in total`
+      + `${busiest.views > 0 ? `, busiest on ${shortDate(busiest.date)} with ${fmt(busiest.views)} reads` : ''}.`);
+
+    describeChart('chartStatus',
+      `Publication status of ${fmt(data.totals.articles)} articles: `
+      + `${statusSlices.map((slice) => `${fmt(slice.value)} ${slice.label.toLowerCase()}`).join(', ') || 'none recorded'}.`);
+
+    describeChart('chartReactions',
+      `Reaction record: ${fmt(data.totals.likes)} likes and ${fmt(data.totals.dislikes)} dislikes.`);
+
+    describeChart('chartAuthors', topAuthors.length
+      ? `Articles per author: ${topAuthors.map((author) => `${author.name}, ${fmt(author.published)} published`).join('; ')}.`
+      : 'No authors registered yet.');
+
+    describeChart('chartCategories', categories.length
+      ? `Reads by category: ${categories.map((item) => `${item.category}, ${fmt(item.views)} reads`).join('; ')}.`
+      : 'No category reads recorded yet.');
   }
 
   function emptyRow(table, columns, message) {
@@ -1138,10 +1193,21 @@
     data.authors.forEach((author) => {
       const row = document.createElement('tr');
 
+      if (author.unattributed) row.className = 'row-unattributed';
+
       const nameCell = document.createElement('td');
       const identity = document.createElement('span');
       identity.className = 'table-identity';
-      identity.append(authorAvatar(author));
+      // The unattributed bucket is not a person, so it gets a neutral marker
+      // rather than initials that would read as somebody's name.
+      if (author.unattributed) {
+        const marker = document.createElement('span');
+        marker.className = 'author-avatar author-avatar--placeholder';
+        marker.innerHTML = '<i class="fas fa-question" aria-hidden="true"></i>';
+        identity.append(marker);
+      } else {
+        identity.append(authorAvatar(author));
+      }
       const text = document.createElement('span');
       const strong = document.createElement('strong');
       strong.textContent = author.name;

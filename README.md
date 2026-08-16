@@ -195,6 +195,14 @@ be used to write arbitrary rows.
 Figures are aggregated on read from the content tables themselves, so a number
 on the dashboard can never disagree with the content it counts.
 
+Reader history is keyed by article slug rather than by a foreign key, so the
+CMS maintains it explicitly: deleting an article also deletes its reads,
+reactions and comments, and renaming one carries them across to the new slug
+(recording a 301 redirect so the old link keeps working). Articles left without
+an author profile — because the author was deleted, or the content was imported
+unlinked — are reported as an "Unattributed" row, so the per-author figures
+always add up to the headline totals instead of quietly under-counting.
+
 ### Live updates
 
 The dashboard subscribes to `/api/analytics/stream`, a Server-Sent Events feed.

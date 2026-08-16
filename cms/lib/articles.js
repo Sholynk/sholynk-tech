@@ -367,15 +367,37 @@ function update(id, payload = {}) {
     sets.push('hero_order = ?');
     params.push(payload.heroOrder === '' || payload.heroOrder == null ? null : Number(payload.heroOrder));
   }
+  // Reader history is keyed by slug, so a rename has to carry it across or the
+  // article silently loses every read, reaction and comment it had earned.
+  let renamedSlug = null;
   if (Object.prototype.hasOwnProperty.call(payload, 'slug') && payload.slug) {
+    const nextSlug = uniqueSlug(slugify(payload.slug), existing.id);
+    if (nextSlug !== existing.slug) renamedSlug = nextSlug;
     sets.push('slug = ?');
-    params.push(uniqueSlug(slugify(payload.slug), existing.id));
+    params.push(nextSlug);
   }
 
   if (sets.length) {
     sets.push("updated_at = datetime('now')");
     params.push(existing.id);
-    db.prepare(`UPDATE articles SET ${sets.join(', ')} WHERE id = ?`).run(...params);
+    db.exec('BEGIN');
+    try {
+      db.prepare(`UPDATE articles SET ${sets.join(', ')} WHERE id = ?`).run(...params);
+      if (renamedSlug) {
+        db.prepare('UPDATE reactions SET article_slug = ? WHERE article_slug = ?').run(renamedSlug, existing.slug);
+        db.prepare('UPDATE comments SET article_slug = ? WHERE article_slug = ?').run(renamedSlug, existing.slug);
+        db.prepare('UPDATE article_views SET article_slug = ? WHERE article_slug = ?').run(renamedSlug, existing.slug);
+        // Keep the old URL working for anyone who already shared it.
+        db.prepare('INSERT OR REPLACE INTO redirects (old_slug, new_slug) VALUES (?, ?)')
+          .run(existing.slug, renamedSlug);
+        // A slug that comes back later must not resurrect a stale redirect.
+        db.prepare('DELETE FROM redirects WHERE old_slug = ?').run(renamedSlug);
+      }
+      db.exec('COMMIT');
+    } catch (error) {
+      db.exec('ROLLBACK');
+      throw error;
+    }
   }
   if (Object.prototype.hasOwnProperty.call(payload, 'sources')) replaceSources(existing.id, payload.sources);
   return getById(existing.id);
@@ -442,10 +464,28 @@ function removeSource(articleId, sourceId) {
   return result.changes > 0;
 }
 
+/**
+ * Deletes an article and the reader history attached to it.
+ *
+ * Reactions, comments and reads are keyed by slug rather than by a foreign key,
+ * so nothing cascades automatically. Left behind, those rows keep inflating the
+ * site-wide totals on the analytics dashboard while belonging to no article —
+ * the figures would no longer add up against anything you can open.
+ */
 function remove(id) {
   const existing = getById(id);
   if (!existing) return false;
-  db.prepare('DELETE FROM articles WHERE id = ?').run(existing.id);
+  db.exec('BEGIN');
+  try {
+    db.prepare('DELETE FROM reactions WHERE article_slug = ?').run(existing.slug);
+    db.prepare('DELETE FROM comments WHERE article_slug = ?').run(existing.slug);
+    db.prepare('DELETE FROM article_views WHERE article_slug = ?').run(existing.slug);
+    db.prepare('DELETE FROM articles WHERE id = ?').run(existing.id);
+    db.exec('COMMIT');
+  } catch (error) {
+    db.exec('ROLLBACK');
+    throw error;
+  }
   return true;
 }
 

@@ -544,3 +544,145 @@ test('the live stream announces reader activity to connected dashboards', async 
 
   controller.abort();
 });
+
+/* --------------------- analytics data integrity --------------------------- */
+
+test('deleting an article removes the reader history attached to it', async () => {
+  const created = await api('/api/articles', {
+    method: 'POST',
+    body: JSON.stringify({
+      title: 'Cleanup probe',
+      category: 'Technology',
+      description: 'Verifies engagement is not orphaned.',
+      body: '<p>Body.</p>',
+      author: 'Ada Example'
+    })
+  });
+  const slug = created.body.data.slug;
+
+  await api(`/api/articles/${slug}/views`, { method: 'POST', body: JSON.stringify({ voterId: 'cleanup-reader' }) });
+  await api(`/api/articles/${slug}/reactions`, { method: 'POST', body: JSON.stringify({ voterId: 'cleanup-voter', type: 'like' }) });
+  await api(`/api/articles/${slug}/comments`, { method: 'POST', body: JSON.stringify({ author: 'R', body: 'A comment.' }) });
+
+  const before = (await api('/api/analytics/overview')).body.data.totals;
+
+  const removed = await api(`/api/articles/${created.body.data.id}`, { method: 'DELETE' });
+  assert.equal(removed.status, 204);
+
+  const after = (await api('/api/analytics/overview')).body.data.totals;
+  // Rows keyed by slug do not cascade on their own; left behind they would keep
+  // inflating site-wide totals while belonging to no article at all.
+  assert.equal(after.views, before.views - 1, 'the read was removed with the article');
+  assert.equal(after.reactions, before.reactions - 1, 'the reaction was removed');
+  assert.equal(after.comments, before.comments - 1, 'the comment was removed');
+});
+
+test('renaming an article keeps its reads, reactions and comments', async () => {
+  const created = await api('/api/articles', {
+    method: 'POST',
+    body: JSON.stringify({
+      title: 'Rename probe',
+      category: 'Technology',
+      description: 'Verifies engagement follows a slug change.',
+      body: '<p>Body.</p>',
+      author: 'Ada Example'
+    })
+  });
+  const id = created.body.data.id;
+  const oldSlug = created.body.data.slug;
+
+  await api(`/api/articles/${oldSlug}/views`, { method: 'POST', body: JSON.stringify({ voterId: 'rename-reader' }) });
+  await api(`/api/articles/${oldSlug}/reactions`, { method: 'POST', body: JSON.stringify({ voterId: 'rename-voter', type: 'like' }) });
+  await api(`/api/articles/${oldSlug}/comments`, { method: 'POST', body: JSON.stringify({ author: 'R', body: 'Kept please.' }) });
+
+  const renamed = await api(`/api/articles/${id}`, {
+    method: 'PATCH',
+    body: JSON.stringify({ slug: 'rename-probe-updated' })
+  });
+  assert.equal(renamed.status, 200);
+  const newSlug = renamed.body.data.slug;
+  assert.notEqual(newSlug, oldSlug);
+
+  const overview = await api('/api/analytics/overview');
+  const row = overview.body.data.topArticles.find((item) => item.slug === newSlug);
+  assert.ok(row, 'the renamed article is still reported');
+  assert.equal(row.views, 1, 'the read followed the rename');
+  assert.equal(row.likes, 1, 'the reaction followed the rename');
+  assert.equal(row.comments, 1, 'the comment followed the rename');
+
+  // The engagement endpoint must agree with the dashboard.
+  const engagement = await api(`/api/articles/${newSlug}/engagement`);
+  assert.equal(engagement.body.data.reactions.likes, 1);
+  assert.equal(engagement.body.data.comments.length, 1);
+});
+
+test('a renamed article keeps its old URL working', async () => {
+  const created = await api('/api/articles', {
+    method: 'POST',
+    body: JSON.stringify({
+      title: 'Redirect probe',
+      category: 'Technology',
+      description: 'Verifies the old link still resolves.',
+      body: '<p>Body.</p>',
+      author: 'Ada Example'
+    })
+  });
+  const oldSlug = created.body.data.slug;
+
+  const renamed = await api(`/api/articles/${created.body.data.id}`, {
+    method: 'PATCH',
+    body: JSON.stringify({ slug: 'redirect-probe-moved' })
+  });
+  const newSlug = renamed.body.data.slug;
+
+  const response = await fetch(`${base}/articles/${oldSlug}`, { redirect: 'manual' });
+  // 301, so an already-indexed link passes its ranking to the new address.
+  assert.equal(response.status, 301);
+  assert.equal(response.headers.get('location'), `/articles/${newSlug}/`);
+});
+
+test('articles with no author profile still reconcile with the headline totals', async () => {
+  const author = await api('/api/authors', {
+    method: 'POST',
+    body: JSON.stringify({ name: 'Departing Author' })
+  });
+  const authorSlug = author.body.data.slug;
+
+  await api('/api/articles', {
+    method: 'POST',
+    body: JSON.stringify({
+      title: 'Orphan probe',
+      category: 'Technology',
+      description: 'Its author will be deleted.',
+      body: '<p>Body.</p>',
+      author: 'Departing Author',
+      authorSlug
+    })
+  });
+
+  // Deleting an author keeps their articles but clears the link.
+  await api(`/api/authors/${author.body.data.id}`, { method: 'DELETE' });
+
+  const data = (await api('/api/analytics/overview')).body.data;
+  const perAuthorPublished = data.authors.reduce((sum, row) => sum + row.published, 0);
+  assert.equal(
+    perAuthorPublished,
+    data.totals.published,
+    'the author table must account for every published article'
+  );
+  const orphanRow = data.authors.find((row) => row.unattributed);
+  assert.ok(orphanRow, 'unattributed articles are reported rather than silently dropped');
+  assert.ok(orphanRow.published >= 1);
+});
+
+test('the reporting window is always a whole number of days', async () => {
+  for (const [requested, expected] of [['1.7', 1], ['0', 30], ['-5', 30], ['abc', 30], ['99999', 365]]) {
+    const { body } = await api(`/api/analytics/overview?days=${encodeURIComponent(requested)}`);
+    assert.equal(body.data.trends.days, expected, `days=${requested}`);
+    assert.equal(
+      body.data.series.length,
+      expected,
+      `the series length must match the period the dashboard reports (days=${requested})`
+    );
+  }
+});
