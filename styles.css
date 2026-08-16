@@ -2633,6 +2633,120 @@ textarea:focus {
   line-height: 1.4;
 }
 
+/* ==========================================================================
+   Author bio card
+   ========================================================================== */
+
+.article-author-card {
+  display: grid;
+  gap: 1rem;
+  padding: 1.15rem;
+  border: 1px solid var(--article-line, #dfe5ec);
+  border-radius: 1rem;
+  background: #fff;
+  box-shadow: 0 12px 34px rgba(16, 24, 40, 0.05);
+}
+
+.article-author-media {
+  flex-shrink: 0;
+}
+
+.article-author-media img {
+  display: block;
+  width: 5rem;
+  height: 5rem;
+  border-radius: 999px;
+  object-fit: cover;
+  background: #eef3f8;
+}
+
+.article-author-avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 5rem;
+  height: 5rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #0b86d8, #0a5f98);
+  color: #fff;
+  font-weight: 800;
+  font-size: 1.35rem;
+  letter-spacing: 0.04em;
+}
+
+.article-author-body .eyebrow {
+  margin-bottom: 0.1rem;
+  color: var(--article-blue, #0b86d8);
+}
+
+.article-author-body h3 {
+  margin: 0;
+  color: #101828;
+  font-size: 1.05rem;
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+.article-author-role {
+  margin: 0.25rem 0 0;
+  color: #475467;
+  font-size: 0.76rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.article-author-bio {
+  margin: 0.7rem 0 0;
+  color: #344054;
+  font-size: 0.8rem;
+  line-height: 1.6;
+}
+
+.article-author-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.85rem;
+  color: var(--article-blue, #0b86d8);
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-decoration: none;
+  transition: gap 160ms ease;
+}
+
+.article-author-link:hover {
+  gap: 0.6rem;
+  text-decoration: underline;
+}
+
+/* In-rail variant: compact, sits under the TOC. */
+.article-author-card--rail {
+  margin-top: 1rem;
+}
+
+.article-author-card--rail .article-author-media img,
+.article-author-card--rail .article-author-avatar {
+  width: 3.75rem;
+  height: 3.75rem;
+}
+
+.article-author-card--rail .article-author-body h3 {
+  font-size: 0.9rem;
+}
+
+.article-author-card--rail .article-author-bio {
+  font-size: 0.74rem;
+  line-height: 1.55;
+}
+
+/* Inline variant: appears at the end of the article body on mobile.
+   Hidden on desktop where the rail card is shown instead. */
+.article-author-card--inline {
+  grid-template-columns: auto 1fr;
+  align-items: start;
+  margin: 2.5rem 0 0;
+}
+
 .article-end-nav {
   display: flex;
   align-items: center;
@@ -2805,6 +2919,13 @@ textarea:focus {
   gap: 0.65rem;
 }
 
+/* Desktop: show the rail author card; hide the inline one to avoid duplication. */
+@media (min-width: 921px) {
+  .article-author-card--inline {
+    display: none;
+  }
+}
+
 @media (max-width: 920px) {
   .article-reading-layout {
     grid-template-columns: minmax(0, 44rem);
@@ -2831,6 +2952,16 @@ textarea:focus {
 
   .article-rail-home {
     display: none;
+  }
+
+  /* Hide the rail author card at narrow widths; the inline card at the end of
+     the article body (before "Continue exploring") takes over. */
+  .article-author-card--rail {
+    display: none;
+  }
+
+  .article-author-card--inline {
+    grid-template-columns: auto 1fr;
   }
 
   .article-share {

@@ -101,18 +101,19 @@
     const values = article || {
       title: '', category: '', subcategory: '', contentType: 'article', slug: '', description: '',
       hook: '', directAnswer: '', img: '', alt: '', body: '', author: 'Oluwashola Busari',
-      authorSlug: 'oluwashola-busari', date: new Date().toISOString().slice(0, 10), readingTime: '', status: 'published',
-      scheduledAt: '', reviewNotes: '', heroOrder: '', externalLink: '', canonicalUrl: '',
-      featured: false, hero: false, seoTitle: '', seoDescription: '', tags: [],
-      keyTakeaways: [], relatedSlugs: [], faqs: [], sources: []
+      authorSlug: 'oluwashola-busari', submitterEmail: '', date: new Date().toISOString().slice(0, 10),
+      readingTime: '', status: 'pending', scheduledAt: '', reviewNotes: '', heroOrder: '',
+      externalLink: '', canonicalUrl: '', featured: false, hero: false, seoTitle: '',
+      seoDescription: '', tags: [], keyTakeaways: [], relatedSlugs: [], faqs: [], sources: []
     };
 
     $('articleId').value = article?.id || '';
     $('formTitle').textContent = article ? `Editing: ${article.title}` : 'New article';
     ['title', 'category', 'subcategory', 'contentType', 'slug', 'description', 'hook',
-      'directAnswer', 'img', 'alt', 'body', 'author', 'authorSlug', 'date', 'readingTime', 'status',
-      'scheduledAt', 'reviewNotes', 'externalLink', 'canonicalUrl', 'seoTitle', 'seoDescription'].forEach((key) => {
-      $(key).value = values[key] ?? '';
+      'directAnswer', 'img', 'alt', 'body', 'author', 'authorSlug', 'submitterEmail', 'date',
+      'readingTime', 'status', 'scheduledAt', 'reviewNotes', 'externalLink', 'canonicalUrl',
+      'seoTitle', 'seoDescription'].forEach((key) => {
+      if ($(key)) $(key).value = values[key] ?? '';
     });
     ['tags', 'keyTakeaways', 'relatedSlugs'].forEach((key) => {
       $(key).value = Array.isArray(values[key]) ? values[key].join('\n') : '';
@@ -125,8 +126,41 @@
     $('hero').checked = Boolean(values.hero);
     $('deleteArticle').hidden = !article;
     $('previewArticle').hidden = !article;
+    $('validationPanel').hidden = true;
+    $('reviewBanner').hidden = true;
+    setSubmitButtonLabel();
     updateImagePreview();
+    updateStatusHelp();
   }
+
+  function setSubmitButtonLabel() {
+    const btn = $('submitBtn');
+    if (!btn) return;
+    const status = $('status')?.value;
+    if (status === 'draft') {
+      btn.innerHTML = '<i class="fas fa-save" aria-hidden="true"></i> Save draft';
+    } else if (status === 'scheduled') {
+      btn.innerHTML = '<i class="fas fa-clock" aria-hidden="true"></i> Schedule';
+    } else if (status === 'published') {
+      btn.innerHTML = '<i class="fas fa-save" aria-hidden="true"></i> Publish';
+    } else {
+      btn.innerHTML = '<i class="fas fa-paper-plane" aria-hidden="true"></i> Submit for review';
+    }
+  }
+
+  function updateStatusHelp() {
+    const help = $('statusHelp');
+    const status = $('status')?.value;
+    if (!help) return;
+    const msgs = {
+      pending: 'Sends the article to Sholynk Tech for approval. It stays hidden from the public site until published.',
+      draft: 'Saves without sending for review; stays visible only to admins.',
+      scheduled: 'Schedules publishing at the date/time you set (requires approval on this CMS).',
+      published: 'Publishes immediately. Only editors-in-chief should use this.'
+    };
+    help.textContent = msgs[status] || '';
+  }
+  $('status')?.addEventListener('change', () => { setSubmitButtonLabel(); updateStatusHelp(); });
 
   function updateImagePreview() {
     const url = $('img').value.trim();
@@ -139,6 +173,60 @@
   }
   $('img').addEventListener('input', updateImagePreview);
   $('alt').addEventListener('input', updateImagePreview);
+
+  // PDF import: send the file to /api/import/pdf and autofill the article
+  // fields. Authors still edit/curate the result before saving.
+  $('pdfImportFile').addEventListener('change', async () => {
+    const file = $('pdfImportFile').files[0];
+    const status = $('pdfImportStatus');
+    if (!file) return;
+    const previous = status?.textContent || '';
+    if (status) status.textContent = `Parsing "${file.name}"… this takes a few seconds.`;
+    try {
+      const form = new FormData();
+      form.append('pdf', file);
+      const response = await request('/import/pdf', { method: 'POST', body: form });
+      const draft = response.data || {};
+      if (draft.title && !$('title').value.trim()) $('title').value = draft.title;
+      if (draft.description && !$('description').value.trim()) $('description').value = draft.description;
+      if (draft.hook && !$('hook').value.trim()) $('hook').value = draft.hook;
+      if (draft.body && !$('body').value.trim()) $('body').value = draft.body;
+      if (draft.category && !$('category').value.trim()) $('category').value = draft.category;
+      if (draft.contentType) $('contentType').value = draft.contentType;
+      if (draft.readingTime && !$('readingTime').value.trim()) $('readingTime').value = draft.readingTime;
+      if (Array.isArray(draft.tags) && draft.tags.length && !$('tags').value.trim()) {
+        $('tags').value = draft.tags.join('\n');
+      }
+      if (!slugIsCustomised()) {
+        $('slug').value = '';
+      }
+      const pages = draft.meta?.pages ? ` (${draft.meta.pages} pages)` : '';
+      if (status) {
+        status.textContent = `Draft extracted${pages}. Review the title, body and tags before saving.`;
+      }
+      toast('PDF drafted into the form — review before saving');
+    } catch (error) {
+      if (status) status.textContent = previous;
+      toast(error.message, true);
+    } finally {
+      $('pdfImportFile').value = '';
+    }
+  });
+
+  function slugIsCustomised() {
+    const title = $('title').value.trim();
+    const slug = $('slug').value.trim();
+    if (!slug || !title) return Boolean(slug);
+    // Mirrors the serverside slugify() in cms/lib/articles.js.
+    const expected = title.toLowerCase()
+      .normalize('NFKD')
+      .replace(/[^a-z0-9\s-]/g, '')
+      .trim()
+      .replace(/\s+/g, '-')
+      .replace(/-+/g, '-')
+      .slice(0, 80);
+    return slug !== expected;
+  }
 
   function selectArticle(id) {
     state.selectedId = id;
@@ -184,8 +272,47 @@
     return parsed;
   }
 
-  $('articleForm').addEventListener('submit', async (event) => {
-    event.preventDefault();
+  function showValidation(errors) {
+    const panel = $('validationPanel');
+    const list = $('validationList');
+    list.innerHTML = '';
+    errors.forEach((msg) => {
+      const li = document.createElement('li');
+      li.textContent = msg;
+      list.append(li);
+    });
+    panel.hidden = errors.length === 0;
+    if (errors.length) {
+      panel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }
+
+  function validateForSubmission(payload, { isNew }) {
+    const errors = [];
+    const body = String(payload.body || '').trim();
+    if (payload.status === 'pending') {
+      if (payload.title.trim().length < 6) errors.push('Title is required (min 6 characters).');
+      if (!payload.category.trim()) errors.push('Category is required.');
+      if (body.length < 200) errors.push(`Article body is too short (${body.length} chars). Add at least 200 characters.`);
+      if (!/<h2\b/i.test(body) && !/^##\s+/m.test(body)) {
+        errors.push('Add at least one section heading (use ## heading in Markdown or <h2> in HTML) so readers can navigate the article.');
+      }
+      if (payload.description.trim().length < 40) errors.push('Description/teaser is required (min 40 characters).');
+      if (payload.description.trim().length > 200) errors.push('Description must be under 200 characters.');
+      if (isNew && !payload.author.trim()) errors.push('Author display name is required.');
+      if ((payload.tags || []).length < 2) errors.push('Add at least 2 tags.');
+      if (payload.img && !payload.alt.trim()) errors.push('Image alt text is required when a hero image is set.');
+      if (!payload.submitterEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payload.submitterEmail)) {
+        errors.push('A valid submitter email is required so editors can reply.');
+      }
+    }
+    if (payload.status === 'scheduled' && !payload.scheduledAt) {
+      errors.push('Scheduled publishing time is required when status is "Scheduled".');
+    }
+    return errors;
+  }
+
+  async function saveArticle({ forceStatus } = {}) {
     const id = $('articleId').value;
     let structured;
     try {
@@ -215,9 +342,10 @@
       body: $('body').value,
       author: $('author').value.trim(),
       authorSlug: $('authorSlug').value.trim(),
+      submitterEmail: $('submitterEmail')?.value.trim() || '',
       date: $('date').value,
       readingTime: $('readingTime').value.trim(),
-      status: $('status').value,
+      status: forceStatus || $('status').value,
       scheduledAt: $('scheduledAt').value,
       reviewNotes: $('reviewNotes').value,
       heroOrder: $('heroOrder').value,
@@ -231,16 +359,43 @@
     if (!payload.slug) delete payload.slug;
     if (!payload.readingTime) delete payload.readingTime;
 
+    const errors = validateForSubmission(payload, { isNew: !id });
+    showValidation(errors);
+    if (errors.length) {
+      toast('Please fix the highlighted issues before submitting.', true);
+      return null;
+    }
+
     try {
       const result = id
         ? await request(`/articles/${id}`, { method: 'PUT', body: JSON.stringify(payload) })
         : await request('/articles', { method: 'POST', body: JSON.stringify(payload) });
       await loadArticles();
       selectArticle(result.data.id);
-      toast(id ? 'Article updated' : 'Article created');
+      if (result.data.reviewNotice) {
+        const banner = $('reviewBanner');
+        banner.className = 'review-banner success';
+        banner.innerHTML = `<i class="fas fa-check-circle" aria-hidden="true"></i> ${result.data.reviewNotice}`;
+        banner.hidden = false;
+        toast('Submitted for review — Sholynk Tech has been notified.');
+      } else {
+        toast(id ? 'Article updated' : 'Article saved');
+      }
+      return result.data;
     } catch (error) {
+      // Server may return additional validation details.
       toast(error.message, true);
+      return null;
     }
+  }
+
+  $('articleForm').addEventListener('submit', (event) => {
+    event.preventDefault();
+    saveArticle();
+  });
+
+  $('saveDraftBtn')?.addEventListener('click', async () => {
+    await saveArticle({ forceStatus: 'draft' });
   });
 
   $('deleteArticle').addEventListener('click', async () => {
@@ -289,6 +444,17 @@
 
   /* ------------------------------ authors ------------------------------- */
 
+  function updateAuthorImagePreview() {
+    const url = $('authorImage').value.trim();
+    const wrap = $('authorImagePreview');
+    const tag = $('authorImagePreviewTag');
+    if (!wrap || !tag) return;
+    if (!url) { wrap.hidden = true; return; }
+    tag.src = url;
+    tag.alt = $('authorImageAlt').value.trim() || 'Author profile photo preview';
+    wrap.hidden = false;
+  }
+
   function fillAuthorForm(author = null) {
     const values = author || { name: '', slug: '', role: '', bio: '', image: '', imageAlt: '', profileUrl: '' };
     $('authorId').value = author?.id || '';
@@ -300,7 +466,9 @@
     $('authorImage').value = values.image || '';
     $('authorImageAlt').value = values.imageAlt || '';
     $('authorProfileUrl').value = values.profileUrl || '';
+    if ($('authorImageFile')) $('authorImageFile').value = '';
     $('deleteAuthor').hidden = !author;
+    updateAuthorImagePreview();
   }
 
   function renderAuthors() {
@@ -350,6 +518,32 @@
     fillAuthorForm();
     renderAuthors();
     $('authorName').focus();
+  });
+
+  $('authorImage').addEventListener('input', updateAuthorImagePreview);
+  $('authorImageAlt').addEventListener('input', updateAuthorImagePreview);
+
+  // Upload a chosen profile photo straight to the media library and bind its URL
+  // into the author image field, so authors can pick a photo from disk the same
+  // way article hero images are uploaded.
+  $('authorImageFile').addEventListener('change', async () => {
+    const file = $('authorImageFile').files[0];
+    if (!file) return;
+    const alt = $('authorImageAlt').value.trim() || `Photo of ${$('authorName').value.trim() || 'the author'}`;
+    try {
+      const form = new FormData();
+      form.append('image', file);
+      form.append('alt', alt);
+      const response = await request('/images', { method: 'POST', body: form });
+      $('authorImage').value = response.data.url;
+      if (!$('authorImageAlt').value.trim()) $('authorImageAlt').value = alt;
+      updateAuthorImagePreview();
+      toast('Profile photo uploaded and applied');
+    } catch (error) {
+      toast(error.message, true);
+    } finally {
+      $('authorImageFile').value = '';
+    }
   });
 
   $('authorForm').addEventListener('submit', async (event) => {

@@ -163,7 +163,22 @@ addColumn('articles', 'related_slugs_json', "TEXT NOT NULL DEFAULT '[]'");
 addColumn('articles', 'canonical_url', 'TEXT');
 addColumn('articles', 'scheduled_at', 'TEXT');
 addColumn('articles', 'review_notes', "TEXT NOT NULL DEFAULT ''");
+addColumn('articles', 'submitter_email', "TEXT NOT NULL DEFAULT ''");
+addColumn('articles', 'submitted_at', 'TEXT');
+
+db.exec(`CREATE TABLE IF NOT EXISTS submissions (
+  id           INTEGER PRIMARY KEY AUTOINCREMENT,
+  article_id   INTEGER NOT NULL REFERENCES articles(id) ON DELETE CASCADE,
+  article_slug TEXT NOT NULL DEFAULT '',
+  title        TEXT NOT NULL DEFAULT '',
+  author_name  TEXT NOT NULL DEFAULT '',
+  submitter_email TEXT NOT NULL DEFAULT '',
+  submitted_at TEXT NOT NULL DEFAULT (datetime('now')),
+  notified_at  TEXT,
+  notes        TEXT NOT NULL DEFAULT ''
+);`);
 
 db.exec('CREATE INDEX IF NOT EXISTS idx_comments_client ON comments(client_id)');
+db.exec('CREATE INDEX IF NOT EXISTS idx_submissions_article ON submissions(article_id, id)');
 
 module.exports = { db, DB_FILE, DATA_DIR };

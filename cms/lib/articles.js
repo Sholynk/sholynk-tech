@@ -2,7 +2,7 @@
 
 const { db } = require('./db');
 
-const VALID_STATUS = new Set(['published', 'draft', 'scheduled']);
+const VALID_STATUS = new Set(['published', 'draft', 'scheduled', 'pending']);
 const VALID_CONTENT_TYPES = new Set(['article', 'news', 'guide', 'opinion', 'review', 'analysis']);
 const VALID_SOURCE_TYPES = new Set(['primary', 'official', 'research', 'journalism', 'reference', 'other']);
 
@@ -105,6 +105,8 @@ function toApi(row) {
     status: row.status,
     scheduledAt: row.scheduled_at || null,
     reviewNotes: row.review_notes || '',
+    submittedAt: row.submitted_at || null,
+    submitterEmail: row.submitter_email || '',
     hero: Boolean(row.hero),
     heroOrder: row.hero_order,
     externalLink: row.external_link || null,
@@ -270,7 +272,7 @@ const INSERT_FIELDS = [
   'reading_time', 'featured', 'status', 'hero', 'hero_order', 'external_link', 'seo_title',
   'seo_description', 'content_type', 'subcategory', 'tags_json', 'hook', 'direct_answer',
   'key_takeaways_json', 'faqs_json', 'related_slugs_json', 'canonical_url', 'scheduled_at',
-  'review_notes'
+  'review_notes', 'submitter_email', 'submitted_at'
 ];
 
 function create(payload = {}) {
@@ -278,6 +280,7 @@ function create(payload = {}) {
   if (!Array.isArray(payload.sources || [])) throw new ValidationError(['sources must be an array']);
   (payload.sources || []).forEach(validateSource);
   const slug = uniqueSlug(slugify(payload.slug || payload.title));
+  const isSubmission = payload.status === 'pending';
   const values = [
     slug,
     String(payload.title).trim(),
@@ -291,7 +294,7 @@ function create(payload = {}) {
     String(payload.date || payload.publishedAt || new Date().toISOString().slice(0, 10)),
     String(payload.readingTime || estimateReadingTime(payload.body)),
     payload.featured ? 1 : 0,
-    VALID_STATUS.has(payload.status) ? payload.status : 'published',
+    VALID_STATUS.has(payload.status) ? payload.status : (process.env.CMS_REQUIRE_APPROVAL === 'true' ? 'pending' : 'published'),
     payload.hero ? 1 : 0,
     payload.heroOrder == null || payload.heroOrder === '' ? null : Number(payload.heroOrder),
     payload.externalLink || null,
@@ -307,7 +310,9 @@ function create(payload = {}) {
     asJson(payload.relatedSlugs),
     payload.canonicalUrl || null,
     payload.scheduledAt || null,
-    String(payload.reviewNotes || '')
+    String(payload.reviewNotes || ''),
+    String(payload.submitterEmail || ''),
+    isSubmission ? new Date().toISOString().replace('T', ' ').slice(0, 19) : null
   ];
   const placeholders = INSERT_FIELDS.map(() => '?').join(',');
   const info = db.prepare(`INSERT INTO articles (${INSERT_FIELDS.join(',')}) VALUES (${placeholders})`).run(...values);
@@ -321,7 +326,7 @@ const FIELD_MAP = {
   alt: 'alt', author: 'author', authorSlug: 'author_slug', date: 'published_at', publishedAt: 'published_at',
   readingTime: 'reading_time', status: 'status', scheduledAt: 'scheduled_at', reviewNotes: 'review_notes',
   externalLink: 'external_link', canonicalUrl: 'canonical_url', seoTitle: 'seo_title',
-  seoDescription: 'seo_description'
+  seoDescription: 'seo_description', submitterEmail: 'submitter_email'
 };
 
 const JSON_FIELD_MAP = {

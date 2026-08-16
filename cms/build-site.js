@@ -206,6 +206,27 @@ function renderToc(bodyHtml) {
   return `<details class="article-toc" open><summary><span><small>Navigate</small>In this article</span><i class="fas fa-chevron-down" aria-hidden="true"></i></summary><nav aria-label="Table of contents"><ol>${items}</ol></nav></details>`;
 }
 
+function renderAuthorCard(author, variant = 'rail') {
+  if (!author) return '';
+  const hasImage = Boolean(author.image);
+  const initials = (author.name || 'A')
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((w) => w[0]?.toUpperCase() || '')
+    .join('');
+  const media = hasImage
+    ? `<div class="article-author-media"><img src="${escapeHtml(/^https?:\/\//i.test(author.image) ? author.image : articlePageUrl(author.image))}" alt="${escapeHtml(author.imageAlt || `Photo of ${author.name}`)}" loading="lazy" decoding="async"/></div>`
+    : `<div class="article-author-media"><div class="article-author-avatar" aria-hidden="true">${escapeHtml(initials || 'A')}</div></div>`;
+  const role = author.role ? `<p class="article-author-role">${escapeHtml(author.role)}</p>` : '';
+  const bio = author.bio ? `<p class="article-author-bio">${escapeHtml(author.bio)}</p>` : '';
+  const link = author.profileUrl
+    ? `<a class="article-author-link" href="${escapeHtml(author.profileUrl)}" target="_blank" rel="noopener noreferrer">View full profile <i class="fas fa-arrow-right" aria-hidden="true"></i></a>`
+    : '';
+  const classes = ['article-author-card', `article-author-card--${variant}`].join(' ');
+  return `<aside class="${classes}" aria-label="About ${escapeHtml(author.name || 'the author')}">${media}<div class="article-author-body"><p class="eyebrow">Written by</p><h3>${escapeHtml(author.name || 'Sholynk Editorial')}</h3>${role}${bio}${link}</div></aside>`;
+}
+
 /**
  * The shared shell (article.html) lives at the site root and uses references
  * relative to it. Generated pages sit two directories deeper, so each local
@@ -432,6 +453,8 @@ function renderArticle(article, bodyHtml, responsive, canonical, author) {
     : '';
   const share = `<section class="article-share" aria-labelledby="share-heading"><div class="article-share-copy"><p class="eyebrow">Worth sharing?</p><h2 id="share-heading">Pass this story on</h2></div><div class="article-share-actions"><a href="https://twitter.com/intent/tweet?text=${shareText}" target="_blank" rel="noopener noreferrer" aria-label="Share on X"><i class="fa-brands fa-x-twitter" aria-hidden="true"></i><span>X</span></a><a href="https://www.facebook.com/sharer/sharer.php?u=${shareUrl}" target="_blank" rel="noopener noreferrer" aria-label="Share on Facebook"><i class="fab fa-facebook-f" aria-hidden="true"></i><span>Facebook</span></a><a href="https://wa.me/?text=${shareText}" target="_blank" rel="noopener noreferrer" aria-label="Share on WhatsApp"><i class="fab fa-whatsapp" aria-hidden="true"></i><span>WhatsApp</span></a><button type="button" data-copy-article data-copy-url="${escapeHtml(canonical)}" aria-label="Copy article link"><i class="fas fa-link" aria-hidden="true"></i><span>Copy link</span></button></div><p class="article-share-status" role="status" aria-live="polite"></p></section>`;
 
+  const railAuthor = renderAuthorCard(author, 'rail');
+  const inlineAuthor = renderAuthorCard(author, 'inline');
   return `<article class="article-page" id="articleRoot" data-prerendered="true" data-slug="${escapeHtml(article.slug)}" aria-busy="false">
     <div class="article-masthead">
       <nav class="article-breadcrumb" aria-label="Breadcrumb"><a href="${SITE_ROOT_PREFIX}index.html"><i class="fas fa-house" aria-hidden="true"></i><span>Home</span></a><i class="fas fa-chevron-right" aria-hidden="true"></i><a href="${SITE_ROOT_PREFIX}index.html?category=${encodeURIComponent(article.category)}">${escapeHtml(article.category)}</a><i class="fas fa-chevron-right" aria-hidden="true"></i><span aria-current="page">${escapeHtml(article.title)}</span></nav>
@@ -439,7 +462,7 @@ function renderArticle(article, bodyHtml, responsive, canonical, author) {
     </div>
     ${renderHero(article, responsive)}
     <div class="article-reading-layout">
-      ${toc ? `<aside class="article-rail">${toc}<a class="article-rail-home" href="${SITE_ROOT_PREFIX}index.html"><i class="fas fa-arrow-left" aria-hidden="true"></i><span>All stories</span></a></aside>` : ''}
+      ${toc || railAuthor ? `<aside class="article-rail">${toc}${railAuthor}<a class="article-rail-home" href="${SITE_ROOT_PREFIX}index.html"><i class="fas fa-arrow-left" aria-hidden="true"></i><span>All stories</span></a></aside>` : ''}
       <div class="article-content">
         ${quickAnswer}
         ${takeaways}
@@ -447,6 +470,7 @@ function renderArticle(article, bodyHtml, responsive, canonical, author) {
         ${renderFaqs(article.faqs)}
         ${renderSources(article.sources)}
         ${share}
+        ${inlineAuthor}
         <div id="engagementRoot"></div>
         <nav class="article-end-nav" aria-label="Article navigation"><a class="article-back" href="${SITE_ROOT_PREFIX}index.html"><i class="fas fa-arrow-left" aria-hidden="true"></i><span>Back to all articles</span></a><a class="article-category-link" href="${SITE_ROOT_PREFIX}index.html?category=${encodeURIComponent(article.category)}"><span>More in ${escapeHtml(article.category)}</span><i class="fas fa-arrow-right" aria-hidden="true"></i></a></nav>
       </div>
