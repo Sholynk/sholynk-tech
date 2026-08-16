@@ -348,9 +348,43 @@ link to them instead.
 There is no upper limit and no target: 1,200 words that answer the question fully
 beat 2,500 words padded to hit a number.
 
-**Language.** British English by default (`optimise`, `behaviour`, `analyse`). Note
-the two existing legacy articles use some American spellings; new work should not
-follow them.
+**Language.** **Strictly British English. There is no exception and no "by default".**
+An article containing American spellings is not ready to publish.
+
+- `-ise` / `-isation`, never `-ize` / `-ization`: `optimise`, `organisation`,
+  `analyse`, `summarise`, `recognise`, `prioritise`, `specialised`.
+- `-our`, not `-or`: `behaviour`, `colour`, `favour`, `labour`, `honour`.
+- `-re`, not `-er`: `centre`, `metre`, `fibre`, `theatre`.
+- `-ce` for nouns, `-se` for verbs: a `licence` / to `license`, a `practice` /
+  to `practise`, `defence`, `offence`.
+- Doubled `l` before a suffix: `travelling`, `modelling`, `labelled`, `cancelled`,
+  `fuelled`.
+- Also: `programme` (except a computer `program`), `catalogue`, `dialogue`,
+  `enrol`, `fulfil`, `judgement`, `towards`, `learnt`, `amongst`, `whilst`
+  (used sparingly), `maths` not `math`.
+- Dates read `16 August 2026`, not `August 16, 2026`. Note that the `date` front-matter
+  field is a separate, machine-readable `YYYY-MM-DD` value and is unaffected.
+- Punctuation follows British convention: full stops and commas go **outside** closing
+  quotation marks unless they belong to the quoted material, and single quotation
+  marks are acceptable for quotes within quotes.
+- Collective nouns take the British reading where it is natural: "the team are
+  divided" is acceptable; "the company is" remains singular.
+
+Two exceptions, both mechanical rather than editorial:
+
+1. **Quoted material and source titles are never altered.** If a cited American paper
+   is titled "Analyzing Model Behavior", reproduce it exactly. The same applies to
+   direct quotations.
+2. **Code, identifiers, file paths and API field names are reproduced as written.**
+   This repository's own code contains `sanitizeHtml`, `optimize` and similar; in
+   prose you write "sanitisation", but the function name stays `sanitizeHtml`.
+
+Set your editor's spellchecker to English (United Kingdom) before you start, and read
+the piece once specifically for spelling before running the build. The build does not
+check spelling — this is enforced editorially, not by tooling.
+
+The two existing legacy articles predate this rule and still contain American
+spellings. They are being retrofitted separately; do not treat them as a model.
 
 **Punctuation.** No em dashes between words — use commas, semicolons or full stops.
 Keep correct compound hyphens: `real-world`, `open-source`, `problem-solving`,
@@ -474,6 +508,9 @@ article from the site.
    it must inform, not tantalise.
 10. **Editing generated files** in `articles/`, `content-fallback.json` or
     `articles.json`. The next sync overwrites them.
+11. **American spellings.** `optimize`, `behavior`, `center`, `defense`, `traveling`.
+    Nothing in the build catches these, so they reach the reader. Set the spellchecker
+    to English (United Kingdom) and proofread for it deliberately.
 
 ---
 
@@ -496,7 +533,10 @@ Editorial (from the Sholynk Formula):
 - [ ] Fact, reported claim, interpretation and speculation are distinguishable in the prose.
 - [ ] FAQs are genuine reader questions, not SEO filler.
 - [ ] The conclusion synthesises rather than repeats.
-- [ ] British English, no em dashes, jargon explained at first use.
+- [ ] **Strictly British English** throughout (`-ise`, `-our`, `-re`, `licence`/`license`,
+      `travelling`), checked with a UK spellchecker; quoted titles and code identifiers
+      left exactly as written.
+- [ ] No em dashes between words; jargon explained at first use.
 
 Technical (specific to this website):
 
