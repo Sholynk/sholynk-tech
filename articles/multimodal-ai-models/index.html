@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Multimodal AI Models: How They Work and Where They Fail</title>
+    <meta name="description" content="How multimodal AI models read text, images, audio and video in one system, where they are genuinely deployed, and what benchmark evidence says about their limits." />
+    <meta name="author" content="Oluwashola Busari" />
+    <meta name="theme-color" content="#000000" />
+    <link rel="canonical" href="https://sholynktech.netlify.app/articles/multimodal-ai-models/" />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="Sholynk Technology" />
+    <meta property="og:title" content="Multimodal AI Models: How They Work and Where They Fail" />
+    <meta property="og:description" content="How multimodal AI models read text, images, audio and video in one system, where they are genuinely deployed, and what benchmark evidence says about their limits." />
+    <meta property="og:url" content="https://sholynktech.netlify.app/articles/multimodal-ai-models/" />
+    <meta property="og:image" content="https://sholynktech.netlify.app/article-images/multimodal-ai-models/multimodal-inputs.jpg" />
+    <meta property="article:published_time" content="2026-08-16" />
+    <meta property="article:section" content="AI Trends" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Multimodal AI Models: How They Work and Where They Fail" />
+    <meta name="twitter:description" content="How multimodal AI models read text, images, audio and video in one system, where they are genuinely deployed, and what benchmark evidence says about their limits." />
+    <meta name="twitter:image" content="https://sholynktech.netlify.app/article-images/multimodal-ai-models/multimodal-inputs.jpg" />
+    <link rel="shortcut icon" href="../../Images and Assets/new_page_logo.jpg" type="image/x-icon" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet" />
+    <link href="../../styles.css" rel="stylesheet" />
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","@id":"https://sholynktech.netlify.app/articles/multimodal-ai-models/#article","mainEntityOfPage":{"@type":"WebPage","@id":"https://sholynktech.netlify.app/articles/multimodal-ai-models/"},"headline":"Multimodal AI Models Are Changing How Software Understands the World","description":"How multimodal AI models read text, images, audio and video in one system, where they are genuinely deployed, and what benchmark evidence says about their limits.","image":["https://sholynktech.netlify.app/article-images/multimodal-ai-models/multimodal-inputs.jpg"],"datePublished":"2026-08-16","dateModified":"2026-08-16T17:57:47Z","articleSection":"AI Trends","keywords":"multimodal ai, vision language models, foundation models, benchmarks, document understanding","author":{"@type":"Person","@id":"https://sholynktech.netlify.app/about.html#oluwashola-busari","name":"Oluwashola Busari","url":"https://sholynktech.netlify.app/about.html","jobTitle":"Founder, Software Engineer and Tech Journalist","description":"The founder of Sholynk Technology. Has a background in Mass Communication, Software Engineering, Digital Marketing, and Data Analysis. He is focused on explaining technical concepts in very simple terms.","image":"https://sholynktech.netlify.app/Images%20and%20Assets/my_pic.png"},"publisher":{"@type":"Organization","@id":"https://sholynktech.netlify.app/#organization","name":"Sholynk Technology","url":"https://sholynktech.netlify.app/","logo":{"@type":"ImageObject","url":"https://sholynktech.netlify.app/Images%20and%20Assets/page_logo.png"}},"citation":["https://arxiv.org/abs/2409.02813","https://arxiv.org/abs/2501.13826","https://deepmind.google/models/gemini/"]},{"@type":"BreadcrumbList","@id":"https://sholynktech.netlify.app/articles/multimodal-ai-models/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://sholynktech.netlify.app/"},{"@type":"ListItem","position":2,"name":"AI Trends","item":"https://sholynktech.netlify.app/?category=AI%20Trends"},{"@type":"ListItem","position":3,"name":"Multimodal AI Models Are Changing How Software Understands the World","item":"https://sholynktech.netlify.app/articles/multimodal-ai-models/"}]},{"@type":"FAQPage","@id":"https://sholynktech.netlify.app/articles/multimodal-ai-models/#faq","mainEntity":[{"@type":"Question","name":"What is the difference between a multimodal model and an image recognition system?","acceptedAnswer":{"@type":"Answer","text":"An image recognition system classifies pictures into known labels. A multimodal model represents images and text in the same space, so it can answer open questions about an image, compare it with a document, or explain what it shows."}},{"@type":"Question","name":"Do multimodal models actually see, or do they guess from context?","acceptedAnswer":{"@type":"Answer","text":"Both, and separating the two is an active research problem. The MMMU-Pro benchmark was built specifically to filter out questions a text-only model could answer, and scores dropped substantially once that crutch was removed."}},{"@type":"Question","name":"Can one model handle every modality well?","acceptedAnswer":{"@type":"Answer","text":"Not at present. Published results show different systems leading on video, long documents and chart reasoning respectively, which is why some production deployments route each task to a different model."}},{"@type":"Question","name":"Are multimodal models reliable enough for regulated work?","acceptedAnswer":{"@type":"Answer","text":"They are used in regulated settings with human review, but not as an unchecked authority. They can produce confident, fluent descriptions of things that are not in the image, so a verification step remains necessary."}}]}]}</script>
+  </head>
+  <body class="article-view">
+    <!-- Header -->
+    <header class="site-header">
+      <div class="site-header-inner">
+        <a href="../../index.html" aria-label="Sholynk homepage">
+          <img
+            alt="Sholynk logo"
+            class="site-logo"
+            height="24"
+            src="../../Images and Assets/page_logo.png"
+            width="120"
+          />
+        </a>
+        <div class="social-links" aria-label="Social links">
+          <a aria-label="WhatsApp" href="https://wa.me/qr/CV4VS7HDF2PHD1"
+             target="_blank" rel="noopener noreferrer"><i class="fab fa-whatsapp" aria-hidden="true"></i
+          ></a>
+          <a aria-label="Facebook" href="https://www.facebook.com/share/18xwSHcWr4/"
+             target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook-f" aria-hidden="true"></i
+          ></a>
+          <a aria-label="X / Twitter" href="https://x.com/sholynked"
+             target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-x-twitter" aria-hidden="true"></i
+          ></a>
+        </div>
+        <nav class="site-nav" aria-label="Primary navigation">
+          <a href="../../index.html">Home</a>
+          <a href="../../index.html?category=Technology">Technology</a>
+          <a href="../../index.html?category=AI%20Trends">AI</a>
+          <a href="../../index.html?category=Cryptocurrency">Cryptocurrency</a>
+          <a href="../../index.html?category=Game">Game</a>
+          <a href="../../index.html?category=Web%203">Web 3</a>
+          <a href="../../about.html">About</a>
+          <a href="../../contact.html">Contact</a>
+        </nav>
+        <button
+          class="hamburger"
+          type="button"
+          aria-label="Open navigation menu"
+          aria-controls="sidebar"
+          aria-expanded="false"
+        >
+          <i class="fas fa-bars" aria-hidden="true"></i>
+        </button>
+      </div>
+    </header>
+
+    <!-- Sidebar Navigation (mobile only) -->
+    <div class="sidebar" id="sidebar">
+      <h3>Explore Sholynk</h3>
+      <ul>
+        <li><a href="../../index.html">Home</a></li>
+        <li><a href="../../index.html?category=Technology">Technology</a></li>
+        <li><a href="../../index.html?category=AI%20Trends">AI</a></li>
+        <li><a href="../../index.html?category=Cryptocurrency">Cryptocurrency</a></li>
+        <li><a href="../../index.html?category=Web%203">Web 3</a></li>
+        <li><a href="../../index.html?category=Game">Game</a></li>
+        <li><a href="../../about.html">About</a></li>
+        <li><a href="../../contact.html">Contact</a></li>
+      </ul>
+      <div class="sidebar-social">
+        <a aria-label="WhatsApp" href="https://wa.me/qr/CV4VS7HDF2PHD1"
+           target="_blank" rel="noopener noreferrer"><i class="fab fa-whatsapp" aria-hidden="true"></i
+        ></a>
+        <a aria-label="Facebook" href="https://www.facebook.com/share/18xwSHcWr4/"
+           target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook-f" aria-hidden="true"></i
+        ></a>
+        <a aria-label="X / Twitter" href="https://x.com/sholynked"
+           target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-x-twitter" aria-hidden="true"></i
+        ></a>
+      </div>
+    </div>
+
+    <div class="reading-progress" aria-hidden="true">
+      <span id="readingProgressBar"></span>
+    </div>
+
+    <main class="article-main" id="main-content">
+      <article class="article-page" id="articleRoot" data-prerendered="true" data-slug="multimodal-ai-models" aria-busy="false">
+    <div class="article-masthead">
+      <nav class="article-breadcrumb" aria-label="Breadcrumb"><a href="../../index.html"><i class="fas fa-house" aria-hidden="true"></i><span>Home</span></a><i class="fas fa-chevron-right" aria-hidden="true"></i><a href="../../index.html?category=AI%20Trends">AI Trends</a><i class="fas fa-chevron-right" aria-hidden="true"></i><span aria-current="page">Multimodal AI Models Are Changing How Software Understands the World</span></nav>
+      <header class="article-header"><div class="article-kicker"><span class="category-label">AI Trends</span><span aria-hidden="true">•</span><span>analysis</span><span aria-hidden="true">•</span><span>9 min read</span></div><h1>Multimodal AI Models Are Changing How Software Understands the World</h1><p class="article-standfirst">For most of computing history, software could only read what we typed. Multimodal models are the first systems that treat a photograph, a recording and a spreadsheet as the same kind of input.</p><div class="article-meta"><span class="article-byline"><i class="fas fa-user" aria-hidden="true"></i><a href="../../about.html#oluwashola-busari">Oluwashola Busari</a></span><span aria-hidden="true">•</span><time datetime="2026-08-16"><i class="fas fa-calendar" aria-hidden="true"></i>August 16, 2026</time></div></header>
+    </div>
+    <figure class="article-hero"><div class="article-hero-media"><img src="../../article-images/multimodal-ai-models/multimodal-inputs.jpg" srcset="../../generated-images/multimodal-ai-models/hero-640.webp 640w, ../../generated-images/multimodal-ai-models/hero-1024.webp 1024w, ../../generated-images/multimodal-ai-models/hero-1600.webp 1600w, ../../generated-images/multimodal-ai-models/hero-1672.webp 1672w" sizes="(max-width: 760px) calc(100vw - 32px), (max-width: 1200px) calc(100vw - 64px), 1184px" width="1672" height="941" alt="A monitor showing a photograph, an audio waveform, a scanned handwritten page and a line chart converging into a single processing point. Illustration generated with AI for Sholynk." decoding="async" fetchpriority="high" /></div><figcaption>A monitor showing a photograph, an audio waveform, a scanned handwritten page and a line chart converging into a single processing point. Illustration generated with AI for Sholynk.</figcaption></figure>
+    <div class="article-reading-layout">
+      <aside class="article-rail"><details class="article-toc" open><summary><span><small>Navigate</small>In this article</span><i class="fas fa-chevron-down" aria-hidden="true"></i></summary><nav aria-label="Table of contents"><ol><li><a href="#introduction" aria-current="location"><span>Introduction</span></a></li><li><a href="#understanding-multimodal-ai"><span>Understanding Multimodal AI</span></a></li><li><a href="#why-it-matters"><span>Why It Matters</span></a></li><li><a href="#real-world-applications"><span>Real-World Applications</span></a></li><li><a href="#benefits-and-opportunities"><span>Benefits and Opportunities</span></a></li><li><a href="#limitations-risks-and-trade-offs"><span>Limitations, Risks and Trade-offs</span></a></li><li><a href="#conclusion"><span>Conclusion</span></a></li></ol></nav></details><aside class="article-author-card article-author-card--rail" aria-label="About Oluwashola Busari"><div class="article-author-media"><img src="../../Images%20and%20Assets/my_pic.png" alt="Portrait photo of Oluwashola Busari" loading="lazy" decoding="async" width="500" height="500" /></div><div class="article-author-body"><p class="eyebrow">Written by</p><h3>Oluwashola Busari</h3><p class="article-author-bio">The founder of Sholynk Technology. Has a background in Mass Communication, Software Engineering, Digital Marketing, and Data Analysis. He is focused on explaining technical concepts in very simple terms.</p><a class="article-author-link" href="https://sholynktech.netlify.app/about.html" target="_blank" rel="noopener noreferrer">View full profile <i class="fas fa-arrow-right" aria-hidden="true"></i></a></div></aside><a class="article-rail-home" href="../../index.html"><i class="fas fa-arrow-left" aria-hidden="true"></i><span>All stories</span></a></aside>
+      <div class="article-content">
+        <aside class="article-answer" aria-labelledby="quick-answer-heading"><div class="article-callout-icon" aria-hidden="true"><i class="fas fa-bolt"></i></div><div><p class="eyebrow" id="quick-answer-heading">Quick answer</p><p>A multimodal AI model is a single system trained to interpret more than one type of input, such as text, images, audio and video, by converting each into a shared internal representation it can reason over together.</p></div></aside>
+        <aside class="article-takeaways" aria-labelledby="takeaways-heading"><div class="article-callout-heading"><span class="article-callout-icon" aria-hidden="true"><i class="fas fa-check"></i></span><div><p class="eyebrow">The essentials</p><h2 id="takeaways-heading">Key takeaways</h2></div></div><ul class="takeaway-list"><li>Multimodal models convert different input types into one shared representation, which is what lets them answer questions that span a photograph and a paragraph at once.</li><li>The strongest current use cases are document and chart understanding, accessibility, and video review rather than open-ended general perception.</li><li>Headline benchmarks have saturated: leading models now cluster within a few points on standard image tests, so those scores no longer separate them.</li><li>Performance falls sharply when a model must genuinely read an image rather than lean on text clues, by 16.8 to 26.9 percentage points in the MMMU-Pro study.</li><li>Cost, latency and confident errors on unclear inputs remain the practical limits on deployment.</li></ul></aside>
+        <div class="article-body"><h2 id="introduction">Introduction</h2>
+<p>For most of computing history, the burden of translation fell on the human being. If you wanted software to act on the contents of a photograph, you described the photograph in words. If you wanted it to process an invoice, you typed the numbers into fields. The machine could store an image perfectly well, but it could not read one.</p>
+<p>That arrangement is being dismantled. A single class of system now accepts a screenshot, a recording, a scanned contract and a paragraph of instruction, and answers questions that require all four at once. The change is not that computers have gained sight. It is that sight, hearing and reading have stopped being separate pieces of software.</p>
+<p>This matters for anyone building products, because the interface between a user and a computer has quietly widened. It also matters because the marketing has run ahead of the evidence, and the benchmark record tells a more careful story than the launch announcements do.</p>
+<h2 id="understanding-multimodal-ai">Understanding Multimodal AI</h2>
+<h3>From separate systems to a shared representation</h3>
+<p>Older approaches treated each input type as its own discipline. Speech recognition converted audio into text. Optical character recognition converted images of documents into text. Image classifiers sorted pictures into fixed categories. Each was a specialist, and joining them meant piping the output of one into the input of another, losing information at every step.</p>
+<p>A multimodal model works differently. It converts every input, whatever its original form, into a common numerical representation known as an <strong>embedding</strong>: a list of numbers positioned in a shared mathematical space. A photograph of a bicycle and the word "bicycle" end up near one another in that space. Because everything lives in the same representation, the model can reason across inputs rather than passing summaries between separate tools.</p>
+<h3>What happens to an image</h3>
+<p>When you supply a picture, an encoder divides it into patches and turns each into a vector. Those vectors are placed into the same sequence as the tokens of your written prompt. From the model's perspective, there is no meaningful boundary between the question and the picture; both are simply positions in one sequence it attends over.</p>
+<p>This is why a multimodal model can answer a question such as "does the third row of this table contradict the claim in the paragraph above it?" A pipeline of separate tools would struggle, because the relationship between the table and the paragraph is destroyed the moment each is processed in isolation.</p>
+<h3>Why "multimodal" is not one capability</h3>
+<p>The term flattens a set of quite different skills. Reading dense text in a photographed document is not the same problem as tracking an object through ninety minutes of video, which is not the same as interpreting an unlabelled chart. Published results reflect this: different systems lead on different axes, which is why some engineering teams route each task to a different model rather than standardising on one.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Ask a developer what they spend their time on and the answer is rarely the interesting part. It is preprocessing: the document parser, the layout detector, the pile of rules that breaks the moment a supplier changes their invoice template. A good deal of that work can now be replaced by a question written in plain language. Software that touches the physical world, where inputs turn up as photographs and voice notes rather than tidy database rows, gets considerably cheaper to build.</p>
+<p>Then there are the archives. Most large organisations are sitting on decades of scanned records, engineering diagrams, recorded calls and site photographs that nobody can search. The material was stored but never made readable, which is a polite way of saying it was lost. Being able to ask questions of that pile changes what an archive is actually for.</p>
+<p>The rest of us will mostly notice this through accessibility, if we notice it at all. Software that describes a room, reads a menu aloud or pulls the argument out of a two-hour lecture recording removes barriers that thirty years of interface design never managed to shift.</p>
+<h2 id="real-world-applications">Real-World Applications</h2>
+<h3>Documents, forms and charts</h3>
+<p>The most established deployment is document understanding: extracting structure from invoices, claims, identity documents and reports where layout carries meaning. This is a well-suited task because the answer is verifiable. If a model reads a total incorrectly, the error surfaces immediately against the arithmetic.</p>
+<h3>Accessibility</h3>
+<p>Screen description and live scene narration are among the clearest uses, because a fluent, approximate description is genuinely more useful than no description. The tolerance for imperfection is higher here than in, say, medical triage.</p>
+<h3>Video review and long recordings</h3>
+<p>Video is the frontier rather than the settled ground. Vendor-published figures show meaningful capability on long-form video understanding, but independent research is more sober. The Video-MMMU study, which tested models on 300 expert-level teaching videos across six disciplines, found performance declining progressively as tasks moved from perceiving information to comprehending it to applying it to a new problem. That pattern, competent at surface recall and weaker at transfer, recurs across the literature.</p>
+<h2 id="benefits-and-opportunities">Benefits and Opportunities</h2>
+<p>The measurable gain is the removal of translation work. Where a task previously required a human to convert a physical artefact into structured data, a multimodal system can often do the first pass, leaving the human to verify rather than transcribe. In document-heavy operations that is a meaningful reduction in handling time.</p>
+<p>There is also an opportunity in the gap between modalities. Because different systems lead on different capabilities, teams willing to route tasks by type rather than adopting a single default can assemble something better than any one provider offers. That is an engineering advantage available to small teams, not just large ones.</p>
+<h2 id="limitations-risks-and-trade-offs">Limitations, Risks and Trade-offs</h2>
+<p><strong>Benchmarks have saturated, and that is itself a finding.</strong> Standard multi-discipline image tests no longer separate leading systems; results cluster within a few points, which is within run-to-run variation. A vendor citing a strong score on a saturated benchmark is telling you very little.</p>
+<p><strong>The models lean on text more than they appear to.</strong> This is the most important evidence in the field. The MMMU-Pro benchmark was constructed by filtering out questions that text-only models could already answer, then embedding questions inside images so a system had to genuinely read and see at the same time. Accuracy fell by between 16.8 and 26.9 percentage points across the models tested. A portion of apparent visual understanding was language-model inference from context.</p>
+<p><strong>Confident errors on unclear inputs.</strong> A blurred figure, an ambiguous chart or an unusual layout does not reliably produce an expression of uncertainty. It frequently produces a fluent and wrong answer, which is more dangerous than a refusal because it reads as authoritative.</p>
+<p><strong>Cost and latency.</strong> Images and video consume far more of a model's context than text, so per-task costs rise quickly at volume. Video in particular remains expensive enough that many plausible applications are not yet economic.</p>
+<p><strong>Privacy.</strong> Photographs and recordings carry incidental information that text does not: faces in the background, documents on a desk, location clues. Sending them to a third-party service is a materially different disclosure from sending a paragraph, and it deserves a separate assessment rather than inheriting an existing text policy.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Multimodal models have made a real advance, and a narrower one than the launch videos suggest. They collapsed the boundary between reading and seeing inside a single system, which genuinely unlocks work in documents, accessibility and archive retrieval. What they have not done is achieve general perception, and the benchmark built specifically to test that claim found a gap the headline numbers hide.</p>
+<p>So the question worth asking is not whether these systems can see. It is whether the task in front of you tolerates a confident wrong answer, and whether anyone would catch it. Where checking is cheap, as with a total on an invoice, the technology is ready today. Where checking is expensive, and a plausible error would sail through unnoticed, the case falls apart quickly.</p>
+<p>Progress from here is likely to be measured in reliability rather than modality count. Adding another input type is now straightforward; being trustworthy about what is actually in the image is not. For a longer view of how computing capability advances in uneven steps, see our guide to <a href="../../articles/the-rise-of-quantum-computing/">the rise of quantum computing</a>, and for the engineering discipline this work demands, <a href="../../articles/mastering-the-art-of-coding/">mastering the art of coding</a>.</p>
+</div>
+        <section class="article-faq" aria-labelledby="faq-heading"><h2 id="faq-heading">Frequently asked questions</h2><details><summary>What is the difference between a multimodal model and an image recognition system?</summary><p>An image recognition system classifies pictures into known labels. A multimodal model represents images and text in the same space, so it can answer open questions about an image, compare it with a document, or explain what it shows.</p></details><details><summary>Do multimodal models actually see, or do they guess from context?</summary><p>Both, and separating the two is an active research problem. The MMMU-Pro benchmark was built specifically to filter out questions a text-only model could answer, and scores dropped substantially once that crutch was removed.</p></details><details><summary>Can one model handle every modality well?</summary><p>Not at present. Published results show different systems leading on video, long documents and chart reasoning respectively, which is why some production deployments route each task to a different model.</p></details><details><summary>Are multimodal models reliable enough for regulated work?</summary><p>They are used in regulated settings with human review, but not as an unchecked authority. They can produce confident, fluent descriptions of things that are not in the image, so a verification step remains necessary.</p></details></section>
+        <section class="article-sources" aria-labelledby="sources-heading"><h2 id="sources-heading">Sources</h2><ol><li><a href="https://arxiv.org/abs/2409.02813" target="_blank" rel="noopener noreferrer">MMMU-Pro: A More Robust Multi-discipline Multimodal Understanding Benchmark</a> — Xiang Yue and colleagues, arXiv (ACL 2025 Main), 2025-05-22<span>Supports: Model accuracy falls by 16.8 to 26.9 percentage points on MMMU-Pro compared with MMMU, and the benchmark filters out questions answerable by text-only models.</span></li><li><a href="https://arxiv.org/abs/2501.13826" target="_blank" rel="noopener noreferrer">Video-MMMU: Evaluating Knowledge Acquisition from Multi-Discipline Professional Videos</a> — arXiv, 2025-01-23<span>Supports: Model performance declines progressively as the cognitive demand of video-based tasks increases, across 300 expert-level videos in six disciplines.</span></li><li><a href="https://deepmind.google/models/gemini/" target="_blank" rel="noopener noreferrer">Gemini model family: published benchmark results</a> — Google DeepMind<span>Supports: Vendor-published scores for long video understanding, chart reasoning and document comprehension, used here as vendor-reported figures rather than independent evaluation.</span></li></ol></section>
+        <section class="article-share" aria-labelledby="share-heading"><div class="article-share-copy"><p class="eyebrow">Worth sharing?</p><h2 id="share-heading">Pass this story on</h2></div><div class="article-share-actions"><a href="https://twitter.com/intent/tweet?text=Multimodal%20AI%20Models%20Are%20Changing%20How%20Software%20Understands%20the%20World%20https%3A%2F%2Fsholynktech.netlify.app%2Farticles%2Fmultimodal-ai-models%2F" target="_blank" rel="noopener noreferrer" aria-label="Share on X"><i class="fa-brands fa-x-twitter" aria-hidden="true"></i><span>X</span></a><a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fsholynktech.netlify.app%2Farticles%2Fmultimodal-ai-models%2F" target="_blank" rel="noopener noreferrer" aria-label="Share on Facebook"><i class="fab fa-facebook-f" aria-hidden="true"></i><span>Facebook</span></a><a href="https://wa.me/?text=Multimodal%20AI%20Models%20Are%20Changing%20How%20Software%20Understands%20the%20World%20https%3A%2F%2Fsholynktech.netlify.app%2Farticles%2Fmultimodal-ai-models%2F" target="_blank" rel="noopener noreferrer" aria-label="Share on WhatsApp"><i class="fab fa-whatsapp" aria-hidden="true"></i><span>WhatsApp</span></a><button type="button" data-copy-article data-copy-url="https://sholynktech.netlify.app/articles/multimodal-ai-models/" aria-label="Copy article link"><i class="fas fa-link" aria-hidden="true"></i><span>Copy link</span></button></div><p class="article-share-status" role="status" aria-live="polite"></p></section>
+        <div id="engagementRoot"></div>
+        <aside class="article-author-card article-author-card--inline" aria-label="About Oluwashola Busari"><div class="article-author-media"><img src="../../Images%20and%20Assets/my_pic.png" alt="Portrait photo of Oluwashola Busari" loading="lazy" decoding="async" width="500" height="500" /></div><div class="article-author-body"><p class="eyebrow">Written by</p><h3>Oluwashola Busari</h3><p class="article-author-bio">The founder of Sholynk Technology. Has a background in Mass Communication, Software Engineering, Digital Marketing, and Data Analysis. He is focused on explaining technical concepts in very simple terms.</p><a class="article-author-link" href="https://sholynktech.netlify.app/about.html" target="_blank" rel="noopener noreferrer">View full profile <i class="fas fa-arrow-right" aria-hidden="true"></i></a></div></aside>
+        <nav class="article-end-nav" aria-label="Article navigation"><a class="article-back" href="../../index.html"><i class="fas fa-arrow-left" aria-hidden="true"></i><span>Back to all articles</span></a><a class="article-category-link" href="../../index.html?category=AI%20Trends"><span>More in AI Trends</span><i class="fas fa-arrow-right" aria-hidden="true"></i></a></nav>
+      </div>
+    </div>
+  </article>
+
+      <section class="related-section" id="relatedSection" aria-labelledby="related-title"><div class="related-heading"><div><p class="eyebrow">Continue exploring</p><h2 class="section-heading" id="related-title">Read next</h2></div><a class="related-all-link" href="../../index.html">View all stories <i class="fas fa-arrow-right" aria-hidden="true"></i></a></div><div class="related-grid" id="relatedGrid"><a class="related-card" href="../../articles/the-rise-of-quantum-computing/"><div class="related-card-media"><img src="../../article-images/quantum/quantum-computer-chandelier.jpg" alt="Golden chandelier-like cryostat of a superconducting quantum computer, layered with control wiring" loading="lazy" decoding="async" width="2787" height="1621" /></div><div class="related-card-body"><span class="category-label">Technology</span><h3>The Rise of Quantum Computing: The Computing Revolution Beyond Silicon</h3><p>A comprehensive guide to quantum computing, from qubits and superposition to real-world applications in healthcare, AI, cybersecurity, and scientific research.</p><span class="related-card-cta">Read article <i class="fas fa-arrow-right" aria-hidden="true"></i></span></div></a><a class="related-card" href="../../articles/mastering-the-art-of-coding/"><div class="related-card-media"><img src="../../Article%20cards%20images/Home/article_card_05.jpg" alt="Developer working at a modern desk with a widescreen monitor displaying syntax-highlighted source code in an IDE" loading="lazy" decoding="async" width="1408" height="768" /></div><div class="related-card-body"><span class="category-label">Technology</span><h3>Mastering the Art of Coding: 10 Areas Every Developer Should Focus On</h3><p>Learning to code has never been more accessible, but knowing a language is not the same as knowing how to build software. These ten areas represent the foundations upon which exceptional developers are built.</p><span class="related-card-cta">Read article <i class="fas fa-arrow-right" aria-hidden="true"></i></span></div></a><a class="related-card" href="../../articles/distraction-by-design/"><div class="related-card-media"><img src="../../article-images/distraction-by-design/social-media-apps-hero.jpg" alt="Smartphone screen showing a Social Media folder with apps such as YouTube, Instagram, Facebook and TikTok" loading="lazy" decoding="async" width="3000" height="2000" /></div><div class="related-card-body"><span class="category-label">Technology</span><h3>Distraction by Design: Navigating Attention in the Social Media Era</h3><p>Notifications, infinite scroll and AI-driven feeds turned attention into the internet&#39;s most valuable commodity: how the attention economy works, and how to enjoy social media without being controlled by it.</p><span class="related-card-cta">Read article <i class="fas fa-arrow-right" aria-hidden="true"></i></span></div></a></div></section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+      <div class="site-footer-grid">
+        <div>
+          <img
+            alt="Sholynk logo"
+            class="site-logo footer-logo"
+            height="24"
+            src="../../Images and Assets/page_logo.png"
+            width="120"
+          />
+          <p class="footer-tagline">
+            A digital publication dedicated to insightful analysis, news, and
+            trends shaping the future of AI and decentralized technologies.
+          </p>
+        </div>
+        <div>
+          <h4>Stay Ahead in AI and Web3 Trends</h4>
+          <p class="footer-blurb">
+            Get the latest insights, tools, and trend reports in AI, Web3, and
+            emerging tech straight to your inbox every week.
+          </p>
+          <form
+            class="footer-form"
+            method="POST"
+            data-netlify="true"
+            name="subscribe"
+            netlify-honeypot="bot-field"
+          >
+            <input type="hidden" name="form-name" value="subscribe" />
+            <input type="hidden" name="bot-field" />
+            <input
+              class="footer-input"
+              name="name"
+              placeholder="Enter your name..."
+              required
+              type="text"
+              aria-label="Your name"
+            />
+            <input
+              class="footer-input"
+              name="email"
+              placeholder="Enter email..."
+              required
+              type="email"
+              aria-label="Your email address"
+            />
+            <button class="footer-submit" type="submit">Subscribe</button>
+          </form>
+        </div>
+        <div>
+          <h4>Quick Links</h4>
+          <ul class="footer-links">
+            <li><a href="../../help_&_support.html">Help &amp; Support</a></li>
+            <li><a href="../../privacy_policy.html">Privacy Policy</a></li>
+            <li><a href="../../about.html">About</a></li>
+            <li><a href="../../contact.html">Contact</a></li>
+            <li>
+              <button
+                class="footer-link-button"
+                id="cookieSettingsBtn"
+                type="button"
+              >
+                Cookie Settings
+              </button>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <h4>Join My Innovative Channel</h4>
+          <div class="footer-social">
+            <a aria-label="WhatsApp" href="https://wa.me/qr/CV4VS7HDF2PHD1"
+               target="_blank" rel="noopener noreferrer"><i class="fab fa-whatsapp" aria-hidden="true"></i
+            ></a>
+            <a aria-label="Facebook" href="https://www.facebook.com/share/18xwSHcWr4/"
+               target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook-f" aria-hidden="true"></i
+            ></a>
+            <a aria-label="X / Twitter" href="https://x.com/sholynked"
+               target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-x-twitter" aria-hidden="true"></i
+            ></a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-legal">
+        &copy; <span id="copyrightYear"></span> Sholynk Technology | All Rights
+        Reserved.
+      </div>
+    </footer>
+    <script src="../../cms-client.js"></script>
+    <script src="../../markdown.js"></script>
+    <script src="../../script.js"></script>
+    <script src="../../cookie-consent.js"></script>
+    <script src="../../engagement.js"></script>
+    <script src="../../article.js"></script>
+  </body>
+</html>
