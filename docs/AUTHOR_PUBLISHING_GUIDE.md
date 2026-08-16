@@ -316,6 +316,23 @@ links use the canonical form `/articles/<other-slug>/`. Two to five contextual
 internal links inside the body is a healthy density, and they are what actually build
 the topic cluster.
 
+**Where links should point, and how tabs behave.** The build sets this for you, so
+write plain Markdown and do not hand-write `target` attributes:
+
+- **External links open in a new tab.** The build adds `target="_blank"` and
+  `rel="noopener noreferrer"` automatically to any `http(s)` link.
+- **Internal links stay in the same tab.** Never force an internal link to open a new
+  tab; it breaks the reader's back button and the expected behaviour of a site.
+- **Link significant terms to an explanation.** When a term carries real weight and a
+  reader may not know it, link its first use to a page that explains it properly:
+  another Sholynk article where one exists, otherwise a reliable external reference
+  such as the primary documentation, the paper itself, or an encyclopaedia entry.
+- **Verify every URL before you use it.** Open it. A plausible-looking address that
+  404s is the same category of error as a fabricated citation.
+- **Only link where the connection is real.** A "read our other article" line at the
+  end of a piece must earn its place. If the two subjects are not genuinely related,
+  leave it out and let the Read next grid do that job.
+
 **Blockquotes.** `>` renders as a styled pull-quote with a rule. Use for real quoted
 material or a genuinely striking line — not for ordinary emphasis.
 
@@ -488,8 +505,10 @@ article from the site.
    designed callout stays empty. Use `keyTakeaways`.
 2. **Writing a "Sources" or "FAQ" section in the body.** Duplicates the generated
    sections and skips the schema entirely.
-3. **Markdown inside front matter.** `directAnswer`, `keyTakeaways`, `faqs` and
-   `hook` are escaped as plain text. Links and bold will appear as literal characters.
+3. **Markdown or HTML inside front matter.** `directAnswer`, `keyTakeaways`, `faqs`,
+   `hook` and `description` are escaped as plain text. Links, bold and raw `<a>` tags
+   appear literally on the page, so a hand-written anchor in `hook` renders as visible
+   `&lt;a href=...&gt;` markup in the standfirst. Keep markup in the body only.
 4. **Multi-line JSON in front matter.** The parser reads one line per field. A list
    broken across lines is silently discarded — and you will only notice when the
    callout does not appear.

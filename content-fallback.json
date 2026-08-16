@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-16T19:14:00.187Z",
+  "generatedAt": "2026-08-16T19:27:04.095Z",
   "settings": {
     "siteTitle": "Sholynk Technology - AI, Web3 and Emerging Tech Insights",
     "siteDescription": "Explore editor picks, practical guides and analysis on AI trends, Web3, software development, cybersecurity and emerging technology.",
@@ -283,7 +283,7 @@
         "sponsorship"
       ],
       "contentType": "article",
-      "description": "Competitive gaming grew from local tournaments into a global business with Olympic recognition. How it happened, what the money actually looks like, and why the data is patchy.",
+      "description": "Competitive gaming grew from local tournaments into a global business with Olympic recognition. How it happened, and why the money is harder to pin down than it looks.",
       "hook": "In July 2024 the International Olympic Committee voted unanimously to create an Olympic Esports Games. For a pursuit that spent thirty years being told it was not a sport, that vote was the argument ending.",
       "directAnswer": "Esports is organised competitive video gaming played for prizes before an audience. It grew from small community tournaments into a global industry through publisher-run leagues, live streaming and sponsorship, and gained Olympic recognition when the IOC approved an Olympic Esports Games in July 2024.",
       "keyTakeaways": [
@@ -341,7 +341,7 @@
       "seoDescription": "How competitive gaming grew into a global industry, what the Olympic Esports Games decision means, and why esports revenue and audience figures should be read carefully.",
       "sources": [
         {
-          "id": 32,
+          "id": 37,
           "articleId": 6,
           "title": "IOC enters a new era with the creation of Olympic Esports Games",
           "publisher": "International Olympic Committee",
@@ -352,11 +352,11 @@
           "doi": "",
           "accessedAt": "2026-08-16",
           "supports": "The 142nd IOC Session unanimously endorsed the creation of the Olympic Esports Games, and the IOC entered a 12-year partnership with the National Olympic Committee of Saudi Arabia.",
-          "createdAt": "2026-08-16 19:13:25",
-          "updatedAt": "2026-08-16 19:13:25"
+          "createdAt": "2026-08-16 19:24:52",
+          "updatedAt": "2026-08-16 19:24:52"
         },
         {
-          "id": 33,
+          "id": 38,
           "articleId": 6,
           "title": "First Olympic Esports Games Confirmed for 2027 in Saudi Arabia, Roadmap Starts This Year",
           "publisher": "Saudi Press Agency",
@@ -367,11 +367,11 @@
           "doi": "",
           "accessedAt": "2026-08-16",
           "supports": "Confirmation that the inaugural Olympic Esports Games would take place in 2027 rather than 2025, and that the Esports World Cup Foundation was named founding partner.",
-          "createdAt": "2026-08-16 19:13:25",
-          "updatedAt": "2026-08-16 19:13:25"
+          "createdAt": "2026-08-16 19:24:52",
+          "updatedAt": "2026-08-16 19:24:52"
         },
         {
-          "id": 34,
+          "id": 39,
           "articleId": 6,
           "title": "Olympic Esports Games",
           "publisher": "International Olympic Committee",
@@ -382,11 +382,11 @@
           "doi": "",
           "accessedAt": "2026-08-16",
           "supports": "IOC statement that the Olympic Esports Games were approved in July 2024 as a landmark initiative bridging esports and traditional sport.",
-          "createdAt": "2026-08-16 19:13:25",
-          "updatedAt": "2026-08-16 19:13:25"
+          "createdAt": "2026-08-16 19:24:52",
+          "updatedAt": "2026-08-16 19:24:52"
         },
         {
-          "id": 35,
+          "id": 40,
           "articleId": 6,
           "title": "Newzoo Global Games Market Report 2025",
           "publisher": "Newzoo",
@@ -397,11 +397,11 @@
           "doi": "",
           "accessedAt": "2026-08-16",
           "supports": "Global games market revenues of $188.8 billion in 2025 across a player base of 3.6 billion, with console the fastest-growing segment at 5.5% year on year.",
-          "createdAt": "2026-08-16 19:13:25",
-          "updatedAt": "2026-08-16 19:13:25"
+          "createdAt": "2026-08-16 19:24:52",
+          "updatedAt": "2026-08-16 19:24:52"
         },
         {
-          "id": 36,
+          "id": 41,
           "articleId": 6,
           "title": "Newzoo discontinues its esports industry reports",
           "publisher": "Esports Insider",
@@ -412,14 +412,14 @@
           "doi": "",
           "accessedAt": "2026-08-16",
           "supports": "Newzoo discontinued its dedicated esports industry reports, which had been the sector's most widely cited source for revenue and audience estimates.",
-          "createdAt": "2026-08-16 19:13:25",
-          "updatedAt": "2026-08-16 19:13:25"
+          "createdAt": "2026-08-16 19:24:52",
+          "updatedAt": "2026-08-16 19:24:52"
         }
       ],
       "link": "articles/the-rise-of-esports/",
       "cleanLink": "articles/the-rise-of-esports/",
       "createdAt": "2026-08-16 18:56:32",
-      "updatedAt": "2026-08-16 19:13:25"
+      "updatedAt": "2026-08-16 19:24:52"
     },
     {
       "id": 5,

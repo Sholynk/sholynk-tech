@@ -485,16 +485,24 @@
       .sort((a, b) => Number(a.dataset.index || 0) - Number(b.dataset.index || 0));
     if (!cards.length) return;
 
+    const restore = () => cards.forEach((card) => {
+      card.style.removeProperty('grid-column');
+      card.style.removeProperty('grid-row');
+      grid.append(card);
+    });
+
     const template = window.getComputedStyle(grid).gridTemplateColumns || '';
     const columns = template.split(' ').filter(Boolean).length;
 
     // Single-column layouts size themselves from content; restore date order.
-    if (columns <= 1) {
-      cards.forEach((card) => {
-        card.style.removeProperty('grid-column');
-        card.style.removeProperty('grid-row');
-        grid.append(card);
-      });
+    if (columns <= 1) { restore(); return; }
+
+    // From 1280px up, styles.css deliberately gives every card a single column
+    // so cards never stretch across a wide container. Uniform widths already
+    // tile exactly, so packing is unnecessary here, and applying inline spans
+    // would override that decision and bring the over-wide cards back.
+    if (window.matchMedia && window.matchMedia('(min-width: 1280px)').matches) {
+      restore();
       return;
     }
 
