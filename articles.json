@@ -40,12 +40,28 @@
     "alt": "Cybersecurity habits every growing team needs"
   },
   {
-    "title": "The Rise of Esports: How Competitive Gaming Became a Global Industry",
-    "link": "index.html?category=Game",
+    "title": "The Rise of Esports: How Competitive Gaming Became an Industry",
+    "link": "articles/the-rise-of-esports/",
     "category": "Game",
-    "description": "Competitive gaming has grown from local tournaments into a global entertainment industry built on players, teams, leagues and loyal communities.",
-    "img": "Article cards images/Game/article_card_05.jpg",
-    "alt": "Gamer playing at a neon-lit esports desk"
+    "description": "Competitive gaming grew from local tournaments into a global business with Olympic recognition. How it happened, what the money actually looks like, and why the data is patchy.",
+    "img": "article-images/the-rise-of-esports/esports-arena-stage.jpg",
+    "alt": "A packed esports arena viewed from behind the crowd, facing a lit main stage with two player booths and large blank screens. Illustration generated with AI for Sholynk."
+  },
+  {
+    "title": "Stablecoins and the Future of Digital Payments",
+    "link": "articles/stablecoins-and-digital-payments/",
+    "category": "Cryptocurrency",
+    "description": "Stablecoins now carry serious payment volume and a US legal framework. This is how they work, what regulators have decided, and why central bankers still object.",
+    "img": "article-images/stablecoins-and-digital-payments/stablecoin-payment-rails.jpg",
+    "alt": "A hand holding a smartphone above a shop payment terminal mid-transaction, with faint network lines suggesting settlement moving between two points. Illustration generated with AI for Sholynk."
+  },
+  {
+    "title": "Multimodal AI Models Are Changing How Software Understands the World",
+    "link": "articles/multimodal-ai-models/",
+    "category": "AI Trends",
+    "description": "Multimodal models read text, images, audio and video in one system. Here is how they work, where they are genuinely deployed, and what the benchmarks still expose.",
+    "img": "article-images/multimodal-ai-models/multimodal-inputs.jpg",
+    "alt": "A monitor showing a photograph, an audio waveform, a scanned handwritten page and a line chart converging into a single processing point. Illustration generated with AI for Sholynk."
   },
   {
     "title": "Distraction by Design: Navigating Attention in the Social Media Era",
@@ -86,14 +102,6 @@
     "description": "The best games balance challenge, discovery and meaningful progress to create experiences that feel rewarding without becoming exhausting.",
     "img": "Article cards images/Game/article_card_09.jpg",
     "alt": "Person holding a game controller in front of a screen"
-  },
-  {
-    "title": "Multimodal AI Models Are Changing How Software Understands the World",
-    "link": "index.html?category=AI%20Trends",
-    "category": "AI Trends",
-    "description": "Systems that reason across text, images, audio and video are opening new product surfaces for builders.",
-    "img": "Article cards images/AI/article_card_09.jpg",
-    "alt": "Abstract visualization of a multimodal artificial intelligence network"
   },
   {
     "title": "Chip Design Breakthroughs Driving Faster Devices",
@@ -438,13 +446,5 @@
     "description": "Streaming infrastructure, mobile hardware and creator ecosystems are changing how players discover games.",
     "img": "Article cards images/Game/article_card_01.jpg",
     "alt": "Gaming controller on a neon-lit desk"
-  },
-  {
-    "title": "Stablecoins and the Future of Digital Payments",
-    "link": "index.html?category=Cryptocurrency",
-    "category": "Cryptocurrency",
-    "description": "Stablecoins are becoming a bridge between traditional finance and programmable internet-native money.",
-    "img": "Article cards images/Cryptocurrency/article_card_06.jpg",
-    "alt": "Cryptocurrency coins and a financial chart"
   }
 ]

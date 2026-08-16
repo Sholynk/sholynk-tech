@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-16T16:08:57.815Z",
+  "generatedAt": "2026-08-16T17:05:27.751Z",
   "settings": {
     "siteTitle": "Sholynk Technology - AI, Web3 and Emerging Tech Insights",
     "siteDescription": "Explore editor picks, practical guides and analysis on AI trends, Web3, software development, cybersecurity and emerging technology.",
@@ -17,8 +17,8 @@
       "image": "Images and Assets/my_pic.png",
       "imageAlt": "Portrait photo of Oluwashola Busari",
       "profileUrl": "https://sholynktech.netlify.app/about.html",
-      "createdAt": "2026-08-16 16:08:46",
-      "updatedAt": "2026-08-16 16:08:46"
+      "createdAt": "2026-08-16 17:05:27",
+      "updatedAt": "2026-08-16 17:05:27"
     }
   ],
   "articles": [
@@ -84,8 +84,8 @@
       "sources": [],
       "link": "articles/mastering-the-art-of-coding/",
       "cleanLink": "articles/mastering-the-art-of-coding/",
-      "createdAt": "2026-08-16 16:08:46",
-      "updatedAt": "2026-08-16 16:08:46"
+      "createdAt": "2026-08-16 17:05:27",
+      "updatedAt": "2026-08-16 17:05:27"
     },
     {
       "id": 3,
@@ -149,8 +149,8 @@
       "sources": [],
       "link": "articles/the-rise-of-quantum-computing/",
       "cleanLink": "articles/the-rise-of-quantum-computing/",
-      "createdAt": "2026-08-16 16:08:46",
-      "updatedAt": "2026-08-16 16:08:46"
+      "createdAt": "2026-08-16 17:05:27",
+      "updatedAt": "2026-08-16 17:05:27"
     },
     {
       "id": 54,
@@ -188,8 +188,8 @@
       "sources": [],
       "link": "index.html?category=AI%20Trends",
       "cleanLink": "index.html?category=AI%20Trends",
-      "createdAt": "2026-08-16 16:08:46",
-      "updatedAt": "2026-08-16 16:08:46"
+      "createdAt": "2026-08-16 17:05:27",
+      "updatedAt": "2026-08-16 17:05:27"
     },
     {
       "id": 55,
@@ -227,8 +227,8 @@
       "sources": [],
       "link": "index.html?category=Web%203",
       "cleanLink": "index.html?category=Web%203",
-      "createdAt": "2026-08-16 16:08:46",
-      "updatedAt": "2026-08-16 16:08:46"
+      "createdAt": "2026-08-16 17:05:27",
+      "updatedAt": "2026-08-16 17:05:27"
     },
     {
       "id": 56,
@@ -266,30 +266,67 @@
       "sources": [],
       "link": "index.html?category=Technology",
       "cleanLink": "index.html?category=Technology",
-      "createdAt": "2026-08-16 16:08:46",
-      "updatedAt": "2026-08-16 16:08:46"
+      "createdAt": "2026-08-16 17:05:27",
+      "updatedAt": "2026-08-16 17:05:27"
     },
     {
-      "id": 46,
-      "slug": "the-rise-of-esports-how-competitive-gaming-became-a-global-industry",
-      "title": "The Rise of Esports: How Competitive Gaming Became a Global Industry",
+      "id": 6,
+      "slug": "the-rise-of-esports",
+      "title": "The Rise of Esports: How Competitive Gaming Became an Industry",
       "category": "Game",
-      "subcategory": "",
-      "tags": [],
+      "subcategory": "Esports",
+      "tags": [
+        "esports",
+        "competitive gaming",
+        "olympic esports games",
+        "games industry",
+        "sponsorship"
+      ],
       "contentType": "article",
-      "description": "Competitive gaming has grown from local tournaments into a global entertainment industry built on players, teams, leagues and loyal communities.",
-      "hook": "",
-      "directAnswer": "",
-      "keyTakeaways": [],
-      "faqs": [],
-      "relatedSlugs": [],
-      "body": "",
-      "img": "Article cards images/Game/article_card_05.jpg",
-      "alt": "Gamer playing at a neon-lit esports desk",
-      "author": "Oluwashola Busari",
+      "description": "Competitive gaming grew from local tournaments into a global business with Olympic recognition. How it happened, what the money actually looks like, and why the data is patchy.",
+      "hook": "In July 2024 the International Olympic Committee voted unanimously to create an Olympic Esports Games. For a pursuit that spent thirty years being told it was not a sport, that vote was the argument ending.",
+      "directAnswer": "Esports is organised competitive video gaming played for prizes before an audience. It grew from small community tournaments into a global industry through publisher-run leagues, live streaming and sponsorship, and gained Olympic recognition when the IOC approved an Olympic Esports Games in July 2024.",
+      "keyTakeaways": [
+        "Esports became an industry when publishers began operating leagues themselves, turning tournaments into scheduled, sellable seasons.",
+        "Live streaming removed the distribution problem that limited every earlier attempt at professional gaming.",
+        "The IOC unanimously approved the creation of an Olympic Esports Games in July 2024, with the inaugural edition later confirmed for 2027 in Saudi Arabia.",
+        "Reliable esports-specific figures are genuinely hard to obtain, as the sector's most-cited data provider discontinued its dedicated esports reports in 2023.",
+        "The business remains dependent on sponsorship and investment rather than mature broadcast revenue, which is why the sector contracted when funding tightened."
+      ],
+      "faqs": [
+        {
+          "question": "Is esports actually a sport?",
+          "answer": "It depends on the definition you use, and the argument is now largely institutional rather than philosophical. The IOC has approved an Olympic Esports Games while stopping short of treating it identically to traditional Olympic sport, with winners receiving trophies rather than conventional medals."
+        },
+        {
+          "question": "How do esports organisations make money?",
+          "answer": "Mainly sponsorship, with smaller contributions from media rights, merchandise, ticketing and publisher revenue sharing. The dependence on sponsorship is the sector's central financial weakness."
+        },
+        {
+          "question": "Why are esports audience and revenue figures inconsistent?",
+          "answer": "Because the leading analytics firm discontinued its dedicated esports reports in 2023, and remaining estimates use different definitions of what counts as a viewer or as revenue. Figures from different providers are not directly comparable."
+        },
+        {
+          "question": "What is the difference between esports and streaming?",
+          "answer": "Esports is organised competition with structured rules and prizes. Streaming is entertainment broadcasting by individual creators. They share an audience and a platform, but they are separate businesses."
+        },
+        {
+          "question": "Did the Olympic Esports Games happen in 2025 as first announced?",
+          "answer": "No. The IOC initially announced a 2025 first edition, then confirmed in February 2025 that the inaugural Games would take place in 2027, with a preparatory roadmap beginning that year."
+        }
+      ],
+      "relatedSlugs": [
+        "distraction-by-design",
+        "mastering-the-art-of-coding",
+        "multimodal-ai-models"
+      ],
+      "body": "## Introduction\n\nThere is a particular kind of argument that ends not with anyone conceding, but with an institution quietly acting as though the argument never happened. That is roughly what occurred on 23 July 2024, when the 142nd IOC Session in Paris voted unanimously to create an Olympic Esports Games.\n\nThirty years of debate about whether competitive gaming counts as sport did not conclude with a persuasive essay. It concluded with a committee vote and a twelve-year hosting partnership.\n\nHow a pastime became an industry substantial enough to interest the Olympic movement is a story about distribution, publisher control and sponsorship money, and it is worth telling accurately, because the sector's own promotional figures have not always been reliable.\n\n## Understanding Esports\n\n### What separates esports from playing games\n\nEsports is organised competition: structured rules, ranked qualification, scheduled fixtures, prize money, and an audience watching rather than participating. The distinction matters because it is what makes the activity a business. A popular game is a product sold to players. An esport is a product sold to spectators, and those are different economies with different customers.\n\n### The distribution problem, and how streaming solved it\n\nCompetitive gaming existed long before it was an industry. Tournaments ran through the 1990s, and South Korea built a genuine professional scene around StarCraft with televised matches in the early 2000s. What limited every earlier attempt was distribution. Broadcasting a video game required a television slot, and television did not want one.\n\nLive streaming removed that constraint entirely. A tournament could reach a global audience at almost no marginal cost, with no gatekeeper deciding the schedule. The audience that had always existed became visible and, more importantly, measurable, and measurable audiences can be sold to advertisers.\n\n### Publisher control, the feature that has no equivalent in sport\n\nHere is the structural fact that makes esports unlike football or basketball. Nobody owns football. Anybody may organise a match. But every esport is played on software owned by a company, and that company controls the rules, the updates, the tournament licensing and whether the competitive scene continues to exist at all.\n\nSome publishers used this to build franchised leagues with fixed teams and scheduled seasons, importing the structure of North American professional sport. That professionalised the sector quickly. It also concentrated risk, because a publisher that loses interest in a competitive scene can end it in a way that no governing body in traditional sport could.\n\n## Why It Matters\n\nFor players, esports created a career that did not previously exist, along with the difficulties that come with a physically demanding, short and precarious profession.\n\nFor the games industry, competitive play is a retention mechanism. The wider market recorded $188.8 billion in revenue in 2025 across roughly 3.6 billion players, and titles with active competitive scenes keep players engaged and spending for years after release. Esports is often better understood as marketing infrastructure for a game than as a standalone business.\n\nFor countries and cities, esports has become a soft-power instrument. Saudi Arabia's involvement, through both the Esports World Cup Foundation and the twelve-year IOC partnership, is the clearest case: substantial investment in a sector with a young global audience, forming part of a broader national strategy. Reporting this accurately means acknowledging both the scale of the investment and the criticism it attracts.\n\n## Real-World Applications\n\nThe Olympic decision is the most concrete development. Following the unanimous July 2024 approval, the IOC confirmed in February 2025 that the inaugural Olympic Esports Games would be held in 2027, having initially announced 2025, with a preparatory roadmap starting that year. The delay is itself informative: aligning publisher-owned titles with Olympic governance is genuinely difficult, and the schedule moved accordingly.\n\nBeyond the Olympic track, the established structures are publisher-run world championships, third-party tournament circuits, and university and school competition, which has become a recruitment pathway in several countries.\n\n## Benefits and Opportunities\n\nThe clearest opportunities are not in playing. A tournament requires broadcast production, analysis, coaching, event operations, statistics, translation and community management, and these roles are more numerous and more durable than the playing positions. For readers weighing a route into the sector, production and data work is the more reliable entry point.\n\nThere is also genuine accessibility. Competing does not depend on physical build or on living near a suitable facility, which widens participation in ways traditional sport structurally cannot.\n\n## Limitations, Risks and Trade-offs\n\n**The data is weaker than the confident figures suggest.** This deserves emphasis because so much coverage repeats numbers uncritically. Newzoo, whose esports reports were the sector's most-cited source, discontinued its dedicated esports reporting in 2023. The estimates that circulate since come from various providers using different definitions of a viewer and different revenue models, and they are not directly comparable. Where you see a precise global esports revenue figure, treat it as one provider's estimate rather than an established fact.\n\n**The business model has not matured.** Sponsorship dominates, and sponsorship is the first budget cut in a downturn. When investment tightened, organisations that had grown on venture funding rather than operating profit contracted sharply. Media rights, which underwrite traditional sport, have not reached comparable scale.\n\n**Publisher dependency.** A competitive scene exists at the discretion of a company that may change the game's rules, alter its economics or discontinue support.\n\n**Player welfare.** Careers are short, repetitive strain injuries are common, and the training culture has historically been punishing. Governance around player contracts and welfare lags well behind established sport.\n\n**Integrity and gambling.** Betting is a substantial revenue stream around esports and brings match-fixing exposure, particularly at lower tiers where salaries are small and oversight is thin.\n\n## Conclusion\n\nEsports did not become an industry because someone won the argument about whether it is a sport. It became one because streaming solved distribution, publishers built league structures, and sponsors decided a young global audience was worth paying to reach. Olympic recognition confirmed that shift rather than causing it.\n\nWhat is still unsettled is whether the sector can fund itself. A business resting on sponsorship and strategic national investment is a business dependent on other people's enthusiasm. The transition that matters over the next few years is not further institutional recognition, which it now has, but whether esports can build revenue that survives a cold funding market.\n\nFor a related look at how platforms compete for the same finite attention this industry sells, read [distraction by design](/articles/distraction-by-design/), and for the technical craft behind the games themselves, [mastering the art of coding](/articles/mastering-the-art-of-coding/).\n",
+      "img": "article-images/the-rise-of-esports/esports-arena-stage.jpg",
+      "alt": "A packed esports arena viewed from behind the crowd, facing a lit main stage with two player booths and large blank screens. Illustration generated with AI for Sholynk.",
+      "author": "Busari Oluwashola",
       "authorSlug": "oluwashola-busari",
-      "date": "2026-08-02",
-      "readingTime": "5 min read",
+      "date": "2026-08-16",
+      "readingTime": "9 min read",
       "featured": false,
       "status": "published",
       "scheduledAt": null,
@@ -298,15 +335,361 @@
       "submitterEmail": "",
       "hero": false,
       "heroOrder": null,
-      "externalLink": "index.html?category=Game",
+      "externalLink": null,
       "canonicalUrl": null,
-      "seoTitle": null,
-      "seoDescription": null,
-      "sources": [],
-      "link": "index.html?category=Game",
-      "cleanLink": "index.html?category=Game",
-      "createdAt": "2026-08-16 16:08:46",
-      "updatedAt": "2026-08-16 16:08:46"
+      "seoTitle": "The Rise of Esports: How Competitive Gaming Became an Industry",
+      "seoDescription": "How competitive gaming grew into a global industry, what the Olympic Esports Games decision means, and why esports revenue and audience figures should be read carefully.",
+      "sources": [
+        {
+          "id": 9,
+          "articleId": 6,
+          "title": "IOC enters a new era with the creation of Olympic Esports Games",
+          "publisher": "International Olympic Committee",
+          "author": "",
+          "publishedAt": "2024-07-23",
+          "url": "https://www.olympics.com/ioc/news/ioc-enters-a-new-era-with-the-creation-of-olympic-esports-games-first-games-in-2025-in-saudi-arabia",
+          "type": "official",
+          "doi": "",
+          "accessedAt": "2026-08-16",
+          "supports": "The 142nd IOC Session unanimously endorsed the creation of the Olympic Esports Games, and the IOC entered a 12-year partnership with the National Olympic Committee of Saudi Arabia.",
+          "createdAt": "2026-08-16 17:05:27",
+          "updatedAt": "2026-08-16 17:05:27"
+        },
+        {
+          "id": 10,
+          "articleId": 6,
+          "title": "First Olympic Esports Games Confirmed for 2027 in Saudi Arabia, Roadmap Starts This Year",
+          "publisher": "Saudi Press Agency",
+          "author": "",
+          "publishedAt": "2025-02-11",
+          "url": "https://www.spa.gov.sa/en/N2259921",
+          "type": "official",
+          "doi": "",
+          "accessedAt": "2026-08-16",
+          "supports": "Confirmation that the inaugural Olympic Esports Games would take place in 2027 rather than 2025, and that the Esports World Cup Foundation was named founding partner.",
+          "createdAt": "2026-08-16 17:05:27",
+          "updatedAt": "2026-08-16 17:05:27"
+        },
+        {
+          "id": 11,
+          "articleId": 6,
+          "title": "Olympic Esports Games",
+          "publisher": "International Olympic Committee",
+          "author": "",
+          "publishedAt": "",
+          "url": "https://www.olympics.com/ioc/olympic-esports-games",
+          "type": "official",
+          "doi": "",
+          "accessedAt": "2026-08-16",
+          "supports": "IOC statement that the Olympic Esports Games were approved in July 2024 as a landmark initiative bridging esports and traditional sport.",
+          "createdAt": "2026-08-16 17:05:27",
+          "updatedAt": "2026-08-16 17:05:27"
+        },
+        {
+          "id": 12,
+          "articleId": 6,
+          "title": "Newzoo Global Games Market Report 2025",
+          "publisher": "Newzoo",
+          "author": "",
+          "publishedAt": "2025-09-09",
+          "url": "https://newzoo.com/resources/trend-reports/newzoo-global-games-market-report-2025",
+          "type": "primary",
+          "doi": "",
+          "accessedAt": "2026-08-16",
+          "supports": "Global games market revenues of $188.8 billion in 2025 across a player base of 3.6 billion, with console the fastest-growing segment at 5.5% year on year.",
+          "createdAt": "2026-08-16 17:05:27",
+          "updatedAt": "2026-08-16 17:05:27"
+        },
+        {
+          "id": 13,
+          "articleId": 6,
+          "title": "Newzoo discontinues its esports industry reports",
+          "publisher": "Esports Insider",
+          "author": "",
+          "publishedAt": "2023-03-02",
+          "url": "https://esportsinsider.com/2023/03/newzoo-ends-esports-report",
+          "type": "journalism",
+          "doi": "",
+          "accessedAt": "2026-08-16",
+          "supports": "Newzoo discontinued its dedicated esports industry reports, which had been the sector's most widely cited source for revenue and audience estimates.",
+          "createdAt": "2026-08-16 17:05:27",
+          "updatedAt": "2026-08-16 17:05:27"
+        }
+      ],
+      "link": "articles/the-rise-of-esports/",
+      "cleanLink": "articles/the-rise-of-esports/",
+      "createdAt": "2026-08-16 17:05:27",
+      "updatedAt": "2026-08-16 17:05:27"
+    },
+    {
+      "id": 5,
+      "slug": "stablecoins-and-digital-payments",
+      "title": "Stablecoins and the Future of Digital Payments",
+      "category": "Cryptocurrency",
+      "subcategory": "Payments and Regulation",
+      "tags": [
+        "stablecoins",
+        "digital payments",
+        "genius act",
+        "bis",
+        "financial regulation"
+      ],
+      "contentType": "analysis",
+      "description": "Stablecoins now carry serious payment volume and a US legal framework. This is how they work, what regulators have decided, and why central bankers still object.",
+      "hook": "A token that promises to be worth exactly one dollar sounds like the least interesting idea in cryptocurrency. It has turned out to be the one that regulators and central banks are arguing about most.",
+      "directAnswer": "A stablecoin is a digital token designed to hold a constant value against a reference asset, usually the US dollar, by holding reserves against every token issued. Since 2025 the United States has regulated payment stablecoins under the GENIUS Act, with detailed rules on reserves, capital and redemption.",
+      "keyTakeaways": [
+        "A stablecoin holds its value through reserves and redemption, not through the market mechanics that price other crypto assets.",
+        "The GENIUS Act made payment stablecoins a supervised activity in the United States, with implementing rules proposed by the OCC in February 2026.",
+        "Estimates of total stablecoin supply in 2026 differ by provider and date, so any single headline figure should be treated as an estimate rather than a measurement.",
+        "Gross transfer volume is not payments volume; filtered estimates are far smaller than raw on-chain totals.",
+        "The Bank for International Settlements argues stablecoins still fail core tests of money, including singleness and elasticity."
+      ],
+      "faqs": [
+        {
+          "question": "What actually keeps a stablecoin worth one dollar?",
+          "answer": "Two things: reserves held against every token issued, and the ability to redeem tokens for the underlying currency. If redemption is slow or reserves are doubted, the token can trade below its peg on secondary markets."
+        },
+        {
+          "question": "Are stablecoins the same as a central bank digital currency?",
+          "answer": "No. A stablecoin is a private liability issued by a company against reserves. A central bank digital currency would be a direct claim on the central bank, which is a different trust model even where the user experience looks similar."
+        },
+        {
+          "question": "Does regulation make stablecoins safe?",
+          "answer": "It reduces specific risks such as inadequate reserves and slow redemption. It does not eliminate run risk, and US regulators have been explicit that holders are not covered by deposit insurance."
+        },
+        {
+          "question": "Why do market size figures vary so much?",
+          "answer": "Different providers measure at different dates and count differently, for example whether they include all chains or filter out internal transfers. Reported 2026 figures ranged across the low $300 billions depending on the source."
+        },
+        {
+          "question": "Are stablecoins actually used for payments?",
+          "answer": "Increasingly, though most on-chain volume is not retail payment activity. Adjusted figures that filter out bot and internal transfers are substantially lower than raw transfer totals."
+        }
+      ],
+      "relatedSlugs": [
+        "the-rise-of-quantum-computing",
+        "distraction-by-design",
+        "multimodal-ai-models"
+      ],
+      "body": "## Introduction\n\nMost cryptocurrency arguments are about price. Stablecoins are the exception, because a stablecoin that moves in price has failed at the one thing it was built to do.\n\nThat modesty is precisely why they became consequential. A token engineered to be boring is a token that can be used to pay for something, and payment is the use case that cryptocurrency spent more than a decade promising and rarely delivering. Somewhere in that shift, stablecoins stopped being a trading convenience for moving between exchanges and started attracting the attention of banking regulators, finance ministries and the Bank for International Settlements.\n\nThe United States now has a statutory framework for them. The proposed implementing rules run to hundreds of pages. And the central bankers' central bank has published a detailed argument that these instruments still are not money. All three things are true at once, which is what makes the subject worth understanding properly.\n\n## Understanding Stablecoins\n\n### What the token actually is\n\nA stablecoin is a claim. When an issuer creates one token, it undertakes to hold assets of equivalent value in reserve, and to give the holder that value back on request. The token circulates on a blockchain and can be transferred like any other, but the thing anchoring it to a dollar is not the blockchain. It is the reserve and the redemption promise.\n\nThis distinguishes it from other crypto assets, whose price is set purely by what someone will pay. It also distinguishes it from a bank deposit, which is a claim on a bank that carries deposit insurance and access to central bank facilities. A stablecoin holder has neither of those protections, a point US regulators have made explicitly.\n\n### Why pegs slip\n\nIf the arrangement works, one token trades at one dollar. In practice tokens deviate, and the reasons are instructive. Redemption may be restricted to large institutional counterparties rather than ordinary holders. It may take days. The reserve composition may be uncertain. Each of these introduces a gap between the theoretical value and what a buyer will actually pay in a secondary market.\n\nThe academic literature frames this as a run problem. Where an issuer holds only cash equivalents, redemption risk arises mainly if a run is large enough to force hurried asset sales at a loss. The reserve's quality, in other words, matters more than its headline size.\n\n### The distinction that gets lost\n\nThere is an important separation between a **payment stablecoin**, designed to be spent, and a **yield-bearing token**, designed to pay a return. The US framework regulates the former and bars issuers from paying interest on it. Products that pass through returns from tokenised government debt are a related but legally distinct category, and conflating the two is the most common error in coverage of this sector.\n\n## Why It Matters\n\nFor businesses moving money across borders, the appeal is settlement speed. Correspondent banking is slow and expensive at small values, and a token that settles in minutes at any hour addresses a real operational problem rather than an ideological one.\n\nFor regulators, the concern is what happens if this scales. If deposits migrate from banks into private tokens, banks lose funding and lend less. The BIS modelled exactly this and found that even at one, two or three trillion dollars in market value, the net effect on output was small and, in its US-calibrated model, slightly negative over the medium term. That is a striking result: the institution's objection is not that stablecoins would be explosive, but that they would impose costs without delivering much growth.\n\nFor people in countries with unstable currencies, the significance is more immediate and more uncomfortable. Holding a dollar-referenced token is a rational hedge for an individual and a problem in aggregate, since it erodes monetary sovereignty and reshapes capital flows. The BIS calls this stablecoin dollarisation, and flags it as a particular risk for emerging economies. Readers in Nigeria will recognise the dynamic without needing it explained.\n\n## Real-World Applications\n\nCross-border business settlement is the clearest established use, particularly for payments too small or too frequent to justify correspondent banking fees. Treasury movement between entities of the same group is another, because it involves sophisticated parties who can manage custody.\n\nCard networks and payment processors have begun offering stablecoin payout and settlement options, which matters because it places the token behind a familiar interface rather than requiring merchants to handle it directly.\n\nWhat remains less established is everyday retail payment. Here the evidence deserves care. Raw on-chain transfer figures are enormous, but they include automated activity, internal transfers between an issuer's own addresses and exchange plumbing. Adjusted estimates that filter this out are substantially lower. Anyone quoting a headline volume figure without saying whether it is raw or adjusted is not telling you much.\n\n## Benefits and Opportunities\n\nThe genuine advantages are narrow and real: settlement that does not observe banking hours, programmability that allows a payment to carry conditions, and access to dollar-denominated value for people whose local banking system does not readily provide it.\n\nRegulatory clarity has itself become an opportunity. Institutions that would not touch an unsupervised instrument can consider a federally chartered one, which is why bank subsidiaries and payment companies have entered a market they previously avoided.\n\n## Limitations, Risks and Trade-offs\n\n**The market size figures are softer than they look.** Reported totals for 2026 varied across the low $300 billions depending on the provider and the date. Even the OCC, in its own economic analysis, worked from private-sector forecasts giving an upper bound of $500 billion for 2026 rather than a measured figure. Treat any precise number as an estimate with a methodology attached.\n\n**Concentration.** The market is dominated by two issuers. Compliance costs tend to entrench incumbents rather than diversify a market, and a payment system resting on two private balance sheets carries an obvious single-point-of-failure question.\n\n**No deposit insurance.** This bears repeating because the user experience resembles a bank account. It is not one. US regulators have been clear that token holders are not insured.\n\n**The BIS objection is structural, not technical.** Its argument is that stablecoins fail on singleness, the property that a dollar from one issuer is interchangeable with a dollar from another at par. Different tokens trading at slightly different values reintroduces a problem that nineteenth-century private banknotes had and that modern monetary infrastructure exists to solve. The BIS also argues they fail on elasticity, interoperability across chains, and integrity, given that permissionless rails weaken anti-money-laundering controls.\n\n**Compliance is now a continuous obligation.** Under the proposed OCC rules, redemption must be timely, with a proposed limit of two business days. Larger issuers face insured-deposit requirements and audit obligations. Enforcement timelines run into 2027, and these are proposals until finalised, so the detail may shift.\n\n## Conclusion\n\nStablecoins have completed an unusual journey: from a trading utility, to a payments instrument, to a supervised financial activity with capital requirements and a rulebook. That progression is close to what the sector asked for, and it has come with the constraints that supervision always brings.\n\nWhat remains unresolved is the question the BIS keeps pressing. A payment instrument can be useful, well-regulated and widely adopted while still not being money in the sense that a monetary system requires, and the difference only becomes visible under stress. The next two years, as US rules finalise and enforcement begins, will test that argument rather than settle it.\n\nFor readers tracking how technical systems become financial infrastructure, our analysis of [multimodal AI models](/articles/multimodal-ai-models/) covers a parallel case of a technology outrunning the evidence base, and [the rise of quantum computing](/articles/the-rise-of-quantum-computing/) examines the cryptography that all of this ultimately depends on.\n",
+      "img": "article-images/stablecoins-and-digital-payments/stablecoin-payment-rails.jpg",
+      "alt": "A hand holding a smartphone above a shop payment terminal mid-transaction, with faint network lines suggesting settlement moving between two points. Illustration generated with AI for Sholynk.",
+      "author": "Busari Oluwashola",
+      "authorSlug": "oluwashola-busari",
+      "date": "2026-08-16",
+      "readingTime": "10 min read",
+      "featured": false,
+      "status": "published",
+      "scheduledAt": null,
+      "reviewNotes": "",
+      "submittedAt": null,
+      "submitterEmail": "",
+      "hero": false,
+      "heroOrder": null,
+      "externalLink": null,
+      "canonicalUrl": null,
+      "seoTitle": "Stablecoins and the Future of Digital Payments",
+      "seoDescription": "How stablecoins hold their value, what the GENIUS Act requires of issuers, and why the Bank for International Settlements still argues they fall short as money.",
+      "sources": [
+        {
+          "id": 4,
+          "articleId": 5,
+          "title": "Implementing the Guiding and Establishing National Innovation for US Stablecoins Act",
+          "publisher": "Office of the Comptroller of the Currency, Federal Register",
+          "author": "",
+          "publishedAt": "2026-03-02",
+          "url": "https://www.federalregister.gov/documents/2026/03/02/2026-04089/implementing-the-guiding-and-establishing-national-innovation-for-us-stablecoins-act-for-the",
+          "type": "primary",
+          "doi": "",
+          "accessedAt": "2026-08-16",
+          "supports": "Proposed 12 CFR Part 15 requirements including the $5 million minimum capital floor for de novo federal issuers, the $10 billion threshold for transition to federal oversight, and the OCC's use of private forecasts with an upper bound of $500 billion in 2026 issuance.",
+          "createdAt": "2026-08-16 17:05:27",
+          "updatedAt": "2026-08-16 17:05:27"
+        },
+        {
+          "id": 5,
+          "articleId": 5,
+          "title": "OCC Proposes Regulations to Implement the GENIUS Act",
+          "publisher": "Sullivan & Cromwell LLP",
+          "author": "",
+          "publishedAt": "2026-04-06",
+          "url": "https://www.sullcrom.com/insights/memo/2026/March/OCC-Proposes-Regulations-Implement-GENIUS-Act",
+          "type": "reference",
+          "doi": "",
+          "accessedAt": "2026-08-16",
+          "supports": "Analysis of the proposed two business day limit on timely redemption and the requirement that issuers with at least $25 billion outstanding hold 0.5% of reserves in insured deposits, capped at $500 million.",
+          "createdAt": "2026-08-16 17:05:27",
+          "updatedAt": "2026-08-16 17:05:27"
+        },
+        {
+          "id": 6,
+          "articleId": 5,
+          "title": "What You Need To Know About the New Stablecoin Legislation: Analyzing the GENIUS Act",
+          "publisher": "Arnold & Porter",
+          "author": "",
+          "publishedAt": "2025-07-21",
+          "url": "https://www.arnoldporter.com/en/perspectives/advisories/2025/07/new-stablecoin-legislation-analyzing-the-genius-act",
+          "type": "reference",
+          "doi": "",
+          "accessedAt": "2026-08-16",
+          "supports": "The GENIUS Act permits only issuers below $10 billion in market capitalisation to opt for a state-level regulatory regime, with annual state recertification.",
+          "createdAt": "2026-08-16 17:05:27",
+          "updatedAt": "2026-08-16 17:05:27"
+        },
+        {
+          "id": 7,
+          "articleId": 5,
+          "title": "BIS says stablecoins fall short as money, warns of emerging-market risks in annual report",
+          "publisher": "The Block",
+          "author": "",
+          "publishedAt": "2026-06-28",
+          "url": "https://www.theblock.co/post/406466/bis-says-stablecoins-fall-short-as-money-warns-of-emerging-market-risks-in-annual-report",
+          "type": "journalism",
+          "doi": "",
+          "accessedAt": "2026-08-16",
+          "supports": "Reporting on the BIS Annual Economic Report 2026 chapter arguing stablecoins fall short on singleness, elasticity, interoperability and integrity, and modelling a slightly negative medium-term output effect at $1 trillion to $3 trillion in market value.",
+          "createdAt": "2026-08-16 17:05:27",
+          "updatedAt": "2026-08-16 17:05:27"
+        },
+        {
+          "id": 8,
+          "articleId": 5,
+          "title": "Narrow stablecoins: Redemption, runs, and risk",
+          "publisher": "Journal of Economics and Business, ScienceDirect",
+          "author": "",
+          "publishedAt": "2026-03-31",
+          "url": "https://www.sciencedirect.com/science/article/pii/S1062976926000384",
+          "type": "research",
+          "doi": "",
+          "accessedAt": "2026-08-16",
+          "supports": "Academic treatment of redemption risk, including the argument that fully collateralised issuers face run risk only where a run forces loss-making asset liquidation.",
+          "createdAt": "2026-08-16 17:05:27",
+          "updatedAt": "2026-08-16 17:05:27"
+        }
+      ],
+      "link": "articles/stablecoins-and-digital-payments/",
+      "cleanLink": "articles/stablecoins-and-digital-payments/",
+      "createdAt": "2026-08-16 17:05:27",
+      "updatedAt": "2026-08-16 17:05:27"
+    },
+    {
+      "id": 4,
+      "slug": "multimodal-ai-models",
+      "title": "Multimodal AI Models Are Changing How Software Understands the World",
+      "category": "AI Trends",
+      "subcategory": "Foundation Models",
+      "tags": [
+        "multimodal ai",
+        "vision language models",
+        "foundation models",
+        "benchmarks",
+        "document understanding"
+      ],
+      "contentType": "analysis",
+      "description": "Multimodal models read text, images, audio and video in one system. Here is how they work, where they are genuinely deployed, and what the benchmarks still expose.",
+      "hook": "For most of computing history, software could only read what we typed. Multimodal models are the first systems that treat a photograph, a recording and a spreadsheet as the same kind of input.",
+      "directAnswer": "A multimodal AI model is a single system trained to interpret more than one type of input, such as text, images, audio and video, by converting each into a shared internal representation it can reason over together.",
+      "keyTakeaways": [
+        "Multimodal models convert different input types into one shared representation, which is what lets them answer questions that span a photograph and a paragraph at once.",
+        "The strongest current use cases are document and chart understanding, accessibility, and video review rather than open-ended general perception.",
+        "Headline benchmarks have saturated: leading models now cluster within a few points on standard image tests, so those scores no longer separate them.",
+        "Performance falls sharply when a model must genuinely read an image rather than lean on text clues, by 16.8 to 26.9 percentage points in the MMMU-Pro study.",
+        "Cost, latency and confident errors on unclear inputs remain the practical limits on deployment."
+      ],
+      "faqs": [
+        {
+          "question": "What is the difference between a multimodal model and an image recognition system?",
+          "answer": "An image recognition system classifies pictures into known labels. A multimodal model represents images and text in the same space, so it can answer open questions about an image, compare it with a document, or explain what it shows."
+        },
+        {
+          "question": "Do multimodal models actually see, or do they guess from context?",
+          "answer": "Both, and separating the two is an active research problem. The MMMU-Pro benchmark was built specifically to filter out questions a text-only model could answer, and scores dropped substantially once that crutch was removed."
+        },
+        {
+          "question": "Can one model handle every modality well?",
+          "answer": "Not at present. Published results show different systems leading on video, long documents and chart reasoning respectively, which is why some production deployments route each task to a different model."
+        },
+        {
+          "question": "Are multimodal models reliable enough for regulated work?",
+          "answer": "They are used in regulated settings with human review, but not as an unchecked authority. They can produce confident, fluent descriptions of things that are not in the image, so a verification step remains necessary."
+        }
+      ],
+      "relatedSlugs": [
+        "the-rise-of-quantum-computing",
+        "mastering-the-art-of-coding",
+        "distraction-by-design"
+      ],
+      "body": "## Introduction\n\nFor most of computing history, the burden of translation fell on the human being. If you wanted software to act on the contents of a photograph, you described the photograph in words. If you wanted it to process an invoice, you typed the numbers into fields. The machine could store an image perfectly well, but it could not read one.\n\nThat arrangement is being dismantled. A single class of system now accepts a screenshot, a recording, a scanned contract and a paragraph of instruction, and answers questions that require all four at once. The change is not that computers have gained sight. It is that sight, hearing and reading have stopped being separate pieces of software.\n\nThis matters for anyone building products, because the interface between a user and a computer has quietly widened. It also matters because the marketing has run ahead of the evidence, and the benchmark record tells a more careful story than the launch announcements do.\n\n## Understanding Multimodal AI\n\n### From separate systems to a shared representation\n\nOlder approaches treated each input type as its own discipline. Speech recognition converted audio into text. Optical character recognition converted images of documents into text. Image classifiers sorted pictures into fixed categories. Each was a specialist, and joining them meant piping the output of one into the input of another, losing information at every step.\n\nA multimodal model works differently. It converts every input, whatever its original form, into a common numerical representation known as an **embedding**: a list of numbers positioned in a shared mathematical space. A photograph of a bicycle and the word \"bicycle\" end up near one another in that space. Because everything lives in the same representation, the model can reason across inputs rather than passing summaries between separate tools.\n\n### What happens to an image\n\nWhen you supply a picture, an encoder divides it into patches and turns each into a vector. Those vectors are placed into the same sequence as the tokens of your written prompt. From the model's perspective, there is no meaningful boundary between the question and the picture; both are simply positions in one sequence it attends over.\n\nThis is why a multimodal model can answer a question such as \"does the third row of this table contradict the claim in the paragraph above it?\" A pipeline of separate tools would struggle, because the relationship between the table and the paragraph is destroyed the moment each is processed in isolation.\n\n### Why \"multimodal\" is not one capability\n\nThe term flattens a set of quite different skills. Reading dense text in a photographed document is not the same problem as tracking an object through ninety minutes of video, which is not the same as interpreting an unlabelled chart. Published results reflect this: different systems lead on different axes, which is why some engineering teams route each task to a different model rather than standardising on one.\n\n## Why It Matters\n\nFor developers, the practical consequence is that a whole category of preprocessing disappears. Work that once required a document parser, a layout detector and a set of brittle rules can often be expressed as a question in plain language. That lowers the cost of building software that touches the physical world, where inputs arrive as photographs and recordings rather than tidy structured data.\n\nFor organisations sitting on archives, the consequence is different. Decades of scanned records, engineering diagrams, recorded calls and site photographs have been effectively unsearchable. They were stored, not readable. Multimodal systems make that material queryable for the first time, which is a change in what an archive is for.\n\nFor everyone else, the shift is mostly invisible and mostly about accessibility. A system that can describe a scene, read a menu aloud or summarise a lecture recording removes barriers that no amount of interface design solved.\n\n## Real-World Applications\n\n### Documents, forms and charts\n\nThe most established deployment is document understanding: extracting structure from invoices, claims, identity documents and reports where layout carries meaning. This is a well-suited task because the answer is verifiable. If a model reads a total incorrectly, the error surfaces immediately against the arithmetic.\n\n### Accessibility\n\nScreen description and live scene narration are among the clearest uses, because a fluent, approximate description is genuinely more useful than no description. The tolerance for imperfection is higher here than in, say, medical triage.\n\n### Video review and long recordings\n\nVideo is the frontier rather than the settled ground. Vendor-published figures show meaningful capability on long-form video understanding, but independent research is more sober. The Video-MMMU study, which tested models on 300 expert-level teaching videos across six disciplines, found performance declining progressively as tasks moved from perceiving information to comprehending it to applying it to a new problem. That pattern, competent at surface recall and weaker at transfer, recurs across the literature.\n\n## Benefits and Opportunities\n\nThe measurable gain is the removal of translation work. Where a task previously required a human to convert a physical artefact into structured data, a multimodal system can often do the first pass, leaving the human to verify rather than transcribe. In document-heavy operations that is a meaningful reduction in handling time.\n\nThere is also an opportunity in the gap between modalities. Because different systems lead on different capabilities, teams willing to route tasks by type rather than adopting a single default can assemble something better than any one provider offers. That is an engineering advantage available to small teams, not just large ones.\n\n## Limitations, Risks and Trade-offs\n\n**Benchmarks have saturated, and that is itself a finding.** Standard multi-discipline image tests no longer separate leading systems; results cluster within a few points, which is within run-to-run variation. A vendor citing a strong score on a saturated benchmark is telling you very little.\n\n**The models lean on text more than they appear to.** This is the most important evidence in the field. The MMMU-Pro benchmark was constructed by filtering out questions that text-only models could already answer, then embedding questions inside images so a system had to genuinely read and see at the same time. Accuracy fell by between 16.8 and 26.9 percentage points across the models tested. A portion of apparent visual understanding was language-model inference from context.\n\n**Confident errors on unclear inputs.** A blurred figure, an ambiguous chart or an unusual layout does not reliably produce an expression of uncertainty. It frequently produces a fluent and wrong answer, which is more dangerous than a refusal because it reads as authoritative.\n\n**Cost and latency.** Images and video consume far more of a model's context than text, so per-task costs rise quickly at volume. Video in particular remains expensive enough that many plausible applications are not yet economic.\n\n**Privacy.** Photographs and recordings carry incidental information that text does not: faces in the background, documents on a desk, location clues. Sending them to a third-party service is a materially different disclosure from sending a paragraph, and it deserves a separate assessment rather than inheriting an existing text policy.\n\n## Conclusion\n\nThe honest summary is that multimodal models have made a genuine and narrow advance. They have removed the boundary between reading and seeing inside a single system, which unlocks real work in documents, accessibility and archive retrieval. They have not achieved general perception, and the benchmark evidence built specifically to test that claim shows a substantial gap the headline numbers conceal.\n\nThe useful question for a builder is therefore not whether these systems can see. It is whether a given task tolerates a confident wrong answer, and whether the output can be checked. Where verification is cheap, as with a total on an invoice, the technology is ready. Where it is expensive, and where a plausible error would go unnoticed, the case is far weaker.\n\nProgress from here is likely to be measured in reliability rather than modality count. Adding another input type is now straightforward; being trustworthy about what is actually in the image is not. For a longer view of how computing capability advances in uneven steps, see our guide to [the rise of quantum computing](/articles/the-rise-of-quantum-computing/), and for the engineering discipline this work demands, [mastering the art of coding](/articles/mastering-the-art-of-coding/).\n",
+      "img": "article-images/multimodal-ai-models/multimodal-inputs.jpg",
+      "alt": "A monitor showing a photograph, an audio waveform, a scanned handwritten page and a line chart converging into a single processing point. Illustration generated with AI for Sholynk.",
+      "author": "Busari Oluwashola",
+      "authorSlug": "oluwashola-busari",
+      "date": "2026-08-16",
+      "readingTime": "9 min read",
+      "featured": false,
+      "status": "published",
+      "scheduledAt": null,
+      "reviewNotes": "",
+      "submittedAt": null,
+      "submitterEmail": "",
+      "hero": false,
+      "heroOrder": null,
+      "externalLink": null,
+      "canonicalUrl": null,
+      "seoTitle": "Multimodal AI Models: How They Work and Where They Fail",
+      "seoDescription": "How multimodal AI models read text, images, audio and video in one system, where they are genuinely deployed, and what benchmark evidence says about their limits.",
+      "sources": [
+        {
+          "id": 1,
+          "articleId": 4,
+          "title": "MMMU-Pro: A More Robust Multi-discipline Multimodal Understanding Benchmark",
+          "publisher": "arXiv (ACL 2025 Main)",
+          "author": "Xiang Yue and colleagues",
+          "publishedAt": "2025-05-22",
+          "url": "https://arxiv.org/abs/2409.02813",
+          "type": "research",
+          "doi": "10.48550/arXiv.2409.02813",
+          "accessedAt": "2026-08-16",
+          "supports": "Model accuracy falls by 16.8 to 26.9 percentage points on MMMU-Pro compared with MMMU, and the benchmark filters out questions answerable by text-only models.",
+          "createdAt": "2026-08-16 17:05:27",
+          "updatedAt": "2026-08-16 17:05:27"
+        },
+        {
+          "id": 2,
+          "articleId": 4,
+          "title": "Video-MMMU: Evaluating Knowledge Acquisition from Multi-Discipline Professional Videos",
+          "publisher": "arXiv",
+          "author": "",
+          "publishedAt": "2025-01-23",
+          "url": "https://arxiv.org/abs/2501.13826",
+          "type": "research",
+          "doi": "",
+          "accessedAt": "2026-08-16",
+          "supports": "Model performance declines progressively as the cognitive demand of video-based tasks increases, across 300 expert-level videos in six disciplines.",
+          "createdAt": "2026-08-16 17:05:27",
+          "updatedAt": "2026-08-16 17:05:27"
+        },
+        {
+          "id": 3,
+          "articleId": 4,
+          "title": "Gemini model family: published benchmark results",
+          "publisher": "Google DeepMind",
+          "author": "",
+          "publishedAt": "",
+          "url": "https://deepmind.google/models/gemini/",
+          "type": "official",
+          "doi": "",
+          "accessedAt": "2026-08-16",
+          "supports": "Vendor-published scores for long video understanding, chart reasoning and document comprehension, used here as vendor-reported figures rather than independent evaluation.",
+          "createdAt": "2026-08-16 17:05:27",
+          "updatedAt": "2026-08-16 17:05:27"
+        }
+      ],
+      "link": "articles/multimodal-ai-models/",
+      "cleanLink": "articles/multimodal-ai-models/",
+      "createdAt": "2026-08-16 17:05:27",
+      "updatedAt": "2026-08-16 17:05:27"
     },
     {
       "id": 1,
@@ -370,11 +753,11 @@
       "sources": [],
       "link": "articles/distraction-by-design/",
       "cleanLink": "articles/distraction-by-design/",
-      "createdAt": "2026-08-16 16:08:46",
-      "updatedAt": "2026-08-16 16:08:46"
+      "createdAt": "2026-08-16 17:05:27",
+      "updatedAt": "2026-08-16 17:05:27"
     },
     {
-      "id": 25,
+      "id": 27,
       "slug": "building-resilient-software-systems-in-2026",
       "title": "Building Resilient Software Systems in 2026",
       "category": "Technology",
@@ -409,8 +792,8 @@
       "sources": [],
       "link": "index.html?category=Technology",
       "cleanLink": "index.html?category=Technology",
-      "createdAt": "2026-08-16 16:08:46",
-      "updatedAt": "2026-08-16 16:08:46"
+      "createdAt": "2026-08-16 17:05:27",
+      "updatedAt": "2026-08-16 17:05:27"
     },
     {
       "id": 47,
@@ -448,11 +831,11 @@
       "sources": [],
       "link": "index.html?category=Game",
       "cleanLink": "index.html?category=Game",
-      "createdAt": "2026-08-16 16:08:46",
-      "updatedAt": "2026-08-16 16:08:46"
+      "createdAt": "2026-08-16 17:05:27",
+      "updatedAt": "2026-08-16 17:05:27"
     },
     {
-      "id": 26,
+      "id": 28,
       "slug": "open-source-infrastructure-that-powers-modern-startups",
       "title": "Open Source Infrastructure That Powers Modern Startups",
       "category": "Technology",
@@ -487,8 +870,8 @@
       "sources": [],
       "link": "index.html?category=Technology",
       "cleanLink": "index.html?category=Technology",
-      "createdAt": "2026-08-16 16:08:46",
-      "updatedAt": "2026-08-16 16:08:46"
+      "createdAt": "2026-08-16 17:05:27",
+      "updatedAt": "2026-08-16 17:05:27"
     },
     {
       "id": 48,
@@ -526,50 +909,11 @@
       "sources": [],
       "link": "index.html?category=Game",
       "cleanLink": "index.html?category=Game",
-      "createdAt": "2026-08-16 16:08:46",
-      "updatedAt": "2026-08-16 16:08:46"
+      "createdAt": "2026-08-16 17:05:27",
+      "updatedAt": "2026-08-16 17:05:27"
     },
     {
-      "id": 28,
-      "slug": "multimodal-ai-models-are-changing-how-software-understands-the-world",
-      "title": "Multimodal AI Models Are Changing How Software Understands the World",
-      "category": "AI Trends",
-      "subcategory": "",
-      "tags": [],
-      "contentType": "article",
-      "description": "Systems that reason across text, images, audio and video are opening new product surfaces for builders.",
-      "hook": "",
-      "directAnswer": "",
-      "keyTakeaways": [],
-      "faqs": [],
-      "relatedSlugs": [],
-      "body": "",
-      "img": "Article cards images/AI/article_card_09.jpg",
-      "alt": "Abstract visualization of a multimodal artificial intelligence network",
-      "author": "Oluwashola Busari",
-      "authorSlug": "oluwashola-busari",
-      "date": "2026-07-29",
-      "readingTime": "5 min read",
-      "featured": false,
-      "status": "published",
-      "scheduledAt": null,
-      "reviewNotes": "",
-      "submittedAt": null,
-      "submitterEmail": "",
-      "hero": false,
-      "heroOrder": null,
-      "externalLink": "index.html?category=AI%20Trends",
-      "canonicalUrl": null,
-      "seoTitle": null,
-      "seoDescription": null,
-      "sources": [],
-      "link": "index.html?category=AI%20Trends",
-      "cleanLink": "index.html?category=AI%20Trends",
-      "createdAt": "2026-08-16 16:08:46",
-      "updatedAt": "2026-08-16 16:08:46"
-    },
-    {
-      "id": 27,
+      "id": 29,
       "slug": "chip-design-breakthroughs-driving-faster-devices",
       "title": "Chip Design Breakthroughs Driving Faster Devices",
       "category": "Technology",
@@ -604,8 +948,8 @@
       "sources": [],
       "link": "index.html?category=Technology",
       "cleanLink": "index.html?category=Technology",
-      "createdAt": "2026-08-16 16:08:46",
-      "updatedAt": "2026-08-16 16:08:46"
+      "createdAt": "2026-08-16 17:05:27",
+      "updatedAt": "2026-08-16 17:05:27"
     },
     {
       "id": 49,
@@ -643,11 +987,11 @@
       "sources": [],
       "link": "index.html?category=Game",
       "cleanLink": "index.html?category=Game",
-      "createdAt": "2026-08-16 16:08:46",
-      "updatedAt": "2026-08-16 16:08:46"
+      "createdAt": "2026-08-16 17:05:27",
+      "updatedAt": "2026-08-16 17:05:27"
     },
     {
-      "id": 29,
+      "id": 30,
       "slug": "bitcoin-etfs-and-the-new-wave-of-institutional-adoption",
       "title": "Bitcoin ETFs and the New Wave of Institutional Adoption",
       "category": "Cryptocurrency",
@@ -682,11 +1026,11 @@
       "sources": [],
       "link": "index.html?category=Cryptocurrency",
       "cleanLink": "index.html?category=Cryptocurrency",
-      "createdAt": "2026-08-16 16:08:46",
-      "updatedAt": "2026-08-16 16:08:46"
+      "createdAt": "2026-08-16 17:05:27",
+      "updatedAt": "2026-08-16 17:05:27"
     },
     {
-      "id": 37,
+      "id": 38,
       "slug": "daos-in-practice-what-works-and-what-still-doesnt",
       "title": "DAOs in Practice: What Works and What Still Doesn't",
       "category": "Web 3",
@@ -721,8 +1065,8 @@
       "sources": [],
       "link": "index.html?category=Web%203",
       "cleanLink": "index.html?category=Web%203",
-      "createdAt": "2026-08-16 16:08:46",
-      "updatedAt": "2026-08-16 16:08:46"
+      "createdAt": "2026-08-16 17:05:27",
+      "updatedAt": "2026-08-16 17:05:27"
     },
     {
       "id": 50,
@@ -760,11 +1104,11 @@
       "sources": [],
       "link": "index.html?category=Game",
       "cleanLink": "index.html?category=Game",
-      "createdAt": "2026-08-16 16:08:46",
-      "updatedAt": "2026-08-16 16:08:46"
+      "createdAt": "2026-08-16 17:05:27",
+      "updatedAt": "2026-08-16 17:05:27"
     },
     {
-      "id": 30,
+      "id": 31,
       "slug": "layer-2-networks-explained-scaling-crypto-without-compromise",
       "title": "Layer 2 Networks Explained: Scaling Crypto Without Compromise",
       "category": "Cryptocurrency",
@@ -799,11 +1143,11 @@
       "sources": [],
       "link": "index.html?category=Cryptocurrency",
       "cleanLink": "index.html?category=Cryptocurrency",
-      "createdAt": "2026-08-16 16:08:46",
-      "updatedAt": "2026-08-16 16:08:46"
+      "createdAt": "2026-08-16 17:05:27",
+      "updatedAt": "2026-08-16 17:05:27"
     },
     {
-      "id": 38,
+      "id": 39,
       "slug": "nfts-after-the-hype-utility-media-and-membership",
       "title": "NFTs After the Hype: Utility, Media and Membership",
       "category": "Web 3",
@@ -838,8 +1182,8 @@
       "sources": [],
       "link": "index.html?category=Web%203",
       "cleanLink": "index.html?category=Web%203",
-      "createdAt": "2026-08-16 16:08:46",
-      "updatedAt": "2026-08-16 16:08:46"
+      "createdAt": "2026-08-16 17:05:27",
+      "updatedAt": "2026-08-16 17:05:27"
     },
     {
       "id": 51,
@@ -877,11 +1221,11 @@
       "sources": [],
       "link": "index.html?category=Game",
       "cleanLink": "index.html?category=Game",
-      "createdAt": "2026-08-16 16:08:46",
-      "updatedAt": "2026-08-16 16:08:46"
+      "createdAt": "2026-08-16 17:05:27",
+      "updatedAt": "2026-08-16 17:05:27"
     },
     {
-      "id": 31,
+      "id": 32,
       "slug": "crypto-wallets-hot-cold-and-what-everyday-users-should-choose",
       "title": "Crypto Wallets: Hot, Cold and What Everyday Users Should Choose",
       "category": "Cryptocurrency",
@@ -916,11 +1260,11 @@
       "sources": [],
       "link": "index.html?category=Cryptocurrency",
       "cleanLink": "index.html?category=Cryptocurrency",
-      "createdAt": "2026-08-16 16:08:46",
-      "updatedAt": "2026-08-16 16:08:46"
+      "createdAt": "2026-08-16 17:05:27",
+      "updatedAt": "2026-08-16 17:05:27"
     },
     {
-      "id": 39,
+      "id": 40,
       "slug": "smart-contract-audits-why-security-reviews-matter",
       "title": "Smart Contract Audits: Why Security Reviews Matter",
       "category": "Web 3",
@@ -955,11 +1299,11 @@
       "sources": [],
       "link": "index.html?category=Web%203",
       "cleanLink": "index.html?category=Web%203",
-      "createdAt": "2026-08-16 16:08:46",
-      "updatedAt": "2026-08-16 16:08:46"
+      "createdAt": "2026-08-16 17:05:27",
+      "updatedAt": "2026-08-16 17:05:27"
     },
     {
-      "id": 4,
+      "id": 7,
       "slug": "web3-and-the-future-of-the-internet",
       "title": "Web3 and the Future of the Internet",
       "category": "Web 3",
@@ -994,8 +1338,8 @@
       "sources": [],
       "link": "index.html?category=Web%203",
       "cleanLink": "index.html?category=Web%203",
-      "createdAt": "2026-08-16 16:08:46",
-      "updatedAt": "2026-08-16 16:08:46"
+      "createdAt": "2026-08-16 17:05:27",
+      "updatedAt": "2026-08-16 17:05:27"
     },
     {
       "id": 52,
@@ -1033,11 +1377,11 @@
       "sources": [],
       "link": "index.html?category=Game",
       "cleanLink": "index.html?category=Game",
-      "createdAt": "2026-08-16 16:08:46",
-      "updatedAt": "2026-08-16 16:08:46"
+      "createdAt": "2026-08-16 17:05:27",
+      "updatedAt": "2026-08-16 17:05:27"
     },
     {
-      "id": 32,
+      "id": 33,
       "slug": "how-central-bank-digital-currencies-differ-from-crypto",
       "title": "How Central Bank Digital Currencies Differ from Crypto",
       "category": "Cryptocurrency",
@@ -1072,11 +1416,11 @@
       "sources": [],
       "link": "index.html?category=Cryptocurrency",
       "cleanLink": "index.html?category=Cryptocurrency",
-      "createdAt": "2026-08-16 16:08:46",
-      "updatedAt": "2026-08-16 16:08:46"
+      "createdAt": "2026-08-16 17:05:27",
+      "updatedAt": "2026-08-16 17:05:27"
     },
     {
-      "id": 40,
+      "id": 41,
       "slug": "decentralized-social-networks-and-the-creator-economy",
       "title": "Decentralized Social Networks and the Creator Economy",
       "category": "Web 3",
@@ -1111,11 +1455,11 @@
       "sources": [],
       "link": "index.html?category=Web%203",
       "cleanLink": "index.html?category=Web%203",
-      "createdAt": "2026-08-16 16:08:46",
-      "updatedAt": "2026-08-16 16:08:46"
+      "createdAt": "2026-08-16 17:05:27",
+      "updatedAt": "2026-08-16 17:05:27"
     },
     {
-      "id": 5,
+      "id": 8,
       "slug": "ai-in-healthcare-transforming-patient-care",
       "title": "AI in Healthcare: Transforming Patient Care",
       "category": "AI Trends",
@@ -1150,8 +1494,8 @@
       "sources": [],
       "link": "index.html?category=AI%20Trends",
       "cleanLink": "index.html?category=AI%20Trends",
-      "createdAt": "2026-08-16 16:08:46",
-      "updatedAt": "2026-08-16 16:08:46"
+      "createdAt": "2026-08-16 17:05:27",
+      "updatedAt": "2026-08-16 17:05:27"
     },
     {
       "id": 53,
@@ -1189,11 +1533,11 @@
       "sources": [],
       "link": "index.html?category=Game",
       "cleanLink": "index.html?category=Game",
-      "createdAt": "2026-08-16 16:08:46",
-      "updatedAt": "2026-08-16 16:08:46"
+      "createdAt": "2026-08-16 17:05:27",
+      "updatedAt": "2026-08-16 17:05:27"
     },
     {
-      "id": 33,
+      "id": 34,
       "slug": "on-chain-analytics-reading-the-market-beyond-price-charts",
       "title": "On-Chain Analytics: Reading the Market Beyond Price Charts",
       "category": "Cryptocurrency",
@@ -1228,11 +1572,11 @@
       "sources": [],
       "link": "index.html?category=Cryptocurrency",
       "cleanLink": "index.html?category=Cryptocurrency",
-      "createdAt": "2026-08-16 16:08:46",
-      "updatedAt": "2026-08-16 16:08:46"
+      "createdAt": "2026-08-16 17:05:27",
+      "updatedAt": "2026-08-16 17:05:27"
     },
     {
-      "id": 41,
+      "id": 42,
       "slug": "interoperability-bridges-connecting-fragmented-blockchains",
       "title": "Interoperability Bridges: Connecting Fragmented Blockchains",
       "category": "Web 3",
@@ -1267,11 +1611,11 @@
       "sources": [],
       "link": "index.html?category=Web%203",
       "cleanLink": "index.html?category=Web%203",
-      "createdAt": "2026-08-16 16:08:46",
-      "updatedAt": "2026-08-16 16:08:46"
+      "createdAt": "2026-08-16 17:05:27",
+      "updatedAt": "2026-08-16 17:05:27"
     },
     {
-      "id": 6,
+      "id": 9,
       "slug": "breakthroughs-in-renewable-energy-tech",
       "title": "Breakthroughs in Renewable Energy Tech",
       "category": "Technology",
@@ -1306,11 +1650,11 @@
       "sources": [],
       "link": "index.html?category=Technology",
       "cleanLink": "index.html?category=Technology",
-      "createdAt": "2026-08-16 16:08:46",
-      "updatedAt": "2026-08-16 16:08:46"
+      "createdAt": "2026-08-16 17:05:27",
+      "updatedAt": "2026-08-16 17:05:27"
     },
     {
-      "id": 34,
+      "id": 35,
       "slug": "mining-staking-and-the-energy-debate-around-digital-assets",
       "title": "Mining, Staking and the Energy Debate Around Digital Assets",
       "category": "Cryptocurrency",
@@ -1345,11 +1689,11 @@
       "sources": [],
       "link": "index.html?category=Cryptocurrency",
       "cleanLink": "index.html?category=Cryptocurrency",
-      "createdAt": "2026-08-16 16:08:46",
-      "updatedAt": "2026-08-16 16:08:46"
+      "createdAt": "2026-08-16 17:05:27",
+      "updatedAt": "2026-08-16 17:05:27"
     },
     {
-      "id": 42,
+      "id": 43,
       "slug": "zero-knowledge-proofs-are-making-privacy-practical",
       "title": "Zero-Knowledge Proofs Are Making Privacy Practical",
       "category": "Web 3",
@@ -1384,11 +1728,11 @@
       "sources": [],
       "link": "index.html?category=Web%203",
       "cleanLink": "index.html?category=Web%203",
-      "createdAt": "2026-08-16 16:08:46",
-      "updatedAt": "2026-08-16 16:08:46"
+      "createdAt": "2026-08-16 17:05:27",
+      "updatedAt": "2026-08-16 17:05:27"
     },
     {
-      "id": 7,
+      "id": 10,
       "slug": "ai-ethics-navigating-the-challenges",
       "title": "AI Ethics: Navigating the Challenges",
       "category": "AI Trends",
@@ -1423,11 +1767,11 @@
       "sources": [],
       "link": "index.html?category=AI%20Trends",
       "cleanLink": "index.html?category=AI%20Trends",
-      "createdAt": "2026-08-16 16:08:46",
-      "updatedAt": "2026-08-16 16:08:46"
+      "createdAt": "2026-08-16 17:05:27",
+      "updatedAt": "2026-08-16 17:05:27"
     },
     {
-      "id": 35,
+      "id": 36,
       "slug": "crypto-security-basics-every-new-investor-should-know",
       "title": "Crypto Security Basics Every New Investor Should Know",
       "category": "Cryptocurrency",
@@ -1462,11 +1806,11 @@
       "sources": [],
       "link": "index.html?category=Cryptocurrency",
       "cleanLink": "index.html?category=Cryptocurrency",
-      "createdAt": "2026-08-16 16:08:46",
-      "updatedAt": "2026-08-16 16:08:46"
+      "createdAt": "2026-08-16 17:05:27",
+      "updatedAt": "2026-08-16 17:05:27"
     },
     {
-      "id": 43,
+      "id": 44,
       "slug": "web3-gaming-economies-designing-play-that-lasts",
       "title": "Web3 Gaming Economies: Designing Play That Lasts",
       "category": "Web 3",
@@ -1501,11 +1845,11 @@
       "sources": [],
       "link": "index.html?category=Web%203",
       "cleanLink": "index.html?category=Web%203",
-      "createdAt": "2026-08-16 16:08:46",
-      "updatedAt": "2026-08-16 16:08:46"
+      "createdAt": "2026-08-16 17:05:27",
+      "updatedAt": "2026-08-16 17:05:27"
     },
     {
-      "id": 8,
+      "id": 11,
       "slug": "decentralized-finance-defi-growth",
       "title": "Decentralized Finance (DeFi) Growth",
       "category": "Web 3",
@@ -1540,11 +1884,11 @@
       "sources": [],
       "link": "index.html?category=Web%203",
       "cleanLink": "index.html?category=Web%203",
-      "createdAt": "2026-08-16 16:08:46",
-      "updatedAt": "2026-08-16 16:08:46"
+      "createdAt": "2026-08-16 17:05:27",
+      "updatedAt": "2026-08-16 17:05:27"
     },
     {
-      "id": 36,
+      "id": 37,
       "slug": "the-rise-of-tokenized-treasuries-and-on-chain-yield",
       "title": "The Rise of Tokenized Treasuries and On-Chain Yield",
       "category": "Cryptocurrency",
@@ -1579,11 +1923,11 @@
       "sources": [],
       "link": "index.html?category=Cryptocurrency",
       "cleanLink": "index.html?category=Cryptocurrency",
-      "createdAt": "2026-08-16 16:08:46",
-      "updatedAt": "2026-08-16 16:08:46"
+      "createdAt": "2026-08-16 17:05:27",
+      "updatedAt": "2026-08-16 17:05:27"
     },
     {
-      "id": 44,
+      "id": 45,
       "slug": "decentralized-storage-networks-for-the-open-web",
       "title": "Decentralized Storage Networks for the Open Web",
       "category": "Web 3",
@@ -1618,11 +1962,11 @@
       "sources": [],
       "link": "index.html?category=Web%203",
       "cleanLink": "index.html?category=Web%203",
-      "createdAt": "2026-08-16 16:08:46",
-      "updatedAt": "2026-08-16 16:08:46"
+      "createdAt": "2026-08-16 17:05:27",
+      "updatedAt": "2026-08-16 17:05:27"
     },
     {
-      "id": 9,
+      "id": 12,
       "slug": "the-future-of-augmented-reality",
       "title": "The Future of Augmented Reality",
       "category": "Technology",
@@ -1657,11 +2001,11 @@
       "sources": [],
       "link": "index.html?category=Technology",
       "cleanLink": "index.html?category=Technology",
-      "createdAt": "2026-08-16 16:08:46",
-      "updatedAt": "2026-08-16 16:08:46"
+      "createdAt": "2026-08-16 17:05:27",
+      "updatedAt": "2026-08-16 17:05:27"
     },
     {
-      "id": 45,
+      "id": 46,
       "slug": "wallet-ux-is-the-next-frontier-for-mass-web3-adoption",
       "title": "Wallet UX Is the Next Frontier for Mass Web3 Adoption",
       "category": "Web 3",
@@ -1696,11 +2040,11 @@
       "sources": [],
       "link": "index.html?category=Web%203",
       "cleanLink": "index.html?category=Web%203",
-      "createdAt": "2026-08-16 16:08:46",
-      "updatedAt": "2026-08-16 16:08:46"
+      "createdAt": "2026-08-16 17:05:27",
+      "updatedAt": "2026-08-16 17:05:27"
     },
     {
-      "id": 10,
+      "id": 13,
       "slug": "advancements-in-remote-work-tech",
       "title": "Advancements in Remote Work Tech",
       "category": "Technology",
@@ -1735,11 +2079,11 @@
       "sources": [],
       "link": "index.html?category=Technology",
       "cleanLink": "index.html?category=Technology",
-      "createdAt": "2026-08-16 16:08:46",
-      "updatedAt": "2026-08-16 16:08:46"
+      "createdAt": "2026-08-16 17:05:27",
+      "updatedAt": "2026-08-16 17:05:27"
     },
     {
-      "id": 11,
+      "id": 14,
       "slug": "5g-technology-and-its-impact",
       "title": "5G Technology and Its Impact",
       "category": "Technology",
@@ -1774,11 +2118,11 @@
       "sources": [],
       "link": "index.html?category=Technology",
       "cleanLink": "index.html?category=Technology",
-      "createdAt": "2026-08-16 16:08:46",
-      "updatedAt": "2026-08-16 16:08:46"
+      "createdAt": "2026-08-16 17:05:27",
+      "updatedAt": "2026-08-16 17:05:27"
     },
     {
-      "id": 12,
+      "id": 15,
       "slug": "blockchain-beyond-cryptocurrency",
       "title": "Blockchain Beyond Cryptocurrency",
       "category": "Web 3",
@@ -1813,11 +2157,11 @@
       "sources": [],
       "link": "index.html?category=Web%203",
       "cleanLink": "index.html?category=Web%203",
-      "createdAt": "2026-08-16 16:08:46",
-      "updatedAt": "2026-08-16 16:08:46"
+      "createdAt": "2026-08-16 17:05:27",
+      "updatedAt": "2026-08-16 17:05:27"
     },
     {
-      "id": 13,
+      "id": 16,
       "slug": "machine-learning-in-everyday-life",
       "title": "Machine Learning in Everyday Life",
       "category": "AI Trends",
@@ -1852,11 +2196,11 @@
       "sources": [],
       "link": "index.html?category=AI%20Trends",
       "cleanLink": "index.html?category=AI%20Trends",
-      "createdAt": "2026-08-16 16:08:46",
-      "updatedAt": "2026-08-16 16:08:46"
+      "createdAt": "2026-08-16 17:05:27",
+      "updatedAt": "2026-08-16 17:05:27"
     },
     {
-      "id": 14,
+      "id": 17,
       "slug": "cybersecurity-in-the-modern-age",
       "title": "Cybersecurity in the Modern Age",
       "category": "Technology",
@@ -1891,11 +2235,11 @@
       "sources": [],
       "link": "index.html?category=Technology",
       "cleanLink": "index.html?category=Technology",
-      "createdAt": "2026-08-16 16:08:46",
-      "updatedAt": "2026-08-16 16:08:46"
+      "createdAt": "2026-08-16 17:05:27",
+      "updatedAt": "2026-08-16 17:05:27"
     },
     {
-      "id": 15,
+      "id": 18,
       "slug": "the-role-of-iot-in-smart-cities",
       "title": "The Role of IoT in Smart Cities",
       "category": "Technology",
@@ -1930,11 +2274,11 @@
       "sources": [],
       "link": "index.html?category=Technology",
       "cleanLink": "index.html?category=Technology",
-      "createdAt": "2026-08-16 16:08:46",
-      "updatedAt": "2026-08-16 16:08:46"
+      "createdAt": "2026-08-16 17:05:27",
+      "updatedAt": "2026-08-16 17:05:27"
     },
     {
-      "id": 16,
+      "id": 19,
       "slug": "ethical-ai-balancing-innovation-and-responsibility",
       "title": "Ethical AI: Balancing Innovation and Responsibility",
       "category": "AI Trends",
@@ -1969,11 +2313,11 @@
       "sources": [],
       "link": "index.html?category=AI%20Trends",
       "cleanLink": "index.html?category=AI%20Trends",
-      "createdAt": "2026-08-16 16:08:46",
-      "updatedAt": "2026-08-16 16:08:46"
+      "createdAt": "2026-08-16 17:05:27",
+      "updatedAt": "2026-08-16 17:05:27"
     },
     {
-      "id": 17,
+      "id": 20,
       "slug": "virtual-reality-in-education",
       "title": "Virtual Reality in Education",
       "category": "Technology",
@@ -2008,11 +2352,11 @@
       "sources": [],
       "link": "index.html?category=Technology",
       "cleanLink": "index.html?category=Technology",
-      "createdAt": "2026-08-16 16:08:46",
-      "updatedAt": "2026-08-16 16:08:46"
+      "createdAt": "2026-08-16 17:05:27",
+      "updatedAt": "2026-08-16 17:05:27"
     },
     {
-      "id": 18,
+      "id": 21,
       "slug": "cryptocurrency-regulations-worldwide",
       "title": "Cryptocurrency Regulations Worldwide",
       "category": "Web 3",
@@ -2047,11 +2391,11 @@
       "sources": [],
       "link": "index.html?category=Web%203",
       "cleanLink": "index.html?category=Web%203",
-      "createdAt": "2026-08-16 16:08:46",
-      "updatedAt": "2026-08-16 16:08:46"
+      "createdAt": "2026-08-16 17:05:27",
+      "updatedAt": "2026-08-16 17:05:27"
     },
     {
-      "id": 19,
+      "id": 22,
       "slug": "ai-powered-customer-service",
       "title": "AI-Powered Customer Service",
       "category": "AI Trends",
@@ -2086,11 +2430,11 @@
       "sources": [],
       "link": "index.html?category=AI%20Trends",
       "cleanLink": "index.html?category=AI%20Trends",
-      "createdAt": "2026-08-16 16:08:46",
-      "updatedAt": "2026-08-16 16:08:46"
+      "createdAt": "2026-08-16 17:05:27",
+      "updatedAt": "2026-08-16 17:05:27"
     },
     {
-      "id": 20,
+      "id": 23,
       "slug": "sustainable-tech-innovations",
       "title": "Sustainable Tech Innovations",
       "category": "Technology",
@@ -2125,11 +2469,11 @@
       "sources": [],
       "link": "index.html?category=Technology",
       "cleanLink": "index.html?category=Technology",
-      "createdAt": "2026-08-16 16:08:46",
-      "updatedAt": "2026-08-16 16:08:46"
+      "createdAt": "2026-08-16 17:05:27",
+      "updatedAt": "2026-08-16 17:05:27"
     },
     {
-      "id": 21,
+      "id": 24,
       "slug": "the-evolution-of-cloud-computing",
       "title": "The Evolution of Cloud Computing",
       "category": "Technology",
@@ -2164,11 +2508,11 @@
       "sources": [],
       "link": "index.html?category=Technology",
       "cleanLink": "index.html?category=Technology",
-      "createdAt": "2026-08-16 16:08:46",
-      "updatedAt": "2026-08-16 16:08:46"
+      "createdAt": "2026-08-16 17:05:27",
+      "updatedAt": "2026-08-16 17:05:27"
     },
     {
-      "id": 22,
+      "id": 25,
       "slug": "ai-and-automation-in-manufacturing",
       "title": "AI and Automation in Manufacturing",
       "category": "AI Trends",
@@ -2203,11 +2547,11 @@
       "sources": [],
       "link": "index.html?category=AI%20Trends",
       "cleanLink": "index.html?category=AI%20Trends",
-      "createdAt": "2026-08-16 16:08:46",
-      "updatedAt": "2026-08-16 16:08:46"
+      "createdAt": "2026-08-16 17:05:27",
+      "updatedAt": "2026-08-16 17:05:27"
     },
     {
-      "id": 23,
+      "id": 26,
       "slug": "cloud-gaming-and-the-next-console-war",
       "title": "Cloud Gaming and the Next Console War",
       "category": "Game",
@@ -2242,47 +2586,8 @@
       "sources": [],
       "link": "index.html?category=Game",
       "cleanLink": "index.html?category=Game",
-      "createdAt": "2026-08-16 16:08:46",
-      "updatedAt": "2026-08-16 16:08:46"
-    },
-    {
-      "id": 24,
-      "slug": "stablecoins-and-the-future-of-digital-payments",
-      "title": "Stablecoins and the Future of Digital Payments",
-      "category": "Cryptocurrency",
-      "subcategory": "",
-      "tags": [],
-      "contentType": "article",
-      "description": "Stablecoins are becoming a bridge between traditional finance and programmable internet-native money.",
-      "hook": "",
-      "directAnswer": "",
-      "keyTakeaways": [],
-      "faqs": [],
-      "relatedSlugs": [],
-      "body": "",
-      "img": "Article cards images/Cryptocurrency/article_card_06.jpg",
-      "alt": "Cryptocurrency coins and a financial chart",
-      "author": "Oluwashola Busari",
-      "authorSlug": "oluwashola-busari",
-      "date": "2026-06-12",
-      "readingTime": "5 min read",
-      "featured": false,
-      "status": "published",
-      "scheduledAt": null,
-      "reviewNotes": "",
-      "submittedAt": null,
-      "submitterEmail": "",
-      "hero": false,
-      "heroOrder": null,
-      "externalLink": "index.html?category=Cryptocurrency",
-      "canonicalUrl": null,
-      "seoTitle": null,
-      "seoDescription": null,
-      "sources": [],
-      "link": "index.html?category=Cryptocurrency",
-      "cleanLink": "index.html?category=Cryptocurrency",
-      "createdAt": "2026-08-16 16:08:46",
-      "updatedAt": "2026-08-16 16:08:46"
+      "createdAt": "2026-08-16 17:05:27",
+      "updatedAt": "2026-08-16 17:05:27"
     }
   ]
 }
