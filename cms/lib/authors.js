@@ -119,16 +119,37 @@ function remove(id) {
   }
 }
 
+/**
+ * The house author. `image` points at the same portrait the About page uses, so
+ * the article author card and the About profile never drift apart.
+ */
+const DEFAULT_AUTHOR = {
+  slug: 'oluwashola-busari',
+  name: 'Oluwashola Busari',
+  role: 'Founder, Software Engineer and Tech Journalist',
+  bio: 'The founder of Sholynk Technology. Has a background in Mass Communication, Software Engineering, Digital Marketing, and Data Analysis. He is focused on explaining technical concepts in very simple terms.',
+  image: 'Images and Assets/my_pic.png',
+  imageAlt: 'Portrait photo of Oluwashola Busari',
+  profileUrl: 'https://sholynktech.netlify.app/about.html'
+};
+
+/**
+ * Creates the default author on a fresh database. On an existing installation
+ * the record is kept, and only fields that were never filled in (an empty photo
+ * or bio) are backfilled — anything edited in the admin is left untouched.
+ */
 function ensureDefault() {
-  const existing = db.prepare('SELECT id FROM authors WHERE slug = ?').get('oluwashola-busari');
-  if (existing) return get(existing.id);
-  return create({
-    slug: 'oluwashola-busari',
-    name: 'Oluwashola Busari',
-    role: 'Founder, Software Engineer and Tech Journalist',
-    bio: 'Founder of Sholynk Tech with a background in mass communication, software engineering and digital marketing, focused on explaining technical ideas clearly.',
-    profileUrl: 'https://sholynktech.netlify.app/about.html'
-  });
+  const existing = db.prepare('SELECT * FROM authors WHERE slug = ?').get(DEFAULT_AUTHOR.slug);
+  if (!existing) return create(DEFAULT_AUTHOR);
+
+  const patch = {};
+  if (!String(existing.image || '').trim()) {
+    patch.image = DEFAULT_AUTHOR.image;
+    patch.imageAlt = String(existing.image_alt || '').trim() || DEFAULT_AUTHOR.imageAlt;
+  }
+  if (!String(existing.bio || '').trim()) patch.bio = DEFAULT_AUTHOR.bio;
+  if (Object.keys(patch).length) return update(existing.id, patch);
+  return toApi(existing);
 }
 
 ensureDefault();

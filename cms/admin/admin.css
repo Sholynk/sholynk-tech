@@ -109,6 +109,50 @@ main { padding: 1.25rem 1.5rem 3rem; }
 .article-list strong { font-size: 0.82rem; line-height: 1.25; }
 .article-list .row-meta { font-size: 0.65rem; color: var(--ink-soft); display: flex; gap: 0.45rem; flex-wrap: wrap; align-items: center; }
 
+/* Authors column: a full-width "New" action under the heading, then one row per
+   author showing the profile photo they uploaded. */
+.new-author-button {
+  width: 100%;
+  justify-content: center;
+  margin: 0.75rem 0 0.85rem;
+}
+
+.author-list button {
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.55rem 0.7rem;
+}
+
+.author-row-details { display: grid; gap: 0.15rem; min-width: 0; }
+
+.author-avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.6rem;
+  height: 2.6rem;
+  flex-shrink: 0;
+  border-radius: 999px;
+  overflow: hidden;
+  background: #e2e8f0;
+}
+
+.author-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.author-avatar--initials {
+  background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+  color: #fff;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+}
+
 .pill {
   font-size: 0.58rem;
   text-transform: uppercase;

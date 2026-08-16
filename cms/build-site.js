@@ -470,8 +470,8 @@ function renderArticle(article, bodyHtml, responsive, canonical, author) {
         ${renderFaqs(article.faqs)}
         ${renderSources(article.sources)}
         ${share}
-        ${inlineAuthor}
         <div id="engagementRoot"></div>
+        ${inlineAuthor}
         <nav class="article-end-nav" aria-label="Article navigation"><a class="article-back" href="${SITE_ROOT_PREFIX}index.html"><i class="fas fa-arrow-left" aria-hidden="true"></i><span>Back to all articles</span></a><a class="article-category-link" href="${SITE_ROOT_PREFIX}index.html?category=${encodeURIComponent(article.category)}"><span>More in ${escapeHtml(article.category)}</span><i class="fas fa-arrow-right" aria-hidden="true"></i></a></nav>
       </div>
     </div>
@@ -517,7 +517,12 @@ async function run() {
     const author = resolveAuthor(article, authors);
     const bodyHtml = await addIntrinsicImageSizes(renderMarkdown(article.body));
     const responsive = await responsiveHero(article);
-    const rootHtml = renderArticle(article, bodyHtml, responsive, canonical, author);
+    // Post-process the whole article shell (not just the Markdown body) so
+    // chrome images such as the author profile photo also declare their
+    // intrinsic size and cannot shift the layout as they decode.
+    const rootHtml = await addIntrinsicImageSizes(
+      renderArticle(article, bodyHtml, responsive, canonical, author)
+    );
     const relatedHtml = await addIntrinsicImageSizes(
       renderRelated(article, allArticles.filter((item) => item.status === 'published'))
     );

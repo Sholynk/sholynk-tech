@@ -811,16 +811,18 @@
     const sources = createSources(article);
     if (sources) content.append(sources);
     content.append(createShare(article));
-    // Mobile / bottom-of-article author card (placed before "Continue exploring").
+    const engagementRoot = document.createElement('div');
+    engagementRoot.id = 'engagementRoot';
+    content.append(engagementRoot);
+    // Mobile / bottom-of-article author card. It follows the reactions and
+    // comments section and sits just before the "Back to all articles" nav.
     // On desktop this copy is hidden in favor of the one in the left rail.
     const contentAuthor = author ? createAuthorCard(author) : null;
     if (contentAuthor) {
       contentAuthor.classList.add('article-author-card--inline');
       content.append(contentAuthor);
     }
-    const engagementRoot = document.createElement('div');
-    engagementRoot.id = 'engagementRoot';
-    content.append(engagementRoot, createEndNavigation(article));
+    content.append(createEndNavigation(article));
     layout.append(content);
 
     root.append(masthead);

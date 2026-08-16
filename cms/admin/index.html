@@ -287,9 +287,9 @@
      <div class="list-column">
       <div class="list-toolbar">
        <h2>Author entities</h2>
-       <button class="primary-button" id="newAuthor" type="button"><i class="fas fa-plus" aria-hidden="true"></i> New</button>
       </div>
-      <ul class="article-list" id="authorList"></ul>
+      <button class="primary-button new-author-button" id="newAuthor" type="button"><i class="fas fa-plus" aria-hidden="true"></i> New author profile</button>
+      <ul class="article-list author-list" id="authorList"></ul>
      </div>
      <div class="form-column">
       <form id="authorForm">
@@ -300,7 +300,7 @@
        <div class="field">
         <label for="authorBio">Biography / brief intro</label>
         <textarea id="authorBio" rows="6" placeholder="A short author bio shown at the end of long-form articles. 2-4 sentences work best."></textarea>
-        <p class="hint">Appears with the author photo at the bottom of the in-article navigation (desktop) and before "Continue exploring" on mobile.</p>
+        <p class="hint">Appears with the author photo under the in-article navigation (desktop) and after the comment section on mobile.</p>
        </div>
        <div class="field-row">
         <div class="field">

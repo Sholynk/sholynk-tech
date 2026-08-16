@@ -444,13 +444,25 @@
 
   /* ------------------------------ authors ------------------------------- */
 
+  /**
+   * The admin is served from /admin/, but author photos are stored as paths
+   * relative to the *site* root ("Images and Assets/my_pic.png") or as absolute
+   * upload paths ("/uploads/..."). Resolve the former against the site root so
+   * previews and list thumbnails do not 404 under /admin/.
+   */
+  function assetUrl(value = '') {
+    const reference = String(value).trim();
+    if (!reference || /^(?:[a-z][a-z0-9+.-]*:|\/\/|\/)/i.test(reference)) return reference;
+    return `/${reference.replace(/^(?:(?:\.\.?)\/)+/, '')}`;
+  }
+
   function updateAuthorImagePreview() {
     const url = $('authorImage').value.trim();
     const wrap = $('authorImagePreview');
     const tag = $('authorImagePreviewTag');
     if (!wrap || !tag) return;
     if (!url) { wrap.hidden = true; return; }
-    tag.src = url;
+    tag.src = assetUrl(url);
     tag.alt = $('authorImageAlt').value.trim() || 'Author profile photo preview';
     wrap.hidden = false;
   }
@@ -471,6 +483,41 @@
     updateAuthorImagePreview();
   }
 
+  /**
+   * Avatar for one author row: the uploaded profile photo when the author has
+   * one, otherwise their initials. Built from the saved `image` field, so a row
+   * picks up a new photo as soon as the author saves an upload.
+   */
+  function authorAvatar(author) {
+    const figure = document.createElement('span');
+    figure.className = 'author-avatar';
+    const initials = (author.name || 'A')
+      .split(/\s+/)
+      .filter(Boolean)
+      .slice(0, 2)
+      .map((word) => word[0].toUpperCase())
+      .join('') || 'A';
+
+    if (author.image) {
+      const img = document.createElement('img');
+      img.src = assetUrl(author.image);
+      img.alt = author.imageAlt || `Photo of ${author.name}`;
+      img.loading = 'lazy';
+      img.decoding = 'async';
+      // A broken or removed file falls back to the initials placeholder.
+      img.addEventListener('error', () => {
+        img.remove();
+        figure.classList.add('author-avatar--initials');
+        figure.textContent = initials;
+      }, { once: true });
+      figure.append(img);
+    } else {
+      figure.classList.add('author-avatar--initials');
+      figure.textContent = initials;
+    }
+    return figure;
+  }
+
   function renderAuthors() {
     const list = $('authorList');
     list.innerHTML = '';
@@ -479,12 +526,15 @@
       const button = document.createElement('button');
       button.type = 'button';
       button.className = author.id === state.selectedAuthorId ? 'selected' : '';
+      const details = document.createElement('span');
+      details.className = 'author-row-details';
       const name = document.createElement('strong');
       name.textContent = author.name;
-      const meta = document.createElement('div');
+      const meta = document.createElement('span');
       meta.className = 'row-meta';
       meta.textContent = author.role || author.slug;
-      button.append(name, meta);
+      details.append(name, meta);
+      button.append(authorAvatar(author), details);
       button.addEventListener('click', () => {
         state.selectedAuthorId = author.id;
         fillAuthorForm(author);

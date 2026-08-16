@@ -2739,8 +2739,8 @@ textarea:focus {
   line-height: 1.55;
 }
 
-/* Inline variant: appears at the end of the article body on mobile.
-   Hidden on desktop where the rail card is shown instead. */
+/* Inline variant: appears after the comment section on mobile, just before the
+   "Back to all articles" nav. Hidden on desktop where the rail card shows. */
 .article-author-card--inline {
   grid-template-columns: auto 1fr;
   align-items: start;
@@ -2954,8 +2954,8 @@ textarea:focus {
     display: none;
   }
 
-  /* Hide the rail author card at narrow widths; the inline card at the end of
-     the article body (before "Continue exploring") takes over. */
+  /* Hide the rail author card at narrow widths; the inline card that follows
+     the comment section takes over. */
   .article-author-card--rail {
     display: none;
   }
