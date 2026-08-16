@@ -367,3 +367,462 @@ test('admin tokens must match in full and protect unpublished content', async ()
     delete process.env.CMS_ADMIN_TOKEN;
   }
 });
+
+/* ------------------------------ analytics -------------------------------- */
+
+test('article reads are counted once per reader per day', async () => {
+  const article = await api('/api/articles', {
+    method: 'POST',
+    body: JSON.stringify({
+      title: 'Read tracking probe',
+      category: 'Technology',
+      description: 'Verifies the read counter.',
+      body: '<p>Body.</p>',
+      author: 'Ada Example'
+    })
+  });
+  assert.equal(article.status, 201);
+  const slug = article.body.data.slug;
+
+  const first = await api(`/api/articles/${slug}/views`, {
+    method: 'POST',
+    body: JSON.stringify({ voterId: 'reader-a' })
+  });
+  assert.equal(first.status, 202);
+  assert.equal(first.body.data.counted, true);
+
+  // The same reader refreshing must not inflate the figure.
+  const repeat = await api(`/api/articles/${slug}/views`, {
+    method: 'POST',
+    body: JSON.stringify({ voterId: 'reader-a' })
+  });
+  assert.equal(repeat.body.data.counted, false);
+  assert.equal(repeat.body.data.reason, 'already-counted-today');
+
+  const second = await api(`/api/articles/${slug}/views`, {
+    method: 'POST',
+    body: JSON.stringify({ voterId: 'reader-b' })
+  });
+  assert.equal(second.body.data.counted, true);
+
+  const overview = await api('/api/analytics/overview');
+  const top = overview.body.data.topArticles.find((item) => item.slug === slug);
+  assert.equal(top.views, 2, 'two distinct readers counted');
+  assert.equal(top.readers, 2, 'both readers counted as unique');
+});
+
+test('reads are rejected for slugs that do not exist', async () => {
+  const response = await api('/api/articles/no-such-article-anywhere/views', {
+    method: 'POST',
+    body: JSON.stringify({ voterId: 'reader-a' })
+  });
+  // The endpoint is public, so it must not become an open write for any string.
+  assert.equal(response.body.data.counted, false);
+  assert.equal(response.body.data.reason, 'unknown-article');
+});
+
+test('analytics overview reports status counts, authors and engagement', async () => {
+  const draft = await api('/api/articles', {
+    method: 'POST',
+    body: JSON.stringify({
+      title: 'Unpublished analytics probe',
+      category: 'Technology',
+      description: 'A draft used to verify status counts.',
+      body: '<p>Body.</p>',
+      status: 'draft',
+      author: 'Ada Example'
+    })
+  });
+  assert.equal(draft.status, 201);
+
+  const { status, body } = await api('/api/analytics/overview?days=7');
+  assert.equal(status, 200);
+  const data = body.data;
+
+  // Published and unpublished must always account for every article.
+  assert.equal(data.totals.published + data.totals.unpublished, data.totals.articles);
+  assert.ok(data.totals.drafts >= 1, 'the draft is counted as unpublished');
+  assert.equal(data.trends.days, 7);
+  assert.equal(data.series.length, 7, 'the series is zero-filled to the full window');
+
+  // Every day in the window is present, including days with no activity.
+  const days = new Set(data.series.map((point) => point.date));
+  assert.equal(days.size, 7, 'no duplicate or missing days');
+
+  assert.ok(Array.isArray(data.authors));
+  assert.ok(Array.isArray(data.topArticles));
+  assert.ok(Array.isArray(data.categories));
+  assert.ok(Array.isArray(data.activity));
+  assert.equal(data.totals.reactions, data.totals.likes + data.totals.dislikes);
+});
+
+test('the author leaderboard counts each author published work and engagement', async () => {
+  const created = await api('/api/authors', {
+    method: 'POST',
+    body: JSON.stringify({ name: 'Leaderboard Author', role: 'Contributor' })
+  });
+  assert.equal(created.status, 201);
+  const authorSlug = created.body.data.slug;
+
+  const article = await api('/api/articles', {
+    method: 'POST',
+    body: JSON.stringify({
+      title: 'Leaderboard probe article',
+      category: 'Technology',
+      description: 'Counts against one author.',
+      body: '<p>Body.</p>',
+      author: 'Leaderboard Author',
+      authorSlug
+    })
+  });
+  const slug = article.body.data.slug;
+
+  await api(`/api/articles/${slug}/views`, {
+    method: 'POST', body: JSON.stringify({ voterId: 'lb-reader' })
+  });
+  await api(`/api/articles/${slug}/reactions`, {
+    method: 'POST', body: JSON.stringify({ voterId: 'lb-voter', type: 'like' })
+  });
+  await api(`/api/articles/${slug}/comments`, {
+    method: 'POST', body: JSON.stringify({ author: 'Reader', body: 'Great piece.' })
+  });
+
+  const overview = await api('/api/analytics/overview');
+  const row = overview.body.data.authors.find((item) => item.slug === authorSlug);
+  assert.ok(row, 'the registered author appears on the leaderboard');
+  assert.equal(row.published, 1);
+  assert.equal(row.views, 1);
+  assert.equal(row.reactions, 1);
+  assert.equal(row.comments, 1);
+});
+
+test('the live stream announces reader activity to connected dashboards', async () => {
+  const article = await api('/api/articles', {
+    method: 'POST',
+    body: JSON.stringify({
+      title: 'Streaming probe',
+      category: 'Technology',
+      description: 'Verifies the SSE change feed.',
+      body: '<p>Body.</p>',
+      author: 'Ada Example'
+    })
+  });
+  const slug = article.body.data.slug;
+
+  const controller = new AbortController();
+  const response = await fetch(`${base}/api/analytics/stream`, { signal: controller.signal });
+  assert.equal(response.status, 200);
+  assert.match(response.headers.get('content-type'), /text\/event-stream/);
+
+  const reader = response.body.getReader();
+  const decoder = new TextDecoder();
+
+  async function readUntil(predicate, budgetMs = 5000) {
+    const deadline = Date.now() + budgetMs;
+    let buffer = '';
+    while (Date.now() < deadline) {
+      const { value, done } = await reader.read();
+      if (done) break;
+      buffer += decoder.decode(value, { stream: true });
+      if (predicate(buffer)) return buffer;
+    }
+    return buffer;
+  }
+
+  // The stream opens with a ready frame so the client can show "live".
+  const opening = await readUntil((text) => text.includes('event: ready'));
+  assert.match(opening, /event: ready/);
+
+  await api(`/api/articles/${slug}/comments`, {
+    method: 'POST',
+    body: JSON.stringify({ author: 'Reader', body: 'Pushed live.' })
+  });
+
+  const pushed = await readUntil((text) => text.includes('event: change'));
+  assert.match(pushed, /event: change/);
+  assert.match(pushed, /"type":"comment"/);
+
+  controller.abort();
+});
+
+/* --------------------- analytics data integrity --------------------------- */
+
+test('deleting an article removes the reader history attached to it', async () => {
+  const created = await api('/api/articles', {
+    method: 'POST',
+    body: JSON.stringify({
+      title: 'Cleanup probe',
+      category: 'Technology',
+      description: 'Verifies engagement is not orphaned.',
+      body: '<p>Body.</p>',
+      author: 'Ada Example'
+    })
+  });
+  const slug = created.body.data.slug;
+
+  await api(`/api/articles/${slug}/views`, { method: 'POST', body: JSON.stringify({ voterId: 'cleanup-reader' }) });
+  await api(`/api/articles/${slug}/reactions`, { method: 'POST', body: JSON.stringify({ voterId: 'cleanup-voter', type: 'like' }) });
+  await api(`/api/articles/${slug}/comments`, { method: 'POST', body: JSON.stringify({ author: 'R', body: 'A comment.' }) });
+
+  const before = (await api('/api/analytics/overview')).body.data.totals;
+
+  const removed = await api(`/api/articles/${created.body.data.id}`, { method: 'DELETE' });
+  assert.equal(removed.status, 204);
+
+  const after = (await api('/api/analytics/overview')).body.data.totals;
+  // Rows keyed by slug do not cascade on their own; left behind they would keep
+  // inflating site-wide totals while belonging to no article at all.
+  assert.equal(after.views, before.views - 1, 'the read was removed with the article');
+  assert.equal(after.reactions, before.reactions - 1, 'the reaction was removed');
+  assert.equal(after.comments, before.comments - 1, 'the comment was removed');
+});
+
+test('renaming an article keeps its reads, reactions and comments', async () => {
+  const created = await api('/api/articles', {
+    method: 'POST',
+    body: JSON.stringify({
+      title: 'Rename probe',
+      category: 'Technology',
+      description: 'Verifies engagement follows a slug change.',
+      body: '<p>Body.</p>',
+      author: 'Ada Example'
+    })
+  });
+  const id = created.body.data.id;
+  const oldSlug = created.body.data.slug;
+
+  await api(`/api/articles/${oldSlug}/views`, { method: 'POST', body: JSON.stringify({ voterId: 'rename-reader' }) });
+  await api(`/api/articles/${oldSlug}/reactions`, { method: 'POST', body: JSON.stringify({ voterId: 'rename-voter', type: 'like' }) });
+  await api(`/api/articles/${oldSlug}/comments`, { method: 'POST', body: JSON.stringify({ author: 'R', body: 'Kept please.' }) });
+
+  const renamed = await api(`/api/articles/${id}`, {
+    method: 'PATCH',
+    body: JSON.stringify({ slug: 'rename-probe-updated' })
+  });
+  assert.equal(renamed.status, 200);
+  const newSlug = renamed.body.data.slug;
+  assert.notEqual(newSlug, oldSlug);
+
+  const overview = await api('/api/analytics/overview');
+  const row = overview.body.data.topArticles.find((item) => item.slug === newSlug);
+  assert.ok(row, 'the renamed article is still reported');
+  assert.equal(row.views, 1, 'the read followed the rename');
+  assert.equal(row.likes, 1, 'the reaction followed the rename');
+  assert.equal(row.comments, 1, 'the comment followed the rename');
+
+  // The engagement endpoint must agree with the dashboard.
+  const engagement = await api(`/api/articles/${newSlug}/engagement`);
+  assert.equal(engagement.body.data.reactions.likes, 1);
+  assert.equal(engagement.body.data.comments.length, 1);
+});
+
+test('a renamed article keeps its old URL working', async () => {
+  const created = await api('/api/articles', {
+    method: 'POST',
+    body: JSON.stringify({
+      title: 'Redirect probe',
+      category: 'Technology',
+      description: 'Verifies the old link still resolves.',
+      body: '<p>Body.</p>',
+      author: 'Ada Example'
+    })
+  });
+  const oldSlug = created.body.data.slug;
+
+  const renamed = await api(`/api/articles/${created.body.data.id}`, {
+    method: 'PATCH',
+    body: JSON.stringify({ slug: 'redirect-probe-moved' })
+  });
+  const newSlug = renamed.body.data.slug;
+
+  const response = await fetch(`${base}/articles/${oldSlug}`, { redirect: 'manual' });
+  // 301, so an already-indexed link passes its ranking to the new address.
+  assert.equal(response.status, 301);
+  assert.equal(response.headers.get('location'), `/articles/${newSlug}/`);
+});
+
+test("a departed author's articles pass to the site owner, not to nobody", async () => {
+  const author = await api('/api/authors', {
+    method: 'POST',
+    body: JSON.stringify({ name: 'Departing Author' })
+  });
+  const authorSlug = author.body.data.slug;
+
+  const article = await api('/api/articles', {
+    method: 'POST',
+    body: JSON.stringify({
+      title: 'Reassignment probe',
+      category: 'Technology',
+      description: 'Its author will be deleted.',
+      body: '<p>Body.</p>',
+      author: 'Departing Author',
+      authorSlug
+    })
+  });
+  const slug = article.body.data.slug;
+
+  await api(`/api/authors/${author.body.data.id}`, { method: 'DELETE' });
+
+  // The article survives and is attributed to the owner rather than left
+  // pointing at an author entity that no longer exists.
+  const reassigned = await api(`/api/articles/${slug}`);
+  assert.equal(reassigned.body.data.authorSlug, 'oluwashola-busari');
+  assert.equal(reassigned.body.data.author, 'Oluwashola Busari');
+
+  const data = (await api('/api/analytics/overview')).body.data;
+  assert.ok(
+    !data.authors.some((row) => row.name === 'Unattributed'),
+    'no placeholder author appears in the registered author list'
+  );
+  assert.ok(
+    data.authors.every((row) => row.slug),
+    'every row in the table is a real registered author'
+  );
+  assert.equal(
+    data.authors.reduce((sum, row) => sum + row.published, 0),
+    data.totals.published,
+    'the author table still accounts for every published article'
+  );
+});
+
+test('the site owner profile cannot be deleted', async () => {
+  // Every article falls back to it, so removing it would orphan the archive.
+  const owner = await api('/api/authors/oluwashola-busari');
+  const response = await api(`/api/authors/${owner.body.data.id}`, { method: 'DELETE' });
+  assert.equal(response.status, 400);
+
+  const still = await api('/api/authors/oluwashola-busari');
+  assert.equal(still.status, 200);
+});
+
+test('an article saved without an author entity is attributed to the site owner', async () => {
+  const created = await api('/api/articles', {
+    method: 'POST',
+    body: JSON.stringify({
+      title: 'No author slug supplied',
+      category: 'Technology',
+      description: 'Submitted without an author entity.',
+      body: '<p>Body.</p>'
+    })
+  });
+  assert.equal(created.status, 201);
+  assert.equal(created.body.data.authorSlug, 'oluwashola-busari');
+});
+
+test('a registered contributor keeps their own attribution', async () => {
+  // The owner is only a fallback: an article that names a registered author
+  // must stay with them and surface under their name on the dashboard.
+  const contributor = await api('/api/authors', {
+    method: 'POST',
+    body: JSON.stringify({ name: 'Registered Contributor', role: 'Guest writer' })
+  });
+  const authorSlug = contributor.body.data.slug;
+
+  await api('/api/articles', {
+    method: 'POST',
+    body: JSON.stringify({
+      title: 'Contributor submission',
+      category: 'Technology',
+      description: 'Written by a registered contributor.',
+      body: '<p>Body.</p>',
+      author: 'Registered Contributor',
+      authorSlug
+    })
+  });
+
+  const data = (await api('/api/analytics/overview')).body.data;
+  const row = data.authors.find((item) => item.slug === authorSlug);
+  assert.ok(row, 'the contributor appears in the registered author list');
+  assert.equal(row.published, 1, 'their article is credited to them, not the owner');
+});
+
+test('the reporting window is always a whole number of days', async () => {
+  for (const [requested, expected] of [['1.7', 1], ['0', 30], ['-5', 30], ['abc', 30], ['99999', 365]]) {
+    const { body } = await api(`/api/analytics/overview?days=${encodeURIComponent(requested)}`);
+    assert.equal(body.data.trends.days, expected, `days=${requested}`);
+    assert.equal(
+      body.data.series.length,
+      expected,
+      `the series length must match the period the dashboard reports (days=${requested})`
+    );
+  }
+});
+
+test('an article naming an author entity that does not exist falls back to the owner', async () => {
+  // A typo in the admin form, a stale slug from an import, or an author deleted
+  // between page load and save would otherwise write an article that belongs to
+  // nobody — counted in the site totals but absent from the author table.
+  const created = await api('/api/articles', {
+    method: 'POST',
+    body: JSON.stringify({
+      title: 'Unknown author entity probe',
+      category: 'Technology',
+      description: 'Names an author entity that was never registered.',
+      body: '<p>Body.</p>',
+      author: 'Ghost Writer',
+      authorSlug: 'ghost-writer-does-not-exist'
+    })
+  });
+  assert.equal(created.status, 201);
+  assert.equal(created.body.data.authorSlug, 'oluwashola-busari');
+  // The byline follows the entity, so the page never credits one person while
+  // the dashboard credits another.
+  assert.equal(created.body.data.author, 'Oluwashola Busari');
+
+  const data = (await api('/api/analytics/overview')).body.data;
+  assert.equal(
+    data.authors.reduce((sum, row) => sum + row.published, 0),
+    data.totals.published,
+    'the author table still accounts for every published article'
+  );
+});
+
+test('editing an article cannot detach it from a real author', async () => {
+  const created = await api('/api/articles', {
+    method: 'POST',
+    body: JSON.stringify({
+      title: 'Detach probe',
+      category: 'Technology',
+      description: 'Its author link will be cleared.',
+      body: '<p>Body.</p>'
+    })
+  });
+  const id = created.body.data.id;
+
+  for (const attempt of ['', 'no-such-author']) {
+    const updated = await api(`/api/articles/${id}`, {
+      method: 'PATCH',
+      body: JSON.stringify({ authorSlug: attempt })
+    });
+    assert.equal(updated.status, 200);
+    assert.equal(
+      updated.body.data.authorSlug,
+      'oluwashola-busari',
+      `authorSlug=${JSON.stringify(attempt)} must resolve back to the owner`
+    );
+  }
+});
+
+test('a registered contributor may still use a custom byline', async () => {
+  // Falling back must not flatten legitimate pen names: when the entity is
+  // real, the supplied display name is kept as written.
+  const contributor = await api('/api/authors', {
+    method: 'POST',
+    body: JSON.stringify({ name: 'Adaeze Nwosu' })
+  });
+  const authorSlug = contributor.body.data.slug;
+
+  const created = await api('/api/articles', {
+    method: 'POST',
+    body: JSON.stringify({
+      title: 'Pen name probe',
+      category: 'Technology',
+      description: 'Uses a shortened byline.',
+      body: '<p>Body.</p>',
+      author: 'A. Nwosu',
+      authorSlug
+    })
+  });
+  assert.equal(created.body.data.authorSlug, authorSlug);
+  assert.equal(created.body.data.author, 'A. Nwosu');
+});

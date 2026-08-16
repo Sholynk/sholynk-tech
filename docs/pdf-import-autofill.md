@@ -368,7 +368,7 @@ VPS, etc.):
   validation; notification dispatch on transitions into `pending`; public
   listing never exposes non-published articles.
 - `article.js` — renders `article-author-card` in both the left rail (desktop)
-  and at the end of article content before "Continue exploring" (mobile);
+  and after the comment section, before the end-of-article navigation (mobile);
   fetches the full author record via `getAuthors()`.
 - `cms/build-site.js` — prerendered static articles get the same author card
   in both positions; still only builds published articles.
@@ -384,7 +384,7 @@ VPS, etc.):
 
 - **Author photo + bio slot on articles:** ✅ shipped now. The bio/photo you
   enter on the Authors tab renders at the bottom of the left navigation rail
-  on desktop, and before "Continue exploring" at the end of the article on
+  on desktop, and after the comment section at the end of the article on
   mobile.
 - **PDF upload that prefills the form:** ✅ a functional v1 is shipped now
   (heuristic extraction, ~80% correct on clean manuscripts, never overwrites

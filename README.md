@@ -163,6 +163,71 @@ never create duplicates.
 The full comment history across all articles can be viewed and moderated from
 the **Comments** tab in the admin dashboard (`/admin/`).
 
+## Analytics dashboard
+
+The **Dashboard** tab in `/admin/` is the default view. It reports:
+
+- article counts by status — published, unpublished, drafts, scheduled and
+  pending approval;
+- total reads and unique readers, with a reads/engagement time series;
+- the reaction record (likes vs dislikes) and comment totals;
+- every registered author, how many articles each has published, and the reads,
+  reactions and comments their work earned;
+- reads by category, most-read articles, and a recent-activity feed.
+
+Headline metrics compare the selected period against the one immediately before
+it. When the previous period has no data the card shows the raw figure instead
+of a percentage, because growth from zero has no meaningful percentage.
+
+### How reads are counted
+
+A read is recorded by `engagement.js` only once the reader shows real attention:
+either scrolling a quarter of the way down, or spending twelve seconds on the
+page. Counting on load would record bounces and prefetches as reads.
+
+Each read is attributed to the same anonymous browser id the reactions and
+comments use — no accounts, no IP addresses, no personal data. The database
+enforces one counted read per reader, per article, per day, so refreshing or
+leaving a tab open cannot inflate a figure. `POST /api/articles/:slug/views` is
+public (readers call it) but only accepts slugs that already exist, so it cannot
+be used to write arbitrary rows.
+
+Figures are aggregated on read from the content tables themselves, so a number
+on the dashboard can never disagree with the content it counts.
+
+Reader history is keyed by article slug rather than by a foreign key, so the
+CMS maintains it explicitly: deleting an article also deletes its reads,
+reactions and comments, and renaming one carries them across to the new slug
+(recording a 301 redirect so the old link keeps working).
+
+### Attribution
+
+Every article belongs to a registered author entity, so the per-author figures
+always add up to the headline totals. The site owner is the fallback: articles
+saved without an author entity, and those belonging to a contributor whose
+profile is later deleted, are attributed to him rather than left pointing at
+nobody. Existing databases are repaired on startup, and the owner's own profile
+cannot be deleted because the rest of the archive depends on it.
+
+A contributor who registers on the **Authors** tab and is named on an article
+keeps their own attribution, and appears in the dashboard's author table with
+the work they have published.
+
+### Live updates
+
+The dashboard subscribes to `/api/analytics/stream`, a Server-Sent Events feed.
+Publishing an article, or a reader leaving a reaction, comment or read, pushes a
+change signal and the dashboard refetches — no manual refresh, no polling.
+
+Only a *signal* is pushed, never figures, so a dropped reconnect or a duplicated
+event can never leave stale numbers on screen. The stream is held open only
+while the Dashboard tab is visible, reconnects automatically, and falls back to
+the numbers already on screen if it cannot be established.
+
+Graphs are drawn with Chart.js from a CDN. If that is unreachable — an offline
+machine, a blocked CDN — or a chart fails to draw, the metric cards and tables
+still render and say so; the analytics never disappear with the graphics.
+
 ## API
 
 All write operations accept JSON.
@@ -185,6 +250,9 @@ All write operations accept JSON.
 | `POST`          | `/api/articles/:slug/reactions`  | Cast a reaction (`type`, `voterId`)                               |
 | `GET`           | `/api/articles/:slug/comments`   | List comments, newest first                                       |
 | `POST`          | `/api/articles/:slug/comments`   | Add a comment (`author`, `body`, `clientId`) — idempotent per clientId |
+| `POST`          | `/api/articles/:slug/views`      | Record one article read (`voterId`) — public, deduped per reader/day |
+| `GET`           | `/api/analytics/overview`        | Dashboard aggregates. Query: `days` (admin)                       |
+| `GET`           | `/api/analytics/stream`          | Server-Sent Events change feed for the live dashboard (admin)     |
 | `GET`           | `/api/comments`                  | Full comment history across articles (admin)                      |
 | `DELETE`        | `/api/comments/:id`              | Moderation — removes a comment (admin)                            |
 | `GET`           | `/api/images`                    | List uploaded images                                              |
@@ -281,8 +349,8 @@ validation warns when none are present but never invents placeholders.
 
 ### Admin dashboard
 
-The dashboard at `/admin/` manages images, site metadata, and the comment
-history. Long-form articles are owned by their Markdown files, so article edits
+The dashboard at `/admin/` opens on editorial analytics, and manages authors,
+images, site metadata, and the comment history. Long-form articles are owned by their Markdown files, so article edits
 made in the dashboard are overwritten by the next `npm run sync` — edit the
 `.md` files instead.
 
@@ -301,6 +369,7 @@ npm test
 | `api.test.js`           | Article CRUD, validation, slug uniqueness, search and category filters, image upload/serve/delete, upload type rejection, settings                                                                                        |
 | `engagement.test.js`    | Reaction tallies, one-vote-per-reader, toggle and switch behaviour, comment CRUD, empty-submission rejection, per-article scoping                                                                                         |
 | `engagement-ui.test.js` | The widgets in jsdom against the localStorage fallback: optimistic updates, spam-click protection, persistence across reload, comment escaping                                                                            |
+| `dashboard-ui.test.js`  | The analytics dashboard in jsdom: headline metrics, period comparison, author and top-article tables, activity feed escaping, and that metrics survive an unavailable or failing chart library                             |
 | `frontend.test.js`      | That no page loads Tailwind or uses its utility classes, that the hero H1 computes to white, that the navbar/footer are solid while other gradients survive, and that `article.html` matches the CMS article structure |
 
 Each run uses a throwaway database in a temp directory.

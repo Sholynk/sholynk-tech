@@ -103,13 +103,29 @@ function update(id, payload = {}) {
   return get(existing.id);
 }
 
+/**
+ * Deletes an author entity, keeping their articles.
+ *
+ * Those articles are reassigned to the site owner rather than left with an
+ * empty slug: an article with no author entity still counts in the site totals
+ * but belongs to nobody, so the dashboard's per-author figures would no longer
+ * add up to the headline numbers.
+ *
+ * Deleting the house author itself is refused — it is the fallback every other
+ * article depends on, so removing it would orphan the entire archive.
+ */
 function remove(id) {
   const existing = get(id);
   if (!existing) return false;
+  if (existing.slug === DEFAULT_AUTHOR.slug) {
+    throw new ValidationError([
+      'the site owner profile cannot be deleted; every article falls back to it'
+    ]);
+  }
   db.exec('BEGIN');
   try {
-    db.prepare("UPDATE articles SET author_slug = '', updated_at = datetime('now') WHERE author_slug = ?")
-      .run(existing.slug);
+    db.prepare("UPDATE articles SET author_slug = ?, author = ?, updated_at = datetime('now') WHERE author_slug = ?")
+      .run(DEFAULT_AUTHOR.slug, DEFAULT_AUTHOR.name, existing.slug);
     db.prepare('DELETE FROM authors WHERE id = ?').run(existing.id);
     db.exec('COMMIT');
     return true;
@@ -119,18 +135,67 @@ function remove(id) {
   }
 }
 
+/**
+ * The house author. `image` points at the same portrait the About page uses, so
+ * the article author card and the About profile never drift apart.
+ */
+const DEFAULT_AUTHOR = {
+  slug: 'oluwashola-busari',
+  name: 'Oluwashola Busari',
+  role: 'Founder, Software Engineer and Tech Journalist',
+  bio: 'The founder of Sholynk Technology. Has a background in Mass Communication, Software Engineering, Digital Marketing, and Data Analysis. He is focused on explaining technical concepts in very simple terms.',
+  image: 'Images and Assets/my_pic.png',
+  imageAlt: 'Portrait photo of Oluwashola Busari',
+  profileUrl: 'https://sholynktech.netlify.app/about.html'
+};
+
+/**
+ * Creates the default author on a fresh database. On an existing installation
+ * the record is kept, and only fields that were never filled in (an empty photo
+ * or bio) are backfilled — anything edited in the admin is left untouched.
+ */
 function ensureDefault() {
-  const existing = db.prepare('SELECT id FROM authors WHERE slug = ?').get('oluwashola-busari');
-  if (existing) return get(existing.id);
-  return create({
-    slug: 'oluwashola-busari',
-    name: 'Oluwashola Busari',
-    role: 'Founder, Software Engineer and Tech Journalist',
-    bio: 'Founder of Sholynk Tech with a background in mass communication, software engineering and digital marketing, focused on explaining technical ideas clearly.',
-    profileUrl: 'https://sholynktech.netlify.app/about.html'
-  });
+  const existing = db.prepare('SELECT * FROM authors WHERE slug = ?').get(DEFAULT_AUTHOR.slug);
+  if (!existing) return create(DEFAULT_AUTHOR);
+
+  const patch = {};
+  if (!String(existing.image || '').trim()) {
+    patch.image = DEFAULT_AUTHOR.image;
+    patch.imageAlt = String(existing.image_alt || '').trim() || DEFAULT_AUTHOR.imageAlt;
+  }
+  if (!String(existing.bio || '').trim()) patch.bio = DEFAULT_AUTHOR.bio;
+  if (Object.keys(patch).length) return update(existing.id, patch);
+  return toApi(existing);
+}
+
+/**
+ * Attributes any article that points at no author entity to the site owner.
+ *
+ * Existing installations carry articles written before contributor profiles
+ * existed (the original seed and hero slides), and older releases cleared the
+ * link when an author was deleted. Those articles still count in the site
+ * totals, so left unlinked they belong to nobody and the dashboard's per-author
+ * figures cannot reconcile with the headline numbers.
+ *
+ * Runs once at startup and is a no-op when everything is already attributed,
+ * so it never rewrites `updated_at` on a healthy database.
+ */
+function attributeOrphanedArticles() {
+  const owner = ensureDefault();
+  const orphaned = db.prepare(`
+    SELECT COUNT(*) AS total FROM articles
+    WHERE author_slug = '' OR author_slug NOT IN (SELECT slug FROM authors)
+  `).get();
+  if (!orphaned || Number(orphaned.total) === 0) return 0;
+
+  const result = db.prepare(`
+    UPDATE articles SET author_slug = ?, author = ?, updated_at = datetime('now')
+    WHERE author_slug = '' OR author_slug NOT IN (SELECT slug FROM authors)
+  `).run(owner.slug, owner.name);
+  return result.changes;
 }
 
 ensureDefault();
+attributeOrphanedArticles();
 
-module.exports = { list, get, create, update, remove, ensureDefault };
+module.exports = { list, get, create, update, remove, ensureDefault, attributeOrphanedArticles };

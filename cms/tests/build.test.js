@@ -190,3 +190,42 @@ test('sitemap lists canonical article URLs and robots advertises the sitemap', (
   assert.match(robots, /Sitemap: https:\/\/sholynktech\.netlify\.app\/sitemap\.xml/);
   assert.match(robots, /Disallow: \/admin\//);
 });
+
+test('the author profile follows the comment section on generated pages', () => {
+  // Mobile readers meet the author after they have read the piece and its
+  // discussion, so the inline card must sit after the engagement widget (the
+  // reactions and comments root) and before the end-of-article navigation.
+  for (const article of fullArticles) {
+    const document = new JSDOM(fs.readFileSync(pageFor(article.slug), 'utf8')).window.document;
+    const content = document.querySelector('.article-content');
+    const order = [...content.children];
+    const indexOf = (selector) => order.findIndex((node) => node.matches(selector));
+
+    const engagement = indexOf('#engagementRoot');
+    const authorCard = indexOf('.article-author-card--inline');
+    const endNav = indexOf('.article-end-nav');
+
+    assert.ok(engagement > -1, `${article.slug}: engagement root rendered`);
+    assert.ok(authorCard > -1, `${article.slug}: inline author card rendered`);
+    assert.ok(
+      engagement < authorCard && authorCard < endNav,
+      `${article.slug}: author card should sit between the comments and the end navigation`
+    );
+  }
+});
+
+test('the author card shows the profile photo and bio recorded for the author', () => {
+  for (const article of fullArticles) {
+    const document = new JSDOM(fs.readFileSync(pageFor(article.slug), 'utf8')).window.document;
+    const author = fallback.authors.find((item) => item.slug === article.authorSlug);
+    if (!author?.image) continue;
+
+    for (const card of document.querySelectorAll('.article-author-card')) {
+      const image = card.querySelector('.article-author-media img');
+      assert.ok(image, `${article.slug}: author card renders the uploaded photo, not initials`);
+      assert.equal(decodeURIComponent(image.getAttribute('src')), `../../${author.image}`);
+      assert.equal(image.getAttribute('alt'), author.imageAlt);
+      assert.equal(card.querySelector('.article-author-bio')?.textContent, author.bio);
+    }
+  }
+});

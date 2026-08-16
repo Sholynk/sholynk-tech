@@ -21,8 +21,10 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 const articles = require('./lib/articles');
+const authors = require('./lib/authors');
 const settings = require('./lib/settings');
 const { parseFrontMatter } = require('./lib/frontmatter');
+const { HOUSE_AUTHOR } = articles;
 const { db } = require('./lib/db');
 
 const seed = JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'seed.json'), 'utf8'));
@@ -154,16 +156,23 @@ function seedStories() {
       scheduledAt: data.scheduledAt || null,
       reviewNotes: data.reviewNotes || '',
       canonicalUrl: data.canonicalUrl || null,
-      author: data.author || 'Sholynk Editorial',
-      authorSlug: data.authorSlug || 'oluwashola-busari',
+      author: data.author || HOUSE_AUTHOR.name,
+      authorSlug: data.authorSlug || HOUSE_AUTHOR.slug,
       body,
       // Stories live at their own page; there is no external link.
       externalLink: null,
       seoTitle: data.seoTitle || null,
       seoDescription: data.seoDescription || null,
-      // Hero placement is controlled from the front matter.
-      hero: Boolean(data.hero),
-      heroOrder: data.hero && Number.isFinite(Number(data.heroOrder)) ? Number(data.heroOrder) : null
+      // Hero placement is only written when the front matter actually declares
+      // it. A story can also be promoted by a slide in seed.json (step 3), so
+      // unconditionally writing `hero: false` here would clear that placement
+      // and the two steps would overwrite each other on every sync — bumping
+      // updated_at, and with it the dateModified in each page's structured
+      // data, on articles whose content never changed.
+      ...(data.hero === undefined ? {} : {
+        hero: Boolean(data.hero),
+        heroOrder: data.hero && Number.isFinite(Number(data.heroOrder)) ? Number(data.heroOrder) : null
+      })
     });
     ownedSlugs.add(slug);
   }
@@ -171,6 +180,11 @@ function seedStories() {
 }
 
 function run() {
+  // 0. The site owner's profile must exist before any article points at it.
+  //    Requiring the module creates it; this makes the dependency explicit and
+  //    survives a database where the row was removed by hand.
+  authors.ensureDefault();
+
   // 1. Long-form articles come from the Markdown files — the single source.
   const longformSlugs = seedStories();
 
@@ -195,8 +209,8 @@ function run() {
       readingTime: isLongform ? estimateReadingTime(longformBody) : article.readingTime,
       featured: Boolean(article.featured),
       status: 'published',
-      author: 'Oluwashola Busari',
-      authorSlug: 'oluwashola-busari',
+      author: HOUSE_AUTHOR.name,
+      authorSlug: HOUSE_AUTHOR.slug,
       body: isLongform ? longformBody : '',
       externalLink: isLongform
         ? null
@@ -232,6 +246,10 @@ function run() {
       hero: true,
       heroOrder: index,
       status: 'published',
+      // Standalone hero entries are the site owner's copy like everything else
+      // in the seed; without this they would belong to no author entity.
+      author: HOUSE_AUTHOR.name,
+      authorSlug: HOUSE_AUTHOR.slug,
       externalLink: slide.readMoreLink?.startsWith('index.html') ? slide.readMoreLink : null
     });
   });

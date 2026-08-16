@@ -2,9 +2,58 @@
 
 const { db } = require('./db');
 
+/**
+ * The site owner, who every article belongs to unless it names someone else.
+ *
+ * Content created before any contributor registered — the original seed, hero
+ * slides, imports — is his work, so this is the fallback rather than a generic
+ * "editorial" byline that would leave articles attributed to nobody.
+ * Contributors who register later are attributed to their own entity.
+ */
+const HOUSE_AUTHOR = Object.freeze({
+  slug: 'oluwashola-busari',
+  name: 'Oluwashola Busari'
+});
+
 const VALID_STATUS = new Set(['published', 'draft', 'scheduled', 'pending']);
 const VALID_CONTENT_TYPES = new Set(['article', 'news', 'guide', 'opinion', 'review', 'analysis']);
 const VALID_SOURCE_TYPES = new Set(['primary', 'official', 'research', 'journalism', 'reference', 'other']);
+
+/**
+ * Resolves the author entity an article should point at.
+ *
+ * Every article must belong to a registered author, otherwise it counts in the
+ * site totals while appearing under nobody on the dashboard and the per-author
+ * figures stop reconciling. A blank slug, or one naming an entity that does not
+ * exist (a typo in the admin form, a stale slug from an import, an author
+ * deleted between page load and save), falls back to the site owner rather than
+ * being written through.
+ *
+ * Kept here rather than in authors.js so both create and update share it
+ * without a circular import: authors.js already depends on this module.
+ */
+function resolveAuthorSlug(value) {
+  const candidate = String(value || '').trim();
+  if (candidate) {
+    const known = db.prepare('SELECT 1 AS ok FROM authors WHERE slug = ?').get(candidate);
+    if (known) return candidate;
+  }
+  return HOUSE_AUTHOR.slug;
+}
+
+/**
+ * Display name to store alongside a resolved author slug.
+ *
+ * When the slug had to fall back (the requested entity does not exist), the
+ * supplied byline is discarded too: keeping it would print one person's name on
+ * an article the dashboard credits to another.
+ */
+function resolveAuthorName(slug, provided, { fellBack = false } = {}) {
+  const name = String(provided || '').trim();
+  if (name && !fellBack) return name;
+  const row = db.prepare('SELECT name FROM authors WHERE slug = ?').get(slug);
+  return row?.name || HOUSE_AUTHOR.name;
+}
 
 function slugify(value = '') {
   return String(value)
@@ -281,6 +330,13 @@ function create(payload = {}) {
   (payload.sources || []).forEach(validateSource);
   const slug = uniqueSlug(slugify(payload.slug || payload.title));
   const isSubmission = payload.status === 'pending';
+  // An article always belongs to a registered author; an unknown or blank slug
+  // resolves to the site owner rather than being written through.
+  const requestedAuthorSlug = String(payload.authorSlug || '').trim();
+  const createAuthorSlug = resolveAuthorSlug(requestedAuthorSlug);
+  const createAuthorName = resolveAuthorName(createAuthorSlug, payload.author, {
+    fellBack: Boolean(requestedAuthorSlug) && requestedAuthorSlug !== createAuthorSlug
+  });
   const values = [
     slug,
     String(payload.title).trim(),
@@ -289,8 +345,8 @@ function create(payload = {}) {
     String(payload.body || ''),
     String(payload.img || ''),
     String(payload.alt || ''),
-    String(payload.author || 'Sholynk Editorial'),
-    String(payload.authorSlug || ''),
+    createAuthorName,
+    createAuthorSlug,
     String(payload.date || payload.publishedAt || new Date().toISOString().slice(0, 10)),
     String(payload.readingTime || estimateReadingTime(payload.body)),
     payload.featured ? 1 : 0,
@@ -345,10 +401,23 @@ function update(id, payload = {}) {
   const sets = [];
   const params = [];
 
+  // Re-point an edited article at a real author entity. Clearing the field or
+  // naming one that does not exist would orphan the article, so both resolve
+  // back to the site owner.
+  const edited = { ...payload };
+  if (Object.prototype.hasOwnProperty.call(edited, 'authorSlug')) {
+    const requested = String(edited.authorSlug || '').trim();
+    edited.authorSlug = resolveAuthorSlug(requested);
+    const fellBack = requested !== edited.authorSlug;
+    if (fellBack || !String(edited.author || '').trim()) {
+      edited.author = resolveAuthorName(edited.authorSlug, edited.author || existing.author, { fellBack });
+    }
+  }
+
   for (const [key, column] of Object.entries(FIELD_MAP)) {
-    if (Object.prototype.hasOwnProperty.call(payload, key)) {
+    if (Object.prototype.hasOwnProperty.call(edited, key)) {
       sets.push(`${column} = ?`);
-      params.push(payload[key] == null ? '' : String(payload[key]));
+      params.push(edited[key] == null ? '' : String(edited[key]));
     }
   }
   for (const [key, column] of Object.entries(JSON_FIELD_MAP)) {
@@ -367,15 +436,37 @@ function update(id, payload = {}) {
     sets.push('hero_order = ?');
     params.push(payload.heroOrder === '' || payload.heroOrder == null ? null : Number(payload.heroOrder));
   }
+  // Reader history is keyed by slug, so a rename has to carry it across or the
+  // article silently loses every read, reaction and comment it had earned.
+  let renamedSlug = null;
   if (Object.prototype.hasOwnProperty.call(payload, 'slug') && payload.slug) {
+    const nextSlug = uniqueSlug(slugify(payload.slug), existing.id);
+    if (nextSlug !== existing.slug) renamedSlug = nextSlug;
     sets.push('slug = ?');
-    params.push(uniqueSlug(slugify(payload.slug), existing.id));
+    params.push(nextSlug);
   }
 
   if (sets.length) {
     sets.push("updated_at = datetime('now')");
     params.push(existing.id);
-    db.prepare(`UPDATE articles SET ${sets.join(', ')} WHERE id = ?`).run(...params);
+    db.exec('BEGIN');
+    try {
+      db.prepare(`UPDATE articles SET ${sets.join(', ')} WHERE id = ?`).run(...params);
+      if (renamedSlug) {
+        db.prepare('UPDATE reactions SET article_slug = ? WHERE article_slug = ?').run(renamedSlug, existing.slug);
+        db.prepare('UPDATE comments SET article_slug = ? WHERE article_slug = ?').run(renamedSlug, existing.slug);
+        db.prepare('UPDATE article_views SET article_slug = ? WHERE article_slug = ?').run(renamedSlug, existing.slug);
+        // Keep the old URL working for anyone who already shared it.
+        db.prepare('INSERT OR REPLACE INTO redirects (old_slug, new_slug) VALUES (?, ?)')
+          .run(existing.slug, renamedSlug);
+        // A slug that comes back later must not resurrect a stale redirect.
+        db.prepare('DELETE FROM redirects WHERE old_slug = ?').run(renamedSlug);
+      }
+      db.exec('COMMIT');
+    } catch (error) {
+      db.exec('ROLLBACK');
+      throw error;
+    }
   }
   if (Object.prototype.hasOwnProperty.call(payload, 'sources')) replaceSources(existing.id, payload.sources);
   return getById(existing.id);
@@ -442,10 +533,28 @@ function removeSource(articleId, sourceId) {
   return result.changes > 0;
 }
 
+/**
+ * Deletes an article and the reader history attached to it.
+ *
+ * Reactions, comments and reads are keyed by slug rather than by a foreign key,
+ * so nothing cascades automatically. Left behind, those rows keep inflating the
+ * site-wide totals on the analytics dashboard while belonging to no article —
+ * the figures would no longer add up against anything you can open.
+ */
 function remove(id) {
   const existing = getById(id);
   if (!existing) return false;
-  db.prepare('DELETE FROM articles WHERE id = ?').run(existing.id);
+  db.exec('BEGIN');
+  try {
+    db.prepare('DELETE FROM reactions WHERE article_slug = ?').run(existing.slug);
+    db.prepare('DELETE FROM comments WHERE article_slug = ?').run(existing.slug);
+    db.prepare('DELETE FROM article_views WHERE article_slug = ?').run(existing.slug);
+    db.prepare('DELETE FROM articles WHERE id = ?').run(existing.id);
+    db.exec('COMMIT');
+  } catch (error) {
+    db.exec('ROLLBACK');
+    throw error;
+  }
   return true;
 }
 
@@ -458,5 +567,5 @@ function categories() {
 module.exports = {
   list, count, getById, getBySlug, create, update, remove, categories, slugify,
   estimateReadingTime, replaceSources, sourcesForArticle, addSource, removeSource, validate, ValidationError,
-  VALID_STATUS, VALID_CONTENT_TYPES, VALID_SOURCE_TYPES
+  VALID_STATUS, VALID_CONTENT_TYPES, VALID_SOURCE_TYPES, HOUSE_AUTHOR
 };

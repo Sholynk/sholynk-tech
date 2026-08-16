@@ -29,7 +29,8 @@
   </header>
 
   <nav class="admin-tabs" aria-label="Sections">
-   <button class="tab active" type="button" data-panel="articles">Articles</button>
+   <button class="tab active" type="button" data-panel="dashboard">Dashboard</button>
+   <button class="tab" type="button" data-panel="articles">Articles</button>
    <button class="tab" type="button" data-panel="authors">Authors</button>
    <button class="tab" type="button" data-panel="media">Media library</button>
    <button class="tab" type="button" data-panel="comments">Comments</button>
@@ -37,8 +38,147 @@
   </nav>
 
   <main>
+   <!-- Dashboard -->
+   <section class="panel active" id="panel-dashboard" aria-label="Analytics dashboard">
+    <div class="dash-toolbar">
+     <div>
+      <h2>Editorial analytics</h2>
+      <p class="dash-subtitle" id="dashUpdated" role="status" aria-live="polite">Loading analytics...</p>
+     </div>
+     <div class="dash-toolbar-actions">
+      <span class="live-badge" id="dashLive" data-state="connecting" role="status" aria-live="polite">
+       <span class="live-dot" aria-hidden="true"></span><span id="dashLiveLabel">Connecting</span>
+      </span>
+      <label class="dash-range">
+       <span>Period</span>
+       <select id="dashRange" aria-label="Reporting period">
+        <option value="7">Last 7 days</option>
+        <option value="30" selected>Last 30 days</option>
+        <option value="90">Last 90 days</option>
+       </select>
+      </label>
+      <button class="ghost-button" id="refreshDashboard" type="button">
+       <i class="fas fa-sync-alt" aria-hidden="true"></i> Refresh
+      </button>
+     </div>
+    </div>
+
+    <div class="metric-grid" id="dashMetrics"></div>
+
+    <div class="dash-grid">
+     <section class="chart-card chart-card--wide" aria-labelledby="chartActivityTitle">
+      <div class="chart-head">
+       <h3 id="chartActivityTitle">Reads and engagement over time</h3>
+       <p class="chart-note" id="chartActivityNote"></p>
+      </div>
+      <div class="chart-canvas-wrap chart-canvas-wrap--tall">
+       <canvas id="chartActivity" role="img" aria-label="Line chart of reads, unique readers, reactions and comments per day."></canvas>
+       <p class="chart-summary visually-hidden" id="chartActivitySummary"></p>
+      </div>
+     </section>
+
+     <section class="chart-card" aria-labelledby="chartStatusTitle">
+      <div class="chart-head">
+       <h3 id="chartStatusTitle">Publication status</h3>
+       <p class="chart-note">Published vs everything still in the pipeline.</p>
+      </div>
+      <div class="chart-canvas-wrap">
+       <canvas id="chartStatus" role="img" aria-label="Doughnut chart breaking articles down by publication status."></canvas>
+       <p class="chart-summary visually-hidden" id="chartStatusSummary"></p>
+      </div>
+     </section>
+
+     <section class="chart-card" aria-labelledby="chartReactionsTitle">
+      <div class="chart-head">
+       <h3 id="chartReactionsTitle">Reaction record</h3>
+       <p class="chart-note">Every like and dislike readers have left.</p>
+      </div>
+      <div class="chart-canvas-wrap">
+       <canvas id="chartReactions" role="img" aria-label="Doughnut chart comparing likes with dislikes."></canvas>
+       <p class="chart-summary visually-hidden" id="chartReactionsSummary"></p>
+      </div>
+     </section>
+
+     <section class="chart-card" aria-labelledby="chartAuthorsTitle">
+      <div class="chart-head">
+       <h3 id="chartAuthorsTitle">Articles published per author</h3>
+       <p class="chart-note">Registered authors and the work they have live.</p>
+      </div>
+      <div class="chart-canvas-wrap">
+       <canvas id="chartAuthors" role="img" aria-label="Bar chart of published, pending and draft articles per author."></canvas>
+       <p class="chart-summary visually-hidden" id="chartAuthorsSummary"></p>
+      </div>
+     </section>
+
+     <section class="chart-card" aria-labelledby="chartCategoriesTitle">
+      <div class="chart-head">
+       <h3 id="chartCategoriesTitle">Reads by category</h3>
+       <p class="chart-note">Which subjects readers actually open.</p>
+      </div>
+      <div class="chart-canvas-wrap">
+       <canvas id="chartCategories" role="img" aria-label="Bar chart of reads per category."></canvas>
+       <p class="chart-summary visually-hidden" id="chartCategoriesSummary"></p>
+      </div>
+     </section>
+    </div>
+
+    <div class="dash-grid dash-grid--tables">
+     <section class="table-card" aria-labelledby="authorTableTitle">
+      <div class="chart-head">
+       <h3 id="authorTableTitle">Registered authors</h3>
+       <p class="chart-note">Everyone registered to publish, and what their work has earned.</p>
+      </div>
+      <div class="table-scroll">
+       <table class="data-table">
+        <thead>
+         <tr>
+          <th scope="col">Author</th>
+          <th scope="col" class="num">Published</th>
+          <th scope="col" class="num">Pending</th>
+          <th scope="col" class="num">Drafts</th>
+          <th scope="col" class="num">Reads</th>
+          <th scope="col" class="num">Reactions</th>
+          <th scope="col" class="num">Comments</th>
+         </tr>
+        </thead>
+        <tbody id="authorTableBody"></tbody>
+       </table>
+      </div>
+     </section>
+
+     <section class="table-card" aria-labelledby="topArticleTitle">
+      <div class="chart-head">
+       <h3 id="topArticleTitle">Most read articles</h3>
+       <p class="chart-note">Ranked by counted reads.</p>
+      </div>
+      <div class="table-scroll">
+       <table class="data-table">
+        <thead>
+         <tr>
+          <th scope="col">Article</th>
+          <th scope="col" class="num">Reads</th>
+          <th scope="col" class="num">Readers</th>
+          <th scope="col" class="num">Likes</th>
+          <th scope="col" class="num">Comments</th>
+         </tr>
+        </thead>
+        <tbody id="topArticleBody"></tbody>
+       </table>
+      </div>
+     </section>
+
+     <section class="table-card" aria-labelledby="activityTitle">
+      <div class="chart-head">
+       <h3 id="activityTitle">Recent activity</h3>
+       <p class="chart-note">Live feed of reader and editorial events.</p>
+      </div>
+      <ul class="activity-feed" id="activityFeed"></ul>
+     </section>
+    </div>
+   </section>
+
    <!-- Articles -->
-   <section class="panel active" id="panel-articles" aria-label="Articles">
+   <section class="panel" id="panel-articles" aria-label="Articles" hidden>
     <div class="panel-grid">
      <div class="list-column">
       <div class="list-toolbar">
@@ -88,13 +228,13 @@
 
        <div class="field">
         <label for="title">Title <span class="req">*</span></label>
-        <input id="title" name="title" required/>
+        <input id="title" name="title" required placeholder="e.g. How AI Is Changing Everyday Software"/>
        </div>
 
        <div class="field-row">
         <div class="field">
          <label for="category">Category <span class="req">*</span></label>
-         <input id="category" name="category" list="categoryOptions" required/>
+         <input id="category" name="category" list="categoryOptions" required placeholder="e.g. Technology, AI Trends, Web 3"/>
          <datalist id="categoryOptions"></datalist>
         </div>
         <div class="field">
@@ -123,18 +263,18 @@
 
        <div class="field">
         <label for="description">Teaser / description</label>
-        <textarea id="description" name="description" rows="3"></textarea>
+        <textarea id="description" name="description" rows="3" placeholder="One or two sentences summarising the story for the homepage card."></textarea>
         <p class="hint">Shown on the homepage card and used as the meta description fallback.</p>
        </div>
 
        <div class="field">
         <label for="hook">Article hook / standfirst</label>
-        <textarea id="hook" name="hook" rows="2"></textarea>
+        <textarea id="hook" name="hook" rows="2" placeholder="The opening line under the headline that pulls the reader in."></textarea>
        </div>
 
        <div class="field">
         <label for="directAnswer">Quick answer</label>
-        <textarea id="directAnswer" name="directAnswer" rows="3"></textarea>
+        <textarea id="directAnswer" name="directAnswer" rows="3" placeholder="Answer the article's core question in 1-2 plain sentences."></textarea>
        </div>
 
        <div class="field-row">
@@ -159,7 +299,7 @@
 
        <div class="field">
          <label for="body">Body (Markdown or safe HTML)</label>
-        <textarea id="body" name="body" rows="18" spellcheck="true"></textarea>
+        <textarea id="body" name="body" rows="18" spellcheck="true" placeholder="Write the full story here. Start sections with ## Heading, and leave a blank line between paragraphs."></textarea>
         <p class="hint">
          Markdown is preferred for version-controlled stories. In HTML, use &lt;h2&gt; for sections, &lt;figure&gt; + &lt;img alt="..."&gt; for images and &lt;blockquote&gt; for pull quotes.
          Headings become the article's table of contents automatically.
@@ -180,11 +320,11 @@
         </div>
         <div class="field">
          <label for="keyTakeaways">Key takeaways (one per line or JSON array)</label>
-         <textarea id="keyTakeaways" rows="4"></textarea>
+         <textarea id="keyTakeaways" rows="4" placeholder="Quantum computers use qubits, not bits&#10;Useful machines are still years away"></textarea>
         </div>
         <div class="field">
          <label for="relatedSlugs">Related article slugs (one per line or JSON array)</label>
-         <textarea id="relatedSlugs" rows="3"></textarea>
+         <textarea id="relatedSlugs" rows="3" placeholder="the-rise-of-quantum-computing&#10;mastering-the-art-of-coding"></textarea>
         </div>
         <div class="field">
          <label for="faqs">FAQs (JSON array of question/answer objects)</label>
@@ -200,7 +340,7 @@
        <div class="field-row">
         <div class="field">
          <label for="author">Author display name</label>
-         <input id="author" name="author" required/>
+         <input id="author" name="author" required placeholder="Name as it should appear on the article"/>
         </div>
         <div class="field">
          <label for="authorSlug">Author entity slug</label>
@@ -220,7 +360,7 @@
         </div>
         <div class="field">
          <label for="readingTime">Reading time</label>
-         <input id="readingTime" name="readingTime" placeholder="auto"/>
+         <input id="readingTime" name="readingTime" placeholder="auto, or override e.g. 8 min read"/>
         </div>
        </div>
 
@@ -257,7 +397,7 @@
        </div>
        <div class="field">
         <label for="reviewNotes">Editorial review notes</label>
-        <textarea id="reviewNotes" name="reviewNotes" rows="3"></textarea>
+        <textarea id="reviewNotes" name="reviewNotes" rows="3" placeholder="Anything the reviewer should know, e.g. sources still to confirm."></textarea>
        </div>
 
        <div class="checkbox-row">
@@ -269,11 +409,11 @@
         <summary>SEO overrides</summary>
         <div class="field">
          <label for="seoTitle">SEO title</label>
-         <input id="seoTitle" name="seoTitle"/>
+         <input id="seoTitle" name="seoTitle" placeholder="Search-result headline, ideally under 60 characters"/>
         </div>
         <div class="field">
          <label for="seoDescription">SEO description</label>
-         <textarea id="seoDescription" name="seoDescription" rows="2"></textarea>
+         <textarea id="seoDescription" name="seoDescription" rows="2" placeholder="Search-result summary, ideally 150-160 characters."></textarea>
         </div>
        </details>
       </form>
@@ -287,20 +427,20 @@
      <div class="list-column">
       <div class="list-toolbar">
        <h2>Author entities</h2>
-       <button class="primary-button" id="newAuthor" type="button"><i class="fas fa-plus" aria-hidden="true"></i> New</button>
       </div>
-      <ul class="article-list" id="authorList"></ul>
+      <button class="primary-button new-author-button" id="newAuthor" type="button"><i class="fas fa-plus" aria-hidden="true"></i> New author profile</button>
+      <ul class="article-list author-list" id="authorList"></ul>
      </div>
      <div class="form-column">
       <form id="authorForm">
        <div class="form-head"><h2 id="authorFormTitle">New author</h2><div class="form-head-actions"><button class="danger-button" id="deleteAuthor" type="button" hidden>Delete</button><button class="primary-button" type="submit">Save</button></div></div>
        <input id="authorId" type="hidden"/>
-       <div class="field"><label for="authorName">Name <span class="req">*</span></label><input id="authorName" required/></div>
-       <div class="field-row"><div class="field"><label for="authorEntitySlug">Slug</label><input id="authorEntitySlug"/></div><div class="field"><label for="authorRole">Role</label><input id="authorRole"/></div></div>
+       <div class="field"><label for="authorName">Name <span class="req">*</span></label><input id="authorName" required placeholder="Full name, e.g. Oluwashola Busari"/></div>
+       <div class="field-row"><div class="field"><label for="authorEntitySlug">Slug</label><input id="authorEntitySlug" placeholder="auto-generated from the name"/></div><div class="field"><label for="authorRole">Role</label><input id="authorRole" placeholder="e.g. Founder and Tech Journalist"/></div></div>
        <div class="field">
         <label for="authorBio">Biography / brief intro</label>
-        <textarea id="authorBio" rows="6" placeholder="A short author bio shown at the end of long-form articles. 2-4 sentences work best."></textarea>
-        <p class="hint">Appears with the author photo at the bottom of the in-article navigation (desktop) and before "Continue exploring" on mobile.</p>
+        <textarea id="authorBio" rows="6" placeholder="2-4 sentences: who the author is, their background, and what they write about."></textarea>
+        <p class="hint">Appears with the author photo under the in-article navigation (desktop) and after the comment section on mobile.</p>
        </div>
        <div class="field-row">
         <div class="field">
@@ -378,6 +518,10 @@
 
   <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 
+  <!-- Chart.js powers the dashboard graphs. Loaded before admin.js; the
+       dashboard degrades to its metric cards and tables if the CDN is
+       unreachable (for example on an offline machine). -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.js"></script>
   <script src="admin.js"></script>
  </body>
 </html>
