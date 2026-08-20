@@ -79,6 +79,21 @@ must not be relaxed: strictly British English; no em dashes between words; no
 banned marketing register; facts, dates, sources and links are never altered by a
 voice pass.
 
+### Calibration by article type (author feedback, August 2026)
+
+The pilot pass on the advice-driven guide (*Mastering the Art of Coding*) was
+approved with the full hybrid voice. Articles built on **critical analysis,
+evidence and facts** (`contentType: analysis`, or any piece resting heavily on
+statistics and citations) take a lighter hand:
+
+- **At most one or two stance markers per article** ("For me,", "In my view,"),
+  typically placed in the conclusion. No sustained first-person narration.
+- **Carry the voice through sentence construction instead**: longer additive
+  sentences, semicolon-chained clauses, and the signature connectives
+  (*To begin with, However, hence, by the time, in cases where*).
+- Everything evidence-bearing stays in neutral register, and FAQ answers in these
+  pieces remain neutral unless a light touch reads naturally.
+
 ## 4. Sentence-construction guidance
 
 - Default to the author's longer additive sentences in voice zones: join related

@@ -26,7 +26,7 @@ status: published
 
 There is a particular kind of argument that ends not with anyone conceding, but with an institution quietly acting as though the argument never happened. That is roughly what occurred on 23 July 2024, when the 142nd Session of the International Olympic Committee (IOC) in Paris voted unanimously to create an <a href="https://www.olympics.com/ioc/olympic-esports-games" target="_blank" rel="noopener noreferrer">Olympic Esports Games</a>.
 
-Thirty years of debate about whether competitive gaming counts as sport did not conclude with a persuasive essay. It concluded with a committee vote and a twelve-year hosting partnership.
+Thirty years of debate about whether competitive gaming counts as sport did not conclude with a persuasive essay; it concluded with a committee vote and a twelve-year hosting partnership.
 
 How a pastime became an industry substantial enough to interest the Olympic movement is a story about distribution, publisher control and sponsorship money, and it is worth telling accurately, because the sector's own promotional figures have not always been reliable.
 
@@ -34,19 +34,19 @@ How a pastime became an industry substantial enough to interest the Olympic move
 
 ### What separates esports from playing games
 
-Esports is organised competition: structured rules, ranked qualification, scheduled fixtures, prize money, and an audience that watches instead of playing. The distinction matters because it is what makes the activity a business. A popular game is a product sold to players. An esport is a product sold to spectators, and those are different economies with different customers.
+Esports is organised competition: structured rules, ranked qualification, scheduled fixtures, prize money, and an audience that watches instead of playing. The distinction matters because it is what makes the activity a business: a popular game is a product sold to players, while an esport is a product sold to spectators, and those are different economies with different customers.
 
 ### The distribution problem, and how streaming solved it
 
-Competitive gaming existed long before it was an industry. Tournaments ran through the 1990s, and South Korea built a genuine professional scene around StarCraft with televised matches in the early 2000s. What limited every earlier attempt was distribution. Broadcasting a video game required a television slot, and television did not want one.
+Competitive gaming existed long before it was an industry: tournaments ran through the 1990s, and South Korea built a genuine professional scene around StarCraft with televised matches in the early 2000s. What limited every earlier attempt, however, was distribution, because broadcasting a video game required a television slot, and television did not want one.
 
-Live streaming removed that constraint entirely. A tournament could reach a global audience at almost no marginal cost, with no gatekeeper deciding the schedule. The audience that had always existed became visible and, more importantly, measurable, and measurable audiences can be sold to advertisers.
+Live streaming removed that constraint entirely, because a tournament could reach a global audience at almost no marginal cost, with no gatekeeper deciding the schedule. The audience that had always existed became visible and, more importantly, measurable, and measurable audiences can be sold to advertisers.
 
 ### Publisher control, the feature that has no equivalent in sport
 
-Here is the structural fact that makes esports unlike football or basketball. Nobody owns football. Anybody may organise a match. But every esport is played on software owned by a company, and that company controls the rules, the updates, the tournament licensing and whether the competitive scene continues to exist at all.
+Here is the structural fact that makes esports unlike football or basketball: nobody owns football, and anybody may organise a match, but every esport is played on software owned by a company, and that company controls the rules, the updates, the tournament licensing and whether the competitive scene continues to exist at all.
 
-Some publishers used this to build franchised leagues with fixed teams and scheduled seasons, importing the structure of North American professional sport. That professionalised the sector quickly. It also concentrated risk, because a publisher that loses interest in a competitive scene can end it in a way that no governing body in traditional sport could.
+Some publishers used this to build franchised leagues with fixed teams and scheduled seasons, importing the structure of North American professional sport. That professionalised the sector quickly; however, it also concentrated risk, because a publisher that loses interest in a competitive scene can end it in a way that no governing body in traditional sport could.
 
 ## Why It Matters
 
@@ -82,8 +82,8 @@ There is also genuine accessibility. Competing does not depend on physical build
 
 ## Conclusion
 
-Esports did not become an industry because someone won the argument about whether it is a sport. It became one because streaming solved distribution, publishers built league structures, and sponsors decided a young global audience was worth paying to reach. Olympic recognition confirmed that.
+Esports did not become an industry because someone won the argument about whether it is a sport; it became one because streaming solved distribution, publishers built league structures, and sponsors decided a young global audience was worth paying to reach. Olympic recognition confirmed that.
 
-What is still unsettled is whether the sector can fund itself. A business resting on sponsorship and strategic national investment is a business dependent on other people's enthusiasm. The transition that matters over the next few years is not further institutional recognition, which it now has, but whether esports can build revenue that survives a cold funding market.
+What is still unsettled is whether the sector can fund itself, because a business resting on sponsorship and strategic national investment is a business dependent on other people's enthusiasm. For me, the transition that matters over the next few years is not further institutional recognition, which it now has, but whether esports can build revenue that survives a cold funding market.
 
 Esports sells the same thing the social platforms sell: hours of human attention, bought by sponsors. Our piece on [distraction by design](/articles/distraction-by-design/) examines how that market for attention actually works, and who pays for it.

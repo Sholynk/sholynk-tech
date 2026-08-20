@@ -24,11 +24,11 @@ status: published
 ---
 ## Introduction
 
-Most cryptocurrency arguments are about price. Stablecoins are the exception, because a stablecoin that moves in price has failed at the one thing it was built to do.
+Most cryptocurrency arguments are about price; stablecoins are the exception, because a stablecoin that moves in price has failed at the one thing it was built to do.
 
 That modesty is precisely why they became consequential. A token engineered to be boring is a token that can be used to pay for something, and payment is the use case that cryptocurrency spent more than a decade promising and rarely delivering. Somewhere in that shift, stablecoins stopped being a trading convenience for moving between exchanges and started attracting the attention of banking regulators, finance ministries and the Bank for International Settlements.
 
-The United States now has a statutory framework for them. The proposed implementing rules run to hundreds of pages. And the central bankers' central bank has published a detailed argument that these instruments still are not money. All three things are true at once, which is what makes the subject worth understanding properly.
+To begin with, the United States now has a statutory framework for them; the proposed implementing rules run to hundreds of pages, and the central bankers' central bank has published a detailed argument that these instruments still are not money. All three things are true at once, which is what makes the subject worth understanding properly.
 
 ## Understanding Stablecoins
 
@@ -36,11 +36,11 @@ The United States now has a statutory framework for them. The proposed implement
 
 A stablecoin is a claim. When an issuer creates one token, it undertakes to hold assets of equivalent value in reserve, and to give the holder that value back on request. The token circulates on a blockchain and can be transferred like any other, but the thing anchoring it to a dollar is not the blockchain. It is the reserve and the redemption promise.
 
-This distinguishes it from other crypto assets, whose price is set purely by what someone will pay. It also distinguishes it from a bank deposit, which is a claim on a bank that carries deposit insurance and access to central bank facilities. A stablecoin holder has neither of those protections, a point US regulators have made explicitly.
+This distinguishes it from other crypto assets, whose price is set purely by what someone will pay, and it also distinguishes it from a bank deposit, which is a claim on a bank that carries deposit insurance and access to central bank facilities. A stablecoin holder has neither of those protections, a point US regulators have made explicitly.
 
 ### Why pegs slip
 
-If the arrangement works, one token trades at one dollar. In practice tokens deviate, and the reasons are instructive. Redemption may be open only to large institutional counterparties, not to ordinary holders. It may take days. The reserve composition may be uncertain. Each of these introduces a gap between the theoretical value and what a buyer will actually pay in a secondary market.
+If the arrangement works, one token trades at one dollar. In practice tokens deviate, and the reasons are instructive: redemption may be open only to large institutional counterparties, not to ordinary holders; it may take days; and the reserve composition may be uncertain. Each of these introduces a gap between the theoretical value and what a buyer will actually pay in a secondary market.
 
 The academic literature frames this as a run problem. Where an issuer holds only cash equivalents, redemption risk arises mainly if a run is large enough to force hurried asset sales at a loss. The reserve's quality, in other words, matters more than its headline size.
 
@@ -52,7 +52,7 @@ There is an important separation between a **payment stablecoin**, designed to b
 
 Start with the businesses, because their interest is the least ideological. Correspondent banking is slow and expensive at small values, and anyone who has waited three days for a modest cross-border payment to clear understands the appeal of settlement that takes minutes and does not observe weekends. That is an operational complaint, not a political one.
 
-Regulators are looking at the same instrument and seeing a funding question. If deposits drift out of banks and into private tokens, banks have less to lend. The <a href="https://www.bis.org/" target="_blank" rel="noopener noreferrer">Bank for International Settlements</a> (BIS), the institution central banks themselves bank with, put numbers on this, and the numbers are not what either camp expected. Modelling adoption at one, two and three trillion dollars in market value, it found the net effect on output was small, and in its US-calibrated version slightly negative over the medium term. Read that again: the objection is not that stablecoins would blow something up. It is that they would impose real costs while delivering very little growth.
+Regulators are looking at the same instrument and seeing a funding question. If deposits drift out of banks and into private tokens, banks have less to lend. The <a href="https://www.bis.org/" target="_blank" rel="noopener noreferrer">Bank for International Settlements</a> (BIS), the institution central banks themselves bank with, put numbers on this, and the numbers are not what either camp expected. Modelling adoption at one, two and three trillion dollars in market value, it found the net effect on output was small, and in its US-calibrated version slightly negative over the medium term. Read that again: the objection is not that stablecoins would blow something up; it is that they would impose real costs while delivering very little growth.
 
 The sharpest version of the argument is playing out in countries with unstable currencies, and it is genuinely uncomfortable. Holding a dollar-referenced token is a sensible decision for one household and a problem when several million make it at once, because it hollows out monetary sovereignty and reshapes how capital moves. The BIS calls this stablecoin dollarisation. Readers in Lagos, Buenos Aires or Istanbul will not need it explained.
 
@@ -84,8 +84,8 @@ Regulatory clarity has itself become an opportunity. Institutions that would not
 
 ## Conclusion
 
-Stablecoins have completed an unusual journey: from a trading utility, to a payments instrument, to a supervised financial activity with capital requirements and a rulebook. That progression is close to what the sector asked for, and it has come with the constraints that supervision always brings.
+Stablecoins have completed an unusual journey: from a trading utility, to a payments instrument, to a supervised financial activity with capital requirements and a rulebook. That progression is close to what the sector asked for, and it has come, as supervision always does, with constraints.
 
-The BIS question is the one still hanging over all of this. A payment instrument can be useful, properly regulated and widely adopted while still not being money in the way a monetary system needs money to behave, and that gap only shows itself under stress. The next couple of years, as the US rules finalise and enforcement begins, will test the argument, not settle it.
+For me, the BIS question is the one still hanging over all of this, because a payment instrument can be useful, properly regulated and widely adopted while still not being money in the way a monetary system needs money to behave, and that gap only shows itself under stress. The next couple of years, as the US rules finalise and enforcement begins, will test the argument, not settle it.
 
 There is a longer-dated risk worth naming too. Stablecoins settle on blockchains secured by <a href="https://en.wikipedia.org/wiki/Elliptic-curve_cryptography" target="_blank" rel="noopener noreferrer">elliptic-curve cryptography</a>, the same mathematics a sufficiently advanced quantum computer could eventually break. Our guide to [the rise of quantum computing](/articles/the-rise-of-quantum-computing/) explains how close that threat actually is.

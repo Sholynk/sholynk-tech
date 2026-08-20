@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-20T17:14:39.313Z",
+  "generatedAt": "2026-08-20T18:11:02.132Z",
   "settings": {
     "siteTitle": "Sholynk Technology - AI, Web3 and Emerging Tech Insights",
     "siteDescription": "Explore editor picks, practical guides and analysis on AI trends, Web3, software development, cybersecurity and emerging technology.",
@@ -17,8 +17,8 @@
       "image": "Images and Assets/my_pic.png",
       "imageAlt": "Portrait photo of Oluwashola Busari",
       "profileUrl": "https://sholynktech.netlify.app/about.html",
-      "createdAt": "2026-08-20 17:14:39",
-      "updatedAt": "2026-08-20 17:14:39"
+      "createdAt": "2026-08-20 18:10:33",
+      "updatedAt": "2026-08-20 18:10:33"
     }
   ],
   "articles": [
@@ -105,8 +105,8 @@
           "doi": "",
           "accessedAt": "2026-08-16",
           "supports": "Self-reported language use (JavaScript 66%, HTML/CSS 61.9%, SQL 58.6%, Python 57.9%, with Python up seven percentage points year on year); 84% of respondents using or planning to use AI tools, up from 76%; 66% citing AI answers that are almost right as their biggest frustration; 45% reporting that debugging AI-generated code takes longer; and 20% reporting reduced confidence in their own problem-solving.",
-          "createdAt": "2026-08-20 17:14:39",
-          "updatedAt": "2026-08-20 17:14:39"
+          "createdAt": "2026-08-20 18:10:33",
+          "updatedAt": "2026-08-20 18:10:33"
         },
         {
           "id": 5,
@@ -120,14 +120,14 @@
           "doi": "",
           "accessedAt": "2026-08-16",
           "supports": "A consensus standard-awareness document listing the most critical security risks to web applications, currently published as the OWASP Top Ten 2025.",
-          "createdAt": "2026-08-20 17:14:39",
-          "updatedAt": "2026-08-20 17:14:39"
+          "createdAt": "2026-08-20 18:10:33",
+          "updatedAt": "2026-08-20 18:10:33"
         }
       ],
       "link": "articles/mastering-the-art-of-coding/",
       "cleanLink": "articles/mastering-the-art-of-coding/",
-      "createdAt": "2026-08-20 17:14:39",
-      "updatedAt": "2026-08-20 17:14:39"
+      "createdAt": "2026-08-20 18:10:33",
+      "updatedAt": "2026-08-20 18:10:33"
     },
     {
       "id": 3,
@@ -176,7 +176,7 @@
         }
       ],
       "relatedSlugs": [],
-      "body": "## Introduction\n\nIn August 2024 the United States finalised three new encryption standards. No system had been broken. No attack had taken place. The standards were published because of a machine that does not yet work properly.\n\nThat is an unusual way for a technology to announce itself. Governments do not normally rewrite the mathematics protecting bank transfers and medical records on the strength of a device still confined to a handful of laboratories. They did it because the timing of the threat is uncertain while the cost of being late is not.\n\nQuantum computing sits in an awkward position: over-promised in marketing, under-appreciated in what it has genuinely achieved, and surrounded by explanations that are memorable and wrong. It is worth understanding properly, partly because it is interesting, and partly because one of its consequences is already changing the security of systems you use daily.\n\n## Understanding the Technology\n\n### What a classical computer does\n\nEverything a conventional computer does reduces to bits. A bit is definitively zero or one. Enough of them, switched quickly enough, gives you every piece of software ever written.\n\nThis works extraordinarily well, and for most problems nothing else is needed. But certain problems have a structure that punishes this approach: as the problem grows a little, the work grows enormously. Simulating how a modest molecule behaves is the classic example. The molecule does it effortlessly, several times a second. A classical computer modelling it faithfully runs out of time and memory very quickly.\n\n### What a qubit adds\n\nA quantum bit, or **qubit**, obeys quantum mechanics. Before measurement it can occupy a combination of the zero and one states, a condition known as **superposition**. Qubits can also be **entangled**, meaning their outcomes are correlated in ways that have no classical equivalent.\n\nHere is the part popular explanations get wrong. It is often said that a quantum computer \"tries every possible answer at once\". It does not, and believing this makes the rest incomprehensible. When you measure the system you get one outcome, not a catalogue of them.\n\nThe real mechanism is **interference**. A quantum algorithm is constructed so that the paths leading to wrong answers cancel each other out, while the paths leading to the right answer reinforce. The skill lies in arranging that cancellation, which is why quantum algorithms are rare and hard to design. Only a handful of genuinely useful ones are known.\n\n### What this is not\n\nQuantum computers are not simply faster computers. For the overwhelming majority of tasks, including everything on your phone, they are worse than the machine you already own, and will remain so. The sensible expectation is a specialised accelerator sitting alongside classical infrastructure, called on for the narrow class of problems it suits, much as graphics processors are used today.\n\n## Why It Matters\n\nFor researchers, the appeal is direct: nature is quantum mechanical, so simulating it on a machine that is also quantum mechanical removes a translation layer that currently costs enormous computational effort. Chemistry and materials science are the fields where a genuine advantage is most plausible, because the problem and the tool share a structure.\n\nFor everyone else, the consequence that has already arrived is cryptographic. Much of the confidentiality on the internet rests on mathematics that is hard for classical computers and, in principle, tractable for a sufficiently large quantum machine. <a href=\"https://en.wikipedia.org/wiki/Elliptic-curve_cryptography\" target=\"_blank\" rel=\"noopener noreferrer\">Elliptic-curve cryptography</a>, one of the main schemes involved, underpins Transport Layer Security and Bitcoin among many other systems.\n\nThis is why the <a href=\"https://www.nist.gov/news-events/news/2024/08/nist-releases-first-3-finalized-post-quantum-encryption-standards\" target=\"_blank\" rel=\"noopener noreferrer\">National Institute of Standards and Technology</a> (NIST) finalised replacement standards in August 2024, after an eight-year selection process, and urged administrators to start migrating immediately. NIST notes that some experts expect a machine capable of breaking current encryption within a decade, while being careful to present that as prediction rather than schedule.\n\nThe urgency has a specific logic that is easy to miss. An adversary can capture encrypted traffic today and store it until a capable machine exists. For anything that must stay secret for ten or twenty years, such as state communications, medical records or long-lived intellectual property, the risk is not in the future. It is now, and it is retrospective.\n\n## Real-World Applications\n\n### Chemistry, materials and medicine\n\nThe strongest case. Simulating molecular behaviour accurately could shorten the path from candidate compound to viable treatment, and inform the design of catalysts, batteries and materials. Progress here is real but early, and most published results are demonstrations on small systems rather than discoveries that could not have been made otherwise.\n\n### Optimisation\n\nLogistics, scheduling and portfolio construction all involve searching enormous spaces of possible arrangements. Quantum approaches are being investigated, though classical methods remain very strong and the evidence of a decisive advantage is not yet there.\n\n### Machine learning\n\nAn active research area and an overheated marketing one. Some mathematical operations underlying machine learning have quantum analogues. Whether that produces practical benefit on real workloads is unresolved, and claims in this space deserve particular scepticism.\n\n### Cryptanalysis\n\nThe application driving policy. A large fault-tolerant machine running Shor's algorithm could break widely deployed public-key schemes. No such machine exists publicly, which is precisely why the migration is happening in advance.\n\n## Benefits and Opportunities\n\nWhere the technology suits the problem, the potential gain is not incremental. Being able to model a reaction accurately rather than approximately changes what questions researchers can ask, and that is a different kind of benefit from doing existing work faster.\n\nThere is also a substantial adjacent opportunity that requires no quantum hardware at all. The migration to post-quantum cryptography is a large, concrete, and immediate engineering programme: inventorying where cryptography is used, planning replacement, testing interoperability. That work is available now, and it is where most practical demand currently sits.\n\n## Limitations, Risks and Trade-offs\n\n**Qubits are exceptionally fragile.** Quantum states are disturbed by heat, vibration and stray electromagnetic fields. Many systems operate near absolute zero in heavily isolated environments, which is the reason for the chandelier-like apparatus in photographs of these machines, most of which is refrigeration and wiring rather than computer.\n\n**Error correction is the central obstacle.** Because qubits are noisy, useful computation requires encoding one reliable logical qubit across many physical ones. The overhead is severe, and it is the main reason today's machines cannot run the algorithms most often cited for them.\n\n**Cost and access.** These are laboratory instruments requiring specialist facilities and staff. Cloud access has widened experimentation, but this is not a technology that democratises quickly.\n\n**Persistent overstatement.** Commercial claims frequently outrun demonstrated capability, and \"quantum\" has become a marketing prefix. A useful test when reading an announcement: does it report a problem solved that a classical computer could not have solved, or a demonstration that a quantum device performed a task at all?\n\n**The timeline is genuinely unknown.** Estimates for fault-tolerant machines range from years to decades, and anyone offering a confident date is expressing an opinion rather than reporting a finding.\n\n## Conclusion\n\nQuantum computing is neither imminent nor overhyped, which is an unsatisfying position but an accurate one. The engineering is advancing steadily, the fundamental obstacle of error correction remains unsolved at scale, and the most credible near-term uses are narrower and more scientific than the marketing suggests.\n\nWhat has already changed is worth holding onto, because it is concrete. The world's cryptographic standards were rewritten in anticipation of a machine that does not yet exist, and organisations are migrating now on the reasoning that data stolen today can be read later. That is a rare case of institutions acting well ahead of a threat, and it is the part of this story with practical consequences for systems in use right now.\n\nIf quantum computing does mature, the effect will not be that everything gets faster. It will be that a small set of previously unanswerable questions, mostly about how matter behaves, become answerable. That is a narrower claim than the headlines make, and a more interesting one.\n\nThe cryptography under discussion here is the same mathematics securing blockchain settlement, which we examine in [stablecoins and the future of digital payments](/articles/stablecoins-and-digital-payments/).\n",
+      "body": "## Introduction\n\nIn August 2024 the United States finalised three new encryption standards. No system had been broken, and no attack had taken place; the standards were published because of a machine that does not yet work properly.\n\nThat is an unusual way for a technology to announce itself, because governments do not normally rewrite the mathematics protecting bank transfers and medical records on the strength of a device still confined to a handful of laboratories; they did it because the timing of the threat is uncertain while the cost of being late is not.\n\nQuantum computing sits in an awkward position: over-promised in marketing, under-appreciated in what it has genuinely achieved, and surrounded by explanations that are memorable and wrong. It is worth understanding properly, partly because it is interesting, and partly because one of its consequences is already changing the security of systems you use daily.\n\n## Understanding the Technology\n\n### What a classical computer does\n\nEverything a conventional computer does reduces to bits: a bit is definitively zero or one, and enough of them, switched quickly enough, gives you every piece of software ever written.\n\nThis works extraordinarily well, and for most problems nothing else is needed. However, certain problems have a structure that punishes this approach: as the problem grows a little, the work grows enormously. Simulating how a modest molecule behaves is the classic example, because the molecule does it effortlessly, several times a second, while a classical computer modelling it faithfully runs out of time and memory very quickly.\n\n### What a qubit adds\n\nA quantum bit, or **qubit**, obeys quantum mechanics. Before measurement it can occupy a combination of the zero and one states, a condition known as **superposition**. Qubits can also be **entangled**, meaning their outcomes are correlated in ways that have no classical equivalent.\n\nHere is the part popular explanations get wrong. It is often said that a quantum computer \"tries every possible answer at once\"; it does not, and believing this makes the rest incomprehensible, because when you measure the system you get one outcome, not a catalogue of them.\n\nThe real mechanism is **interference**. A quantum algorithm is constructed so that the paths leading to wrong answers cancel each other out, while the paths leading to the right answer reinforce. The skill lies in arranging that cancellation, which is why quantum algorithms are rare and hard to design, and only a handful of genuinely useful ones are known.\n\n### What this is not\n\nQuantum computers are not simply faster computers; for the overwhelming majority of tasks, including everything on your phone, they are worse than the machine you already own, and will remain so. The sensible expectation is a specialised accelerator sitting alongside classical infrastructure, called on for the narrow class of problems it suits, much as graphics processors are used today.\n\n## Why It Matters\n\nFor researchers, the appeal is direct: nature is quantum mechanical, so simulating it on a machine that is also quantum mechanical removes a translation layer that currently costs enormous computational effort. Chemistry and materials science are the fields where a genuine advantage is most plausible, because the problem and the tool share a structure.\n\nFor everyone else, the consequence that has already arrived is cryptographic. Much of the confidentiality on the internet rests on mathematics that is hard for classical computers and, in principle, tractable for a sufficiently large quantum machine. <a href=\"https://en.wikipedia.org/wiki/Elliptic-curve_cryptography\" target=\"_blank\" rel=\"noopener noreferrer\">Elliptic-curve cryptography</a>, one of the main schemes involved, underpins Transport Layer Security and Bitcoin among many other systems.\n\nThis is why the <a href=\"https://www.nist.gov/news-events/news/2024/08/nist-releases-first-3-finalized-post-quantum-encryption-standards\" target=\"_blank\" rel=\"noopener noreferrer\">National Institute of Standards and Technology</a> (NIST) finalised replacement standards in August 2024, after an eight-year selection process, and urged administrators to start migrating immediately. NIST notes that some experts expect a machine capable of breaking current encryption within a decade, while being careful to present that as prediction rather than schedule.\n\nThe urgency has a specific logic that is easy to miss: an adversary can capture encrypted traffic today and store it until a capable machine exists, hence for anything that must stay secret for ten or twenty years, such as state communications, medical records or long-lived intellectual property, the risk is not in the future; it is now, and it is retrospective.\n\n## Real-World Applications\n\n### Chemistry, materials and medicine\n\nThis is the strongest case, because simulating molecular behaviour accurately could shorten the path from candidate compound to viable treatment, and inform the design of catalysts, batteries and materials. Progress here is real but early, and most published results are demonstrations on small systems rather than discoveries that could not have been made otherwise.\n\n### Optimisation\n\nLogistics, scheduling and portfolio construction all involve searching enormous spaces of possible arrangements. Quantum approaches are being investigated; however, classical methods remain very strong and the evidence of a decisive advantage is not yet there.\n\n### Machine learning\n\nThis is an active research area and an overheated marketing one. Some mathematical operations underlying machine learning have quantum analogues; whether that produces practical benefit on real workloads is unresolved, hence claims in this space deserve particular scepticism.\n\n### Cryptanalysis\n\nThis is the application driving policy: a large fault-tolerant machine running Shor's algorithm could break widely deployed public-key schemes, and no such machine exists publicly, which is precisely why the migration is happening in advance.\n\n## Benefits and Opportunities\n\nWhere the technology suits the problem, the potential gain is not incremental. Being able to model a reaction accurately rather than approximately changes what questions researchers can ask, and that is a different kind of benefit from doing existing work faster.\n\nThere is also a substantial adjacent opportunity that requires no quantum hardware at all. The migration to post-quantum cryptography is a large, concrete, and immediate engineering programme: inventorying where cryptography is used, planning replacement, testing interoperability. That work is available now, and it is where most practical demand currently sits.\n\n## Limitations, Risks and Trade-offs\n\n**Qubits are exceptionally fragile.** Quantum states are disturbed by heat, vibration and stray electromagnetic fields. Many systems operate near absolute zero in heavily isolated environments, which is the reason for the chandelier-like apparatus in photographs of these machines, most of which is refrigeration and wiring rather than computer.\n\n**Error correction is the central obstacle.** Because qubits are noisy, useful computation requires encoding one reliable logical qubit across many physical ones. The overhead is severe, and it is the main reason today's machines cannot run the algorithms most often cited for them.\n\n**Cost and access.** These are laboratory instruments requiring specialist facilities and staff. Cloud access has widened experimentation, but this is not a technology that democratises quickly.\n\n**Persistent overstatement.** Commercial claims frequently outrun demonstrated capability, and \"quantum\" has become a marketing prefix. A useful test when reading an announcement: does it report a problem solved that a classical computer could not have solved, or a demonstration that a quantum device performed a task at all?\n\n**The timeline is genuinely unknown.** Estimates for fault-tolerant machines range from years to decades, and anyone offering a confident date is expressing an opinion rather than reporting a finding.\n\n## Conclusion\n\nQuantum computing is neither imminent nor overhyped, which is an unsatisfying position but an accurate one. The engineering is advancing steadily, the fundamental obstacle of error correction remains unsolved at scale, and the most credible near-term uses are narrower and more scientific than the marketing suggests.\n\nWhat has already changed is worth holding onto, because it is concrete. The world's cryptographic standards were rewritten in anticipation of a machine that does not yet exist, and organisations are migrating now on the reasoning that data stolen today can be read later. That is a rare case of institutions acting well ahead of a threat, and it is the part of this story with practical consequences for systems in use right now.\n\nIf quantum computing does mature, the effect will not be that everything gets faster; it will be that a small set of previously unanswerable questions, mostly about how matter behaves, become answerable. For me, that is a narrower claim than the headlines make, and a more interesting one.\n\nThe cryptography under discussion here is the same mathematics securing blockchain settlement, which we examine in [stablecoins and the future of digital payments](/articles/stablecoins-and-digital-payments/).\n",
       "img": "article-images/quantum/quantum-computer-chandelier.jpg",
       "alt": "Golden chandelier-like cryostat of a superconducting quantum computer, layered with control wiring",
       "author": "Oluwashola Busari",
@@ -208,8 +208,8 @@
           "doi": "",
           "accessedAt": "2026-08-16",
           "supports": "NIST finalised its principal set of quantum-resistant encryption standards after an eight-year effort, encourages administrators to begin transitioning immediately, and notes that some experts predict a device able to break current encryption could appear within a decade.",
-          "createdAt": "2026-08-20 17:14:39",
-          "updatedAt": "2026-08-20 17:14:39"
+          "createdAt": "2026-08-20 18:10:33",
+          "updatedAt": "2026-08-20 18:10:33"
         },
         {
           "id": 7,
@@ -223,8 +223,8 @@
           "doi": "",
           "accessedAt": "2026-08-16",
           "supports": "NIST's explanation of why current public-key cryptography is vulnerable to quantum attack and what replacing it involves.",
-          "createdAt": "2026-08-20 17:14:39",
-          "updatedAt": "2026-08-20 17:14:39"
+          "createdAt": "2026-08-20 18:10:33",
+          "updatedAt": "2026-08-20 18:10:33"
         },
         {
           "id": 8,
@@ -238,14 +238,14 @@
           "doi": "",
           "accessedAt": "2026-08-16",
           "supports": "Elliptic-curve cryptography underpins widely used protocols including Transport Layer Security and Bitcoin, which is why a quantum attack on it would have broad consequences.",
-          "createdAt": "2026-08-20 17:14:39",
-          "updatedAt": "2026-08-20 17:14:39"
+          "createdAt": "2026-08-20 18:10:33",
+          "updatedAt": "2026-08-20 18:10:33"
         }
       ],
       "link": "articles/the-rise-of-quantum-computing/",
       "cleanLink": "articles/the-rise-of-quantum-computing/",
-      "createdAt": "2026-08-20 17:14:39",
-      "updatedAt": "2026-08-20 17:14:39"
+      "createdAt": "2026-08-20 18:10:33",
+      "updatedAt": "2026-08-20 18:10:33"
     },
     {
       "id": 54,
@@ -283,8 +283,8 @@
       "sources": [],
       "link": "index.html?category=AI%20Trends",
       "cleanLink": "index.html?category=AI%20Trends",
-      "createdAt": "2026-08-20 17:14:39",
-      "updatedAt": "2026-08-20 17:14:39"
+      "createdAt": "2026-08-20 18:10:33",
+      "updatedAt": "2026-08-20 18:10:33"
     },
     {
       "id": 55,
@@ -322,8 +322,8 @@
       "sources": [],
       "link": "index.html?category=Web%203",
       "cleanLink": "index.html?category=Web%203",
-      "createdAt": "2026-08-20 17:14:39",
-      "updatedAt": "2026-08-20 17:14:39"
+      "createdAt": "2026-08-20 18:10:33",
+      "updatedAt": "2026-08-20 18:10:33"
     },
     {
       "id": 56,
@@ -361,8 +361,8 @@
       "sources": [],
       "link": "index.html?category=Technology",
       "cleanLink": "index.html?category=Technology",
-      "createdAt": "2026-08-20 17:14:39",
-      "updatedAt": "2026-08-20 17:14:39"
+      "createdAt": "2026-08-20 18:10:33",
+      "updatedAt": "2026-08-20 18:10:33"
     },
     {
       "id": 6,
@@ -415,7 +415,7 @@
         "mastering-the-art-of-coding",
         "multimodal-ai-models"
       ],
-      "body": "## Introduction\n\nThere is a particular kind of argument that ends not with anyone conceding, but with an institution quietly acting as though the argument never happened. That is roughly what occurred on 23 July 2024, when the 142nd Session of the International Olympic Committee (IOC) in Paris voted unanimously to create an <a href=\"https://www.olympics.com/ioc/olympic-esports-games\" target=\"_blank\" rel=\"noopener noreferrer\">Olympic Esports Games</a>.\n\nThirty years of debate about whether competitive gaming counts as sport did not conclude with a persuasive essay. It concluded with a committee vote and a twelve-year hosting partnership.\n\nHow a pastime became an industry substantial enough to interest the Olympic movement is a story about distribution, publisher control and sponsorship money, and it is worth telling accurately, because the sector's own promotional figures have not always been reliable.\n\n## Understanding Esports\n\n### What separates esports from playing games\n\nEsports is organised competition: structured rules, ranked qualification, scheduled fixtures, prize money, and an audience that watches instead of playing. The distinction matters because it is what makes the activity a business. A popular game is a product sold to players. An esport is a product sold to spectators, and those are different economies with different customers.\n\n### The distribution problem, and how streaming solved it\n\nCompetitive gaming existed long before it was an industry. Tournaments ran through the 1990s, and South Korea built a genuine professional scene around StarCraft with televised matches in the early 2000s. What limited every earlier attempt was distribution. Broadcasting a video game required a television slot, and television did not want one.\n\nLive streaming removed that constraint entirely. A tournament could reach a global audience at almost no marginal cost, with no gatekeeper deciding the schedule. The audience that had always existed became visible and, more importantly, measurable, and measurable audiences can be sold to advertisers.\n\n### Publisher control, the feature that has no equivalent in sport\n\nHere is the structural fact that makes esports unlike football or basketball. Nobody owns football. Anybody may organise a match. But every esport is played on software owned by a company, and that company controls the rules, the updates, the tournament licensing and whether the competitive scene continues to exist at all.\n\nSome publishers used this to build franchised leagues with fixed teams and scheduled seasons, importing the structure of North American professional sport. That professionalised the sector quickly. It also concentrated risk, because a publisher that loses interest in a competitive scene can end it in a way that no governing body in traditional sport could.\n\n## Why It Matters\n\nStart with the players, since they carry most of the cost. Esports invented a career that did not exist a generation ago, and it comes with the drawbacks of any physically demanding profession with a short shelf life and no pension.\n\nThe games industry sees something different: a retention mechanism. The wider market took $188.8 billion in 2025 from roughly 3.6 billion players, and a game with a living competitive scene holds its audience for years, not months. Much of the time, esports makes more sense as marketing infrastructure for a game than as a business standing on its own.\n\nThen there is the national interest, which is where the money has been loudest. Saudi Arabia's position, through both the Esports World Cup Foundation and that twelve-year IOC partnership, is the clearest example: heavy investment in a sector with a young global audience, folded into a wider strategy. Writing about it honestly means holding two things at once, the scale of what has been built and the criticism the investment attracts.\n\n## Real-World Applications\n\nThe Olympic decision is the most concrete development. Following the unanimous July 2024 approval, the IOC confirmed in February 2025 that the inaugural Olympic Esports Games would be held in 2027, having initially announced 2025, with a preparatory roadmap starting that year. The delay is itself informative: aligning publisher-owned titles with Olympic governance is genuinely difficult, and the schedule moved accordingly.\n\nBeyond the Olympic track, the established structures are publisher-run world championships, third-party tournament circuits, and university and school competition, which has become a recruitment pathway in several countries.\n\n## Benefits and Opportunities\n\nThe clearest opportunities are not in playing. A tournament requires broadcast production, analysis, coaching, event operations, statistics, translation and community management, and these roles are more numerous and more durable than the playing positions. For readers weighing a route into the sector, production and data work is the more reliable entry point.\n\nThere is also genuine accessibility. Competing does not depend on physical build or on living near a suitable facility, which widens participation in ways traditional sport structurally cannot.\n\n## Limitations, Risks and Trade-offs\n\n**The data is weaker than the confident figures suggest.** This deserves emphasis because so much coverage repeats numbers uncritically. <a href=\"https://newzoo.com/resources/trend-reports/newzoo-global-games-market-report-2025\" target=\"_blank\" rel=\"noopener noreferrer\">Newzoo</a>, whose esports reports were the sector's most-cited source, discontinued its dedicated esports reporting in 2023. The estimates that circulate since come from various providers using different definitions of a viewer and different revenue models, and they are not directly comparable. Where you see a precise global esports revenue figure, treat it as one provider's estimate rather than an established fact.\n\n**The business model has not matured.** Sponsorship dominates, and sponsorship is the first budget cut in a downturn. When investment tightened, organisations built on venture funding, with no operating profit underneath, contracted sharply. Media rights, which underwrite traditional sport, have not reached comparable scale.\n\n**Publisher dependency.** A competitive scene exists at the discretion of a company that may change the game's rules, alter its economics or discontinue support.\n\n**Player welfare.** Careers are short, repetitive strain injuries are common, and the training culture has historically been punishing. Governance around player contracts and welfare lags well behind established sport.\n\n**Integrity and gambling.** Betting is a substantial revenue stream around esports and brings match-fixing exposure, particularly at lower tiers where salaries are small and oversight is thin.\n\n## Conclusion\n\nEsports did not become an industry because someone won the argument about whether it is a sport. It became one because streaming solved distribution, publishers built league structures, and sponsors decided a young global audience was worth paying to reach. Olympic recognition confirmed that.\n\nWhat is still unsettled is whether the sector can fund itself. A business resting on sponsorship and strategic national investment is a business dependent on other people's enthusiasm. The transition that matters over the next few years is not further institutional recognition, which it now has, but whether esports can build revenue that survives a cold funding market.\n\nEsports sells the same thing the social platforms sell: hours of human attention, bought by sponsors. Our piece on [distraction by design](/articles/distraction-by-design/) examines how that market for attention actually works, and who pays for it.\n",
+      "body": "## Introduction\n\nThere is a particular kind of argument that ends not with anyone conceding, but with an institution quietly acting as though the argument never happened. That is roughly what occurred on 23 July 2024, when the 142nd Session of the International Olympic Committee (IOC) in Paris voted unanimously to create an <a href=\"https://www.olympics.com/ioc/olympic-esports-games\" target=\"_blank\" rel=\"noopener noreferrer\">Olympic Esports Games</a>.\n\nThirty years of debate about whether competitive gaming counts as sport did not conclude with a persuasive essay; it concluded with a committee vote and a twelve-year hosting partnership.\n\nHow a pastime became an industry substantial enough to interest the Olympic movement is a story about distribution, publisher control and sponsorship money, and it is worth telling accurately, because the sector's own promotional figures have not always been reliable.\n\n## Understanding Esports\n\n### What separates esports from playing games\n\nEsports is organised competition: structured rules, ranked qualification, scheduled fixtures, prize money, and an audience that watches instead of playing. The distinction matters because it is what makes the activity a business: a popular game is a product sold to players, while an esport is a product sold to spectators, and those are different economies with different customers.\n\n### The distribution problem, and how streaming solved it\n\nCompetitive gaming existed long before it was an industry: tournaments ran through the 1990s, and South Korea built a genuine professional scene around StarCraft with televised matches in the early 2000s. What limited every earlier attempt, however, was distribution, because broadcasting a video game required a television slot, and television did not want one.\n\nLive streaming removed that constraint entirely, because a tournament could reach a global audience at almost no marginal cost, with no gatekeeper deciding the schedule. The audience that had always existed became visible and, more importantly, measurable, and measurable audiences can be sold to advertisers.\n\n### Publisher control, the feature that has no equivalent in sport\n\nHere is the structural fact that makes esports unlike football or basketball: nobody owns football, and anybody may organise a match, but every esport is played on software owned by a company, and that company controls the rules, the updates, the tournament licensing and whether the competitive scene continues to exist at all.\n\nSome publishers used this to build franchised leagues with fixed teams and scheduled seasons, importing the structure of North American professional sport. That professionalised the sector quickly; however, it also concentrated risk, because a publisher that loses interest in a competitive scene can end it in a way that no governing body in traditional sport could.\n\n## Why It Matters\n\nStart with the players, since they carry most of the cost. Esports invented a career that did not exist a generation ago, and it comes with the drawbacks of any physically demanding profession with a short shelf life and no pension.\n\nThe games industry sees something different: a retention mechanism. The wider market took $188.8 billion in 2025 from roughly 3.6 billion players, and a game with a living competitive scene holds its audience for years, not months. Much of the time, esports makes more sense as marketing infrastructure for a game than as a business standing on its own.\n\nThen there is the national interest, which is where the money has been loudest. Saudi Arabia's position, through both the Esports World Cup Foundation and that twelve-year IOC partnership, is the clearest example: heavy investment in a sector with a young global audience, folded into a wider strategy. Writing about it honestly means holding two things at once, the scale of what has been built and the criticism the investment attracts.\n\n## Real-World Applications\n\nThe Olympic decision is the most concrete development. Following the unanimous July 2024 approval, the IOC confirmed in February 2025 that the inaugural Olympic Esports Games would be held in 2027, having initially announced 2025, with a preparatory roadmap starting that year. The delay is itself informative: aligning publisher-owned titles with Olympic governance is genuinely difficult, and the schedule moved accordingly.\n\nBeyond the Olympic track, the established structures are publisher-run world championships, third-party tournament circuits, and university and school competition, which has become a recruitment pathway in several countries.\n\n## Benefits and Opportunities\n\nThe clearest opportunities are not in playing. A tournament requires broadcast production, analysis, coaching, event operations, statistics, translation and community management, and these roles are more numerous and more durable than the playing positions. For readers weighing a route into the sector, production and data work is the more reliable entry point.\n\nThere is also genuine accessibility. Competing does not depend on physical build or on living near a suitable facility, which widens participation in ways traditional sport structurally cannot.\n\n## Limitations, Risks and Trade-offs\n\n**The data is weaker than the confident figures suggest.** This deserves emphasis because so much coverage repeats numbers uncritically. <a href=\"https://newzoo.com/resources/trend-reports/newzoo-global-games-market-report-2025\" target=\"_blank\" rel=\"noopener noreferrer\">Newzoo</a>, whose esports reports were the sector's most-cited source, discontinued its dedicated esports reporting in 2023. The estimates that circulate since come from various providers using different definitions of a viewer and different revenue models, and they are not directly comparable. Where you see a precise global esports revenue figure, treat it as one provider's estimate rather than an established fact.\n\n**The business model has not matured.** Sponsorship dominates, and sponsorship is the first budget cut in a downturn. When investment tightened, organisations built on venture funding, with no operating profit underneath, contracted sharply. Media rights, which underwrite traditional sport, have not reached comparable scale.\n\n**Publisher dependency.** A competitive scene exists at the discretion of a company that may change the game's rules, alter its economics or discontinue support.\n\n**Player welfare.** Careers are short, repetitive strain injuries are common, and the training culture has historically been punishing. Governance around player contracts and welfare lags well behind established sport.\n\n**Integrity and gambling.** Betting is a substantial revenue stream around esports and brings match-fixing exposure, particularly at lower tiers where salaries are small and oversight is thin.\n\n## Conclusion\n\nEsports did not become an industry because someone won the argument about whether it is a sport; it became one because streaming solved distribution, publishers built league structures, and sponsors decided a young global audience was worth paying to reach. Olympic recognition confirmed that.\n\nWhat is still unsettled is whether the sector can fund itself, because a business resting on sponsorship and strategic national investment is a business dependent on other people's enthusiasm. For me, the transition that matters over the next few years is not further institutional recognition, which it now has, but whether esports can build revenue that survives a cold funding market.\n\nEsports sells the same thing the social platforms sell: hours of human attention, bought by sponsors. Our piece on [distraction by design](/articles/distraction-by-design/) examines how that market for attention actually works, and who pays for it.\n",
       "img": "article-images/the-rise-of-esports/esports-arena-stage.jpg",
       "alt": "A packed esports arena viewed from behind the crowd, facing a lit main stage with two player booths and large blank screens. Illustration generated with AI for Sholynk.",
       "author": "Oluwashola Busari",
@@ -447,8 +447,8 @@
           "doi": "",
           "accessedAt": "2026-08-16",
           "supports": "The 142nd IOC Session unanimously endorsed the creation of the Olympic Esports Games, and the IOC entered a 12-year partnership with the National Olympic Committee of Saudi Arabia.",
-          "createdAt": "2026-08-20 17:14:39",
-          "updatedAt": "2026-08-20 17:14:39"
+          "createdAt": "2026-08-20 18:10:33",
+          "updatedAt": "2026-08-20 18:10:33"
         },
         {
           "id": 18,
@@ -462,8 +462,8 @@
           "doi": "",
           "accessedAt": "2026-08-16",
           "supports": "Confirmation that the inaugural Olympic Esports Games would take place in 2027 rather than 2025, and that the Esports World Cup Foundation was named founding partner.",
-          "createdAt": "2026-08-20 17:14:39",
-          "updatedAt": "2026-08-20 17:14:39"
+          "createdAt": "2026-08-20 18:10:33",
+          "updatedAt": "2026-08-20 18:10:33"
         },
         {
           "id": 19,
@@ -477,8 +477,8 @@
           "doi": "",
           "accessedAt": "2026-08-16",
           "supports": "IOC statement that the Olympic Esports Games were approved in July 2024 as a landmark initiative bridging esports and traditional sport.",
-          "createdAt": "2026-08-20 17:14:39",
-          "updatedAt": "2026-08-20 17:14:39"
+          "createdAt": "2026-08-20 18:10:33",
+          "updatedAt": "2026-08-20 18:10:33"
         },
         {
           "id": 20,
@@ -492,8 +492,8 @@
           "doi": "",
           "accessedAt": "2026-08-16",
           "supports": "Global games market revenues of $188.8 billion in 2025 across a player base of 3.6 billion, with console the fastest-growing segment at 5.5% year on year.",
-          "createdAt": "2026-08-20 17:14:39",
-          "updatedAt": "2026-08-20 17:14:39"
+          "createdAt": "2026-08-20 18:10:33",
+          "updatedAt": "2026-08-20 18:10:33"
         },
         {
           "id": 21,
@@ -507,14 +507,14 @@
           "doi": "",
           "accessedAt": "2026-08-16",
           "supports": "Newzoo discontinued its dedicated esports industry reports, which had been the sector's most widely cited source for revenue and audience estimates.",
-          "createdAt": "2026-08-20 17:14:39",
-          "updatedAt": "2026-08-20 17:14:39"
+          "createdAt": "2026-08-20 18:10:33",
+          "updatedAt": "2026-08-20 18:10:33"
         }
       ],
       "link": "articles/the-rise-of-esports/",
       "cleanLink": "articles/the-rise-of-esports/",
-      "createdAt": "2026-08-20 17:14:39",
-      "updatedAt": "2026-08-20 17:14:39"
+      "createdAt": "2026-08-20 18:10:33",
+      "updatedAt": "2026-08-20 18:10:33"
     },
     {
       "id": 5,
@@ -567,7 +567,7 @@
         "distraction-by-design",
         "multimodal-ai-models"
       ],
-      "body": "## Introduction\n\nMost cryptocurrency arguments are about price. Stablecoins are the exception, because a stablecoin that moves in price has failed at the one thing it was built to do.\n\nThat modesty is precisely why they became consequential. A token engineered to be boring is a token that can be used to pay for something, and payment is the use case that cryptocurrency spent more than a decade promising and rarely delivering. Somewhere in that shift, stablecoins stopped being a trading convenience for moving between exchanges and started attracting the attention of banking regulators, finance ministries and the Bank for International Settlements.\n\nThe United States now has a statutory framework for them. The proposed implementing rules run to hundreds of pages. And the central bankers' central bank has published a detailed argument that these instruments still are not money. All three things are true at once, which is what makes the subject worth understanding properly.\n\n## Understanding Stablecoins\n\n### What the token actually is\n\nA stablecoin is a claim. When an issuer creates one token, it undertakes to hold assets of equivalent value in reserve, and to give the holder that value back on request. The token circulates on a blockchain and can be transferred like any other, but the thing anchoring it to a dollar is not the blockchain. It is the reserve and the redemption promise.\n\nThis distinguishes it from other crypto assets, whose price is set purely by what someone will pay. It also distinguishes it from a bank deposit, which is a claim on a bank that carries deposit insurance and access to central bank facilities. A stablecoin holder has neither of those protections, a point US regulators have made explicitly.\n\n### Why pegs slip\n\nIf the arrangement works, one token trades at one dollar. In practice tokens deviate, and the reasons are instructive. Redemption may be open only to large institutional counterparties, not to ordinary holders. It may take days. The reserve composition may be uncertain. Each of these introduces a gap between the theoretical value and what a buyer will actually pay in a secondary market.\n\nThe academic literature frames this as a run problem. Where an issuer holds only cash equivalents, redemption risk arises mainly if a run is large enough to force hurried asset sales at a loss. The reserve's quality, in other words, matters more than its headline size.\n\n### The distinction that gets lost\n\nThere is an important separation between a **payment stablecoin**, designed to be spent, and a **yield-bearing token**, designed to pay a return. The US framework regulates the former and bars issuers from paying interest on it. Products that pass through returns from tokenised government debt are a related but legally distinct category, and conflating the two is the most common error in coverage of this sector.\n\n## Why It Matters\n\nStart with the businesses, because their interest is the least ideological. Correspondent banking is slow and expensive at small values, and anyone who has waited three days for a modest cross-border payment to clear understands the appeal of settlement that takes minutes and does not observe weekends. That is an operational complaint, not a political one.\n\nRegulators are looking at the same instrument and seeing a funding question. If deposits drift out of banks and into private tokens, banks have less to lend. The <a href=\"https://www.bis.org/\" target=\"_blank\" rel=\"noopener noreferrer\">Bank for International Settlements</a> (BIS), the institution central banks themselves bank with, put numbers on this, and the numbers are not what either camp expected. Modelling adoption at one, two and three trillion dollars in market value, it found the net effect on output was small, and in its US-calibrated version slightly negative over the medium term. Read that again: the objection is not that stablecoins would blow something up. It is that they would impose real costs while delivering very little growth.\n\nThe sharpest version of the argument is playing out in countries with unstable currencies, and it is genuinely uncomfortable. Holding a dollar-referenced token is a sensible decision for one household and a problem when several million make it at once, because it hollows out monetary sovereignty and reshapes how capital moves. The BIS calls this stablecoin dollarisation. Readers in Lagos, Buenos Aires or Istanbul will not need it explained.\n\n## Real-World Applications\n\nCross-border business settlement is the clearest established use, particularly for payments too small or too frequent to justify correspondent banking fees. Treasury movement between entities of the same group is another, because it involves sophisticated parties who can manage custody.\n\nCard networks and payment processors have begun offering stablecoin payout and settlement options, which matters because it puts the token behind a familiar interface, so merchants never handle it directly.\n\nWhat remains less established is everyday retail payment. Here the evidence deserves care. Raw on-chain transfer figures are enormous, but they include automated activity, internal transfers between an issuer's own addresses and exchange plumbing. Adjusted estimates that filter this out are substantially lower. Anyone quoting a headline volume figure without saying whether it is raw or adjusted is not telling you much.\n\n## Benefits and Opportunities\n\nThe genuine advantages are narrow and real: settlement that does not observe banking hours, programmability that allows a payment to carry conditions, and access to dollar-denominated value for people whose local banking system does not readily provide it.\n\nRegulatory clarity has itself become an opportunity. Institutions that would not touch an unsupervised instrument can consider a federally chartered one, which is why bank subsidiaries and payment companies have entered a market they previously avoided.\n\n## Limitations, Risks and Trade-offs\n\n**The market size figures are softer than they look.** Reported totals for 2026 varied across the low $300 billions depending on the provider and the date. Even the Office of the Comptroller of the Currency (OCC), the US regulator writing the rulebook, worked from private-sector forecasts giving an upper bound of $500 billion for 2026 rather than a measured figure. Treat any precise number as an estimate with a methodology attached.\n\n**Concentration.** The market is dominated by two issuers. Compliance costs tend to entrench incumbents, not diversify a market, and a payment system resting on two private balance sheets carries an obvious single-point-of-failure question.\n\n**No deposit insurance.** This bears repeating because the user experience resembles a bank account. It is not one. US regulators have been clear that token holders are not insured.\n\n**The BIS objection is structural, not technical.** Its argument is that stablecoins fail on singleness, the property that a dollar from one issuer is interchangeable with a dollar from another at par. Different tokens trading at slightly different values reintroduces a problem that nineteenth-century private banknotes had and that modern monetary infrastructure exists to solve. The BIS also argues they fail on elasticity, interoperability across chains, and integrity, given that permissionless rails weaken anti-money-laundering controls.\n\n**Compliance is now a continuous obligation.** Under the <a href=\"https://www.federalregister.gov/documents/2026/03/02/2026-04089/implementing-the-guiding-and-establishing-national-innovation-for-us-stablecoins-act-for-the\" target=\"_blank\" rel=\"noopener noreferrer\">proposed OCC rules</a>, redemption must be timely, with a proposed limit of two business days. Larger issuers face insured-deposit requirements and audit obligations. Enforcement timelines run into 2027, and these are proposals until finalised, so the detail may shift.\n\n## Conclusion\n\nStablecoins have completed an unusual journey: from a trading utility, to a payments instrument, to a supervised financial activity with capital requirements and a rulebook. That progression is close to what the sector asked for, and it has come with the constraints that supervision always brings.\n\nThe BIS question is the one still hanging over all of this. A payment instrument can be useful, properly regulated and widely adopted while still not being money in the way a monetary system needs money to behave, and that gap only shows itself under stress. The next couple of years, as the US rules finalise and enforcement begins, will test the argument, not settle it.\n\nThere is a longer-dated risk worth naming too. Stablecoins settle on blockchains secured by <a href=\"https://en.wikipedia.org/wiki/Elliptic-curve_cryptography\" target=\"_blank\" rel=\"noopener noreferrer\">elliptic-curve cryptography</a>, the same mathematics a sufficiently advanced quantum computer could eventually break. Our guide to [the rise of quantum computing](/articles/the-rise-of-quantum-computing/) explains how close that threat actually is.\n",
+      "body": "## Introduction\n\nMost cryptocurrency arguments are about price; stablecoins are the exception, because a stablecoin that moves in price has failed at the one thing it was built to do.\n\nThat modesty is precisely why they became consequential. A token engineered to be boring is a token that can be used to pay for something, and payment is the use case that cryptocurrency spent more than a decade promising and rarely delivering. Somewhere in that shift, stablecoins stopped being a trading convenience for moving between exchanges and started attracting the attention of banking regulators, finance ministries and the Bank for International Settlements.\n\nTo begin with, the United States now has a statutory framework for them; the proposed implementing rules run to hundreds of pages, and the central bankers' central bank has published a detailed argument that these instruments still are not money. All three things are true at once, which is what makes the subject worth understanding properly.\n\n## Understanding Stablecoins\n\n### What the token actually is\n\nA stablecoin is a claim. When an issuer creates one token, it undertakes to hold assets of equivalent value in reserve, and to give the holder that value back on request. The token circulates on a blockchain and can be transferred like any other, but the thing anchoring it to a dollar is not the blockchain. It is the reserve and the redemption promise.\n\nThis distinguishes it from other crypto assets, whose price is set purely by what someone will pay, and it also distinguishes it from a bank deposit, which is a claim on a bank that carries deposit insurance and access to central bank facilities. A stablecoin holder has neither of those protections, a point US regulators have made explicitly.\n\n### Why pegs slip\n\nIf the arrangement works, one token trades at one dollar. In practice tokens deviate, and the reasons are instructive: redemption may be open only to large institutional counterparties, not to ordinary holders; it may take days; and the reserve composition may be uncertain. Each of these introduces a gap between the theoretical value and what a buyer will actually pay in a secondary market.\n\nThe academic literature frames this as a run problem. Where an issuer holds only cash equivalents, redemption risk arises mainly if a run is large enough to force hurried asset sales at a loss. The reserve's quality, in other words, matters more than its headline size.\n\n### The distinction that gets lost\n\nThere is an important separation between a **payment stablecoin**, designed to be spent, and a **yield-bearing token**, designed to pay a return. The US framework regulates the former and bars issuers from paying interest on it. Products that pass through returns from tokenised government debt are a related but legally distinct category, and conflating the two is the most common error in coverage of this sector.\n\n## Why It Matters\n\nStart with the businesses, because their interest is the least ideological. Correspondent banking is slow and expensive at small values, and anyone who has waited three days for a modest cross-border payment to clear understands the appeal of settlement that takes minutes and does not observe weekends. That is an operational complaint, not a political one.\n\nRegulators are looking at the same instrument and seeing a funding question. If deposits drift out of banks and into private tokens, banks have less to lend. The <a href=\"https://www.bis.org/\" target=\"_blank\" rel=\"noopener noreferrer\">Bank for International Settlements</a> (BIS), the institution central banks themselves bank with, put numbers on this, and the numbers are not what either camp expected. Modelling adoption at one, two and three trillion dollars in market value, it found the net effect on output was small, and in its US-calibrated version slightly negative over the medium term. Read that again: the objection is not that stablecoins would blow something up; it is that they would impose real costs while delivering very little growth.\n\nThe sharpest version of the argument is playing out in countries with unstable currencies, and it is genuinely uncomfortable. Holding a dollar-referenced token is a sensible decision for one household and a problem when several million make it at once, because it hollows out monetary sovereignty and reshapes how capital moves. The BIS calls this stablecoin dollarisation. Readers in Lagos, Buenos Aires or Istanbul will not need it explained.\n\n## Real-World Applications\n\nCross-border business settlement is the clearest established use, particularly for payments too small or too frequent to justify correspondent banking fees. Treasury movement between entities of the same group is another, because it involves sophisticated parties who can manage custody.\n\nCard networks and payment processors have begun offering stablecoin payout and settlement options, which matters because it puts the token behind a familiar interface, so merchants never handle it directly.\n\nWhat remains less established is everyday retail payment. Here the evidence deserves care. Raw on-chain transfer figures are enormous, but they include automated activity, internal transfers between an issuer's own addresses and exchange plumbing. Adjusted estimates that filter this out are substantially lower. Anyone quoting a headline volume figure without saying whether it is raw or adjusted is not telling you much.\n\n## Benefits and Opportunities\n\nThe genuine advantages are narrow and real: settlement that does not observe banking hours, programmability that allows a payment to carry conditions, and access to dollar-denominated value for people whose local banking system does not readily provide it.\n\nRegulatory clarity has itself become an opportunity. Institutions that would not touch an unsupervised instrument can consider a federally chartered one, which is why bank subsidiaries and payment companies have entered a market they previously avoided.\n\n## Limitations, Risks and Trade-offs\n\n**The market size figures are softer than they look.** Reported totals for 2026 varied across the low $300 billions depending on the provider and the date. Even the Office of the Comptroller of the Currency (OCC), the US regulator writing the rulebook, worked from private-sector forecasts giving an upper bound of $500 billion for 2026 rather than a measured figure. Treat any precise number as an estimate with a methodology attached.\n\n**Concentration.** The market is dominated by two issuers. Compliance costs tend to entrench incumbents, not diversify a market, and a payment system resting on two private balance sheets carries an obvious single-point-of-failure question.\n\n**No deposit insurance.** This bears repeating because the user experience resembles a bank account. It is not one. US regulators have been clear that token holders are not insured.\n\n**The BIS objection is structural, not technical.** Its argument is that stablecoins fail on singleness, the property that a dollar from one issuer is interchangeable with a dollar from another at par. Different tokens trading at slightly different values reintroduces a problem that nineteenth-century private banknotes had and that modern monetary infrastructure exists to solve. The BIS also argues they fail on elasticity, interoperability across chains, and integrity, given that permissionless rails weaken anti-money-laundering controls.\n\n**Compliance is now a continuous obligation.** Under the <a href=\"https://www.federalregister.gov/documents/2026/03/02/2026-04089/implementing-the-guiding-and-establishing-national-innovation-for-us-stablecoins-act-for-the\" target=\"_blank\" rel=\"noopener noreferrer\">proposed OCC rules</a>, redemption must be timely, with a proposed limit of two business days. Larger issuers face insured-deposit requirements and audit obligations. Enforcement timelines run into 2027, and these are proposals until finalised, so the detail may shift.\n\n## Conclusion\n\nStablecoins have completed an unusual journey: from a trading utility, to a payments instrument, to a supervised financial activity with capital requirements and a rulebook. That progression is close to what the sector asked for, and it has come, as supervision always does, with constraints.\n\nFor me, the BIS question is the one still hanging over all of this, because a payment instrument can be useful, properly regulated and widely adopted while still not being money in the way a monetary system needs money to behave, and that gap only shows itself under stress. The next couple of years, as the US rules finalise and enforcement begins, will test the argument, not settle it.\n\nThere is a longer-dated risk worth naming too. Stablecoins settle on blockchains secured by <a href=\"https://en.wikipedia.org/wiki/Elliptic-curve_cryptography\" target=\"_blank\" rel=\"noopener noreferrer\">elliptic-curve cryptography</a>, the same mathematics a sufficiently advanced quantum computer could eventually break. Our guide to [the rise of quantum computing](/articles/the-rise-of-quantum-computing/) explains how close that threat actually is.\n",
       "img": "article-images/stablecoins-and-digital-payments/stablecoin-payment-rails.jpg",
       "alt": "A hand holding a smartphone above a shop payment terminal mid-transaction, with faint network lines suggesting settlement moving between two points. Illustration generated with AI for Sholynk.",
       "author": "Oluwashola Busari",
@@ -599,8 +599,8 @@
           "doi": "",
           "accessedAt": "2026-08-16",
           "supports": "Proposed 12 CFR Part 15 requirements including the $5 million minimum capital floor for de novo federal issuers, the $10 billion threshold for transition to federal oversight, and the OCC's use of private forecasts with an upper bound of $500 billion in 2026 issuance.",
-          "createdAt": "2026-08-20 17:14:39",
-          "updatedAt": "2026-08-20 17:14:39"
+          "createdAt": "2026-08-20 18:10:33",
+          "updatedAt": "2026-08-20 18:10:33"
         },
         {
           "id": 13,
@@ -614,8 +614,8 @@
           "doi": "",
           "accessedAt": "2026-08-16",
           "supports": "Analysis of the proposed two business day limit on timely redemption and the requirement that issuers with at least $25 billion outstanding hold 0.5% of reserves in insured deposits, capped at $500 million.",
-          "createdAt": "2026-08-20 17:14:39",
-          "updatedAt": "2026-08-20 17:14:39"
+          "createdAt": "2026-08-20 18:10:33",
+          "updatedAt": "2026-08-20 18:10:33"
         },
         {
           "id": 14,
@@ -629,8 +629,8 @@
           "doi": "",
           "accessedAt": "2026-08-16",
           "supports": "The GENIUS Act permits only issuers below $10 billion in market capitalisation to opt for a state-level regulatory regime, with annual state recertification.",
-          "createdAt": "2026-08-20 17:14:39",
-          "updatedAt": "2026-08-20 17:14:39"
+          "createdAt": "2026-08-20 18:10:33",
+          "updatedAt": "2026-08-20 18:10:33"
         },
         {
           "id": 15,
@@ -644,8 +644,8 @@
           "doi": "",
           "accessedAt": "2026-08-16",
           "supports": "Reporting on the BIS Annual Economic Report 2026 chapter arguing stablecoins fall short on singleness, elasticity, interoperability and integrity, and modelling a slightly negative medium-term output effect at $1 trillion to $3 trillion in market value.",
-          "createdAt": "2026-08-20 17:14:39",
-          "updatedAt": "2026-08-20 17:14:39"
+          "createdAt": "2026-08-20 18:10:33",
+          "updatedAt": "2026-08-20 18:10:33"
         },
         {
           "id": 16,
@@ -659,14 +659,14 @@
           "doi": "10.1016/j.qref.2026.102143",
           "accessedAt": "2026-08-16",
           "supports": "Peer-reviewed open-access analysis arguing that properly collateralised fiat-pegged stablecoins are not inherently run-prone, and that for issuers holding only cash equivalents redemption risk arises mainly where a run forces loss-making asset liquidation.",
-          "createdAt": "2026-08-20 17:14:39",
-          "updatedAt": "2026-08-20 17:14:39"
+          "createdAt": "2026-08-20 18:10:33",
+          "updatedAt": "2026-08-20 18:10:33"
         }
       ],
       "link": "articles/stablecoins-and-digital-payments/",
       "cleanLink": "articles/stablecoins-and-digital-payments/",
-      "createdAt": "2026-08-20 17:14:39",
-      "updatedAt": "2026-08-20 17:14:39"
+      "createdAt": "2026-08-20 18:10:33",
+      "updatedAt": "2026-08-20 18:10:33"
     },
     {
       "id": 4,
@@ -715,7 +715,7 @@
         "mastering-the-art-of-coding",
         "distraction-by-design"
       ],
-      "body": "## Introduction\n\nFor most of computing history, the burden of translation fell on the human being. If you wanted software to act on the contents of a photograph, you described the photograph in words. If you wanted it to process an invoice, you typed the numbers into fields. The machine could store an image perfectly well, but it could not read one.\n\nThat arrangement is being dismantled. A single class of system now accepts a screenshot, a recording, a scanned contract and a paragraph of instruction, and answers questions that require all four at once. The change is not that computers have gained sight. It is that sight, hearing and reading have stopped being separate pieces of software.\n\nThis matters for anyone building products, because the interface between a user and a computer has quietly widened. It also matters because the marketing has run ahead of the evidence, and the benchmark record tells a more careful story than the launch announcements do.\n\n## Understanding Multimodal AI\n\n### From separate systems to a shared representation\n\nOlder approaches treated each input type as its own discipline. Speech recognition converted audio into text. <a href=\"https://en.wikipedia.org/wiki/Optical_character_recognition\" target=\"_blank\" rel=\"noopener noreferrer\">Optical character recognition</a>, or OCR, converted images of documents into text. Image classifiers sorted pictures into fixed categories. Each was a specialist, and joining them meant piping the output of one into the input of another, losing information at every step.\n\nA multimodal model works differently. It converts every input, whatever its original form, into a common numerical representation known as an <a href=\"https://en.wikipedia.org/wiki/Embedding_(machine_learning)\" target=\"_blank\" rel=\"noopener noreferrer\">**embedding**</a>: a list of numbers positioned in a shared mathematical space. A photograph of a bicycle and the word \"bicycle\" end up near one another in that space. Because everything lives in the same representation, the model can reason across inputs rather than passing summaries between separate tools.\n\n### What happens to an image\n\nWhen you supply a picture, an encoder divides it into patches and turns each into a vector. Those vectors are placed into the same sequence as the tokens of your written prompt. From the model's perspective, there is no meaningful boundary between the question and the picture; both are simply positions in one sequence it attends over.\n\nThis is why a multimodal model can answer a question such as \"does the third row of this table contradict the claim in the paragraph above it?\" A pipeline of separate tools would struggle, because the relationship between the table and the paragraph is destroyed the moment each is processed in isolation.\n\n### Why \"multimodal\" is not one capability\n\nThe term flattens a set of quite different skills. Reading dense text in a photographed document is not the same problem as tracking an object through ninety minutes of video, which is not the same as interpreting an unlabelled chart. Published results reflect this: different systems lead on different axes, which is why some engineering teams route each task to a different model instead of standardising on one.\n\n## Why It Matters\n\nAsk a developer what they spend their time on and the answer is rarely the interesting part. It is preprocessing: the document parser, the layout detector, the pile of rules that breaks the moment a supplier changes their invoice template. A good deal of that work can now be replaced by a question written in plain language. Software that touches the physical world, where inputs turn up as photographs and voice notes, not tidy database rows, gets considerably cheaper to build.\n\nThen there are the archives. Most large organisations are sitting on decades of scanned records, engineering diagrams, recorded calls and site photographs that nobody can search. The material was stored but never made readable, which is a polite way of saying it was lost. Being able to ask questions of that pile changes what an archive is actually for.\n\nThe rest of us will mostly notice this through accessibility, if we notice it at all. Software that describes a room, reads a menu aloud or pulls the argument out of a two-hour lecture recording removes barriers that thirty years of interface design never managed to shift.\n\n## Real-World Applications\n\n### Documents, forms and charts\n\nThe most established deployment is document understanding: extracting structure from invoices, claims, identity documents and reports where layout carries meaning. This is a well-suited task because the answer is verifiable. If a model reads a total incorrectly, the error surfaces immediately against the arithmetic.\n\n### Accessibility\n\nScreen description and live scene narration are among the clearest uses, because a fluent, approximate description is genuinely more useful than no description. The tolerance for imperfection is higher here than in, say, medical triage.\n\n### Video review and long recordings\n\nVideo is the frontier, not the settled ground. Vendor-published figures show meaningful capability on long-form video understanding, but independent research is more sober. The <a href=\"https://arxiv.org/abs/2501.13826\" target=\"_blank\" rel=\"noopener noreferrer\">Video-MMMU study</a>, part of the Massive Multi-discipline Multimodal Understanding (MMMU) family of benchmarks, tested models on 300 expert-level teaching videos across six disciplines and, found performance declining progressively as tasks moved from perceiving information to comprehending it to applying it to a new problem. That pattern, competent at surface recall and weaker at transfer, recurs across the literature.\n\n## Benefits and Opportunities\n\nThe measurable gain is the removal of translation work. Where a task previously required a human to convert a physical artefact into structured data, a multimodal system can often do the first pass, leaving the human to check the work instead of typing it out. In document-heavy operations that is a meaningful reduction in handling time.\n\nThere is also an opportunity in the gap between modalities. Because different systems lead on different capabilities, teams willing to route tasks by type, instead of adopting a single default, can assemble something better than any one provider offers. That is an engineering advantage available to small teams, not just large ones.\n\n## Limitations, Risks and Trade-offs\n\n**Benchmarks have saturated, and that is itself a finding.** Standard multi-discipline image tests no longer separate leading systems; results cluster within a few points, which is within run-to-run variation. A vendor citing a strong score on a saturated benchmark is telling you very little.\n\n**The models lean on text more than they appear to.** This is the most important evidence in the field. The <a href=\"https://arxiv.org/abs/2409.02813\" target=\"_blank\" rel=\"noopener noreferrer\">MMMU-Pro benchmark</a> was constructed by filtering out questions that text-only models could already answer, then embedding questions inside images so a system had to genuinely read and see at the same time. Accuracy fell by between 16.8 and 26.9 percentage points across the models tested. A portion of apparent visual understanding was language-model inference from context.\n\n**Confident errors on unclear inputs.** A blurred figure, an ambiguous chart or an unusual layout does not reliably produce an expression of uncertainty. It frequently produces a fluent and wrong answer, which is more dangerous than a refusal because it reads as authoritative.\n\n**Cost and latency.** Images and video consume far more of a model's context than text, so per-task costs rise quickly at volume. Video in particular remains expensive enough that many plausible applications are not yet economic.\n\n**Privacy.** Photographs and recordings carry incidental information that text does not: faces in the background, documents on a desk, location clues. Sending them to a third-party service is a materially different disclosure from sending a paragraph, and it deserves its own assessment and should not simply inherit an existing text policy.\n\n## Conclusion\n\nMultimodal models have made a real advance, and a narrower one than the launch videos suggest. They collapsed the boundary between reading and seeing inside a single system, which genuinely unlocks work in documents, accessibility and archive retrieval. What they have not done is achieve general perception, and the benchmark built specifically to test that claim found a gap the headline numbers hide.\n\nSo the question worth asking is not whether these systems can see. It is whether the task in front of you tolerates a confident wrong answer, and whether anyone would catch it. Where checking is cheap, as with a total on an invoice, the technology is ready today. Where checking is expensive, and a plausible error would sail through unnoticed, the case falls apart quickly.\n\nProgress from here is likely to be measured in reliability, not in how many input types a model accepts. Adding another input type is now straightforward; being trustworthy about what is actually in the image is not.\n",
+      "body": "## Introduction\n\nFor most of computing history, the burden of translation fell on the human being: if you wanted software to act on the contents of a photograph, you described the photograph in words, and if you wanted it to process an invoice, you typed the numbers into fields. The machine could store an image perfectly well, but it could not read one.\n\nThat arrangement is being dismantled. A single class of system now accepts a screenshot, a recording, a scanned contract and a paragraph of instruction, and answers questions that require all four at once; the change is not that computers have gained sight, but that sight, hearing and reading have stopped being separate pieces of software.\n\nThis matters for anyone building products, because the interface between a user and a computer has quietly widened. It also matters because the marketing has run ahead of the evidence, and the benchmark record tells a more careful story than the launch announcements do.\n\n## Understanding Multimodal AI\n\n### From separate systems to a shared representation\n\nOlder approaches treated each input type as its own discipline: speech recognition converted audio into text, <a href=\"https://en.wikipedia.org/wiki/Optical_character_recognition\" target=\"_blank\" rel=\"noopener noreferrer\">optical character recognition</a>, or OCR, converted images of documents into text, and image classifiers sorted pictures into fixed categories. Each was a specialist, and joining them meant piping the output of one into the input of another, losing information at every step.\n\nA multimodal model works differently. It converts every input, whatever its original form, into a common numerical representation known as an <a href=\"https://en.wikipedia.org/wiki/Embedding_(machine_learning)\" target=\"_blank\" rel=\"noopener noreferrer\">**embedding**</a>: a list of numbers positioned in a shared mathematical space. A photograph of a bicycle and the word \"bicycle\" end up near one another in that space. Because everything lives in the same representation, the model can reason across inputs rather than passing summaries between separate tools.\n\n### What happens to an image\n\nWhen you supply a picture, an encoder divides it into patches and turns each into a vector, and those vectors are placed into the same sequence as the tokens of your written prompt. From the model's perspective, there is no meaningful boundary between the question and the picture; both are simply positions in one sequence it attends over.\n\nThis is why a multimodal model can answer a question such as \"does the third row of this table contradict the claim in the paragraph above it?\" A pipeline of separate tools would struggle, because the relationship between the table and the paragraph is destroyed the moment each is processed in isolation.\n\n### Why \"multimodal\" is not one capability\n\nThe term flattens a set of quite different skills. Reading dense text in a photographed document is not the same problem as tracking an object through ninety minutes of video, which is not the same as interpreting an unlabelled chart. Published results reflect this: different systems lead on different axes, which is why some engineering teams route each task to a different model instead of standardising on one.\n\n## Why It Matters\n\nAsk a developer what they spend their time on and the answer is rarely the interesting part; it is preprocessing: the document parser, the layout detector, and the pile of rules that breaks the moment a supplier changes their invoice template. A good deal of that work can now be replaced by a question written in plain language, and software that touches the physical world, where inputs turn up as photographs and voice notes, not tidy database rows, gets considerably cheaper to build.\n\nThen there are the archives. Most large organisations are sitting on decades of scanned records, engineering diagrams, recorded calls and site photographs that nobody can search; the material was stored but never made readable, which is a polite way of saying it was lost. Being able to ask questions of that pile changes what an archive is actually for.\n\nThe rest of us will mostly notice this through accessibility, if we notice it at all. Software that describes a room, reads a menu aloud or pulls the argument out of a two-hour lecture recording removes barriers that thirty years of interface design never managed to shift.\n\n## Real-World Applications\n\n### Documents, forms and charts\n\nThe most established deployment is document understanding: extracting structure from invoices, claims, identity documents and reports where layout carries meaning. This is a well-suited task because the answer is verifiable, because if a model reads a total incorrectly, the error surfaces immediately against the arithmetic.\n\n### Accessibility\n\nScreen description and live scene narration are among the clearest uses, because a fluent, approximate description is genuinely more useful than no description. The tolerance for imperfection is higher here than in, say, medical triage.\n\n### Video review and long recordings\n\nVideo is the frontier, not the settled ground. Vendor-published figures show meaningful capability on long-form video understanding, but independent research is more sober. The <a href=\"https://arxiv.org/abs/2501.13826\" target=\"_blank\" rel=\"noopener noreferrer\">Video-MMMU study</a>, part of the Massive Multi-discipline Multimodal Understanding (MMMU) family of benchmarks, tested models on 300 expert-level teaching videos across six disciplines and, found performance declining progressively as tasks moved from perceiving information to comprehending it to applying it to a new problem. That pattern, competent at surface recall and weaker at transfer, recurs across the literature.\n\n## Benefits and Opportunities\n\nThe measurable gain is the removal of translation work. Where a task previously required a human to convert a physical artefact into structured data, a multimodal system can often do the first pass, leaving the human to check the work instead of typing it out. In document-heavy operations that is a meaningful reduction in handling time.\n\nThere is also an opportunity in the gap between modalities. Because different systems lead on different capabilities, teams willing to route tasks by type, instead of adopting a single default, can assemble something better than any one provider offers. That is an engineering advantage available to small teams, not just large ones.\n\n## Limitations, Risks and Trade-offs\n\n**Benchmarks have saturated, and that is itself a finding.** Standard multi-discipline image tests no longer separate leading systems; results cluster within a few points, which is within run-to-run variation. A vendor citing a strong score on a saturated benchmark is telling you very little.\n\n**The models lean on text more than they appear to.** This is the most important evidence in the field. The <a href=\"https://arxiv.org/abs/2409.02813\" target=\"_blank\" rel=\"noopener noreferrer\">MMMU-Pro benchmark</a> was constructed by filtering out questions that text-only models could already answer, then embedding questions inside images so a system had to genuinely read and see at the same time. Accuracy fell by between 16.8 and 26.9 percentage points across the models tested. A portion of apparent visual understanding was language-model inference from context.\n\n**Confident errors on unclear inputs.** A blurred figure, an ambiguous chart or an unusual layout does not reliably produce an expression of uncertainty. It frequently produces a fluent and wrong answer, which is more dangerous than a refusal because it reads as authoritative.\n\n**Cost and latency.** Images and video consume far more of a model's context than text, so per-task costs rise quickly at volume. Video in particular remains expensive enough that many plausible applications are not yet economic.\n\n**Privacy.** Photographs and recordings carry incidental information that text does not: faces in the background, documents on a desk, location clues. Sending them to a third-party service is a materially different disclosure from sending a paragraph, and it deserves its own assessment and should not simply inherit an existing text policy.\n\n## Conclusion\n\nMultimodal models have made a real advance, and a narrower one than the launch videos suggest. They collapsed the boundary between reading and seeing inside a single system, which genuinely unlocks work in documents, accessibility and archive retrieval. What they have not done is achieve general perception, and the benchmark built specifically to test that claim found a gap the headline numbers hide.\n\nSo the question worth asking is not whether these systems can see; it is whether the task in front of you tolerates a confident wrong answer, and whether anyone would catch it. Where checking is cheap, as with a total on an invoice, the technology is ready today; where checking is expensive, and a plausible error would sail through unnoticed, the case falls apart quickly.\n\nFor me, progress from here is likely to be measured in reliability, not in how many input types a model accepts. Adding another input type is now straightforward; being trustworthy about what is actually in the image is not.\n",
       "img": "article-images/multimodal-ai-models/multimodal-inputs.jpg",
       "alt": "A monitor showing a photograph, an audio waveform, a scanned handwritten page and a line chart converging into a single processing point. Illustration generated with AI for Sholynk.",
       "author": "Oluwashola Busari",
@@ -747,8 +747,8 @@
           "doi": "10.48550/arXiv.2409.02813",
           "accessedAt": "2026-08-16",
           "supports": "Model accuracy falls by 16.8 to 26.9 percentage points on MMMU-Pro compared with MMMU, and the benchmark filters out questions answerable by text-only models.",
-          "createdAt": "2026-08-20 17:14:39",
-          "updatedAt": "2026-08-20 17:14:39"
+          "createdAt": "2026-08-20 18:10:33",
+          "updatedAt": "2026-08-20 18:10:33"
         },
         {
           "id": 10,
@@ -762,8 +762,8 @@
           "doi": "",
           "accessedAt": "2026-08-16",
           "supports": "Model performance declines progressively as the cognitive demand of video-based tasks increases, across 300 expert-level videos in six disciplines.",
-          "createdAt": "2026-08-20 17:14:39",
-          "updatedAt": "2026-08-20 17:14:39"
+          "createdAt": "2026-08-20 18:10:33",
+          "updatedAt": "2026-08-20 18:10:33"
         },
         {
           "id": 11,
@@ -777,14 +777,14 @@
           "doi": "",
           "accessedAt": "2026-08-16",
           "supports": "Vendor-published scores for long video understanding, chart reasoning and document comprehension, used here as vendor-reported figures rather than independent evaluation.",
-          "createdAt": "2026-08-20 17:14:39",
-          "updatedAt": "2026-08-20 17:14:39"
+          "createdAt": "2026-08-20 18:10:33",
+          "updatedAt": "2026-08-20 18:10:33"
         }
       ],
       "link": "articles/multimodal-ai-models/",
       "cleanLink": "articles/multimodal-ai-models/",
-      "createdAt": "2026-08-20 17:14:39",
-      "updatedAt": "2026-08-20 17:14:39"
+      "createdAt": "2026-08-20 18:10:33",
+      "updatedAt": "2026-08-20 18:10:33"
     },
     {
       "id": 1,
@@ -837,7 +837,7 @@
         "multimodal-ai-models",
         "mastering-the-art-of-coding"
       ],
-      "body": "## Introduction\n\nYou picked up your phone to check one notification. Twenty minutes later you are three unrelated videos deep, and you cannot quite account for the time in between.\n\nThe usual explanation is a personal failing. You lack discipline. You should try harder. That framing is comforting to platforms and useless to you, because it misdiagnoses what happened. You were not outmatched by your own weakness. You were outmatched by a system with far more information about your behaviour than you have, refined continuously by measuring what keeps people looking.\n\nThis is not a conspiracy, and it does not require anyone to have acted in bad faith. It follows from a business model. When a service is free, the thing being sold is the time and attention of the people using it, and everything downstream of that fact follows logically.\n\n## Understanding the Attention Economy\n\n### Why attention became the product\n\nAdvertising-funded platforms earn more when people stay longer. More time means more advertisements seen, more behavioural data generated, and a more detailed profile to sell against. Engagement is therefore not a vanity metric. It is the closest available proxy for revenue, and it is what teams are measured on.\n\nThat single fact explains most of what follows. A design decision that increases time on the platform will tend to win internal arguments against one that does not, even when everyone involved has good intentions.\n\n### The mechanisms, in plain terms\n\nA handful of design patterns do most of the work.\n\n**Removed stopping cues.** A newspaper ends. A book has a page count. An infinite feed has neither, so there is no moment where the medium tells you that you are finished. Stopping becomes an active decision you must make against a system designed to defer it.\n\n**Unpredictable rewards.** Most posts are unremarkable, but occasionally something genuinely funny, useful or emotionally charged appears. Rewards delivered on an unpredictable schedule sustain attention more effectively than rewards delivered reliably, which is why a mostly boring feed can still be difficult to put down.\n\n**Social feedback.** Likes, replies and view counts attach a number to something people already care about deeply, which is how they are regarded by others. That number arrives unpredictably too.\n\n**Autoplay and pre-loading.** The next item begins before you have decided you want it. The default is continuation, and defaults are powerful precisely because most people never change them.\n\n**Personalised ranking.** Rather than showing everyone the same thing, recommendation systems predict what each person is most likely to watch or share, then rank accordingly. The system optimises for a prediction about your behaviour, which is not the same as your considered preference.\n\n### What the design is not\n\nIt is worth being precise, because the subject attracts overstatement. These systems do not read minds, and they are not uniformly effective. They are statistical machines that are right often enough to be commercially valuable. Describing them as irresistible flatters them and, more importantly, leaves the reader feeling powerless, which is both inaccurate and unhelpful.\n\n## Why It Matters\n\nStart with time, because it is the resource being spent. Ofcom's passive measurement found that three-quarters of the time UK adults spent online in May 2024 was on smartphones, which is to say most of it happened on a device that is always present and always interruptible. The context in which attention is captured has moved from a desk to a pocket.\n\nThe more interesting change is in how people feel about it. Ofcom's 2026 findings, reported by the Guardian, show a marked shift in sentiment: the proportion of adults saying the benefits of being online outweigh the risks fell to 59%, from 72% in 2024. The share saying these platforms are good for their mental health fell to 36%. Two in five report spending too much time on screens most days, and around a third have deleted an app because of the time it consumed or its effect on them.\n\nSet against that, one figure complicates the story. Average daily time online still rose, to four hours and thirty minutes. People are more uneasy and no less occupied, which is the gap this article is really about.\n\nThere is a democratic dimension as well. When ranking systems favour whatever holds attention, emotionally charged material has a structural advantage over careful material. That shapes which arguments travel, and it does so without anyone deciding that it should.\n\n## How the Design Shows Up in Practice\n\nWatch for these patterns and they become difficult to unsee.\n\n**The interrupted errand.** You open an app for a specific purpose, and the feed is presented before the tool you came for. The specific intention gets absorbed into general browsing.\n\n**The refresh reflex.** Pull to refresh is a deliberate physical gesture with an uncertain payoff, and it is not accidental that the motion resembles operating a slot machine.\n\n**Manufactured scarcity.** Content that disappears after a day converts browsing into something with a deadline.\n\n**Streaks and counters.** A number that resets if you stop turns a preference into an obligation.\n\n**Notification bundling.** Alerts are frequently delivered in batches at moments calculated to bring you back, not at the moment the underlying event occurred.\n\nNone of these is sinister on its own. Together they add up to an environment in which continuing is easy and stopping requires effort.\n\n## Benefits and Opportunities\n\nThe case against pretending this is all harm is straightforward: these platforms deliver real value that did not previously exist for most people.\n\nSomeone teaching themselves a skill has access to instruction that once required money and proximity. A small business reaches customers without an advertising budget. People living with rare conditions find others who understand. Communities scattered across continents stay in contact. In Nigeria and across much of Africa, social platforms function as genuine commercial infrastructure, not merely as entertainment.\n\nThe opportunity is not to renounce any of this. It is to capture the value while paying less for it in attention, which is a design problem you can solve on your own side of the screen.\n\n## Limitations, Risks and Trade-offs\n\n**Evidence on harm is genuinely contested.** Research linking social media use to mental health outcomes is mixed, and much of it is correlational. People who are already struggling may use these platforms more, which is a different claim from the platforms causing the struggle. Anyone stating the science is settled, in either direction, is overreaching.\n\n**Self-report is unreliable.** People are poor at estimating their own screen time, which is why regulator data based on passive measurement is more useful than surveys asking people to guess.\n\n**The burden is being placed on individuals.** Advice about personal discipline quietly accepts that the design will not change. That is a reasonable short-term strategy and a poor long-term settlement.\n\n**Attention is not evenly distributed.** Someone with a demanding job and no childcare has less capacity to manage this than someone with time and autonomy. Framing it purely as personal responsibility ignores that.\n\n## Practical Ways to Use These Platforms Deliberately\n\nThe aim is not abstinence. It is restoring the friction that the design removed.\n\n- **Turn off non-human notifications.** Alerts from people are worth having. Alerts generated by an algorithm to bring you back are not.\n- **Enter through search, not the feed.** Go in with a specific purpose and the feed loses its first opportunity.\n- **Reintroduce an ending.** A timer, an alarm, or simply deciding the number of items before you start, restores the stopping cue the interface removed.\n- **Move the apps.** Off the home screen, out of the thumb's reach. Small increases in effort measurably reduce casual opening.\n- **Separate the tool from the feed.** Use the messaging function without the timeline where the platform allows it.\n- **Audit occasionally.** Check what you actually consumed and whether you would choose it again. That question does more work than any app setting.\n\n## Conclusion\n\nThe phrase \"distraction by design\" is precise rather than rhetorical. These systems are not badly built. They are extremely well built, for a purpose that is not the same as yours, and the gap between those two purposes is where your time goes.\n\nRecognising that changes the question. It stops being about whether you have enough self-control and becomes about whether the environment you are using was arranged in your interest. Usually it was not, and once you can see the individual mechanisms, each of them becomes a decision you can make differently.\n\nThe wider shift may be slower than the current mood suggests. UK adults report growing unease while spending slightly longer online each year, and that gap between attitude and behaviour is the honest state of things. It suggests the change, when it comes, will be gradual and partly regulatory, rather than a sudden collective decision to look away.\n\nAttention has become the commodity that funds much of the modern internet, and the market for it extends well beyond social feeds. Competitive gaming is built on the same economics, which we examine in [the rise of esports](/articles/the-rise-of-esports/).\n",
+      "body": "## Introduction\n\nYou picked up your phone to check one notification. Twenty minutes later you are three unrelated videos deep, and you cannot quite account for the time in between.\n\nThe usual explanation is a personal failing: you lack discipline, and you should try harder. That framing is comforting to platforms and useless to you, because it misdiagnoses what happened; you were not outmatched by your own weakness, but by a system with far more information about your behaviour than you have, refined continuously by measuring what keeps people looking.\n\nThis is not a conspiracy, and it does not require anyone to have acted in bad faith; it follows from a business model, because when a service is free, the thing being sold is the time and attention of the people using it, and everything downstream of that fact follows logically.\n\n## Understanding the Attention Economy\n\n### Why attention became the product\n\nAdvertising-funded platforms earn more when people stay longer. More time means more advertisements seen, more behavioural data generated, and a more detailed profile to sell against; hence engagement is not a vanity metric but the closest available proxy for revenue, and it is what teams are measured on.\n\nThat single fact explains most of what follows, because a design decision that increases time on the platform will tend to win internal arguments against one that does not, even when everyone involved has good intentions.\n\n### The mechanisms, in plain terms\n\nA handful of design patterns do most of the work.\n\n**Removed stopping cues.** A newspaper ends. A book has a page count. An infinite feed has neither, so there is no moment where the medium tells you that you are finished. Stopping becomes an active decision you must make against a system designed to defer it.\n\n**Unpredictable rewards.** Most posts are unremarkable, but occasionally something genuinely funny, useful or emotionally charged appears. Rewards delivered on an unpredictable schedule sustain attention more effectively than rewards delivered reliably, which is why a mostly boring feed can still be difficult to put down.\n\n**Social feedback.** Likes, replies and view counts attach a number to something people already care about deeply, which is how they are regarded by others, and that number arrives unpredictably too.\n\n**Autoplay and pre-loading.** The next item begins before you have decided you want it. The default is continuation, and defaults are powerful precisely because most people never change them.\n\n**Personalised ranking.** Rather than showing everyone the same thing, recommendation systems predict what each person is most likely to watch or share, then rank accordingly. The system optimises for a prediction about your behaviour, which is not the same as your considered preference.\n\n### What the design is not\n\nIt is worth being precise, because the subject attracts overstatement. These systems do not read minds, and they are not uniformly effective; they are statistical machines that are right often enough to be commercially valuable. Describing them as irresistible flatters them and, more importantly, leaves the reader feeling powerless, which is both inaccurate and unhelpful.\n\n## Why It Matters\n\nStart with time, because it is the resource being spent. Ofcom's passive measurement found that three-quarters of the time UK adults spent online in May 2024 was on smartphones, which is to say most of it happened on a device that is always present and always interruptible. The context in which attention is captured has moved from a desk to a pocket.\n\nThe more interesting change is in how people feel about it. Ofcom's 2026 findings, reported by the Guardian, show a marked shift in sentiment: the proportion of adults saying the benefits of being online outweigh the risks fell to 59%, from 72% in 2024. The share saying these platforms are good for their mental health fell to 36%. Two in five report spending too much time on screens most days, and around a third have deleted an app because of the time it consumed or its effect on them.\n\nSet against that, however, one figure complicates the story: average daily time online still rose, to four hours and thirty minutes, so people are more uneasy and no less occupied, which is the gap this article is really about.\n\nThere is a democratic dimension as well. When ranking systems favour whatever holds attention, emotionally charged material has a structural advantage over careful material, and that shapes which arguments travel without anyone deciding that it should.\n\n## How the Design Shows Up in Practice\n\nWatch for these patterns and they become difficult to unsee.\n\n**The interrupted errand.** You open an app for a specific purpose, and the feed is presented before the tool you came for. The specific intention gets absorbed into general browsing.\n\n**The refresh reflex.** Pull to refresh is a deliberate physical gesture with an uncertain payoff, and it is not accidental that the motion resembles operating a slot machine.\n\n**Manufactured scarcity.** Content that disappears after a day converts browsing into something with a deadline.\n\n**Streaks and counters.** A number that resets if you stop turns a preference into an obligation.\n\n**Notification bundling.** Alerts are frequently delivered in batches at moments calculated to bring you back, not at the moment the underlying event occurred.\n\nNone of these is sinister on its own. Together they add up to an environment in which continuing is easy and stopping requires effort.\n\n## Benefits and Opportunities\n\nThe case against pretending this is all harm is straightforward: these platforms deliver real value that did not previously exist for most people.\n\nSomeone teaching themselves a skill has access to instruction that once required money and proximity, a small business reaches customers without an advertising budget, people living with rare conditions find others who understand, and communities scattered across continents stay in contact. In Nigeria and across much of Africa, in particular, social platforms function as genuine commercial infrastructure, not merely as entertainment.\n\nThe opportunity, therefore, is not to renounce any of this but to capture the value while paying less for it in attention, which is a design problem you can solve on your own side of the screen.\n\n## Limitations, Risks and Trade-offs\n\n**Evidence on harm is genuinely contested.** Research linking social media use to mental health outcomes is mixed, and much of it is correlational; people who are already struggling may use these platforms more, which is a different claim from the platforms causing the struggle, so anyone stating the science is settled, in either direction, is overreaching.\n\n**Self-report is unreliable.** People are poor at estimating their own screen time, which is why regulator data based on passive measurement is more useful than surveys asking people to guess.\n\n**The burden is being placed on individuals.** Advice about personal discipline quietly accepts that the design will not change. That is a reasonable short-term strategy and a poor long-term settlement.\n\n**Attention is not evenly distributed.** Someone with a demanding job and no childcare has less capacity to manage this than someone with time and autonomy. Framing it purely as personal responsibility ignores that.\n\n## Practical Ways to Use These Platforms Deliberately\n\nThe aim is not abstinence but restoring the friction that the design removed.\n\n- **Turn off non-human notifications.** Alerts from people are worth having. Alerts generated by an algorithm to bring you back are not.\n- **Enter through search, not the feed.** Go in with a specific purpose and the feed loses its first opportunity.\n- **Reintroduce an ending.** A timer, an alarm, or simply deciding the number of items before you start, restores the stopping cue the interface removed.\n- **Move the apps.** Off the home screen, out of the thumb's reach. Small increases in effort measurably reduce casual opening.\n- **Separate the tool from the feed.** Use the messaging function without the timeline where the platform allows it.\n- **Audit occasionally.** Check what you actually consumed and whether you would choose it again. That question does more work than any app setting.\n\n## Conclusion\n\nFor me, the phrase \"distraction by design\" is precise rather than rhetorical. These systems are not badly built; they are extremely well built, for a purpose that is not the same as yours, and the gap between those two purposes is where your time goes.\n\nRecognising that changes the question. It stops being about whether you have enough self-control and becomes about whether the environment you are using was arranged in your interest; usually it was not, and once you can see the individual mechanisms, each of them becomes a decision you can make differently.\n\nThe wider shift may be slower than the current mood suggests. UK adults report growing unease while spending slightly longer online each year, and that gap between attitude and behaviour is the honest state of things. It suggests the change, when it comes, will be gradual and partly regulatory, rather than a sudden collective decision to look away.\n\nAttention has become the commodity that funds much of the modern internet, and the market for it extends well beyond social feeds. Competitive gaming is built on the same economics, which we examine in [the rise of esports](/articles/the-rise-of-esports/).\n",
       "img": "article-images/distraction-by-design/social-media-apps-hero.jpg",
       "alt": "Smartphone screen showing a Social Media folder with apps such as YouTube, Instagram, Facebook and TikTok",
       "author": "Oluwashola Busari",
@@ -869,8 +869,8 @@
           "doi": "",
           "accessedAt": "2026-08-16",
           "supports": "Ofcom's annual evidence base on media use, attitudes and understanding among UK adults aged 16 and over, drawn from its Adults' Media Literacy Tracker.",
-          "createdAt": "2026-08-20 17:14:39",
-          "updatedAt": "2026-08-20 17:14:39"
+          "createdAt": "2026-08-20 18:10:33",
+          "updatedAt": "2026-08-20 18:10:33"
         },
         {
           "id": 2,
@@ -884,8 +884,8 @@
           "doi": "",
           "accessedAt": "2026-08-16",
           "supports": "Reporting on Ofcom findings that 49% of adult social media users now post, share or comment against 61% in 2024; that the share saying the benefits of being online outweigh the risks fell to 59% from 72%; that 40% report spending too much time on screens most days; and that average daily time online rose to four hours thirty minutes.",
-          "createdAt": "2026-08-20 17:14:39",
-          "updatedAt": "2026-08-20 17:14:39"
+          "createdAt": "2026-08-20 18:10:33",
+          "updatedAt": "2026-08-20 18:10:33"
         },
         {
           "id": 3,
@@ -899,14 +899,14 @@
           "doi": "",
           "accessedAt": "2026-08-16",
           "supports": "Passive-panel measurement showing that three-quarters of the time UK adults spent online per day in May 2024 was on smartphones.",
-          "createdAt": "2026-08-20 17:14:39",
-          "updatedAt": "2026-08-20 17:14:39"
+          "createdAt": "2026-08-20 18:10:33",
+          "updatedAt": "2026-08-20 18:10:33"
         }
       ],
       "link": "articles/distraction-by-design/",
       "cleanLink": "articles/distraction-by-design/",
-      "createdAt": "2026-08-20 17:14:39",
-      "updatedAt": "2026-08-20 17:14:39"
+      "createdAt": "2026-08-20 18:10:33",
+      "updatedAt": "2026-08-20 18:10:33"
     },
     {
       "id": 27,
@@ -944,8 +944,8 @@
       "sources": [],
       "link": "index.html?category=Technology",
       "cleanLink": "index.html?category=Technology",
-      "createdAt": "2026-08-20 17:14:39",
-      "updatedAt": "2026-08-20 17:14:39"
+      "createdAt": "2026-08-20 18:10:33",
+      "updatedAt": "2026-08-20 18:10:33"
     },
     {
       "id": 47,
@@ -983,8 +983,8 @@
       "sources": [],
       "link": "index.html?category=Game",
       "cleanLink": "index.html?category=Game",
-      "createdAt": "2026-08-20 17:14:39",
-      "updatedAt": "2026-08-20 17:14:39"
+      "createdAt": "2026-08-20 18:10:33",
+      "updatedAt": "2026-08-20 18:10:33"
     },
     {
       "id": 28,
@@ -1022,8 +1022,8 @@
       "sources": [],
       "link": "index.html?category=Technology",
       "cleanLink": "index.html?category=Technology",
-      "createdAt": "2026-08-20 17:14:39",
-      "updatedAt": "2026-08-20 17:14:39"
+      "createdAt": "2026-08-20 18:10:33",
+      "updatedAt": "2026-08-20 18:10:33"
     },
     {
       "id": 48,
@@ -1061,8 +1061,8 @@
       "sources": [],
       "link": "index.html?category=Game",
       "cleanLink": "index.html?category=Game",
-      "createdAt": "2026-08-20 17:14:39",
-      "updatedAt": "2026-08-20 17:14:39"
+      "createdAt": "2026-08-20 18:10:33",
+      "updatedAt": "2026-08-20 18:10:33"
     },
     {
       "id": 29,
@@ -1100,8 +1100,8 @@
       "sources": [],
       "link": "index.html?category=Technology",
       "cleanLink": "index.html?category=Technology",
-      "createdAt": "2026-08-20 17:14:39",
-      "updatedAt": "2026-08-20 17:14:39"
+      "createdAt": "2026-08-20 18:10:33",
+      "updatedAt": "2026-08-20 18:10:33"
     },
     {
       "id": 49,
@@ -1139,8 +1139,8 @@
       "sources": [],
       "link": "index.html?category=Game",
       "cleanLink": "index.html?category=Game",
-      "createdAt": "2026-08-20 17:14:39",
-      "updatedAt": "2026-08-20 17:14:39"
+      "createdAt": "2026-08-20 18:10:33",
+      "updatedAt": "2026-08-20 18:10:33"
     },
     {
       "id": 30,
@@ -1178,8 +1178,8 @@
       "sources": [],
       "link": "index.html?category=Cryptocurrency",
       "cleanLink": "index.html?category=Cryptocurrency",
-      "createdAt": "2026-08-20 17:14:39",
-      "updatedAt": "2026-08-20 17:14:39"
+      "createdAt": "2026-08-20 18:10:33",
+      "updatedAt": "2026-08-20 18:10:33"
     },
     {
       "id": 38,
@@ -1217,8 +1217,8 @@
       "sources": [],
       "link": "index.html?category=Web%203",
       "cleanLink": "index.html?category=Web%203",
-      "createdAt": "2026-08-20 17:14:39",
-      "updatedAt": "2026-08-20 17:14:39"
+      "createdAt": "2026-08-20 18:10:33",
+      "updatedAt": "2026-08-20 18:10:33"
     },
     {
       "id": 50,
@@ -1256,8 +1256,8 @@
       "sources": [],
       "link": "index.html?category=Game",
       "cleanLink": "index.html?category=Game",
-      "createdAt": "2026-08-20 17:14:39",
-      "updatedAt": "2026-08-20 17:14:39"
+      "createdAt": "2026-08-20 18:10:33",
+      "updatedAt": "2026-08-20 18:10:33"
     },
     {
       "id": 31,
@@ -1295,8 +1295,8 @@
       "sources": [],
       "link": "index.html?category=Cryptocurrency",
       "cleanLink": "index.html?category=Cryptocurrency",
-      "createdAt": "2026-08-20 17:14:39",
-      "updatedAt": "2026-08-20 17:14:39"
+      "createdAt": "2026-08-20 18:10:33",
+      "updatedAt": "2026-08-20 18:10:33"
     },
     {
       "id": 39,
@@ -1334,8 +1334,8 @@
       "sources": [],
       "link": "index.html?category=Web%203",
       "cleanLink": "index.html?category=Web%203",
-      "createdAt": "2026-08-20 17:14:39",
-      "updatedAt": "2026-08-20 17:14:39"
+      "createdAt": "2026-08-20 18:10:33",
+      "updatedAt": "2026-08-20 18:10:33"
     },
     {
       "id": 51,
@@ -1373,8 +1373,8 @@
       "sources": [],
       "link": "index.html?category=Game",
       "cleanLink": "index.html?category=Game",
-      "createdAt": "2026-08-20 17:14:39",
-      "updatedAt": "2026-08-20 17:14:39"
+      "createdAt": "2026-08-20 18:10:33",
+      "updatedAt": "2026-08-20 18:10:33"
     },
     {
       "id": 32,
@@ -1412,8 +1412,8 @@
       "sources": [],
       "link": "index.html?category=Cryptocurrency",
       "cleanLink": "index.html?category=Cryptocurrency",
-      "createdAt": "2026-08-20 17:14:39",
-      "updatedAt": "2026-08-20 17:14:39"
+      "createdAt": "2026-08-20 18:10:33",
+      "updatedAt": "2026-08-20 18:10:33"
     },
     {
       "id": 40,
@@ -1451,8 +1451,8 @@
       "sources": [],
       "link": "index.html?category=Web%203",
       "cleanLink": "index.html?category=Web%203",
-      "createdAt": "2026-08-20 17:14:39",
-      "updatedAt": "2026-08-20 17:14:39"
+      "createdAt": "2026-08-20 18:10:33",
+      "updatedAt": "2026-08-20 18:10:33"
     },
     {
       "id": 7,
@@ -1490,8 +1490,8 @@
       "sources": [],
       "link": "index.html?category=Web%203",
       "cleanLink": "index.html?category=Web%203",
-      "createdAt": "2026-08-20 17:14:39",
-      "updatedAt": "2026-08-20 17:14:39"
+      "createdAt": "2026-08-20 18:10:33",
+      "updatedAt": "2026-08-20 18:10:33"
     },
     {
       "id": 52,
@@ -1529,8 +1529,8 @@
       "sources": [],
       "link": "index.html?category=Game",
       "cleanLink": "index.html?category=Game",
-      "createdAt": "2026-08-20 17:14:39",
-      "updatedAt": "2026-08-20 17:14:39"
+      "createdAt": "2026-08-20 18:10:33",
+      "updatedAt": "2026-08-20 18:10:33"
     },
     {
       "id": 33,
@@ -1568,8 +1568,8 @@
       "sources": [],
       "link": "index.html?category=Cryptocurrency",
       "cleanLink": "index.html?category=Cryptocurrency",
-      "createdAt": "2026-08-20 17:14:39",
-      "updatedAt": "2026-08-20 17:14:39"
+      "createdAt": "2026-08-20 18:10:33",
+      "updatedAt": "2026-08-20 18:10:33"
     },
     {
       "id": 41,
@@ -1607,8 +1607,8 @@
       "sources": [],
       "link": "index.html?category=Web%203",
       "cleanLink": "index.html?category=Web%203",
-      "createdAt": "2026-08-20 17:14:39",
-      "updatedAt": "2026-08-20 17:14:39"
+      "createdAt": "2026-08-20 18:10:33",
+      "updatedAt": "2026-08-20 18:10:33"
     },
     {
       "id": 8,
@@ -1646,8 +1646,8 @@
       "sources": [],
       "link": "index.html?category=AI%20Trends",
       "cleanLink": "index.html?category=AI%20Trends",
-      "createdAt": "2026-08-20 17:14:39",
-      "updatedAt": "2026-08-20 17:14:39"
+      "createdAt": "2026-08-20 18:10:33",
+      "updatedAt": "2026-08-20 18:10:33"
     },
     {
       "id": 53,
@@ -1685,8 +1685,8 @@
       "sources": [],
       "link": "index.html?category=Game",
       "cleanLink": "index.html?category=Game",
-      "createdAt": "2026-08-20 17:14:39",
-      "updatedAt": "2026-08-20 17:14:39"
+      "createdAt": "2026-08-20 18:10:33",
+      "updatedAt": "2026-08-20 18:10:33"
     },
     {
       "id": 34,
@@ -1724,8 +1724,8 @@
       "sources": [],
       "link": "index.html?category=Cryptocurrency",
       "cleanLink": "index.html?category=Cryptocurrency",
-      "createdAt": "2026-08-20 17:14:39",
-      "updatedAt": "2026-08-20 17:14:39"
+      "createdAt": "2026-08-20 18:10:33",
+      "updatedAt": "2026-08-20 18:10:33"
     },
     {
       "id": 42,
@@ -1763,8 +1763,8 @@
       "sources": [],
       "link": "index.html?category=Web%203",
       "cleanLink": "index.html?category=Web%203",
-      "createdAt": "2026-08-20 17:14:39",
-      "updatedAt": "2026-08-20 17:14:39"
+      "createdAt": "2026-08-20 18:10:33",
+      "updatedAt": "2026-08-20 18:10:33"
     },
     {
       "id": 9,
@@ -1802,8 +1802,8 @@
       "sources": [],
       "link": "index.html?category=Technology",
       "cleanLink": "index.html?category=Technology",
-      "createdAt": "2026-08-20 17:14:39",
-      "updatedAt": "2026-08-20 17:14:39"
+      "createdAt": "2026-08-20 18:10:33",
+      "updatedAt": "2026-08-20 18:10:33"
     },
     {
       "id": 35,
@@ -1841,8 +1841,8 @@
       "sources": [],
       "link": "index.html?category=Cryptocurrency",
       "cleanLink": "index.html?category=Cryptocurrency",
-      "createdAt": "2026-08-20 17:14:39",
-      "updatedAt": "2026-08-20 17:14:39"
+      "createdAt": "2026-08-20 18:10:33",
+      "updatedAt": "2026-08-20 18:10:33"
     },
     {
       "id": 43,
@@ -1880,8 +1880,8 @@
       "sources": [],
       "link": "index.html?category=Web%203",
       "cleanLink": "index.html?category=Web%203",
-      "createdAt": "2026-08-20 17:14:39",
-      "updatedAt": "2026-08-20 17:14:39"
+      "createdAt": "2026-08-20 18:10:33",
+      "updatedAt": "2026-08-20 18:10:33"
     },
     {
       "id": 10,
@@ -1919,8 +1919,8 @@
       "sources": [],
       "link": "index.html?category=AI%20Trends",
       "cleanLink": "index.html?category=AI%20Trends",
-      "createdAt": "2026-08-20 17:14:39",
-      "updatedAt": "2026-08-20 17:14:39"
+      "createdAt": "2026-08-20 18:10:33",
+      "updatedAt": "2026-08-20 18:10:33"
     },
     {
       "id": 36,
@@ -1958,8 +1958,8 @@
       "sources": [],
       "link": "index.html?category=Cryptocurrency",
       "cleanLink": "index.html?category=Cryptocurrency",
-      "createdAt": "2026-08-20 17:14:39",
-      "updatedAt": "2026-08-20 17:14:39"
+      "createdAt": "2026-08-20 18:10:33",
+      "updatedAt": "2026-08-20 18:10:33"
     },
     {
       "id": 44,
@@ -1997,8 +1997,8 @@
       "sources": [],
       "link": "index.html?category=Web%203",
       "cleanLink": "index.html?category=Web%203",
-      "createdAt": "2026-08-20 17:14:39",
-      "updatedAt": "2026-08-20 17:14:39"
+      "createdAt": "2026-08-20 18:10:33",
+      "updatedAt": "2026-08-20 18:10:33"
     },
     {
       "id": 11,
@@ -2036,8 +2036,8 @@
       "sources": [],
       "link": "index.html?category=Web%203",
       "cleanLink": "index.html?category=Web%203",
-      "createdAt": "2026-08-20 17:14:39",
-      "updatedAt": "2026-08-20 17:14:39"
+      "createdAt": "2026-08-20 18:10:33",
+      "updatedAt": "2026-08-20 18:10:33"
     },
     {
       "id": 37,
@@ -2075,8 +2075,8 @@
       "sources": [],
       "link": "index.html?category=Cryptocurrency",
       "cleanLink": "index.html?category=Cryptocurrency",
-      "createdAt": "2026-08-20 17:14:39",
-      "updatedAt": "2026-08-20 17:14:39"
+      "createdAt": "2026-08-20 18:10:33",
+      "updatedAt": "2026-08-20 18:10:33"
     },
     {
       "id": 45,
@@ -2114,8 +2114,8 @@
       "sources": [],
       "link": "index.html?category=Web%203",
       "cleanLink": "index.html?category=Web%203",
-      "createdAt": "2026-08-20 17:14:39",
-      "updatedAt": "2026-08-20 17:14:39"
+      "createdAt": "2026-08-20 18:10:33",
+      "updatedAt": "2026-08-20 18:10:33"
     },
     {
       "id": 12,
@@ -2153,8 +2153,8 @@
       "sources": [],
       "link": "index.html?category=Technology",
       "cleanLink": "index.html?category=Technology",
-      "createdAt": "2026-08-20 17:14:39",
-      "updatedAt": "2026-08-20 17:14:39"
+      "createdAt": "2026-08-20 18:10:33",
+      "updatedAt": "2026-08-20 18:10:33"
     },
     {
       "id": 46,
@@ -2192,8 +2192,8 @@
       "sources": [],
       "link": "index.html?category=Web%203",
       "cleanLink": "index.html?category=Web%203",
-      "createdAt": "2026-08-20 17:14:39",
-      "updatedAt": "2026-08-20 17:14:39"
+      "createdAt": "2026-08-20 18:10:33",
+      "updatedAt": "2026-08-20 18:10:33"
     },
     {
       "id": 13,
@@ -2231,8 +2231,8 @@
       "sources": [],
       "link": "index.html?category=Technology",
       "cleanLink": "index.html?category=Technology",
-      "createdAt": "2026-08-20 17:14:39",
-      "updatedAt": "2026-08-20 17:14:39"
+      "createdAt": "2026-08-20 18:10:33",
+      "updatedAt": "2026-08-20 18:10:33"
     },
     {
       "id": 14,
@@ -2270,8 +2270,8 @@
       "sources": [],
       "link": "index.html?category=Technology",
       "cleanLink": "index.html?category=Technology",
-      "createdAt": "2026-08-20 17:14:39",
-      "updatedAt": "2026-08-20 17:14:39"
+      "createdAt": "2026-08-20 18:10:33",
+      "updatedAt": "2026-08-20 18:10:33"
     },
     {
       "id": 15,
@@ -2309,8 +2309,8 @@
       "sources": [],
       "link": "index.html?category=Web%203",
       "cleanLink": "index.html?category=Web%203",
-      "createdAt": "2026-08-20 17:14:39",
-      "updatedAt": "2026-08-20 17:14:39"
+      "createdAt": "2026-08-20 18:10:33",
+      "updatedAt": "2026-08-20 18:10:33"
     },
     {
       "id": 16,
@@ -2348,8 +2348,8 @@
       "sources": [],
       "link": "index.html?category=AI%20Trends",
       "cleanLink": "index.html?category=AI%20Trends",
-      "createdAt": "2026-08-20 17:14:39",
-      "updatedAt": "2026-08-20 17:14:39"
+      "createdAt": "2026-08-20 18:10:33",
+      "updatedAt": "2026-08-20 18:10:33"
     },
     {
       "id": 17,
@@ -2387,8 +2387,8 @@
       "sources": [],
       "link": "index.html?category=Technology",
       "cleanLink": "index.html?category=Technology",
-      "createdAt": "2026-08-20 17:14:39",
-      "updatedAt": "2026-08-20 17:14:39"
+      "createdAt": "2026-08-20 18:10:33",
+      "updatedAt": "2026-08-20 18:10:33"
     },
     {
       "id": 18,
@@ -2426,8 +2426,8 @@
       "sources": [],
       "link": "index.html?category=Technology",
       "cleanLink": "index.html?category=Technology",
-      "createdAt": "2026-08-20 17:14:39",
-      "updatedAt": "2026-08-20 17:14:39"
+      "createdAt": "2026-08-20 18:10:33",
+      "updatedAt": "2026-08-20 18:10:33"
     },
     {
       "id": 19,
@@ -2465,8 +2465,8 @@
       "sources": [],
       "link": "index.html?category=AI%20Trends",
       "cleanLink": "index.html?category=AI%20Trends",
-      "createdAt": "2026-08-20 17:14:39",
-      "updatedAt": "2026-08-20 17:14:39"
+      "createdAt": "2026-08-20 18:10:33",
+      "updatedAt": "2026-08-20 18:10:33"
     },
     {
       "id": 20,
@@ -2504,8 +2504,8 @@
       "sources": [],
       "link": "index.html?category=Technology",
       "cleanLink": "index.html?category=Technology",
-      "createdAt": "2026-08-20 17:14:39",
-      "updatedAt": "2026-08-20 17:14:39"
+      "createdAt": "2026-08-20 18:10:33",
+      "updatedAt": "2026-08-20 18:10:33"
     },
     {
       "id": 21,
@@ -2543,8 +2543,8 @@
       "sources": [],
       "link": "index.html?category=Cryptocurrency",
       "cleanLink": "index.html?category=Cryptocurrency",
-      "createdAt": "2026-08-20 17:14:39",
-      "updatedAt": "2026-08-20 17:14:39"
+      "createdAt": "2026-08-20 18:10:33",
+      "updatedAt": "2026-08-20 18:10:33"
     },
     {
       "id": 22,
@@ -2582,8 +2582,8 @@
       "sources": [],
       "link": "index.html?category=AI%20Trends",
       "cleanLink": "index.html?category=AI%20Trends",
-      "createdAt": "2026-08-20 17:14:39",
-      "updatedAt": "2026-08-20 17:14:39"
+      "createdAt": "2026-08-20 18:10:33",
+      "updatedAt": "2026-08-20 18:10:33"
     },
     {
       "id": 23,
@@ -2621,8 +2621,8 @@
       "sources": [],
       "link": "index.html?category=Technology",
       "cleanLink": "index.html?category=Technology",
-      "createdAt": "2026-08-20 17:14:39",
-      "updatedAt": "2026-08-20 17:14:39"
+      "createdAt": "2026-08-20 18:10:33",
+      "updatedAt": "2026-08-20 18:10:33"
     },
     {
       "id": 24,
@@ -2660,8 +2660,8 @@
       "sources": [],
       "link": "index.html?category=Technology",
       "cleanLink": "index.html?category=Technology",
-      "createdAt": "2026-08-20 17:14:39",
-      "updatedAt": "2026-08-20 17:14:39"
+      "createdAt": "2026-08-20 18:10:33",
+      "updatedAt": "2026-08-20 18:10:33"
     },
     {
       "id": 25,
@@ -2699,8 +2699,8 @@
       "sources": [],
       "link": "index.html?category=AI%20Trends",
       "cleanLink": "index.html?category=AI%20Trends",
-      "createdAt": "2026-08-20 17:14:39",
-      "updatedAt": "2026-08-20 17:14:39"
+      "createdAt": "2026-08-20 18:10:33",
+      "updatedAt": "2026-08-20 18:10:33"
     },
     {
       "id": 26,
@@ -2738,8 +2738,8 @@
       "sources": [],
       "link": "index.html?category=Game",
       "cleanLink": "index.html?category=Game",
-      "createdAt": "2026-08-20 17:14:39",
-      "updatedAt": "2026-08-20 17:14:39"
+      "createdAt": "2026-08-20 18:10:33",
+      "updatedAt": "2026-08-20 18:10:33"
     }
   ]
 }
