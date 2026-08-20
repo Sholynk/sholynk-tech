@@ -33,7 +33,7 @@ However, the step from running code to building software remains difficult. Code
 
 What separates a person who can write code from a person who can build software is a set of habits and judgements that no tutorial teaches directly, because they are learned by getting things wrong in slow motion. This guide describes ten areas where that judgement accumulates.
 
-## Understanding What Mastery Actually Means
+## What Does Mastery Actually Mean?
 
 Mastery in this field is not knowing the most languages. It is the ability to build a system other people can depend on, and to keep changing it safely once they do.
 
@@ -41,7 +41,7 @@ That definition matters because it changes what is worth practising. Fluency in 
 
 The habit worth forming early is to think about the second reader. Nearly all professional code is read far more often than it is written, usually by someone who lacks the context its author had, and optimising for that reader is the closest thing this trade has to a general principle.
 
-## Why It Matters
+## Why Does This Matter?
 
 Software has stopped being a sector and become the substrate. Banks are software companies with banking licences, hospitals run on scheduling and records systems, and farms run on logistics platforms. Written badly, that software does not merely underperform; it leaks personal data, miscalculates payments and fails at the moment people most depend on it.
 
@@ -49,7 +49,7 @@ The market reflects this in what it pays for. Employers are rarely short of peop
 
 For anyone learning now, the practical implication is that the fundamentals below have a much longer half-life than the framework currently being learned. Frameworks are rented; fundamentals are owned.
 
-## The Ten Areas That Matter
+## What Are the Ten Areas to Focus On?
 
 ### 1. Programming fundamentals
 
@@ -115,7 +115,7 @@ The same survey records the catch, and it is worth reading carefully. The most c
 
 That last figure is the one to sit with. An assistant that is usually correct is a superb accelerator for someone who can tell when it is wrong, and a quiet hazard for someone who cannot, and the fundamentals in this list are what make the difference between those two positions.
 
-## Benefits and Opportunities
+## What Does Mastery Make Possible?
 
 The obvious returns are employment and pay, which remain strong for people who can be trusted with real systems, but the less obvious ones are more interesting.
 
@@ -123,7 +123,7 @@ Programming is leverage. A single person can build something that serves thousan
 
 The work also travels. It is largely portable, remote-friendly and evaluated on demonstrable output rather than credentials, which makes it one of the more accessible routes into a global market from almost anywhere.
 
-## Limitations, Risks and Trade-offs
+## What Are the Risks and Trade-offs?
 
 The advice list above is not a syllabus. Ten areas presented in order imply a progression that does not exist; in practice several are worked on at once, and all of them are revisited.
 

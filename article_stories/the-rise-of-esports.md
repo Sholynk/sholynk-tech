@@ -38,13 +38,13 @@ Live streaming removed that constraint entirely. A tournament could reach a glob
 
 Some publishers responded by building franchised leagues with fixed teams and scheduled seasons, importing the structure of North American professional sport. That professionalised the sector quickly, and it concentrated risk at the same time.
 
-## Understanding Esports
+## What Separates Esports from Playing Games?
 
 Esports is organised competition: structured rules, ranked qualification, scheduled fixtures, prize money, and an audience that watches instead of playing. The distinction matters because it is what makes the activity a business. A popular game is a product sold to players; an esport is a product sold to spectators, and those are different economies with different customers.
 
 There is also a structural fact that makes esports unlike football or basketball. Nobody owns football, and anybody may organise a match, but every esport is played on software owned by a company, and that company controls the rules, the updates, the tournament licensing and whether the competitive scene continues to exist at all. A publisher that loses interest in a competitive scene can end it in a way that no governing body in traditional sport could.
 
-## Real-World Applications
+## What Has Happened at the Olympic Level?
 
 Following the unanimous July 2024 approval, the IOC confirmed in February 2025 that the inaugural Olympic Esports Games would be held in 2027, having initially announced 2025, with a preparatory roadmap starting that year. The confirmation came with a twelve-year partnership between the IOC and the National Olympic Committee of Saudi Arabia, and the Esports World Cup Foundation was named founding partner. Winners will receive trophies rather than conventional medals.
 
@@ -52,7 +52,7 @@ The delay is itself informative: aligning publisher-owned titles with Olympic go
 
 Beyond the Olympic track, the established structures are publisher-run world championships, third-party tournament circuits, and university and school competition, which has become a recruitment pathway in several countries.
 
-## Why It Matters
+## What Does the Economics Look Like?
 
 Sponsorship dominates the business, with smaller contributions from media rights, merchandise, ticketing and publisher revenue sharing. The wider games market took $188.8 billion in 2025 from roughly 3.6 billion players, according to <a href="https://newzoo.com/resources/trend-reports/newzoo-global-games-market-report-2025" target="_blank" rel="noopener noreferrer">Newzoo's Global Games Market Report 2025</a>, and a game with a living competitive scene holds its audience for years rather than months. Much of the time, esports makes more sense as marketing infrastructure for a game than as a business standing on its own.
 
@@ -60,13 +60,13 @@ The national interest has been where the money is loudest. Saudi Arabia's positi
 
 The data itself deserves care. <a href="https://esportsinsider.com/2023/03/newzoo-ends-esports-report" target="_blank" rel="noopener noreferrer">Newzoo</a>, whose esports reports were the sector's most-cited source, discontinued its dedicated esports reporting in 2023. The estimates that have circulated since come from various providers using different definitions of a viewer and different revenue models, and they are not directly comparable. A precise global esports revenue figure is best treated as one provider's estimate rather than an established fact.
 
-## Benefits and Opportunities
+## What Are the Opportunities Beyond Playing?
 
 The clearest opportunities are not in playing. A tournament requires broadcast production, analysis, coaching, event operations, statistics, translation and community management, and these roles are more numerous and more durable than the playing positions. For anyone weighing a route into the sector, production and data work is the more reliable entry point.
 
 There is also genuine accessibility. Competing does not depend on physical build or on living near a suitable facility, which widens participation in ways traditional sport structurally cannot.
 
-## Limitations, Risks and Trade-offs
+## What Are the Risks and Limitations?
 
 The business model has not matured. Sponsorship is the first budget cut in a downturn, and when investment tightened, organisations built on venture funding with no operating profit underneath contracted sharply. Media rights, which underwrite traditional sport, have not reached comparable scale.
 

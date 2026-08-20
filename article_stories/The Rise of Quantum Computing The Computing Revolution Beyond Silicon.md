@@ -32,7 +32,7 @@ That is an unusual way for a technology to announce itself. Governments do not n
 
 Quantum computing sits in an awkward position: over-promised in marketing, under-appreciated in what it has genuinely achieved, and surrounded by explanations that are memorable and wrong. It is worth understanding properly, partly because it is interesting, and partly because one of its consequences is already changing the security of systems in daily use.
 
-## Understanding the Technology
+## How Does a Quantum Computer Work?
 
 ### What a classical computer does
 
@@ -48,11 +48,11 @@ A popular explanation says that a quantum computer "tries every possible answer 
 
 The real mechanism is **interference**. A quantum algorithm is constructed so that the paths leading to wrong answers cancel each other out, while the paths leading to the right answer reinforce. The skill lies in arranging that cancellation, which is why quantum algorithms are rare and hard to design, and only a handful of genuinely useful ones are known.
 
-### What this is not
+### What quantum computers are not
 
 Quantum computers are not simply faster computers. For the overwhelming majority of tasks, including everything on a phone, they are worse than the machine already in use, and will remain so. The sensible expectation is a specialised accelerator sitting alongside classical infrastructure, called on for the narrow class of problems it suits, much as graphics processors are used today.
 
-## Why It Matters
+## Why Is Encryption Already Changing?
 
 For researchers, the appeal of quantum computing is direct: nature is quantum mechanical, so simulating it on a machine that is also quantum mechanical removes a translation layer that currently costs enormous computational effort. Chemistry and materials science are the fields where a genuine advantage is most plausible, because the problem and the tool share a structure.
 
@@ -62,7 +62,7 @@ This is why the <a href="https://www.nist.gov/news-events/news/2024/08/nist-rele
 
 The urgency has a specific logic that is easy to miss: an adversary can capture encrypted traffic today and store it until a capable machine exists, so for anything that must stay secret for ten or twenty years, such as state communications, medical records or long-lived intellectual property, the risk is not in the future but retrospective.
 
-## Real-World Applications
+## Where Is Quantum Computing Useful?
 
 ### Chemistry, materials and medicine
 
@@ -86,7 +86,7 @@ Where the technology suits the problem, the potential gain is not incremental. B
 
 There is also a substantial adjacent opportunity that requires no quantum hardware at all. The migration to post-quantum cryptography is a large, concrete, and immediate engineering programme: inventorying where cryptography is used, planning replacement, testing interoperability. That work is available now, and it is where most practical demand currently sits.
 
-## Limitations, Risks and Trade-offs
+## What Limits the Technology?
 
 Qubits are exceptionally fragile. Quantum states are disturbed by heat, vibration and stray electromagnetic fields, and many systems operate near absolute zero in heavily isolated environments. That is the reason for the chandelier-like apparatus in photographs of these machines, most of which is refrigeration and wiring rather than computer.
 

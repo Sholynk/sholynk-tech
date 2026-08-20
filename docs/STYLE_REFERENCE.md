@@ -32,11 +32,10 @@ reader, never editorialise.
    carries this definition and must stand alone.
 4. **Key takeaways** (`keyTakeaways`). Three to six short, factual,
    self-contained statements. Facts, not aphorisms.
-5. **Body sections in teaching order**, with declarative `##` headings in the
-   established Sholynk format (Introduction, Understanding X, Why It Matters,
-   Real-World Applications, Benefits and Opportunities, Limitations, Risks and
-   Trade-offs, Conclusion). Question-form headings are optional and used only
-   where they genuinely help:
+5. **Body sections in teaching order**, with **question-form `##` headings**
+   ("How Does a Quantum Computer Work?", "What Does the Evidence Show?").
+   Main article titles stay declarative; only the section headings take the
+   question form:
    - Introduction: definition plus scope; why the subject warrants examination.
    - Historical Background: origins, named early work, the puzzle that produced
      the idea.
@@ -66,8 +65,8 @@ reader, never editorialise.
 - **Attribution is the texture.** Nearly every paragraph carries a named
   researcher, organisation or publication plus a year, hyperlinked to the
   source.
-- **Declarative headings by default**, in the established Sholynk format; a
-  question heading only where it genuinely helps.
+- **Question-form section headings** — each `##` heading asks the question the
+  section answers. The main title stays declarative.
 - **Terms defined at first use.** Key terms are bolded on first appearance and
   explained immediately.
 - **Short quotes only**, used when the original wording carries weight.
@@ -120,8 +119,7 @@ conflict, the house rule wins:
 - [ ] `hook` is a one-sentence curiosity question.
 - [ ] The body opens with a plain definition; `directAnswer` stands alone.
 - [ ] Key takeaways are short factual statements, not aphorisms.
-- [ ] Sections follow the teaching order, with declarative headings in the
-      established Sholynk format.
+- [ ] Sections follow the teaching order, with question-form `##` headings.
 - [ ] Every claim carries inline attribution (name + year + link) and a
       matching `sources` record.
 - [ ] Key terms defined at first use.

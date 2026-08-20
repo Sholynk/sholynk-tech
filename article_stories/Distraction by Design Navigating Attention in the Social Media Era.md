@@ -28,13 +28,13 @@ The common experience of picking up a phone to check one notification and losing
 
 This is not a conspiracy, and it does not require anyone to have acted in bad faith. It follows from a business model. When a service is free, the thing being sold is the time and attention of the people using it, and everything downstream of that fact follows logically.
 
-## Understanding the Attention Economy
+## What Is the Attention Economy?
 
 Advertising-funded platforms earn more when people stay longer. More time means more advertisements seen, more behavioural data generated, and a more detailed profile to sell against. Engagement is therefore not a vanity metric; it is the closest available proxy for revenue, and it is what teams are measured on.
 
 That single fact explains most of what follows. A design decision that increases time on the platform will tend to win internal arguments against one that does not, even when everyone involved has good intentions.
 
-## The Mechanisms, in Plain Terms
+## How Do the Design Mechanisms Work?
 
 A handful of design patterns do most of the work.
 
@@ -48,11 +48,9 @@ A handful of design patterns do most of the work.
 
 **Personalised ranking.** Rather than showing everyone the same thing, recommendation systems predict what each person is most likely to watch or share, then rank accordingly. The system optimises for a prediction about behaviour, which is not the same as considered preference.
 
-### What the design is not
-
 It is worth being precise, because the subject attracts overstatement. These systems do not read minds, and they are not uniformly effective; they are statistical machines that are right often enough to be commercially valuable. Describing them as irresistible flatters them and, more importantly, leaves people feeling powerless, which is both inaccurate and unhelpful.
 
-## Why It Matters
+## What Does the Evidence Show?
 
 Start with time, because it is the resource being spent. Ofcom's <a href="https://www.ofcom.org.uk/siteassets/resources/documents/research-and-data/online-research/online-nation/2024/online-nation-2024-report.pdf?v=386238" target="_blank" rel="noopener noreferrer">passive measurement</a> found that three-quarters of the time UK adults spent online in May 2024 was on smartphones, which is to say most of it happened on a device that is always present and always interruptible. The context in which attention is captured has moved from a desk to a pocket.
 
@@ -62,7 +60,7 @@ Set against that, one figure complicates the story. Average daily time online st
 
 There is a democratic dimension as well. When ranking systems favour whatever holds attention, emotionally charged material has a structural advantage over careful material, and that shapes which arguments travel without anyone deciding that it should.
 
-## How the Design Shows Up in Practice
+## How Do These Patterns Show Up in Practice?
 
 Watch for the patterns and they become difficult to unsee.
 
@@ -78,7 +76,7 @@ Watch for the patterns and they become difficult to unsee.
 
 None of these is sinister on its own. Together they add up to an environment in which continuing is easy and stopping requires effort.
 
-## Benefits and Opportunities
+## What Value Do These Platforms Provide?
 
 The case against pretending this is all harm is straightforward: these platforms deliver real value that did not previously exist for most people.
 
@@ -86,7 +84,7 @@ Someone teaching themselves a skill has access to instruction that once required
 
 The opportunity is not to renounce any of this. It is to capture the value while paying less for it in attention, which is a design problem that can be solved on the user's side of the screen.
 
-## Limitations, Risks and Trade-offs
+## What Are the Limitations and Open Questions?
 
 The evidence on harm is genuinely contested. Research linking social media use to mental health outcomes is mixed, and much of it is correlational; people who are already struggling may use these platforms more, which is a different claim from the platforms causing the struggle. Anyone stating the science is settled, in either direction, is overreaching.
 
@@ -96,7 +94,7 @@ The burden is being placed on individuals. Advice about personal discipline quie
 
 Attention is also not evenly distributed. Someone with a demanding job and no childcare has less capacity to manage this than someone with time and autonomy, and framing it purely as personal responsibility ignores that.
 
-## Practical Ways to Use These Platforms Deliberately
+## How Can These Platforms Be Used Deliberately?
 
 The aim is not abstinence. It is restoring the friction that the design removed.
 
