@@ -21,8 +21,9 @@ reader, never editorialise.
 
 ## 2. Structure template (top to bottom)
 
-1. **Question-form title.** The headline is the question the article answers:
-   "What Are Multimodal AI Models and How Do They Work?"
+1. **Declarative title.** The title keeps the site's established format (a clear
+   statement of the subject, e.g. "The Rise of Quantum Computing: The Computing
+   Revolution Beyond Silicon"). Question-form titles are optional, not required.
 2. **Question-form standfirst** (`hook`). One sentence reframing the topic as a
    curiosity question: "Can getting to know members of other groups reduce
    prejudice?"
@@ -31,8 +32,11 @@ reader, never editorialise.
    carries this definition and must stand alone.
 4. **Key takeaways** (`keyTakeaways`). Three to six short, factual,
    self-contained statements. Facts, not aphorisms.
-5. **Body sections in teaching order**, using question-form `##` headings where
-   natural ("How Do Multimodal Models Work?", "What Does the Evidence Show?"):
+5. **Body sections in teaching order**, with declarative `##` headings in the
+   established Sholynk format (Introduction, Understanding X, Why It Matters,
+   Real-World Applications, Benefits and Opportunities, Limitations, Risks and
+   Trade-offs, Conclusion). Question-form headings are optional and used only
+   where they genuinely help:
    - Introduction: definition plus scope; why the subject warrants examination.
    - Historical Background: origins, named early work, the puzzle that produced
      the idea.
@@ -62,7 +66,8 @@ reader, never editorialise.
 - **Attribution is the texture.** Nearly every paragraph carries a named
   researcher, organisation or publication plus a year, hyperlinked to the
   source.
-- **Questions as headings** where the section answers one.
+- **Declarative headings by default**, in the established Sholynk format; a
+  question heading only where it genuinely helps.
 - **Terms defined at first use.** Key terms are bolded on first appearance and
   explained immediately.
 - **Short quotes only**, used when the original wording carries weight.
@@ -86,7 +91,7 @@ reader, never editorialise.
 
 | ThoughtCo element | Sholynk slot |
 | --- | --- |
-| Question-form title | `title` (under 70 characters) |
+| Declarative title | `title` (under 70 characters) |
 | Question-form standfirst | `hook` |
 | Opening definition | `directAnswer` (Quick answer box) |
 | Key takeaways bullets | `keyTakeaways` |
@@ -110,11 +115,13 @@ conflict, the house rule wins:
 
 ## 7. Pre-publication checklist
 
-- [ ] Title is a question the article answers (under 70 characters).
+- [ ] Title is a clear declarative statement of the subject (under 70
+      characters).
 - [ ] `hook` is a one-sentence curiosity question.
 - [ ] The body opens with a plain definition; `directAnswer` stands alone.
 - [ ] Key takeaways are short factual statements, not aphorisms.
-- [ ] Sections follow the teaching order; question-form headings where natural.
+- [ ] Sections follow the teaching order, with declarative headings in the
+      established Sholynk format.
 - [ ] Every claim carries inline attribution (name + year + link) and a
       matching `sources` record.
 - [ ] Key terms defined at first use.

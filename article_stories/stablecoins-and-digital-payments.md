@@ -1,5 +1,5 @@
 ---
-title: What Are Stablecoins and How Do They Work?
+title: Stablecoins and the Future of Digital Payments
 slug: stablecoins-and-digital-payments
 category: Cryptocurrency
 subcategory: Payments and Regulation
@@ -18,7 +18,7 @@ keyTakeaways: ["A stablecoin holds its value through reserves and redemption, no
 faqs: [{"question":"What actually keeps a stablecoin worth one dollar?","answer":"Two things: reserves held against every token issued, and the ability to redeem tokens for the underlying currency. If redemption is slow or reserves are doubted, the token can trade below its peg on secondary markets."},{"question":"Are stablecoins the same as a central bank digital currency?","answer":"No. A stablecoin is a private liability issued by a company against reserves. A central bank digital currency would be a direct claim on the central bank, which is a different trust model even where the user experience looks similar."},{"question":"Does regulation make stablecoins safe?","answer":"It reduces specific risks such as inadequate reserves and slow redemption. It does not eliminate run risk, and US regulators have been explicit that holders are not covered by deposit insurance."},{"question":"Why do market size figures vary so much?","answer":"Different providers measure at different dates and count differently, for example whether they include all chains or filter out internal transfers. Reported 2026 figures ranged across the low $300 billions depending on the source."},{"question":"Are stablecoins actually used for payments?","answer":"Increasingly, though most on-chain volume is not retail payment activity. Adjusted figures that filter out bot and internal transfers are substantially lower than raw transfer totals."}]
 sources: [{"title":"Implementing the Guiding and Establishing National Innovation for US Stablecoins Act","publisher":"Office of the Comptroller of the Currency, Federal Register","publishedAt":"2026-03-02","url":"https://www.federalregister.gov/documents/2026/03/02/2026-04089/implementing-the-guiding-and-establishing-national-innovation-for-us-stablecoins-act-for-the","type":"primary","accessedAt":"2026-08-16","supports":"Proposed 12 CFR Part 15 requirements including the $5 million minimum capital floor for de novo federal issuers, the $10 billion threshold for transition to federal oversight, and the OCC's use of private forecasts with an upper bound of $500 billion in 2026 issuance."},{"title":"OCC Proposes Regulations to Implement the GENIUS Act","publisher":"Sullivan & Cromwell LLP","publishedAt":"2026-04-06","url":"https://www.sullcrom.com/insights/memo/2026/March/OCC-Proposes-Regulations-Implement-GENIUS-Act","type":"reference","accessedAt":"2026-08-16","supports":"Analysis of the proposed two business day limit on timely redemption and the requirement that issuers with at least $25 billion outstanding hold 0.5% of reserves in insured deposits, capped at $500 million."},{"title":"What You Need To Know About the New Stablecoin Legislation: Analyzing the GENIUS Act","publisher":"Arnold & Porter","publishedAt":"2025-07-21","url":"https://www.arnoldporter.com/en/perspectives/advisories/2025/07/new-stablecoin-legislation-analyzing-the-genius-act","type":"reference","accessedAt":"2026-08-16","supports":"The GENIUS Act permits only issuers below $10 billion in market capitalisation to opt for a state-level regulatory regime, with annual state recertification."},{"title":"BIS says stablecoins fall short as money, warns of emerging-market risks in annual report","publisher":"The Block","publishedAt":"2026-06-28","url":"https://www.theblock.co/news/regulation/2026-06-28-bis-says-stablecoins-fall-short-as-money-warns-of-emerging-market-risks-in-annual-report-406466","type":"journalism","accessedAt":"2026-08-16","supports":"Reporting on the BIS Annual Economic Report 2026 chapter arguing stablecoins fall short on singleness, elasticity, interoperability and integrity, and modelling a slightly negative medium-term output effect at $1 trillion to $3 trillion in market value."},{"title":"Narrow stablecoins: Redemption, runs, and risk","publisher":"The Quarterly Review of Economics and Finance, Elsevier","author":"Zane Mullins","publishedAt":"2026-06","url":"https://www.sciencedirect.com/science/article/pii/S1062976926000384","type":"research","doi":"10.1016/j.qref.2026.102143","accessedAt":"2026-08-16","supports":"Peer-reviewed open-access analysis arguing that properly collateralised fiat-pegged stablecoins are not inherently run-prone, and that for issuers holding only cash equivalents redemption risk arises mainly where a run forces loss-making asset liquidation."}]
 relatedSlugs: ["the-rise-of-quantum-computing", "distraction-by-design", "multimodal-ai-models"]
-seoTitle: What Are Stablecoins? How They Work and Why Regulators Care
+seoTitle: Stablecoins and the Future of Digital Payments
 seoDescription: How stablecoins hold their value, what the GENIUS Act requires of issuers, and why the Bank for International Settlements still argues they fall short as money.
 status: published
 ---
@@ -36,7 +36,9 @@ Stablecoins began as a trading utility within cryptocurrency markets, used to mo
 
 That progression, from utility to instrument to regulated activity, is close to what the sector asked for, and it has come with the constraints that supervision always brings.
 
-## How Do Stablecoins Hold Their Value?
+## Understanding Stablecoins
+
+### What the token actually is
 
 A stablecoin is a claim. When an issuer creates one token, it undertakes to hold assets of equivalent value in reserve, and to give the holder that value back on request. The token circulates on a blockchain and can be transferred like any other, but the thing anchoring it to a dollar is not the blockchain; it is the reserve and the redemption promise.
 
@@ -52,13 +54,13 @@ The academic literature frames this as a run problem. In a 2026 peer-reviewed an
 
 There is an important separation between a **payment stablecoin**, designed to be spent, and a **yield-bearing token**, designed to pay a return. The US framework regulates the former and bars issuers from paying interest on it. Products that pass through returns from tokenised government debt are a related but legally distinct category, and conflating the two is the most common error in coverage of this sector.
 
-## How Are Stablecoins Regulated in the United States?
+## Regulation in the United States
 
 Under the GENIUS Act, payment stablecoins became a supervised activity, and the <a href="https://www.federalregister.gov/documents/2026/03/02/2026-04089/implementing-the-guiding-and-establishing-national-innovation-for-us-stablecoins-act-for-the" target="_blank" rel="noopener noreferrer">proposed OCC rules</a> supply the detail. They include a $5 million minimum capital floor for new federal issuers, transition to federal oversight at $10 billion, a proposed limit of two business days for timely redemption, and audit obligations. Issuers with at least $25 billion outstanding would hold 0.5% of reserves in insured deposits, capped at $500 million. Only issuers below $10 billion in market capitalisation may opt for a state-level regulatory regime, with annual state recertification. These are proposals until finalised, so the detail may shift.
 
 US regulators have also been explicit that token holders are not covered by deposit insurance, a point worth repeating because the user experience resembles a bank account. It is not one.
 
-## Where Are Stablecoins Used?
+## Real-World Applications
 
 Cross-border business settlement is the clearest established use, particularly for payments too small or too frequent to justify correspondent banking fees. Treasury movement between entities of the same group is another, because it involves sophisticated parties who can manage custody.
 
@@ -66,7 +68,7 @@ Card networks and payment processors have begun offering stablecoin payout and s
 
 What remains less established is everyday retail payment, and here the evidence deserves care. Raw on-chain transfer figures are enormous, but they include automated activity, internal transfers between an issuer's own addresses and exchange plumbing. Adjusted estimates that filter this out are substantially lower, and anyone quoting a headline volume figure without saying whether it is raw or adjusted is not saying much.
 
-## Why Do Central Banks Object?
+## Why It Matters
 
 Start with the businesses, because their interest is the least ideological. Correspondent banking is slow and expensive at small values, and anyone who has waited three days for a modest cross-border payment to clear can see the appeal of settlement that takes minutes and does not observe weekends. That is an operational complaint, not a political one.
 
@@ -76,7 +78,13 @@ The BIS argument is structural rather than technical. It holds that stablecoins 
 
 The sharpest version of the argument is playing out in countries with unstable currencies. Holding a dollar-referenced token is a sensible decision for one household and a problem when several million make it at once, because it hollows out monetary sovereignty and reshapes how capital moves. The BIS calls this stablecoin dollarisation, and it is already observable in economies from Lagos to Buenos Aires and Istanbul.
 
-## What Are the Limitations and Open Problems?
+## Benefits and Opportunities
+
+The genuine advantages are narrow and real: settlement that does not observe banking hours, programmability that allows a payment to carry conditions, and access to dollar-denominated value for people whose local banking system does not readily provide it.
+
+Regulatory clarity has itself become an opportunity. Institutions that would not touch an unsupervised instrument can consider a federally chartered one, which is why bank subsidiaries and payment companies have entered a market they previously avoided.
+
+## Limitations, Risks and Trade-offs
 
 The market size figures are softer than they look. Reported totals for 2026 varied across the low $300 billions depending on the provider and the date, and even the OCC, the US regulator writing the rulebook, worked from private-sector forecasts giving an upper bound of $500 billion for 2026 rather than a measured figure. Any precise number is best treated as an estimate with a methodology attached.
 

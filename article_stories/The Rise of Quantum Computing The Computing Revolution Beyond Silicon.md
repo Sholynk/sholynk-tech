@@ -1,5 +1,5 @@
 ---
-title: What Is Quantum Computing and How Does It Work?
+title: "The Rise of Quantum Computing: The Computing Revolution Beyond Silicon"
 slug: the-rise-of-quantum-computing
 category: Technology
 subcategory: Emerging Computing
@@ -20,7 +20,7 @@ directAnswer: Quantum computing uses qubits, which exploit superposition and ent
 keyTakeaways: ["Quantum computers are specialised instruments for particular problems, not general replacements for classical machines.", "The advantage comes from algorithms that exploit interference, not from trying every answer simultaneously as popular accounts suggest.", "The most credible near-term applications are simulating molecules and materials, which are quantum systems already.", "Cryptography is the clearest practical consequence: NIST finalised three post-quantum standards in August 2024 and urges migration now.", "Fragile qubits and the overhead of error correction remain the binding constraints, and useful fault-tolerant machines are not here yet."]
 faqs: [{"question":"Will quantum computers replace the computer I am using now?","answer":"No. They are poor at ordinary tasks such as browsing, spreadsheets or video. They are best understood as specialised accelerators attached to classical systems, in the way graphics processors are used today."},{"question":"Do quantum computers try every possible answer at once?","answer":"No, and this is the most persistent misconception. A measurement returns a single outcome. Useful quantum algorithms are designed so that wrong answers cancel out through interference and correct ones reinforce."},{"question":"Should I worry about quantum computers breaking encryption today?","answer":"Not for everyday activity, because no machine capable of it exists publicly. It matters now for data that must stay confidential for a decade or more, because encrypted traffic captured today could be decrypted later."},{"question":"What is a qubit?","answer":"The basic unit of quantum information. Unlike a bit fixed at zero or one, a qubit can occupy a combination of both states until measured, and can be entangled with other qubits so their outcomes are correlated."},{"question":"When will quantum computing be genuinely useful?","answer":"Nobody credible gives a firm date. NIST notes some experts expect a machine capable of breaking current encryption within a decade, but expert opinion varies widely and any specific year should be treated as an estimate."}]
 sources: [{"title":"NIST Releases First 3 Finalized Post-Quantum Encryption Standards","publisher":"National Institute of Standards and Technology","publishedAt":"2024-08-13","url":"https://www.nist.gov/news-events/news/2024/08/nist-releases-first-3-finalized-post-quantum-encryption-standards","type":"primary","accessedAt":"2026-08-16","supports":"NIST finalised its principal set of quantum-resistant encryption standards after an eight-year effort, encourages administrators to begin transitioning immediately, and notes that some experts predict a device able to break current encryption could appear within a decade."},{"title":"What Is Post-Quantum Cryptography?","publisher":"National Institute of Standards and Technology","url":"https://www.nist.gov/cybersecurity-and-privacy/what-post-quantum-cryptography","type":"official","accessedAt":"2026-08-16","supports":"NIST's explanation of why current public-key cryptography is vulnerable to quantum attack and what replacing it involves."},{"title":"Elliptic-curve cryptography","publisher":"Wikipedia","url":"https://en.wikipedia.org/wiki/Elliptic-curve_cryptography","type":"reference","accessedAt":"2026-08-16","supports":"Elliptic-curve cryptography underpins widely used protocols including Transport Layer Security and Bitcoin, which is why a quantum attack on it would have broad consequences."}]
-seoTitle: What Is Quantum Computing? How It Works and Where It Matters
+seoTitle: "The Rise of Quantum Computing: Beyond Silicon"
 seoDescription: What qubits actually do, where quantum computing is genuinely useful, why encryption standards have already changed, and which limits still hold the technology back.
 status: published
 ---
@@ -32,7 +32,7 @@ That is an unusual way for a technology to announce itself. Governments do not n
 
 Quantum computing sits in an awkward position: over-promised in marketing, under-appreciated in what it has genuinely achieved, and surrounded by explanations that are memorable and wrong. It is worth understanding properly, partly because it is interesting, and partly because one of its consequences is already changing the security of systems in daily use.
 
-## How Does a Quantum Computer Work?
+## Understanding the Technology
 
 ### What a classical computer does
 
@@ -48,11 +48,21 @@ A popular explanation says that a quantum computer "tries every possible answer 
 
 The real mechanism is **interference**. A quantum algorithm is constructed so that the paths leading to wrong answers cancel each other out, while the paths leading to the right answer reinforce. The skill lies in arranging that cancellation, which is why quantum algorithms are rare and hard to design, and only a handful of genuinely useful ones are known.
 
-### What quantum computers are not
+### What this is not
 
 Quantum computers are not simply faster computers. For the overwhelming majority of tasks, including everything on a phone, they are worse than the machine already in use, and will remain so. The sensible expectation is a specialised accelerator sitting alongside classical infrastructure, called on for the narrow class of problems it suits, much as graphics processors are used today.
 
-## Where Is Quantum Computing Useful?
+## Why It Matters
+
+For researchers, the appeal of quantum computing is direct: nature is quantum mechanical, so simulating it on a machine that is also quantum mechanical removes a translation layer that currently costs enormous computational effort. Chemistry and materials science are the fields where a genuine advantage is most plausible, because the problem and the tool share a structure.
+
+For everyone else, the consequence that has already arrived is cryptographic. Much of the confidentiality on the internet rests on mathematics that is hard for classical computers and, in principle, tractable for a sufficiently large quantum machine. <a href="https://en.wikipedia.org/wiki/Elliptic-curve_cryptography" target="_blank" rel="noopener noreferrer">Elliptic-curve cryptography</a>, one of the main schemes involved, underpins Transport Layer Security and Bitcoin among many other systems.
+
+This is why the <a href="https://www.nist.gov/news-events/news/2024/08/nist-releases-first-3-finalized-post-quantum-encryption-standards" target="_blank" rel="noopener noreferrer">National Institute of Standards and Technology</a> (NIST) finalised replacement standards in August 2024, after an eight-year selection process, and urged administrators to start migrating immediately. NIST notes that some experts expect a machine capable of breaking current encryption within a decade, while being careful to present that as prediction rather than schedule.
+
+The urgency has a specific logic that is easy to miss: an adversary can capture encrypted traffic today and store it until a capable machine exists, so for anything that must stay secret for ten or twenty years, such as state communications, medical records or long-lived intellectual property, the risk is not in the future but retrospective.
+
+## Real-World Applications
 
 ### Chemistry, materials and medicine
 
@@ -70,17 +80,13 @@ This is an active research area and an overheated marketing one. Some mathematic
 
 This is the application driving policy. A large fault-tolerant machine running Shor's algorithm could break widely deployed public-key schemes, and no such machine exists publicly, which is precisely why the migration is happening in advance.
 
-## Why Is Encryption Already Changing?
+## Benefits and Opportunities
 
-For researchers, the appeal of quantum computing is direct: nature is quantum mechanical, so simulating it on a machine that is also quantum mechanical removes a translation layer that currently costs enormous computational effort. Chemistry and materials science are the fields where a genuine advantage is most plausible, because the problem and the tool share a structure.
+Where the technology suits the problem, the potential gain is not incremental. Being able to model a reaction accurately rather than approximately changes what questions researchers can ask, and that is a different kind of benefit from doing existing work faster.
 
-For everyone else, the consequence that has already arrived is cryptographic. Much of the confidentiality on the internet rests on mathematics that is hard for classical computers and, in principle, tractable for a sufficiently large quantum machine. <a href="https://en.wikipedia.org/wiki/Elliptic-curve_cryptography" target="_blank" rel="noopener noreferrer">Elliptic-curve cryptography</a>, one of the main schemes involved, underpins Transport Layer Security and Bitcoin among many other systems.
+There is also a substantial adjacent opportunity that requires no quantum hardware at all. The migration to post-quantum cryptography is a large, concrete, and immediate engineering programme: inventorying where cryptography is used, planning replacement, testing interoperability. That work is available now, and it is where most practical demand currently sits.
 
-This is why the <a href="https://www.nist.gov/news-events/news/2024/08/nist-releases-first-3-finalized-post-quantum-encryption-standards" target="_blank" rel="noopener noreferrer">National Institute of Standards and Technology</a> (NIST) finalised replacement standards in August 2024, after an eight-year selection process, and urged administrators to start migrating immediately. NIST notes that some experts expect a machine capable of breaking current encryption within a decade, while being careful to present that as prediction rather than schedule.
-
-The urgency has a specific logic that is easy to miss: an adversary can capture encrypted traffic today and store it until a capable machine exists, so for anything that must stay secret for ten or twenty years, such as state communications, medical records or long-lived intellectual property, the risk is not in the future but retrospective.
-
-## What Limits the Technology?
+## Limitations, Risks and Trade-offs
 
 Qubits are exceptionally fragile. Quantum states are disturbed by heat, vibration and stray electromagnetic fields, and many systems operate near absolute zero in heavily isolated environments. That is the reason for the chandelier-like apparatus in photographs of these machines, most of which is refrigeration and wiring rather than computer.
 

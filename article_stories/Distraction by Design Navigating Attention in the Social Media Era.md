@@ -1,5 +1,5 @@
 ---
-title: How Do Social Media Platforms Hold Attention?
+title: "Distraction by Design: Navigating Attention in the Social Media Era"
 slug: distraction-by-design
 category: Technology
 subcategory: Digital Wellbeing
@@ -18,7 +18,7 @@ keyTakeaways: ["Attention is the product being sold, so the design optimises for
 faqs: [{"question":"Is social media deliberately designed to be addictive?","answer":"Designers optimise for engagement, which is measurable and tied to revenue. Whether that meets a clinical definition of addiction is contested, but the mechanisms used, such as variable rewards and removed stopping cues, are well understood and deliberately chosen."},{"question":"Why is it so much harder to stop scrolling than to stop reading a book?","answer":"A book has a page count and chapters, which are natural stopping points. An infinite feed removes them entirely, so ending a session requires an active decision rather than simply arriving at the end."},{"question":"Does deleting social media fix the problem?","answer":"For some people it helps, but it also removes real professional, educational and community value. Most of the practical evidence points towards changing how the platforms are used rather than abandoning them."},{"question":"Are people actually cutting back?","answer":"UK regulator data suggests attitudes are shifting faster than behaviour. Fewer adults now say the benefits outweigh the risks, and around a third report deleting an app over time spent or mental health, yet average daily time online still rose."},{"question":"Is the algorithm showing me what I want, or shaping what I want?","answer":"Both, and separating the two is genuinely difficult. Recommendation systems learn from what holds attention, which is not always the same as what would be chosen on reflection."}]
 sources: [{"title":"Adults' media use and attitudes","publisher":"Ofcom","publishedAt":"2026-04-02","url":"https://www.ofcom.org.uk/media-use-and-attitudes/media-habits-adults/adults-media-use-and-attitudes","type":"official","accessedAt":"2026-08-16","supports":"Ofcom's annual evidence base on media use, attitudes and understanding among UK adults aged 16 and over, drawn from its Adults' Media Literacy Tracker."},{"title":"Is the UK falling out of love with social media?","publisher":"The Guardian","publishedAt":"2026-04-05","url":"https://www.theguardian.com/news/ng-interactive/2026/apr/05/uk-social-media-apps-share","type":"journalism","accessedAt":"2026-08-16","supports":"Reporting on Ofcom findings that 49% of adult social media users now post, share or comment against 61% in 2024; that the share saying the benefits of being online outweigh the risks fell to 59% from 72%; that 40% report spending too much time on screens most days; and that average daily time online rose to four hours thirty minutes."},{"title":"Online Nation 2024 report","publisher":"Ofcom","publishedAt":"2024-11-28","url":"https://www.ofcom.org.uk/siteassets/resources/documents/research-and-data/online-research/online-nation/2024/online-nation-2024-report.pdf?v=386238","type":"primary","accessedAt":"2026-08-16","supports":"Passive-panel measurement showing that three-quarters of the time UK adults spent online per day in May 2024 was on smartphones."}]
 relatedSlugs: ["the-rise-of-esports", "multimodal-ai-models", "mastering-the-art-of-coding"]
-seoTitle: Distraction by Design: How Social Media Holds Attention
+seoTitle: "Distraction by Design: How Social Media Holds Your Attention"
 seoDescription: How infinite scroll, unpredictable rewards and personalised feeds are engineered to hold attention, what the UK evidence shows, and how to use social media deliberately.
 status: published
 ---
@@ -28,13 +28,13 @@ The common experience of picking up a phone to check one notification and losing
 
 This is not a conspiracy, and it does not require anyone to have acted in bad faith. It follows from a business model. When a service is free, the thing being sold is the time and attention of the people using it, and everything downstream of that fact follows logically.
 
-## What Is the Attention Economy?
+## Understanding the Attention Economy
 
 Advertising-funded platforms earn more when people stay longer. More time means more advertisements seen, more behavioural data generated, and a more detailed profile to sell against. Engagement is therefore not a vanity metric; it is the closest available proxy for revenue, and it is what teams are measured on.
 
 That single fact explains most of what follows. A design decision that increases time on the platform will tend to win internal arguments against one that does not, even when everyone involved has good intentions.
 
-## How Do the Design Mechanisms Work?
+## The Mechanisms, in Plain Terms
 
 A handful of design patterns do most of the work.
 
@@ -48,9 +48,11 @@ A handful of design patterns do most of the work.
 
 **Personalised ranking.** Rather than showing everyone the same thing, recommendation systems predict what each person is most likely to watch or share, then rank accordingly. The system optimises for a prediction about behaviour, which is not the same as considered preference.
 
+### What the design is not
+
 It is worth being precise, because the subject attracts overstatement. These systems do not read minds, and they are not uniformly effective; they are statistical machines that are right often enough to be commercially valuable. Describing them as irresistible flatters them and, more importantly, leaves people feeling powerless, which is both inaccurate and unhelpful.
 
-## What Does the Evidence Show?
+## Why It Matters
 
 Start with time, because it is the resource being spent. Ofcom's <a href="https://www.ofcom.org.uk/siteassets/resources/documents/research-and-data/online-research/online-nation/2024/online-nation-2024-report.pdf?v=386238" target="_blank" rel="noopener noreferrer">passive measurement</a> found that three-quarters of the time UK adults spent online in May 2024 was on smartphones, which is to say most of it happened on a device that is always present and always interruptible. The context in which attention is captured has moved from a desk to a pocket.
 
@@ -60,7 +62,7 @@ Set against that, one figure complicates the story. Average daily time online st
 
 There is a democratic dimension as well. When ranking systems favour whatever holds attention, emotionally charged material has a structural advantage over careful material, and that shapes which arguments travel without anyone deciding that it should.
 
-## How Do These Patterns Show Up in Practice?
+## How the Design Shows Up in Practice
 
 Watch for the patterns and they become difficult to unsee.
 
@@ -76,7 +78,7 @@ Watch for the patterns and they become difficult to unsee.
 
 None of these is sinister on its own. Together they add up to an environment in which continuing is easy and stopping requires effort.
 
-## What Value Do These Platforms Provide?
+## Benefits and Opportunities
 
 The case against pretending this is all harm is straightforward: these platforms deliver real value that did not previously exist for most people.
 
@@ -84,7 +86,7 @@ Someone teaching themselves a skill has access to instruction that once required
 
 The opportunity is not to renounce any of this. It is to capture the value while paying less for it in attention, which is a design problem that can be solved on the user's side of the screen.
 
-## What Are the Limitations and Open Questions?
+## Limitations, Risks and Trade-offs
 
 The evidence on harm is genuinely contested. Research linking social media use to mental health outcomes is mixed, and much of it is correlational; people who are already struggling may use these platforms more, which is a different claim from the platforms causing the struggle. Anyone stating the science is settled, in either direction, is overreaching.
 
@@ -94,7 +96,7 @@ The burden is being placed on individuals. Advice about personal discipline quie
 
 Attention is also not evenly distributed. Someone with a demanding job and no childcare has less capacity to manage this than someone with time and autonomy, and framing it purely as personal responsibility ignores that.
 
-## How Can These Platforms Be Used Deliberately?
+## Practical Ways to Use These Platforms Deliberately
 
 The aim is not abstinence. It is restoring the friction that the design removed.
 

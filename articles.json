@@ -1,6 +1,6 @@
 [
   {
-    "title": "What Does It Mean to Master the Art of Coding?",
+    "title": "Mastering the Art of Coding: 10 Areas Every Developer Should Focus On",
     "link": "articles/mastering-the-art-of-coding/",
     "category": "Technology",
     "description": "Knowing a language is not the same as knowing how to build software. Ten areas that separate people who can write code from people who can ship systems.",
@@ -8,7 +8,7 @@
     "alt": "Developer working at a modern desk with a widescreen monitor displaying syntax-highlighted source code in an IDE"
   },
   {
-    "title": "What Is Quantum Computing and How Does It Work?",
+    "title": "The Rise of Quantum Computing: The Computing Revolution Beyond Silicon",
     "link": "articles/the-rise-of-quantum-computing/",
     "category": "Technology",
     "description": "Quantum computers approach certain problems in a fundamentally different way. What qubits do, where the technology is useful, and why encryption is already changing.",
@@ -40,7 +40,7 @@
     "alt": "Cybersecurity habits every growing team needs"
   },
   {
-    "title": "What Is Esports and How Did It Become an Industry?",
+    "title": "The Rise of Esports: How Competitive Gaming Became an Industry",
     "link": "articles/the-rise-of-esports/",
     "category": "Game",
     "description": "Competitive gaming grew from local tournaments into a global business with Olympic recognition. How it happened, and why the money is harder to pin down than it looks.",
@@ -48,7 +48,7 @@
     "alt": "A packed esports arena viewed from behind the crowd, facing a lit main stage with two player booths and large blank screens. Illustration generated with AI for Sholynk."
   },
   {
-    "title": "What Are Stablecoins and How Do They Work?",
+    "title": "Stablecoins and the Future of Digital Payments",
     "link": "articles/stablecoins-and-digital-payments/",
     "category": "Cryptocurrency",
     "description": "Stablecoins now carry serious payment volume and a US legal framework. This is how they work, what regulators have decided, and why central bankers still object.",
@@ -56,7 +56,7 @@
     "alt": "A hand holding a smartphone above a shop payment terminal mid-transaction, with faint network lines suggesting settlement moving between two points. Illustration generated with AI for Sholynk."
   },
   {
-    "title": "What Are Multimodal AI Models and How Do They Work?",
+    "title": "Multimodal AI Models Are Changing How Software Understands the World",
     "link": "articles/multimodal-ai-models/",
     "category": "AI Trends",
     "description": "Multimodal AI models interpret text, images, audio and video in one system. How they work, where they are used, and what the evidence says about their limits.",
@@ -64,7 +64,7 @@
     "alt": "A monitor showing a photograph, an audio waveform, a scanned handwritten page and a line chart converging into a single processing point. Illustration generated with AI for Sholynk."
   },
   {
-    "title": "How Do Social Media Platforms Hold Attention?",
+    "title": "Distraction by Design: Navigating Attention in the Social Media Era",
     "link": "articles/distraction-by-design/",
     "category": "Technology",
     "description": "Infinite scroll and algorithmic feeds are engineered to hold attention. How the design works, what the UK evidence shows, and how to use these platforms deliberately.",
