@@ -26,9 +26,9 @@ status: published
 ---
 ## Introduction
 
-In August 2024 the United States finalised three new encryption standards. No system had been broken, and no attack had taken place; the standards were published because of a machine that does not yet work properly.
+In August 2024 the United States finalised three new encryption standards. No system had been broken. No attack had taken place. The standards were published because of a machine that does not yet work properly.
 
-That is an unusual way for a technology to announce itself, because governments do not normally rewrite the mathematics protecting bank transfers and medical records on the strength of a device still confined to a handful of laboratories; they did it because the timing of the threat is uncertain while the cost of being late is not.
+That is an unusual way for a technology to announce itself. Governments do not normally rewrite the mathematics protecting bank transfers and medical records on the strength of a device still confined to a handful of laboratories. They did it because the timing of the threat is uncertain while the cost of being late is not.
 
 Quantum computing sits in an awkward position: over-promised in marketing, under-appreciated in what it has genuinely achieved, and surrounded by explanations that are memorable and wrong. It is worth understanding properly, partly because it is interesting, and partly because one of its consequences is already changing the security of systems you use daily.
 
@@ -36,21 +36,21 @@ Quantum computing sits in an awkward position: over-promised in marketing, under
 
 ### What a classical computer does
 
-Everything a conventional computer does reduces to bits: a bit is definitively zero or one, and enough of them, switched quickly enough, gives you every piece of software ever written.
+Everything a conventional computer does reduces to bits. A bit is definitively zero or one. Enough of them, switched quickly enough, gives you every piece of software ever written.
 
-This works extraordinarily well, and for most problems nothing else is needed. However, certain problems have a structure that punishes this approach: as the problem grows a little, the work grows enormously. Simulating how a modest molecule behaves is the classic example, because the molecule does it effortlessly, several times a second, while a classical computer modelling it faithfully runs out of time and memory very quickly.
+This works extraordinarily well, and for most problems nothing else is needed. But certain problems have a structure that punishes this approach: as the problem grows a little, the work grows enormously. Simulating how a modest molecule behaves is the classic example. The molecule does it effortlessly, several times a second. A classical computer modelling it faithfully runs out of time and memory very quickly.
 
 ### What a qubit adds
 
 A quantum bit, or **qubit**, obeys quantum mechanics. Before measurement it can occupy a combination of the zero and one states, a condition known as **superposition**. Qubits can also be **entangled**, meaning their outcomes are correlated in ways that have no classical equivalent.
 
-Here is the part popular explanations get wrong. It is often said that a quantum computer "tries every possible answer at once"; it does not, and believing this makes the rest incomprehensible, because when you measure the system you get one outcome, not a catalogue of them.
+Here is the part popular explanations get wrong. It is often said that a quantum computer "tries every possible answer at once". It does not, and believing this makes the rest incomprehensible. When you measure the system you get one outcome, not a catalogue of them.
 
-The real mechanism is **interference**. A quantum algorithm is constructed so that the paths leading to wrong answers cancel each other out, while the paths leading to the right answer reinforce. The skill lies in arranging that cancellation, which is why quantum algorithms are rare and hard to design, and only a handful of genuinely useful ones are known.
+The real mechanism is **interference**. A quantum algorithm is constructed so that the paths leading to wrong answers cancel each other out, while the paths leading to the right answer reinforce. The skill lies in arranging that cancellation, which is why quantum algorithms are rare and hard to design. Only a handful of genuinely useful ones are known.
 
 ### What this is not
 
-Quantum computers are not simply faster computers; for the overwhelming majority of tasks, including everything on your phone, they are worse than the machine you already own, and will remain so. The sensible expectation is a specialised accelerator sitting alongside classical infrastructure, called on for the narrow class of problems it suits, much as graphics processors are used today.
+Quantum computers are not simply faster computers. For the overwhelming majority of tasks, including everything on your phone, they are worse than the machine you already own, and will remain so. The sensible expectation is a specialised accelerator sitting alongside classical infrastructure, called on for the narrow class of problems it suits, much as graphics processors are used today.
 
 ## Why It Matters
 
@@ -60,25 +60,25 @@ For everyone else, the consequence that has already arrived is cryptographic. Mu
 
 This is why the <a href="https://www.nist.gov/news-events/news/2024/08/nist-releases-first-3-finalized-post-quantum-encryption-standards" target="_blank" rel="noopener noreferrer">National Institute of Standards and Technology</a> (NIST) finalised replacement standards in August 2024, after an eight-year selection process, and urged administrators to start migrating immediately. NIST notes that some experts expect a machine capable of breaking current encryption within a decade, while being careful to present that as prediction rather than schedule.
 
-The urgency has a specific logic that is easy to miss: an adversary can capture encrypted traffic today and store it until a capable machine exists, hence for anything that must stay secret for ten or twenty years, such as state communications, medical records or long-lived intellectual property, the risk is not in the future; it is now, and it is retrospective.
+The urgency has a specific logic that is easy to miss. An adversary can capture encrypted traffic today and store it until a capable machine exists. For anything that must stay secret for ten or twenty years, such as state communications, medical records or long-lived intellectual property, the risk is not in the future. It is now, and it is retrospective.
 
 ## Real-World Applications
 
 ### Chemistry, materials and medicine
 
-This is the strongest case, because simulating molecular behaviour accurately could shorten the path from candidate compound to viable treatment, and inform the design of catalysts, batteries and materials. Progress here is real but early, and most published results are demonstrations on small systems rather than discoveries that could not have been made otherwise.
+The strongest case. Simulating molecular behaviour accurately could shorten the path from candidate compound to viable treatment, and inform the design of catalysts, batteries and materials. Progress here is real but early, and most published results are demonstrations on small systems rather than discoveries that could not have been made otherwise.
 
 ### Optimisation
 
-Logistics, scheduling and portfolio construction all involve searching enormous spaces of possible arrangements. Quantum approaches are being investigated; however, classical methods remain very strong and the evidence of a decisive advantage is not yet there.
+Logistics, scheduling and portfolio construction all involve searching enormous spaces of possible arrangements. Quantum approaches are being investigated, though classical methods remain very strong and the evidence of a decisive advantage is not yet there.
 
 ### Machine learning
 
-This is an active research area and an overheated marketing one. Some mathematical operations underlying machine learning have quantum analogues; whether that produces practical benefit on real workloads is unresolved, hence claims in this space deserve particular scepticism.
+An active research area and an overheated marketing one. Some mathematical operations underlying machine learning have quantum analogues. Whether that produces practical benefit on real workloads is unresolved, and claims in this space deserve particular scepticism.
 
 ### Cryptanalysis
 
-This is the application driving policy: a large fault-tolerant machine running Shor's algorithm could break widely deployed public-key schemes, and no such machine exists publicly, which is precisely why the migration is happening in advance.
+The application driving policy. A large fault-tolerant machine running Shor's algorithm could break widely deployed public-key schemes. No such machine exists publicly, which is precisely why the migration is happening in advance.
 
 ## Benefits and Opportunities
 
@@ -104,6 +104,6 @@ Quantum computing is neither imminent nor overhyped, which is an unsatisfying po
 
 What has already changed is worth holding onto, because it is concrete. The world's cryptographic standards were rewritten in anticipation of a machine that does not yet exist, and organisations are migrating now on the reasoning that data stolen today can be read later. That is a rare case of institutions acting well ahead of a threat, and it is the part of this story with practical consequences for systems in use right now.
 
-If quantum computing does mature, the effect will not be that everything gets faster; it will be that a small set of previously unanswerable questions, mostly about how matter behaves, become answerable. For me, that is a narrower claim than the headlines make, and a more interesting one.
+If quantum computing does mature, the effect will not be that everything gets faster. It will be that a small set of previously unanswerable questions, mostly about how matter behaves, become answerable. That is a narrower claim than the headlines make, and a more interesting one.
 
 The cryptography under discussion here is the same mathematics securing blockchain settlement, which we examine in [stablecoins and the future of digital payments](/articles/stablecoins-and-digital-payments/).
