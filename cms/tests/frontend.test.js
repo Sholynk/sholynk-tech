@@ -427,10 +427,11 @@ test('article page dynamically renders article structure with TOC, hero, and eng
   await new Promise((resolve) => dom.window.setTimeout(resolve, 50));
 
   const { document } = dom.window;
+  const canonicalArticle = fallback.articles.find((a) => a.slug === 'mastering-the-art-of-coding');
   assert.equal(document.querySelectorAll('h1').length, 1, 'exactly one H1');
   assert.equal(
     document.querySelector('h1').textContent,
-    'Mastering the Art of Coding: 10 Areas Every Developer Should Focus On',
+    canonicalArticle.title,
     'the article H1 matches the canonical Markdown title'
   );
   assert.ok(document.querySelector('.article-breadcrumb'), 'breadcrumb rendered');

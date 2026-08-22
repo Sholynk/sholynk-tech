@@ -2002,7 +2002,7 @@ textarea:focus {
   align-items: center;
   min-height: 2.75rem;
   margin-block: -0.85rem;
-  color: #101828;
+  color: #0874bb;
   font-weight: 800;
   text-decoration: underline;
   text-decoration-color: rgba(29, 155, 240, 0.45);
@@ -2012,7 +2012,7 @@ textarea:focus {
 }
 
 .article-meta a:hover {
-  color: var(--article-blue, #0b86d8);
+  color: #005b99;
   text-decoration-color: currentColor;
 }
 
