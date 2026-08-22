@@ -14,9 +14,9 @@ author: Oluwashola Busari
 authorSlug: oluwashola-busari
 tags: ["software development", "programming fundamentals", "developer skills", "code quality", "software security"]
 hook: What separates a person who can write code from a person who can build software?
-directAnswer: Mastery in software development means the ability to build systems other people can depend on and to keep changing them safely. It rests on judgement developed across ten areas, from fundamentals and problem-solving to security, deployment and continuous learning, rather than on fluency in any particular language.
-keyTakeaways: ["Syntax is the cheapest part of the job; problem decomposition and judgement are what actually take years.", "Readable code matters more than clever code, because most of a program's life is spent being changed by someone else.", "Security is a daily discipline, not a specialism, and the common failure modes are well documented and largely preventable.", "AI assistants are now near-universal, with 84% of surveyed developers using or planning to use them, but 66% report being slowed by answers that are almost right.", "The languages in demand shift constantly, so the durable investment is in fundamentals rather than in any single tool."]
-faqs: [{"question":"Which programming language should I learn first?","answer":"Almost any mainstream language teaches the same fundamentals. JavaScript and Python are reasonable starting points because both have large communities and immediate practical uses, but the specific choice matters far less than sticking with one long enough to build something real."},{"question":"Do I still need to learn fundamentals if AI writes the code?","answer":"Arguably more than before. Survey data shows the single biggest frustration with AI tools is output that is almost right but not quite, and spotting that requires exactly the judgement fundamentals give."},{"question":"How long does it take to become competent?","answer":"Basic productive work takes months; sound engineering judgement takes years. The slow part is not learning syntax but accumulating the experience that reveals which approach will cause problems later."},{"question":"Is a computer science degree necessary?","answer":"No, and many working developers do not have one. A degree gives structured grounding in theory that is harder to acquire alone, but demonstrable projects and understanding carry more weight with most employers."},{"question":"How do I keep up without burning out?","answer":"The sustainable approach is to track concepts rather than announcements. Frameworks turn over quickly; the ideas underneath them, such as data modelling, concurrency and caching, change slowly and transfer between tools."}]
+directAnswer: Mastery in software development means the ability to build systems other people can depend on and to keep changing them safely. It rests on judgement developed across ten areas, from fundamentals and problem-solving to security, deployment and continuous learning, not fluency in any particular language.
+keyTakeaways: ["Syntax is the cheapest part of the job; problem decomposition and judgement are what actually take years.", "Readable code matters more than clever code, because most of a program's life is spent being changed by someone else.", "Security is a daily discipline, not a specialism, and the common failure modes are well documented and largely preventable.", "AI assistants are now near-universal, with 84% of surveyed developers using or planning to use them, but 66% report being slowed by answers that are almost right.", "The languages in demand shift constantly, so the durable investment is in fundamentals, not in any single tool."]
+faqs: [{"question":"Which programming language should I learn first?","answer":"Almost any mainstream language teaches the same fundamentals. JavaScript and Python are reasonable starting points because both have large communities and immediate practical uses, but the specific choice matters far less than sticking with one long enough to build something real."},{"question":"Do I still need to learn fundamentals if AI writes the code?","answer":"Arguably more than before. Survey data shows the single biggest frustration with AI tools is output that is almost right but not quite, and spotting that requires exactly the judgement fundamentals give."},{"question":"How long does it take to become competent?","answer":"Basic productive work takes months; sound engineering judgement takes years. The slow part is not learning syntax but accumulating the experience that reveals which approach will cause problems later."},{"question":"Is a computer science degree necessary?","answer":"No, and many working developers do not have one. A degree gives structured grounding in theory that is harder to acquire alone, but demonstrable projects and understanding carry more weight with most employers."},{"question":"How do I keep up without burning out?","answer":"The sustainable approach is to track concepts, not announcements. Frameworks turn over quickly; the ideas underneath them, such as data modelling, concurrency and caching, change slowly and transfer between tools."}]
 sources: [{"title":"2025 Developer Survey","publisher":"Stack Overflow","publishedAt":"2025-07-29","url":"https://survey.stackoverflow.co/2025/","type":"primary","accessedAt":"2026-08-16","supports":"Self-reported language use (JavaScript 66%, HTML/CSS 61.9%, SQL 58.6%, Python 57.9%, with Python up seven percentage points year on year); 84% of respondents using or planning to use AI tools, up from 76%; 66% citing AI answers that are almost right as their biggest frustration; 45% reporting that debugging AI-generated code takes longer; and 20% reporting reduced confidence in their own problem-solving."},{"title":"OWASP Top Ten Web Application Security Risks","publisher":"OWASP Foundation","url":"https://owasp.org/www-project-top-ten/","type":"official","accessedAt":"2026-08-16","supports":"A consensus standard-awareness document listing the most critical security risks to web applications, currently published as the OWASP Top Ten 2025."}]
 relatedSlugs: ["multimodal-ai-models", "the-rise-of-quantum-computing", "distraction-by-design"]
 seoTitle: "Mastering Coding: 10 Areas Every Developer Should Focus On"
@@ -45,7 +45,7 @@ The habit worth forming early is to think about the second reader. Nearly all pr
 
 Software has stopped being a sector and become the substrate. Banks are software companies with banking licences, hospitals run on scheduling and records systems, and farms run on logistics platforms. Written badly, that software does not merely underperform; it leaks personal data, miscalculates payments and fails at the moment people most depend on it.
 
-The market reflects this in what it pays for. Employers are rarely short of people who can produce code, and are frequently short of people who can be trusted with a production system, so judgement rather than output is the scarce good.
+The market reflects this in what it pays for. Employers are rarely short of people who can produce code, and are frequently short of people who can be trusted with a production system, so judgement, not output, is the scarce good.
 
 For anyone learning now, the practical implication is that the fundamentals below have a much longer half-life than the framework currently being learned. Frameworks are rented; fundamentals are owned.
 
@@ -71,7 +71,7 @@ The goal is to learn enough to reason about cost, because knowing why a lookup i
 
 ### 4. Clean, maintainable code
 
-Meaningful names, small functions that do one thing, consistent formatting, and comments that explain why rather than what.
+Meaningful names, small functions that do one thing, consistent formatting, and comments that explain the reasoning behind the code, not just what it does.
 
 Clean code is often described as an aesthetic preference, but it is closer to an economic one: the cost of every future change is set by how legible the code is now. Clever code that only its author can follow is a liability with a delay on it.
 
@@ -89,7 +89,7 @@ Normalisation matters, and so does knowing when to depart from it deliberately, 
 
 ### 7. Software security
 
-Security is part of the job rather than someone else's specialism. Authentication and authorisation are distinct concepts, and confusing them causes real breaches; passwords are hashed, never stored; and input from outside a system is untrusted until proven otherwise.
+Security is part of the job, not someone else's specialism. Authentication and authorisation are distinct concepts, and confusing them causes real breaches; passwords are hashed, never stored; and input from outside a system is untrusted until proven otherwise.
 
 The encouraging part is that the common failure modes are documented. The <a href="https://owasp.org/www-project-top-ten/" target="_blank" rel="noopener noreferrer">OWASP Top Ten</a> is a consensus list of the most critical web application risks, and working through it teaches more practical security than most courses.
 
@@ -103,13 +103,13 @@ The soundest counsel is to build something one would personally want to exist an
 
 Code that runs only on a laptop is a draft. The step to a running service involves environments, configuration, secrets, containers, continuous integration, logs, monitoring and rollback.
 
-Nobody needs to be an infrastructure engineer, but everyone needs to understand enough that a production failure is a problem to investigate rather than a mystery to escalate.
+Nobody needs to be an infrastructure engineer, but everyone needs to understand enough that a production failure is a problem to investigate, not a mystery to escalate.
 
 ### 10. Continuous learning, and using AI honestly
 
 This field renews itself constantly, and the way learning happens matters more than how much of it does.
 
-AI assistants are now the normal working environment rather than a novelty. In Stack Overflow's <a href="https://survey.stackoverflow.co/2025/" target="_blank" rel="noopener noreferrer">2025 developer survey</a>, 84% of respondents said they use or plan to use AI tools, up from 76% the previous year, with around half of professional developers using them daily.
+AI assistants are now the normal working environment, not a novelty. In Stack Overflow's <a href="https://survey.stackoverflow.co/2025/" target="_blank" rel="noopener noreferrer">2025 developer survey</a>, 84% of respondents said they use or plan to use AI tools, up from 76% the previous year, with around half of professional developers using them daily.
 
 The same survey records the catch, and it is worth reading carefully. The most common frustration, reported by 66%, is output that is almost right but not quite. Some 45% said debugging AI-generated code takes longer than expected, and 20% said they had become less confident in their own problem-solving.
 
@@ -121,7 +121,7 @@ The obvious returns are employment and pay, which remain strong for people who c
 
 Programming is leverage. A single person can build something that serves thousands, at a materially lower cost than any previous generation of tooling allowed, and for anyone starting a business, particularly where capital is scarce and problems are concrete, that asymmetry is the point.
 
-The work also travels. It is largely portable, remote-friendly and evaluated on demonstrable output rather than credentials, which makes it one of the more accessible routes into a global market from almost anywhere.
+The work also travels. It is largely portable, remote-friendly and evaluated on demonstrable output, not credentials, which makes it one of the more accessible routes into a global market from almost anywhere.
 
 ## What Are the Risks and Trade-offs?
 
@@ -129,7 +129,7 @@ The advice list above is not a syllabus. Ten areas presented in order imply a pr
 
 Fundamentals are necessary, not sufficient. Communication, estimating honestly, and knowing when a deadline is unrealistic determine careers at least as much as technical depth.
 
-The entry level is also genuinely being squeezed. Assistants handle much of the simple, well-specified work that juniors once cut their teeth on, and pretending otherwise would be dishonest. The response is to get to the judgement stage faster, which means building real things rather than accumulating certificates.
+The entry level is also genuinely being squeezed. Assistants handle much of the simple, well-specified work that juniors once cut their teeth on, and pretending otherwise would be dishonest. The response is to get to the judgement stage faster, which means building real things, not accumulating certificates.
 
 Burnout is a real occupational risk. The expectation of perpetual learning, in a field that treats exhaustion as commitment, causes measurable harm, and sustainable pace beats intensity over any horizon longer than a few months.
 

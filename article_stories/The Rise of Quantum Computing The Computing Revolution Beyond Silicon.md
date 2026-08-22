@@ -58,7 +58,7 @@ For researchers, the appeal of quantum computing is direct: nature is quantum me
 
 For everyone else, the consequence that has already arrived is cryptographic. Much of the confidentiality on the internet rests on mathematics that is hard for classical computers and, in principle, tractable for a sufficiently large quantum machine. <a href="https://en.wikipedia.org/wiki/Elliptic-curve_cryptography" target="_blank" rel="noopener noreferrer">Elliptic-curve cryptography</a>, one of the main schemes involved, underpins Transport Layer Security and Bitcoin among many other systems.
 
-This is why the <a href="https://www.nist.gov/news-events/news/2024/08/nist-releases-first-3-finalized-post-quantum-encryption-standards" target="_blank" rel="noopener noreferrer">National Institute of Standards and Technology</a> (NIST) finalised replacement standards in August 2024, after an eight-year selection process, and urged administrators to start migrating immediately. NIST notes that some experts expect a machine capable of breaking current encryption within a decade, while being careful to present that as prediction rather than schedule.
+This is why the <a href="https://www.nist.gov/news-events/news/2024/08/nist-releases-first-3-finalized-post-quantum-encryption-standards" target="_blank" rel="noopener noreferrer">National Institute of Standards and Technology</a> (NIST) finalised replacement standards in August 2024, after an eight-year selection process, and urged administrators to start migrating immediately. NIST notes that some experts expect a machine capable of breaking current encryption within a decade, while being careful to present that as prediction, not schedule.
 
 The urgency has a specific logic that is easy to miss: an adversary can capture encrypted traffic today and store it until a capable machine exists, so for anything that must stay secret for ten or twenty years, such as state communications, medical records or long-lived intellectual property, the risk is not in the future but retrospective.
 
@@ -66,7 +66,7 @@ The urgency has a specific logic that is easy to miss: an adversary can capture 
 
 ### Chemistry, materials and medicine
 
-This is the strongest case. Simulating molecular behaviour accurately could shorten the path from candidate compound to viable treatment, and inform the design of catalysts, batteries and materials. Progress here is real but early, and most published results are demonstrations on small systems rather than discoveries that could not have been made otherwise.
+This is the strongest case. Simulating molecular behaviour accurately could shorten the path from candidate compound to viable treatment, and inform the design of catalysts, batteries and materials. Progress here is real but early, and most published results are demonstrations on small systems, not discoveries that could not have been made otherwise.
 
 ### Optimisation
 
@@ -82,13 +82,13 @@ This is the application driving policy. A large fault-tolerant machine running S
 
 ## Benefits and Opportunities
 
-Where the technology suits the problem, the potential gain is not incremental. Being able to model a reaction accurately rather than approximately changes what questions researchers can ask, and that is a different kind of benefit from doing existing work faster.
+Where the technology suits the problem, the potential gain is not incremental. Being able to model a reaction accurately, not approximately, changes what questions researchers can ask, and that is a different kind of benefit from doing existing work faster.
 
 There is also a substantial adjacent opportunity that requires no quantum hardware at all. The migration to post-quantum cryptography is a large, concrete, and immediate engineering programme: inventorying where cryptography is used, planning replacement, testing interoperability. That work is available now, and it is where most practical demand currently sits.
 
 ## What Limits the Technology?
 
-Qubits are exceptionally fragile. Quantum states are disturbed by heat, vibration and stray electromagnetic fields, and many systems operate near absolute zero in heavily isolated environments. That is the reason for the chandelier-like apparatus in photographs of these machines, most of which is refrigeration and wiring rather than computer.
+Qubits are exceptionally fragile. Quantum states are disturbed by heat, vibration and stray electromagnetic fields, and many systems operate near absolute zero in heavily isolated environments. That is the reason for the chandelier-like apparatus in photographs of these machines, most of which is refrigeration and wiring, not computing hardware.
 
 Error correction is the central obstacle. Because qubits are noisy, useful computation requires encoding one reliable logical qubit across many physical ones, and the overhead is severe. It is the main reason today's machines cannot run the algorithms most often cited for them.
 
@@ -96,7 +96,7 @@ Cost and access are further constraints. These are laboratory instruments requir
 
 Persistent overstatement is another. Commercial claims frequently outrun demonstrated capability, and "quantum" has become a marketing prefix. A useful test when reading an announcement is whether it reports a problem solved that a classical computer could not have solved, or merely a demonstration that a quantum device performed a task at all.
 
-The timeline is genuinely unknown. Estimates for fault-tolerant machines range from years to decades, and anyone offering a confident date is expressing an opinion rather than reporting a finding.
+The timeline is genuinely unknown. Estimates for fault-tolerant machines range from years to decades, and anyone offering a confident date is expressing an opinion, not reporting a finding.
 
 ## Conclusion
 

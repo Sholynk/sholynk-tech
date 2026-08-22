@@ -73,6 +73,15 @@ reader, never editorialise.
 - **Dialectical balance.** Theory, evidence, mechanisms, limitations and new
   directions all appear where the subject has them.
 - **Complete but concise.** Answer the question fully; no padding.
+- **Keep concepts simple.** The prospective audience is a general, curious
+  readership, not specialists. Explain every technical idea in plain terms at
+  first use, prefer short familiar words, and never leave a reader needing
+  prior knowledge to follow a sentence. Simplicity is a requirement of the
+  tone, not a suggestion.
+- **Avoid "rather than".** Write contrasts directly: use ", not X" or
+  "instead of X", or simply end the sentence at the first term. Example:
+  "will test the argument, not settle it" or simply "will test the argument";
+  "deliberate use, not abstinence".
 
 ## 4. Banned patterns (what the reference never does)
 
