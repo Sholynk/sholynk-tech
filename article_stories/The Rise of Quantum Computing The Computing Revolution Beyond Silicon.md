@@ -6,7 +6,7 @@ subcategory: Emerging Computing
 contentType: guide
 description: Quantum computers approach certain problems in a fundamentally different way. What qubits do, where the technology is useful, and why encryption is already changing.
 img: article-images/quantum/quantum-computer-chandelier.jpg
-alt: Golden chandelier-like cryostat of a superconducting quantum computer, layered with control wiring
+alt: Golden chandelier-like cryostat of a superconducting quantum computer, layered with control wiring. Photo: Unsplash.
 date: 2026-08-02
 readingTime: 11 min read
 featured: true
@@ -44,6 +44,8 @@ This works extraordinarily well, and for most problems nothing else is needed. H
 
 A quantum bit, or **qubit**, obeys quantum mechanics. Before measurement it can occupy a combination of the zero and one states, a condition known as **superposition**. Qubits can also be **entangled**, meaning their outcomes are correlated in ways that have no classical equivalent.
 
+![A rendered visualization of a quantum computer processor showing glowing paths representing entanglement. Photo: Pixabay.](article-images/quantum/quantum-processor-render.jpg)
+
 A popular explanation says that a quantum computer "tries every possible answer at once". It does not, and believing this makes the rest incomprehensible, because a measurement returns a single outcome, not a catalogue of them.
 
 The real mechanism is **interference**. A quantum algorithm is constructed so that the paths leading to wrong answers cancel each other out, while the paths leading to the right answer reinforce. The skill lies in arranging that cancellation, which is why quantum algorithms are rare and hard to design, and only a handful of genuinely useful ones are known.
@@ -55,6 +57,8 @@ Quantum computers are not simply faster computers. For the overwhelming majority
 ## Why Is Encryption Already Changing?
 
 For researchers, the appeal of quantum computing is direct: nature is quantum mechanical, so simulating it on a machine that is also quantum mechanical removes a translation layer that currently costs enormous computational effort. Chemistry and materials science are the fields where a genuine advantage is most plausible, because the problem and the tool share a structure.
+
+![A laboratory setup focusing on quantum optics laser research and experiments. Photo: Unsplash.](article-images/quantum/quantum-optics-laser.jpg)
 
 For everyone else, the consequence that has already arrived is cryptographic. Much of the confidentiality on the internet rests on mathematics that is hard for classical computers and, in principle, tractable for a sufficiently large quantum machine. <a href="https://en.wikipedia.org/wiki/Elliptic-curve_cryptography" target="_blank" rel="noopener noreferrer">Elliptic-curve cryptography</a>, one of the main schemes involved, underpins Transport Layer Security and Bitcoin among many other systems.
 
@@ -89,6 +93,8 @@ There is also a substantial adjacent opportunity that requires no quantum hardwa
 ## What Limits the Technology?
 
 Qubits are exceptionally fragile. Quantum states are disturbed by heat, vibration and stray electromagnetic fields, and many systems operate near absolute zero in heavily isolated environments. That is the reason for the chandelier-like apparatus in photographs of these machines, most of which is refrigeration and wiring, not computing hardware.
+
+![A monitor displaying programming code for a quantum computing machine. Photo: Unsplash.](article-images/quantum/quantum-programming-code.jpg)
 
 Error correction is the central obstacle. Because qubits are noisy, useful computation requires encoding one reliable logical qubit across many physical ones, and the overhead is severe. It is the main reason today's machines cannot run the algorithms most often cited for them.
 

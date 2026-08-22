@@ -878,7 +878,7 @@
       renderRelated(siblings.filter((item) => (
         item.slug !== article.slug
         && (Boolean(item.body && item.body.trim()) || /^https?:\/\//i.test(item.externalLink || ''))
-      )).slice(0, 3));
+      )).slice(0, 4));
     } catch (error) {
       console.error(error);
       if (statusEl) statusEl.textContent = 'Unable to load this article right now.';

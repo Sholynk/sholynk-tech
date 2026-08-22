@@ -4,8 +4,8 @@
     "link": "articles/mastering-the-art-of-coding/",
     "category": "Technology",
     "description": "Knowing a language is not the same as knowing how to build software. Ten areas that separate people who can write code from people who can ship systems.",
-    "img": "Article cards images/Home/article_card_05.jpg",
-    "alt": "Developer working at a modern desk with a widescreen monitor displaying syntax-highlighted source code in an IDE"
+    "img": "article-images/mastering-the-art-of-coding/hero.jpg",
+    "alt": "A woman programmer coding on dual monitors in a modern office setting. Photo: Pexels."
   },
   {
     "title": "The Rise of Quantum Computing: The Computing Revolution Beyond Silicon",
@@ -13,7 +13,7 @@
     "category": "Technology",
     "description": "Quantum computers approach certain problems in a fundamentally different way. What qubits do, where the technology is useful, and why encryption is already changing.",
     "img": "article-images/quantum/quantum-computer-chandelier.jpg",
-    "alt": "Golden chandelier-like cryostat of a superconducting quantum computer, layered with control wiring"
+    "alt": "Golden chandelier-like cryostat of a superconducting quantum computer, layered with control wiring. Photo: Unsplash."
   },
   {
     "title": "The future of artificial intelligence in everyday life",
@@ -45,7 +45,7 @@
     "category": "Game",
     "description": "Competitive gaming grew from local tournaments into a global business with Olympic recognition. How it happened, and why the money is harder to pin down than it looks.",
     "img": "article-images/the-rise-of-esports/esports-arena-stage.jpg",
-    "alt": "A packed esports arena viewed from behind the crowd, facing a lit main stage with two player booths and large blank screens. Illustration generated with AI for Sholynk."
+    "alt": "Rows of professional gaming stations with illuminated keyboards and monitors in an esports arena. Photo: Pexels."
   },
   {
     "title": "Stablecoins and the Future of Digital Payments",
@@ -53,7 +53,7 @@
     "category": "Cryptocurrency",
     "description": "Stablecoins now carry serious payment volume and a US legal framework. This is how they work, what regulators have decided, and why central bankers still object.",
     "img": "article-images/stablecoins-and-digital-payments/stablecoin-payment-rails.jpg",
-    "alt": "A hand holding a smartphone above a shop payment terminal mid-transaction, with faint network lines suggesting settlement moving between two points. Illustration generated with AI for Sholynk."
+    "alt": "Hands making a contactless mobile payment with a smartphone at a retail store checkout terminal. Photo: Pexels."
   },
   {
     "title": "Multimodal AI Models Are Changing How Software Understands the World",
@@ -61,15 +61,15 @@
     "category": "AI Trends",
     "description": "Multimodal AI models interpret text, images, audio and video in one system. How they work, where they are used, and what the evidence says about their limits.",
     "img": "article-images/multimodal-ai-models/multimodal-inputs.jpg",
-    "alt": "A monitor showing a photograph, an audio waveform, a scanned handwritten page and a line chart converging into a single processing point. Illustration generated with AI for Sholynk."
+    "alt": "Two business professionals analyzing complex financial and data visualization charts across multiple screens. Photo: Pexels."
   },
   {
     "title": "Distraction by Design: Navigating Attention in the Social Media Era",
     "link": "articles/distraction-by-design/",
     "category": "Technology",
     "description": "Infinite scroll and algorithmic feeds are engineered to hold attention. How the design works, what the UK evidence shows, and how to use these platforms deliberately.",
-    "img": "article-images/distraction-by-design/social-media-apps-hero.jpg",
-    "alt": "Smartphone screen showing a Social Media folder with apps such as YouTube, Instagram, Facebook and TikTok"
+    "img": "article-images/distraction-by-design/person-holding-cellphone.jpg",
+    "alt": "A close-up of a person holding a glowing smartphone screen in a dark setting, displaying abstract glowing lines and illuminated text. Photo: Pexels."
   },
   {
     "title": "Building Resilient Software Systems in 2026",

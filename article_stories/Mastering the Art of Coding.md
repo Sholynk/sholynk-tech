@@ -5,8 +5,8 @@ category: Technology
 subcategory: Software Development
 contentType: guide
 description: Knowing a language is not the same as knowing how to build software. Ten areas that separate people who can write code from people who can ship systems.
-img: Article cards images/Home/article_card_05.jpg
-alt: Developer working at a modern desk with a widescreen monitor displaying syntax-highlighted source code in an IDE
+img: article-images/mastering-the-art-of-coding/hero.jpg
+alt: A woman programmer coding on dual monitors in a modern office setting. Photo: Pexels.
 date: 2026-07-26
 readingTime: 10 min read
 featured: true
@@ -73,6 +73,8 @@ The goal is to learn enough to reason about cost, because knowing why a lookup i
 
 Meaningful names, small functions that do one thing, consistent formatting, and comments that explain the reasoning behind the code, not just what it does.
 
+![Two software developers work collaboratively on a coding project in a modern office setting. Photo: Pexels.](article-images/mastering-the-art-of-coding/pair-programming.jpg)
+
 Clean code is often described as an aesthetic preference, but it is closer to an economic one: the cost of every future change is set by how legible the code is now. Clever code that only its author can follow is a liability with a delay on it.
 
 ### 5. Version control with Git
@@ -91,11 +93,15 @@ Normalisation matters, and so does knowing when to depart from it deliberately, 
 
 Security is part of the job, not someone else's specialism. Authentication and authorisation are distinct concepts, and confusing them causes real breaches; passwords are hashed, never stored; and input from outside a system is untrusted until proven otherwise.
 
+![High-tech server rack in a secure data center with network cables and hardware components. Photo: Pexels.](article-images/mastering-the-art-of-coding/secure-servers.jpg)
+
 The encouraging part is that the common failure modes are documented. The <a href="https://owasp.org/www-project-top-ten/" target="_blank" rel="noopener noreferrer">OWASP Top Ten</a> is a consensus list of the most critical web application risks, and working through it teaches more practical security than most courses.
 
 ### 8. Building real projects
 
 Tutorials give a clean problem with a known answer; real projects give ambiguity, awkward data, changing requirements and the specific misery of deployment, which is where the learning actually happens.
+
+![A software engineer standing at a whiteboard planning UX and design architecture. Photo: Pexels.](article-images/mastering-the-art-of-coding/architecture-planning.jpg)
 
 The soundest counsel is to build something one would personally want to exist and use, because motivation is the resource that runs out first, and genuine interest is the only reliable supply.
 

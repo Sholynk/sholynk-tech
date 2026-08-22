@@ -6,7 +6,7 @@ subcategory: Esports
 contentType: article
 description: Competitive gaming grew from local tournaments into a global business with Olympic recognition. How it happened, and why the money is harder to pin down than it looks.
 img: article-images/the-rise-of-esports/esports-arena-stage.jpg
-alt: A packed esports arena viewed from behind the crowd, facing a lit main stage with two player booths and large blank screens. Illustration generated with AI for Sholynk.
+alt: Rows of professional gaming stations with illuminated keyboards and monitors in an esports arena. Photo: Pexels.
 date: 2026-08-16
 readingTime: 9 min read
 author: Oluwashola Busari
@@ -42,11 +42,15 @@ Some publishers responded by building franchised leagues with fixed teams and sc
 
 Esports is organised competition: structured rules, ranked qualification, scheduled fixtures, prize money, and an audience that watches instead of playing. The distinction matters because it is what makes the activity a business. A popular game is a product sold to players; an esport is a product sold to spectators, and those are different economies with different customers.
 
+![A focused professional gamer playing online with a headset on a desktop computer. Photo: Pexels.](article-images/the-rise-of-esports/pro-gamer.jpg)
+
 There is also a structural fact that makes esports unlike football or basketball. Nobody owns football, and anybody may organise a match, but every esport is played on software owned by a company, and that company controls the rules, the updates, the tournament licensing and whether the competitive scene continues to exist at all. A publisher that loses interest in a competitive scene can end it in a way that no governing body in traditional sport could.
 
 ## What Has Happened at the Olympic Level?
 
 Following the unanimous July 2024 approval, the IOC confirmed in February 2025 that the inaugural Olympic Esports Games would be held in 2027, having initially announced 2025, with a preparatory roadmap starting that year. The confirmation came with a twelve-year partnership between the IOC and the National Olympic Committee of Saudi Arabia, and the Esports World Cup Foundation was named founding partner. Winners will receive trophies, not conventional medals.
+
+![Four young players posing confidently with gaming setups in an eSports arena. Photo: Pexels.](article-images/the-rise-of-esports/team-players.jpg)
 
 The delay is itself informative: aligning publisher-owned titles with Olympic governance is genuinely difficult, and the schedule moved accordingly.
 
@@ -63,6 +67,8 @@ The data itself deserves care. <a href="https://esportsinsider.com/2023/03/newzo
 ## What Are the Opportunities Beyond Playing?
 
 The clearest opportunities are not in playing. A tournament requires broadcast production, analysis, coaching, event operations, statistics, translation and community management, and these roles are more numerous and more durable than the playing positions. For anyone weighing a route into the sector, production and data work is the more reliable entry point.
+
+![A young player in a gaming chair adjusting their headphones in an eSports arena. Photo: Pexels.](article-images/the-rise-of-esports/player-headphones.jpg)
 
 There is also genuine accessibility. Competing does not depend on physical build or on living near a suitable facility, which widens participation in ways traditional sport structurally cannot.
 

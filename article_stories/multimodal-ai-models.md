@@ -6,7 +6,7 @@ subcategory: Foundation Models
 contentType: analysis
 description: Multimodal AI models interpret text, images, audio and video in one system. How they work, where they are used, and what the evidence says about their limits.
 img: article-images/multimodal-ai-models/multimodal-inputs.jpg
-alt: A monitor showing a photograph, an audio waveform, a scanned handwritten page and a line chart converging into a single processing point. Illustration generated with AI for Sholynk.
+alt: Two business professionals analyzing complex financial and data visualization charts across multiple screens. Photo: Pexels.
 date: 2026-08-16
 readingTime: 9 min read
 author: Oluwashola Busari
@@ -40,6 +40,8 @@ Multimodal models take a different approach. Instead of building a separate syst
 
 When a user supplies a picture, an encoder divides it into patches and converts each patch into a vector. Those vectors are placed into the same sequence as the tokens of a written prompt. From the model's perspective, there is no meaningful boundary between the question and the picture; both are simply positions in one sequence that the model attends over.
 
+![A close-up view of an audio editing software interface featuring sound waveforms and controls. Photo: Pexels.](article-images/multimodal-ai-models/audio-waveform.jpg)
+
 This design explains a capability that pipelines of separate tools could not provide. A multimodal model can answer a question such as "does the third row of this table contradict the claim in the paragraph above it?" because both the table and the paragraph remain present during processing. A pipeline of separate tools would struggle with the same question, because the relationship between the table and the paragraph is lost once each is processed in isolation.
 
 It is worth noting that the term "multimodal" covers a set of quite different skills. Reading dense text in a photographed document is not the same problem as tracking an object through ninety minutes of video, which differs again from interpreting an unlabelled chart. Published results reflect this: different systems lead on different tasks, and some engineering teams route each task to a different model instead of standardising on one.
@@ -49,6 +51,8 @@ It is worth noting that the term "multimodal" covers a set of quite different sk
 ### Documents, forms and charts
 
 The most established use is document understanding: extracting structure from invoices, claims, identity documents and reports where layout carries meaning. This task is well suited to the technology because the results are verifiable; if a model reads a total incorrectly, the error can be checked against the arithmetic. Much of the manual work previously required to parse documents, such as layout detection and hand-written extraction rules, can now be replaced by a question in plain language.
+
+![Two office workers analyzing complex graphs on a tablet screen for collaborative data analysis. Photo: Pexels.](article-images/multimodal-ai-models/document-analysis.jpg)
 
 The same capability applies to archives. Many organisations hold decades of scanned records, engineering diagrams, recorded calls and site photographs that were stored but never made searchable. Being able to ask questions of such collections changes what an archive is for.
 
@@ -77,6 +81,8 @@ A blurred figure, an ambiguous chart or an unusual layout does not reliably prod
 ## Limitations and Open Problems
 
 Several practical constraints continue to limit deployment. Images and video consume far more of a model's context than text, so costs rise quickly at volume, and video in particular remains expensive enough that many plausible applications are not yet economic. Latency follows the same pattern.
+
+![A person pointing at a glowing code interface on a computer screen, representing modern technology interaction. Photo: Pexels.](article-images/multimodal-ai-models/interface-point.jpg)
 
 Privacy presents a separate concern. Photographs and recordings carry incidental information that text does not, such as faces in the background, documents on a desk and location clues. Sending them to a third-party service is a materially different disclosure from sending a paragraph of text, and it warrants its own assessment, and should not simply inherit an existing text policy.
 

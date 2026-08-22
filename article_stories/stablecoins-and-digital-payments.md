@@ -6,7 +6,7 @@ subcategory: Payments and Regulation
 contentType: analysis
 description: Stablecoins now carry serious payment volume and a US legal framework. This is how they work, what regulators have decided, and why central bankers still object.
 img: article-images/stablecoins-and-digital-payments/stablecoin-payment-rails.jpg
-alt: A hand holding a smartphone above a shop payment terminal mid-transaction, with faint network lines suggesting settlement moving between two points. Illustration generated with AI for Sholynk.
+alt: Hands making a contactless mobile payment with a smartphone at a retail store checkout terminal. Photo: Pexels.
 date: 2026-08-16
 readingTime: 10 min read
 author: Oluwashola Busari
@@ -52,6 +52,8 @@ The academic literature frames this as a run problem. In a 2026 peer-reviewed an
 
 There is an important separation between a **payment stablecoin**, designed to be spent, and a **yield-bearing token**, designed to pay a return. The US framework regulates the former and bars issuers from paying interest on it. Products that pass through returns from tokenised government debt are a related but legally distinct category, and conflating the two is the most common error in coverage of this sector.
 
+![Bitcoin and Ethereum coins displayed over a digital circuitry background representing blockchain ledger backing. Photo: Pexels.](article-images/stablecoins-and-digital-payments/crypto-backing.jpg)
+
 ## How Are Stablecoins Regulated in the United States?
 
 Under the GENIUS Act, payment stablecoins became a supervised activity, and the <a href="https://www.federalregister.gov/documents/2026/03/02/2026-04089/implementing-the-guiding-and-establishing-national-innovation-for-us-stablecoins-act-for-the" target="_blank" rel="noopener noreferrer">proposed OCC rules</a> supply the detail. They include a $5 million minimum capital floor for new federal issuers, transition to federal oversight at $10 billion, a proposed limit of two business days for timely redemption, and audit obligations. Issuers with at least $25 billion outstanding would hold 0.5% of reserves in insured deposits, capped at $500 million. Only issuers below $10 billion in market capitalisation may opt for a state-level regulatory regime, with annual state recertification. These are proposals until finalised, so the detail may shift.
@@ -61,6 +63,8 @@ US regulators have also been explicit that token holders are not covered by depo
 ## Where Are Stablecoins Used?
 
 Cross-border business settlement is the clearest established use, particularly for payments too small or too frequent to justify correspondent banking fees. Treasury movement between entities of the same group is another, because it involves sophisticated parties who can manage custody.
+
+![Hands utilizing a smartphone for a contactless payment mid-transaction inside a physical shop. Photo: Pexels.](article-images/stablecoins-and-digital-payments/payment-shop.jpg)
 
 Card networks and payment processors have begun offering stablecoin payout and settlement options, which matters because it puts the token behind a familiar interface, so merchants never handle it directly.
 
@@ -73,6 +77,8 @@ Start with the businesses, because their interest is the least ideological. Corr
 Regulators see the same instrument and see a funding question: if deposits drift out of banks and into private tokens, banks have less to lend. The <a href="https://www.bis.org/" target="_blank" rel="noopener noreferrer">Bank for International Settlements</a> (BIS), the institution central banks themselves bank with, put numbers on this in its Annual Economic Report 2026, and the numbers were not what either camp expected. Modelling adoption at one, two and three trillion dollars in market value, it found the net effect on output was small, and in its US-calibrated version slightly negative over the medium term. The objection is not that stablecoins would blow something up; it is that they would impose real costs while delivering very little growth.
 
 The BIS argument is structural, not technical. It holds that stablecoins fail on singleness, the property that a dollar from one issuer is interchangeable with a dollar from another at par, because different tokens trading at slightly different values reintroduces a problem that nineteenth-century private banknotes had and that modern monetary infrastructure exists to solve. The BIS also argues they fail on elasticity, on interoperability across chains, and on integrity, given that permissionless rails weaken anti-money-laundering controls.
+
+![A majestic neoclassical federal courthouse building showing towering architectural columns. Photo: Pexels.](article-images/stablecoins-and-digital-payments/regulatory-hall.jpg)
 
 The sharpest version of the argument is playing out in countries with unstable currencies. Holding a dollar-referenced token is a sensible decision for one household and a problem when several million make it at once, because it hollows out monetary sovereignty and reshapes how capital moves. The BIS calls this stablecoin dollarisation, and it is already observable in economies from Lagos to Buenos Aires and Istanbul.
 
