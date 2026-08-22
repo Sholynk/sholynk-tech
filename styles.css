@@ -977,23 +977,23 @@ textarea:focus {
 @media (min-width: 481px) {
   .bento-feed {
     grid-template-columns: repeat(2, 1fr);
-    grid-auto-rows: 20px;
+    grid-auto-rows: auto;
   }
 
   .bento-feed .card--tall,
   .bento-feed .card--square {
     grid-column: span 1;
-    grid-row: span 12;
+    grid-row: auto;
   }
 
   .bento-feed .card--tall {
-    grid-row: span 24;
+    grid-row: auto;
   }
 
   .bento-feed .card--landscape,
   .bento-feed .card--wide {
-    grid-column: span 2;
-    grid-row: span 12;
+    grid-column: span 1;
+    grid-row: auto;
   }
 }
 
@@ -1009,16 +1009,16 @@ textarea:focus {
   .bento-feed .card--square,
   .bento-feed .card--landscape {
     grid-column: span 1;
-    grid-row: span 12;
+    grid-row: auto;
   }
 
   .bento-feed .card--tall {
-    grid-row: span 24;
+    grid-row: auto;
   }
 
   .bento-feed .card--wide {
-    grid-column: span 3;
-    grid-row: span 12;
+    grid-column: span 2;
+    grid-row: auto;
   }
 }
 
@@ -1034,21 +1034,21 @@ textarea:focus {
   .bento-feed .card--tall,
   .bento-feed .card--square {
     grid-column: span 1;
-    grid-row: span 12;
+    grid-row: auto;
   }
 
   .bento-feed .card--tall {
-    grid-row: span 24;
+    grid-row: auto;
   }
 
   .bento-feed .card--landscape {
     grid-column: span 2;
-    grid-row: span 12;
+    grid-row: auto;
   }
 
   .bento-feed .card--wide {
-    grid-column: span 4;
-    grid-row: span 12;
+    grid-column: span 2;
+    grid-row: auto;
   }
 }
 
@@ -1066,11 +1066,11 @@ textarea:focus {
   .bento-feed .card--landscape,
   .bento-feed .card--wide {
     grid-column: span 1;
-    grid-row: span 12;
+    grid-row: auto;
   }
 
   .bento-feed .card--tall {
-    grid-row: span 24;
+    grid-row: auto;
   }
 }
 
