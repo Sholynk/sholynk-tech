@@ -308,12 +308,12 @@ function relatedFor(article, allArticles) {
     .map((slug) => bySlug.get(slug))
     .filter((item) => item && (item.body || /^https?:\/\//i.test(item.externalLink || '')));
   for (const item of allArticles) {
-    if (chosen.length >= 3) break;
+    if (chosen.length >= 4) break;
     if (item.slug !== article.slug && item.body && !item.externalLink && item.category === article.category && !chosen.some((entry) => entry.slug === item.slug)) {
       chosen.push(item);
     }
   }
-  return chosen.slice(0, 3);
+  return chosen.slice(0, 4);
 }
 
 function articleLink(article) {

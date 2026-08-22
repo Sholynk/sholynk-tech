@@ -1,11 +1,10 @@
 # Distraction by Design article — image sources
 
-The images in this folder were downloaded from free image hosting sites
-(Unsplash, Pexels) and are used under their free licences.
+The images in this folder were provided by the user under free licenses from Pexels and are used accordingly.
 
 | File | Used as | Source |
 | --- | --- | --- |
-| `social-media-apps-hero.jpg` | Article hero / homepage card | [Unsplash](https://unsplash.com/photos/social-media-apps-are-displayed-on-a-smartphone-Jrz9YXN1Vwc) — "Social media apps are displayed on a smartphone" |
-| `walking-with-phone.jpg` | "The Attention Economy" figure | [Unsplash](https://unsplash.com/photos/a-woman-walking-down-a-street-talking-on-a-cell-phone-koKXhEvnGig) |
-| `notifications-screen-closeup.jpg` | "Why Social Media Feels So Addictive" figure | [Pexels](https://pexels.com/photo/close-up-shot-of-an-iphone-12-6608247) |
-| `reading-focus-park.jpg` | "What's Next?" figure | [Unsplash](https://unsplash.com/photos/man-in-hat-reading-book-on-park-bench-62UaKZ_H1PI) |
+| `person-holding-cellphone.jpg` | Article hero / homepage card | [Pexels](https://pexels.com) — "Person Holding a Cellphone" |
+| `sitting-woman-using-smartphone.jpg` | "The Attention Economy" figure | [Pexels](https://pexels.com) — "Sitting Woman Using Smartphone" |
+| `abstract-digital-blocks.jpg` | "How Do the Design Mechanisms Work" figure | [Pexels](https://pexels.com) — "Abstract Digital Blocks with Led Light Effects" |
+| `reading-book-digital-detox.jpg` | "How Can These Platforms Be Used Deliberately" figure | [Pexels](https://pexels.com) — "A Person Reading a Book" |
