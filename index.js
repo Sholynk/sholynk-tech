@@ -417,12 +417,12 @@
     });
   }
 
-  /* Aspect-ratio-aware sizing for the dynamic bento-style mosaic grid (.bento-feed).
+  /* Aspect-ratio-aware classification for the bento-style feed (.bento-feed).
      Tiles are classified into 'tall', 'square', 'landscape', or 'wide' based on
-     the real aspect ratio of their image rather than index/cycle alone.
-     Row spans are capped at 24 (2x base unit of 12) for 'tall', while 'square',
-     'landscape', and 'wide' use 12 (1x base unit of 12) to enforce the shared-unit
-     alignment rule and eliminate gaps. */
+     the real aspect ratio of their image rather than index/cycle alone. The
+     class is kept for styling and analytics hooks, but it no longer widens a
+     card: every shape occupies a single column at every breakpoint so cards
+     never span across their neighbours on tablet or desktop layouts. */
 
   function classifyAspectRatio(ratio) {
     if (!ratio || !isFinite(ratio)) return 'square';
@@ -439,31 +439,17 @@
     scheduleMosaicBalance();
   }
 
-  /* Gap-free mosaic packing.
+  /* Uniform-width mosaic.
 
-     The class-based spans above come from each image's aspect ratio, so the
-     widths on any given row rarely add up to the column count. A 'wide' tile
-     needs the full row: if only two of four columns are free, it cannot fit
-     there and CSS drops it to the next row, stranding an empty cell. Dense
-     packing only heals that when a later tile happens to be small enough, so
-     holes survive in the middle of the feed. Removing cards changes the mix
-     and moves the holes around, which is why editing the card list appeared to
-     create them.
+     Every breakpoint in styles.css now gives each card exactly one column, so
+     each row always adds up to the column count on its own and there is
+     nothing left to pack. Earlier versions widened tiles to fill leftover
+     space, which is what produced the stretched, banner-like cards on tablet
+     widths (three- and four-column layouts, e.g. iPad portrait and landscape).
 
-     Rather than squeezing tiles to fit, this pass *rearranges* them: for each
-     row it takes the next card that fits the space still free, looking a few
-     places ahead. Cards therefore keep the width their image asks for and the
-     row still adds up. A tile is only resized when a row genuinely cannot be
-     completed from the cards left, which in practice means the final row.
-
-     Lookahead is deliberately short so the feed stays in date order; measured
-     against the current card mix no card moves more than three places. */
-
-  // Column spans permitted per layout, mirroring the breakpoints in styles.css.
-  const ALLOWED_SPANS = { 2: [1, 2], 3: [1, 3], 4: [1, 2, 4] };
-  const PREFERRED_SPAN = { tall: 1, square: 1, landscape: 2, wide: Infinity };
-  // How far ahead the packer may look for a card that fits the space left.
-  const MOSAIC_LOOKAHEAD = 4;
+     All this pass has to do now is undo any inline spans a previous version
+     left behind and put the cards back in published order, so the CSS grid is
+     the single source of truth for card widths at every screen size. */
 
   let mosaicBalanceHandle = null;
 
@@ -479,67 +465,13 @@
     const grid = selectors.cardsContainer;
     if (!grid) return;
 
-    // Always start from the published order, never from the last packed order,
-    // so repeated runs (image loads, resizes) cannot compound the shuffling.
     const cards = Array.from(grid.querySelectorAll('.card'))
       .sort((a, b) => Number(a.dataset.index || 0) - Number(b.dataset.index || 0));
     if (!cards.length) return;
 
-    const restore = () => cards.forEach((card) => {
+    cards.forEach((card) => {
       card.style.removeProperty('grid-column');
       card.style.removeProperty('grid-row');
-      grid.append(card);
-    });
-
-    const template = window.getComputedStyle(grid).gridTemplateColumns || '';
-    const columns = template.split(' ').filter(Boolean).length;
-
-    // Single-column layouts size themselves from content; restore date order.
-    if (columns <= 1) { restore(); return; }
-
-    // From 1280px up, styles.css deliberately gives every card a single column
-    // so cards never stretch across a wide container. Uniform widths already
-    // tile exactly, so packing is unnecessary here, and applying inline spans
-    // would override that decision and bring the over-wide cards back.
-    if (window.matchMedia && window.matchMedia('(min-width: 1280px)').matches) {
-      restore();
-      return;
-    }
-
-    const allowed = ALLOWED_SPANS[columns] || [1];
-    const largestUpTo = (limit) => allowed.filter((span) => span <= limit).pop() || 1;
-
-    const pending = cards.map((card) => {
-      const preference = PREFERRED_SPAN[card.dataset.shape] ?? 1;
-      return { card, span: largestUpTo(preference === Infinity ? columns : preference) };
-    });
-
-    const packed = [];
-    while (pending.length) {
-      const row = [];
-      let free = columns;
-
-      while (free > 0) {
-        const limit = Math.min(MOSAIC_LOOKAHEAD, pending.length);
-        let pick = -1;
-        for (let i = 0; i < limit; i += 1) {
-          if (pending[i].span <= free) { pick = i; break; }
-        }
-        if (pick === -1) break;
-        const [tile] = pending.splice(pick, 1);
-        row.push(tile);
-        free -= tile.span;
-      }
-
-      if (!row.length) break;
-      // Only widen when the row could not be completed from the cards left.
-      if (free > 0) row[row.length - 1].span += free;
-      packed.push(...row);
-    }
-
-    packed.forEach(({ card, span }) => {
-      card.style.gridColumn = `span ${span}`;
-      card.style.gridRow = 'span 12';
       grid.append(card);
     });
   }
