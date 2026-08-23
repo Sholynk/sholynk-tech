@@ -944,10 +944,11 @@ textarea:focus {
 }
 
 /* Dynamic bento-style mosaic grid (.bento-feed) — aspect-ratio-aware layout.
-   Uses CSS Grid with auto-rows of 20px, dense packing, and 12px gap.
-   Every defined tile shape's grid-row span is a whole-number multiple of the
-   shared base unit (12 row-tracks = 372px height, 24 row-tracks = 756px height).
-   Every column-span is a whole-number divisor of the total column count. */
+   Uses CSS Grid with content-sized auto-rows, dense packing, and a 12px gap.
+   Only the column count changes between breakpoints: every tile shape occupies
+   exactly one column at every width, so no card is ever stretched across its
+   neighbours. Multi-column tiles used to leave half-empty rows and oversized
+   images on tablet-width screens, where only three or four columns exist. */
 .bento-feed {
   display: grid;
   grid-template-columns: repeat(1, 1fr);
@@ -972,8 +973,8 @@ textarea:focus {
   grid-row: auto;
 }
 
-/* 481-767px: 2 columns.
-   Column spans are whole-number divisors of 2 (1 or 2). */
+/* 481-767px (large phones, small tablets in portrait): 2 columns.
+   Every shape stays at one column. */
 @media (min-width: 481px) {
   .bento-feed {
     grid-template-columns: repeat(2, 1fr);
@@ -981,15 +982,7 @@ textarea:focus {
   }
 
   .bento-feed .card--tall,
-  .bento-feed .card--square {
-    grid-column: span 1;
-    grid-row: auto;
-  }
-
-  .bento-feed .card--tall {
-    grid-row: auto;
-  }
-
+  .bento-feed .card--square,
   .bento-feed .card--landscape,
   .bento-feed .card--wide {
     grid-column: span 1;
@@ -997,9 +990,9 @@ textarea:focus {
   }
 }
 
-/* 768-1023px: 3 columns.
-   Column spans are whole-number divisors of 3 (1 or 3).
-   'landscape' collapses to span 1; 'wide' collapses to span 3. */
+/* 768-1023px (portrait tablets, small tabs): 3 columns.
+   No tile spans more than one column here — a 2- or 3-wide card on a 3-column
+   grid reads as a banner and forces the rest of the row into gaps. */
 @media (min-width: 768px) {
   .bento-feed {
     grid-template-columns: repeat(3, 1fr);
@@ -1007,47 +1000,26 @@ textarea:focus {
 
   .bento-feed .card--tall,
   .bento-feed .card--square,
-  .bento-feed .card--landscape {
-    grid-column: span 1;
-    grid-row: auto;
-  }
-
-  .bento-feed .card--tall {
-    grid-row: auto;
-  }
-
+  .bento-feed .card--landscape,
   .bento-feed .card--wide {
-    grid-column: span 2;
+    grid-column: span 1;
     grid-row: auto;
   }
 }
 
-/* >= 1024px: 4 columns.
-   Column spans are whole-number divisors of 4 (1, 2, or 4).
-   'wide' (panoramic) spans 4 columns rather than being shorter, keeping the
-   same 12-track row-span as square and landscape tiles. */
+/* 1024-1279px (landscape tablets, iPad Pro): 4 columns.
+   Same rule as above: every card keeps a single column so the grid stays an
+   even 4-up mosaic instead of mixing full-width and quarter-width tiles. */
 @media (min-width: 1024px) {
   .bento-feed {
     grid-template-columns: repeat(4, 1fr);
   }
 
   .bento-feed .card--tall,
-  .bento-feed .card--square {
-    grid-column: span 1;
-    grid-row: auto;
-  }
-
-  .bento-feed .card--tall {
-    grid-row: auto;
-  }
-
-  .bento-feed .card--landscape {
-    grid-column: span 2;
-    grid-row: auto;
-  }
-
+  .bento-feed .card--square,
+  .bento-feed .card--landscape,
   .bento-feed .card--wide {
-    grid-column: span 2;
+    grid-column: span 1;
     grid-row: auto;
   }
 }
@@ -1066,10 +1038,6 @@ textarea:focus {
   .bento-feed .card--landscape,
   .bento-feed .card--wide {
     grid-column: span 1;
-    grid-row: auto;
-  }
-
-  .bento-feed .card--tall {
     grid-row: auto;
   }
 }

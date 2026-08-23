@@ -804,22 +804,48 @@ test('index.html wraps the article/image cards in .bento-feed container', () => 
   assert.equal(container.id, 'cardsContainer', '.bento-feed should wrap the cardsContainer');
 });
 
-test('.bento-feed is styled with CSS Grid, auto-rows 20px, dense packing, and 12px gap', () => {
+test('.bento-feed is styled with CSS Grid, dense packing, and a 12px gap', () => {
   assert.ok(/\.bento-feed\s*\{[^}]*display:\s*grid/.test(CSS), '.bento-feed should use display: grid');
   assert.ok(/\.bento-feed\s*\{[^}]*grid-auto-flow:\s*dense/.test(CSS), '.bento-feed should use dense packing');
-  assert.ok(/\.bento-feed\s*\{[^}]*grid-auto-rows:\s*20px/.test(CSS), '.bento-feed should use 20px auto-rows');
+  assert.ok(/\.bento-feed\s*\{[^}]*grid-auto-rows:\s*auto/.test(CSS), '.bento-feed should let rows size to content');
   assert.ok(/\.bento-feed\s*\{[^}]*gap:\s*12px/.test(CSS), '.bento-feed should use 12px gap');
 });
 
-test('all bento tile shapes follow the shared-unit row-span and divisor column-span rules', () => {
-  assert.ok(/\.bento-feed\s+\.card--tall\s*\{[^}]*grid-row:\s*span\s+24/.test(CSS), 'tall tile should span 24 rows');
-  assert.ok(/\.bento-feed\s+\.card--square[^}]*grid-row:\s*span\s+12/.test(CSS), 'square tile should span 12 rows');
-  assert.ok(/\.bento-feed\s+\.card--landscape[^}]*grid-row:\s*span\s+12/.test(CSS), 'landscape tile should span 12 rows');
-  assert.ok(/\.bento-feed\s+\.card--wide[^}]*grid-row:\s*span\s+12/.test(CSS), 'wide tile should span 12 rows');
+test('no bento tile spans more than one column at any breakpoint', () => {
+  // Tablet-sized layouts (3 and 4 columns) used to widen 'landscape' and
+  // 'wide' tiles, which read as stretched banners on iPad-class screens.
+  // Every shape must now occupy exactly one column at every width.
+  const rules = [...CSS.matchAll(/\.bento-feed\s+\.card--[^{]*\{([^}]*)\}/g)];
+  assert.ok(rules.length > 0, 'styles.css should define .bento-feed tile rules');
+
+  for (const [rule, body] of rules.map((m) => [m[0], m[1]])) {
+    const column = /grid-column:\s*([^;]+);/.exec(body);
+    if (!column) continue;
+    assert.equal(
+      column[1].trim(),
+      'span 1',
+      `tile rule should span a single column, found "${column[1].trim()}" in: ${rule.split('{')[0].trim()}`
+    );
+  }
 });
 
-test('panoramic wide shape spans 4 columns while keeping 12-track row span', () => {
-  assert.ok(/\.bento-feed\s+\.card--wide\s*\{[^}]*grid-column:\s*span\s+4[^}]*grid-row:\s*span\s+12/.test(CSS), 'wide shape should be wider (span 4) with same 12 row span');
+test('bento tiles size their rows from content instead of fixed row spans', () => {
+  const rules = [...CSS.matchAll(/\.bento-feed\s+\.card--[^{]*\{([^}]*)\}/g)];
+  for (const body of rules.map((m) => m[1])) {
+    const row = /grid-row:\s*([^;]+);/.exec(body);
+    if (!row) continue;
+    assert.equal(row[1].trim(), 'auto', 'tile rows should be auto-sized so text is never clipped');
+  }
+});
+
+test('the mosaic script no longer writes inline column spans onto cards', () => {
+  const js = fs.readFileSync(path.join(ROOT, 'index.js'), 'utf8');
+  assert.ok(!/style\.gridColumn\s*=/.test(js), 'index.js should not set inline grid-column spans');
+  assert.ok(!/style\.gridRow\s*=/.test(js), 'index.js should not set inline grid-row spans');
+  assert.ok(
+    /removeProperty\('grid-column'\)/.test(js),
+    'balanceMosaic should clear any leftover inline spans'
+  );
 });
 
 test('bento-feed images use object-fit: cover without distortion', () => {
