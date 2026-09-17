@@ -428,7 +428,7 @@ function renderHead(article, canonical, author) {
     <meta name="twitter:title" content="${escapeHtml(title)}" />
     <meta name="twitter:description" content="${escapeHtml(description)}" />
     <meta name="twitter:image" content="${escapeHtml(image)}" />
-    <link rel="shortcut icon" href="${SITE_ROOT_PREFIX}Images and Assets/new_page_logo.jpg" type="image/x-icon" />
+    <link rel="shortcut icon" href="${SITE_ROOT_PREFIX}Images and Assets/sholynk_icon.png" type="image/png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet" />
