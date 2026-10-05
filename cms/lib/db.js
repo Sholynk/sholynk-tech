@@ -3,22 +3,25 @@
 /**
  * SQLite database and additive migrations for the Sholynk CMS.
  *
- * The database is a runtime mirror of the version-controlled content files.
- * Migrations are deliberately additive so an existing installation can be
- * upgraded without deleting articles, engagement data or uploaded media.
+ * The database is the production source of truth for all mutable content and
+ * reader data. Version-controlled Markdown can seed a brand-new installation,
+ * but normal startup and deployment never import it over live records.
+ * Migrations are additive so upgrades preserve articles, forms, engagement and
+ * uploaded media.
  */
 
 const path = require('node:path');
 const fs = require('node:fs');
 const { DatabaseSync } = require('node:sqlite');
 
+const configuredDbFile = process.env.CMS_DB_FILE
+  ? path.resolve(process.env.CMS_DB_FILE)
+  : null;
 const DATA_DIR = process.env.CMS_DATA_DIR
   ? path.resolve(process.env.CMS_DATA_DIR)
-  : path.join(__dirname, '..', 'data');
+  : (configuredDbFile ? path.dirname(configuredDbFile) : path.join(__dirname, '..', 'data'));
 
-const DB_FILE = process.env.CMS_DB_FILE
-  ? path.resolve(process.env.CMS_DB_FILE)
-  : path.join(DATA_DIR, 'cms.sqlite');
+const DB_FILE = configuredDbFile || path.join(DATA_DIR, 'cms.sqlite');
 
 fs.mkdirSync(DATA_DIR, { recursive: true });
 
@@ -135,6 +138,25 @@ db.exec(`
     created_at   TEXT NOT NULL DEFAULT (datetime('now'))
   );
 
+  CREATE TABLE IF NOT EXISTS newsletter_subscribers (
+    id         INTEGER PRIMARY KEY AUTOINCREMENT,
+    name       TEXT NOT NULL DEFAULT '',
+    email      TEXT NOT NULL COLLATE NOCASE UNIQUE,
+    status     TEXT NOT NULL DEFAULT 'active',
+    created_at TEXT NOT NULL DEFAULT (datetime('now')),
+    updated_at TEXT NOT NULL DEFAULT (datetime('now'))
+  );
+
+  CREATE TABLE IF NOT EXISTS contact_messages (
+    id         INTEGER PRIMARY KEY AUTOINCREMENT,
+    name       TEXT NOT NULL,
+    email      TEXT NOT NULL,
+    subject    TEXT NOT NULL,
+    message    TEXT NOT NULL,
+    status     TEXT NOT NULL DEFAULT 'new',
+    created_at TEXT NOT NULL DEFAULT (datetime('now'))
+  );
+
   /*
    * Article reads.
    *
@@ -157,6 +179,8 @@ db.exec(`
   CREATE INDEX IF NOT EXISTS idx_sources_article ON article_sources(article_id, id);
   CREATE INDEX IF NOT EXISTS idx_reactions_slug ON reactions(article_slug);
   CREATE INDEX IF NOT EXISTS idx_comments_slug ON comments(article_slug, id);
+  CREATE INDEX IF NOT EXISTS idx_subscribers_status ON newsletter_subscribers(status, id);
+  CREATE INDEX IF NOT EXISTS idx_contact_messages_status ON contact_messages(status, id);
 `);
 
 /** Add a column to databases created by an older release. */

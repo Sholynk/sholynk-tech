@@ -1,121 +1,179 @@
-# Editorial, SEO and build handover
+# Editorial, SEO and operations handover
 
-This document describes the compatibility-first publishing layer added to Sholynk Tech. The public presentation remains vanilla HTML/CSS/JavaScript, the runtime CMS remains Express + SQLite, and long-form Markdown remains the version-controlled source of truth.
+## Current publishing model
 
-## Safe publishing workflow
+Sholynk is a dynamic Express/SQLite publication:
 
-1. Edit or add a Markdown file in `article_stories/`.
-2. Use only information supported by the article and sources you have actually checked. Never add placeholder citations.
-3. Run `npm run sync`.
-4. Run `npm test`.
-5. Review the generated page at `/articles/<slug>/` and also check the legacy `/article.html?slug=<slug>` route.
-6. Commit the Markdown, generated JSON, generated HTML, generated images, sitemap and robots file together.
+- SQLite is authoritative for articles, authors, settings, forms and engagement.
+- Clean article pages are server-rendered from current database rows.
+- Homepage content/search use the live API.
+- Discovery files are runtime routes.
+- Browser storage is not a content or engagement database.
+- Code deployment and editorial publication are independent.
 
-`npm run sync` performs these stages:
+The former workflow of importing content, exporting JSON and generating article files no longer exists.
 
-- imports Markdown stories and card-only seed records into the local SQLite mirror;
-- exports `content-fallback.json` and `articles.json` for static hosting;
-- validates required metadata, body length, image paths, JSON fields and URLs;
-- generates initial-HTML article pages under `articles/`;
-- generates non-destructive WebP hero variants under `generated-images/`;
-- generates `sitemap.xml` and `robots.txt`.
+## Editorial ownership
 
-Original images are never overwritten. Generated directories can be reproduced by running the command again.
+Production editors work in `/admin/` and save directly to the configured `CMS_DB_FILE`. A save is live on the next request when status is published; no code commit, build or restart is required.
 
-## Ownership and compatibility boundaries
+`article_stories/*.md` and `cms/data/seed.json` are starter/import assets for an empty installation. They do not update or replace live SQLite records during startup or deployment.
 
-- `article_stories/*.md` owns long-form article copy and front matter.
-- `cms/data/seed.json` owns empty-body teaser cards and standalone hero entries.
-- `content-fallback.json`, `articles.json`, `articles/`, `generated-images/`, `sitemap.xml` and `robots.txt` are generated; do not hand-edit them.
-- `/article.html?slug=...` remains supported for existing links and engagement data.
-- `/articles/<slug>/` is the canonical, crawlable URL for a body-bearing article.
-- Reactions and comments continue to use the article slug, so both URL forms share engagement data.
-- Empty-body and external-link records are not converted into articles and do not receive Article schema.
+## Release workflow
 
-## Structured front matter
+### Content-only publication
 
-The parser accepts single-line values. Arrays and objects must be valid JSON on one line.
+1. Verify `/health` is healthy.
+2. Sign in to `/admin/` with the protected token.
+3. Create/update author and article records.
+4. Keep work draft/pending until reviewed.
+5. Validate images, sources, metadata and accessibility.
+6. Publish.
+7. Verify the clean URL, homepage/API and sitemap.
+8. Confirm the daily backup process remains healthy.
 
-| Field | Purpose |
-| --- | --- |
-| `title`, `slug`, `category`, `description` | Required identity and card metadata |
-| `img`, `alt` | Required hero image and accessible alternative text |
-| `date`, `author` | Required publication and byline data |
-| `authorSlug` | Optional link to the author entity (defaults to `oluwashola-busari`) |
-| `contentType` | `article`, `news`, `guide`, `analysis`, `opinion` or `review` |
-| `subcategory`, `tags` | More precise classification and search terms |
-| `hook` | Standfirst shown below the generated page heading |
-| `directAnswer` | Concise answer block; omit if the article does not support one |
-| `keyTakeaways` | JSON array of concise, supported points |
-| `faqs` | JSON array of `{ "question": "...", "answer": "..." }` records |
-| `relatedSlugs` | JSON array of existing article slugs |
-| `sources` | JSON array of verified source records |
-| `seoTitle`, `seoDescription` | Optional search/social overrides |
-| `canonicalUrl` | Optional absolute HTTPS override; normally generated automatically |
-| `status` | `published`, `draft` or `scheduled` |
-| `scheduledAt` | Required when status is `scheduled` |
-| `reviewNotes` | Internal workflow notes stored by the CMS; not rendered publicly |
+### Application-code release
 
-### Source record
+1. Create a database/upload backup.
+2. Run `npm ci` and `npm run check` on the reviewed commit.
+3. Deploy code without running the seed importer.
+4. Restart the systemd process.
+5. Test health, homepage, article rendering, forms and engagement.
+6. Roll back the code commit if needed; do not roll back live content unless the database itself is damaged.
 
-```json
-{
-  "title": "Exact source title",
-  "publisher": "Publishing organisation",
-  "author": "Named author, if available",
-  "publishedAt": "2026-08-01",
-  "url": "https://publisher.example/report",
-  "type": "official",
-  "doi": "",
-  "accessedAt": "2026-08-13",
-  "supports": "The exact statement or section this source supports"
-}
-```
+See the Oracle deployment guide for exact commands.
 
-Allowed source types are `primary`, `official`, `research`, `journalism`, `reference` and `other`. A source title and absolute HTTP(S) URL are required. The build emits citation URLs into Article schema and a visible Sources section only when records exist.
+## SEO behavior
 
-## Generated SEO output
+### Article responses
 
-Each full article page contains:
+Express emits these values from the current SQLite row:
 
-- unique title, description and canonical tags in initial HTML;
-- Open Graph and Twitter card metadata;
-- `Article` and `BreadcrumbList` JSON-LD;
-- `FAQPage` JSON-LD only when real FAQs are supplied;
-- an author link to the existing About profile and its `Person` entity;
-- responsive `srcset` hero images while retaining the original fallback;
-- the complete sanitized article body without requiring JavaScript;
-- progressive enhancement for reading progress, reactions and comments.
+- title and description;
+- canonical URL based on `SITE_URL` unless overridden;
+- Open Graph and Twitter card tags;
+- article publication/modification dates;
+- Article, author, publisher and breadcrumb JSON-LD;
+- FAQ structured data when visible FAQs exist;
+- related articles resolved against current published rows.
 
-The default production origin is `https://sholynktech.netlify.app`. Set an HTTPS `SITE_URL` during generation if the production origin changes:
+Because metadata is in initial server HTML, crawlers do not need browser JavaScript to discover it.
+
+### Sitemap
+
+`GET /sitemap.xml` is generated per request and cached briefly. It contains:
+
+- core informational pages;
+- published internal articles with a non-empty body;
+- current canonical URLs and modified dates.
+
+It excludes drafts, pending/scheduled records, bodyless entries and external-link entries.
+
+### Robots
+
+`GET /robots.txt` allows public pages, disallows `/admin/` and `/api/`, and points at `SITE_URL/sitemap.xml`.
+
+`SITE_URL` must be set to the final HTTPS origin in production. Never bake a former host into source.
+
+## Author and trust signals
+
+Every article should reference a registered author. Author profiles feed visible cards and structured data. Review:
+
+- accurate name;
+- expertise/role;
+- concise bio;
+- public profile URL;
+- image and alt text;
+- disclosures where relevant.
+
+Unknown author slugs resolve to the owner to avoid orphaned content, but repeated fallback is an editorial data-quality warning.
+
+## Evidence standards
+
+For each factual article:
+
+- use primary/official sources where possible;
+- record source title, publisher, author, date, URL and supported claim;
+- separate reporting from opinion;
+- date time-sensitive claims;
+- avoid unsupported certainty;
+- keep visible sources synchronized with structured citations.
+
+## Metadata checklist
+
+- [ ] One clear H1 generated from the article title.
+- [ ] Logical H2/H3 outline.
+- [ ] Unique SEO title.
+- [ ] Accurate description/standfirst.
+- [ ] HTTPS canonical or default clean URL.
+- [ ] Descriptive hero/body image alt text.
+- [ ] Publication/modified date correct.
+- [ ] Author profile complete.
+- [ ] Sources support major claims.
+- [ ] FAQs exactly match visible answers.
+- [ ] Old slug redirects after a rename.
+- [ ] Clean URL appears in runtime sitemap.
+
+## Forms and reader data
+
+The following are stored in SQLite, not by an external static-host form service:
+
+- newsletter subscriptions;
+- contact messages;
+- contributor submissions;
+- reactions;
+- comments;
+- deduplicated article views.
+
+Management routes require `CMS_ADMIN_TOKEN` when configured. Apply data-retention, deletion and privacy policy consistently. Do not export reader data to Git or ordinary spreadsheets without an approved operational need.
+
+## Failure behavior
+
+- If article rendering cannot reach SQLite, Express returns an error rather than an old article copy.
+- If homepage API calls fail, the browser displays a service-unavailable state.
+- If engagement writes fail, the UI rolls back optimistic state and asks the reader to retry.
+- A failed comment is not queued in localStorage.
+- If SMTP is unavailable, editorial notification records can be appended to durable `notifications.log`; article/form records remain in SQLite.
+
+This behavior prevents stale or device-only data from being mistaken for a successful shared write.
+
+## Operational health
+
+Daily checks:
 
 ```bash
-SITE_URL=https://www.example.com npm run sync
+curl -fsS https://YOUR_DOMAIN/health
+systemctl is-active sholynk caddy
+systemctl list-timers sholynk-backup.timer
+df -h /data
 ```
 
-Update the fixed homepage/About canonical and entity URLs at the same time if the production domain changes.
+Weekly/monthly checks:
 
-## CMS controls
+- inspect application/Caddy errors;
+- verify latest consistent SQLite/upload backup;
+- verify encrypted off-instance replication;
+- test a representative article, reaction, comment and form;
+- inspect disk growth and SQLite integrity;
+- review pending submissions and data-retention actions;
+- verify certificate and DNS health.
 
-The admin dashboard supports the additive article fields, JSON source/FAQ editing, workflow states and author entities. The API exposes nested source endpoints and author CRUD. Remember that Markdown-owned stories will overwrite database edits on the next sync, so make durable edits in front matter.
+Quarterly:
 
-Write operations can be protected with `CMS_ADMIN_TOKEN`. The admin UI is marked `noindex`, and `robots.txt` disallows `/admin/` and `/api/`.
+- perform a restore test into an isolated location;
+- rotate credentials as policy requires;
+- review dependency audit and Node security updates;
+- verify OCI budget/monitoring contacts;
+- review Oracle's current Always Free and idle-reclamation terms.
 
-## Validation and quality gates
+## Handover records the owner must keep
 
-Use:
-
-```bash
-npm run validate
-npm run build
-npm test
-npm audit
-```
-
-Validation fails for missing required metadata, duplicate/invalid slugs, short published bodies, missing local images, invalid structured arrays, malformed FAQ/source records, unsupported types and insecure canonical overrides. SEO length and absent-source checks are advisory warnings so existing truthful content is not blocked or padded with fabricated material.
-
-Before release, inspect `git diff --check`, verify generated pages with JavaScript disabled, confirm sitemap URLs on the deployed origin, and run a structured-data validator against at least one article and the About page.
-
-## Rollback
-
-The enhancement is additive. If generated output must be disabled during an incident, deploy the previously known-good commit: legacy static pages, JSON fallback, CMS endpoints and query-string article links remain architecturally intact. Do not delete originals or rewrite slugs as part of rollback.
+- production domain/DNS registrar;
+- OCI tenancy, region, compartment, instance and block-volume OCIDs;
+- current public IP/reserved IP;
+- deployed Git commit/tag;
+- admin-token recovery/rotation procedure;
+- SMTP and backup secret locations;
+- backup retention and last restore-test date;
+- incident contacts;
+- editorial approval and privacy-retention owners.

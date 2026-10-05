@@ -1,390 +1,230 @@
-# sholynk-tech
+# Sholynk Technology
 
-An aesthetic website for NEWS articles, now backed by a lightweight Node.js CMS.
+Sholynk Technology is a dynamic publication built with Node.js, Express and SQLite. Express serves the application, the public API and a small allowlist of presentation assets. SQLite is the only public runtime source for articles, authors, settings, subscriptions, contact messages, reactions, comments and read analytics.
 
-## Writing for Sholynk
+The project does **not** contain static article exports, JSON content snapshots, a generated search index, offline comment queues or local reaction/comment stores. Clean article pages are server-rendered from the current database row on every request. `/sitemap.xml` and `/robots.txt` are also generated at request time from the configured public origin and current published rows.
 
-- [`docs/AUTHOR_PUBLISHING_GUIDE.md`](docs/AUTHOR_PUBLISHING_GUIDE.md) — step-by-step
-  guide for authors: how to tailor an article to the Sholynk Formula and to the
-  website's layout slots (front matter vs body, callouts, TOC, sources, FAQs).
-- [`article_stories/README.md`](article_stories/README.md) — the mechanics of adding,
-  editing and removing an article file.
-- [`docs/EDITORIAL_AND_SEO_HANDOVER.md`](docs/EDITORIAL_AND_SEO_HANDOVER.md) — build,
-  validation and SEO reference.
+## Documentation
 
-## Quick start
+- [Oracle Cloud Always Free deployment](docs/ORACLE_CLOUD_ALWAYS_FREE_DEPLOYMENT.md) — complete VM, storage, HTTPS, backup, update and recovery procedure.
+- [GitHub and cloud storage map](docs/GITHUB_AND_CLOUD_STORAGE_MAP.md) — exact source, deployment, secret, database, upload, log and backup locations.
+- [Hosting when the Oracle card check fails](docs/FREE_HOSTING_WITHOUT_A_CARD.md) — card requirements, the fixes for a failed verification, and an honest comparison of the free alternatives.
+- [Author and publishing guide](docs/AUTHOR_PUBLISHING_GUIDE.md) — dashboard publishing workflow.
+- [Editorial and SEO handover](docs/EDITORIAL_AND_SEO_HANDOVER.md) — dynamic publishing, metadata and operational checks.
+- [PDF import and autofill](docs/pdf-import-autofill.md) — contributor submission workflow.
 
-Requires Node.js 22.5 or newer because the local CMS uses Node's built-in SQLite
-module.
+## Runtime architecture
 
-```bash
-npm install
-npm start        # http://localhost:3000
+```text
+Browser
+  ├─ GET / ──> presentation shell + live SQLite settings
+  ├─ GET CSS/JS/image presentation assets
+  ├─ GET /articles/:slug/ ──> Express server-side renderer ──> SQLite
+  ├─ GET /api/articles?... ─────────────────────────────────> SQLite
+  ├─ GET /api/authors and /api/settings ────────────────────> SQLite
+  ├─ POST forms, comments, reactions and views ─────────────> SQLite
+  ├─ GET /uploads/... ──────────────────────────────────────> durable upload directory
+  └─ GET /sitemap.xml and /robots.txt ──> live database + SITE_URL
 ```
 
-On first start, the server now seeds the local CMS database automatically if it
-finds no articles. You can also run `npm run seed` any time to reload/update the
-starter content manually.
+Presentation files such as `index.html`, `styles.css`, browser JavaScript, logos and article source images remain static because browsers require assets. They do not contain an alternative copy of mutable content. Express serves only an explicit public allowlist; repository source, Markdown seed files, documentation and secrets are not web-accessible.
 
-| URL                                                                     | What it is             |
-| ----------------------------------------------------------------------- | ---------------------- |
-| `http://localhost:3000/`                                                | Public homepage        |
-| `http://localhost:3000/articles/the-rise-of-quantum-computing/`          | Crawlable article page |
-| `http://localhost:3000/admin/`                                          | Admin dashboard        |
-| `http://localhost:3000/api/articles`                                    | Articles API           |
+## Requirements
 
-### Windows / VS Code PowerShell note
+- Node.js 22.5 or newer
+- npm
+- A writable local directory for SQLite and uploads
 
-If VS Code opens a PowerShell terminal and `npm install` or `npm start` fails
-with `npm.ps1 cannot be loaded because running scripts is disabled on this
-system`, the project is not the problem: PowerShell is blocking Node's `npm.ps1`
-shim. Any of these fixes works:
+The application uses Node's built-in `node:sqlite`, which is still reported as experimental by Node 22.
 
-```powershell
-# Run npm through the CMD shim from PowerShell
-npm.cmd install
-npm.cmd start
+## Local setup
 
-# Or allow scripts for this PowerShell window only
-Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
-npm install
+```bash
+git clone https://github.com/Sholynk/sholynk-tech.git
+cd sholynk-tech
+npm ci
+cp .env.example .env
+```
+
+For local development, change the durable paths in `.env`:
+
+```dotenv
+NODE_ENV=development
+HOST=127.0.0.1
+PORT=3000
+TRUST_PROXY=false
+SITE_URL=http://localhost:3000
+CMS_DB_FILE=./cms/data/cms.sqlite
+CMS_UPLOAD_DIR=./uploads
+CMS_ADMIN_TOKEN=replace-with-a-long-random-value
+```
+
+Export the values before running Node; Node does not load `.env` automatically:
+
+```bash
+set -a
+. ./.env
+set +a
+npm run seed
 npm start
-
-# Or make it permanent for your Windows user
-Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
 ```
 
-You can also switch VS Code's integrated terminal profile to **Command Prompt**,
-which is why the same commands worked for you in cmd.exe.
+Open:
 
-If the site starts but the homepage/category pages show no articles, your local
-CMS database is empty. Run `npm run seed` once, then restart with `npm start`.
-With the current code, `npm start` also auto-seeds an empty database unless you
-set `CMS_AUTO_SEED=false`.
+- Site: <http://localhost:3000/>
+- Admin dashboard: <http://localhost:3000/admin/>
+- Health check: <http://localhost:3000/health>
 
-## Deploying to Netlify
+`npm run seed` imports starter data only when the configured article table is empty. It is not part of `npm start`, `npm run build` or deployment. Once initialized, use the dashboard/API for production edits. An intentional administrative re-import is possible with `node cms/seed.js --force`, but it can overwrite matching article fields and should never be used as a routine deployment step.
 
-This repository includes a root-level `netlify.toml`. It makes the repository
-root the Netlify publish directory and runs `npm run build` before each deploy.
-That is important because the root contains both the regular pages
-(`index.html`, `about.html`, `contact.html`, and so on) and the generated
-long-form pages under `articles/<slug>/`.
+## Commands
 
-When connecting the repository in Netlify, deploy the `sholynk-tech` branch and
-leave **Base directory** and **Publish directory** empty in the Netlify UI so
-the tracked configuration is used. In particular, do **not** publish only the
-`articles/` directory: that can make an article appear to load while its header
-and footer links point to pages that were never deployed, producing Netlify's
-"Page not found" screen.
+| Command | Purpose |
+|---|---|
+| `npm start` | Run the Express application. |
+| `npm run dev` | Run with Node's watch mode. |
+| `npm run seed` | Seed an empty database with starter editorial data. |
+| `npm run validate` | Validate version-controlled starter Markdown and its local assets. |
+| `npm run build` | Run source validation; no static content is generated. |
+| `npm test` | Run API, database, renderer, frontend and portability tests. |
+| `npm run check` | Run validation and the complete test suite. |
 
-After changing these settings, trigger **Deploy site** → **Clear cache and
-deploy site** once. Future GitHub pushes to the selected branch will use the
-same configuration automatically.
+## Environment variables
 
-## Architecture
+| Variable | Local default/expectation | Production purpose |
+|---|---|---|
+| `NODE_ENV` | `development` | Set to `production`. |
+| `HOST` | `0.0.0.0` if unset | Bind address. Use `127.0.0.1` behind a same-VM reverse proxy. |
+| `PORT` | `3000` | Internal HTTP port. |
+| `TRUST_PROXY` | unset | Use `1` with one trusted local reverse proxy. |
+| `SITE_URL` | request origin if unset | Final absolute public origin for canonicals, sharing, sitemap and notification links. Set it in production. |
+| `CMS_ADMIN_TOKEN` | optional for local work | Long random token required for protected API/dashboard operations. |
+| `CMS_DB_FILE` | `cms/data/cms.sqlite` | SQLite path; put it on durable storage. |
+| `CMS_UPLOAD_DIR` | `uploads/` | CMS media path; put it on the same durable volume. |
+| `CMS_REQUIRE_APPROVAL` | `false` | When true, contributor submissions remain pending for review. |
+| `SHOLYNK_EDITOR_EMAIL` | project editorial address | Notification recipient. |
+| `SMTP_HOST`, `SMTP_PORT`, `SMTP_SECURE`, `SMTP_USER`, `SMTP_PASS`, `SMTP_FROM` | optional | SMTP delivery for editorial notifications. Without SMTP, notification records are appended to `notifications.log` beside the database. |
 
-The site was a set of static HTML pages with content hardcoded inside `index.js`.
-It now loads content from the CMS at runtime:
+Use `.env.example` only as a template. Never commit a populated `.env` or a real admin/SMTP credential.
 
+## Dynamic content behavior
+
+### Homepage and search
+
+`index.js` retrieves current published articles, hero entries and settings from `/api`. Each category or text search sends a fresh API query, and SQLite performs the filtering. If the service is unavailable, the page displays a clear error; it never substitutes checked-in content.
+
+### Articles
+
+`GET /articles/:slug/` performs these operations at request time:
+
+1. retrieves the published row from SQLite;
+2. follows a permanent slug redirect when the article was renamed;
+3. renders sanitized Markdown/HTML, metadata, JSON-LD, author and related articles;
+4. returns the complete crawlable HTML page;
+5. enhances table-of-contents, sharing and engagement controls in the browser.
+
+The old `article.html?slug=...` URL is retained only as a permanent redirect to the clean route. `article.html` itself is a presentation template and is not a content source.
+
+### Engagement and forms
+
+- Reactions, comments and views use `/api/articles/:slug/...` and SQLite.
+- The browser stores only an anonymous voter identifier. It does not store reaction counts, comments or an offline queue.
+- Newsletter and contact forms POST to `/api/subscriptions` and `/api/contact`.
+- Subscriptions and contact messages are available only through protected management routes.
+- If a write fails, the UI reports the failure instead of pretending that data was durably saved.
+
+### Discovery metadata
+
+- `/robots.txt` is generated by Express and points at the current sitemap origin.
+- `/sitemap.xml` contains static informational routes plus current published, internal long-form articles from SQLite.
+- Draft, pending, scheduled, empty-body and external-link entries are excluded.
+- Article canonical, Open Graph, Twitter and schema metadata are server-rendered from current records.
+
+## Public API summary
+
+Public reads:
+
+```text
+GET  /health
+GET  /api/articles?status=published&category=&q=&hero=true
+GET  /api/articles/:idOrSlug
+GET  /api/articles/categories
+GET  /api/authors
+GET  /api/settings
+GET  /api/articles/:slug/engagement?voterId=...
 ```
-Browser ──> cms-client.js ──> /api/*  (Express + SQLite)
-                   └────────> content-fallback.json  (used when the API is unreachable)
+
+Public writes:
+
+```text
+POST /api/subscriptions
+POST /api/contact
+POST /api/articles/:slug/reactions
+POST /api/articles/:slug/comments
+POST /api/articles/:slug/views
+POST /api/submissions
 ```
 
-`cms-client.js` probes `/api/settings` once per page load. If the API answers with
-JSON, the page uses live data; otherwise it silently falls back to
-`content-fallback.json`, so the site still renders correctly when hosted as plain
-static files (Netlify, GitHub Pages, opening the folder directly).
+Article, author, settings, image, subscriber, contact-message, moderation and analytics management routes require `CMS_ADMIN_TOKEN` when configured. Send it as `x-admin-token` rather than placing it in URLs or source files.
 
-### Why SQLite
+## Persistence rules
 
-The repository had no build tooling, no package manager and no server. MongoDB or
-Postgres would have added an external service to run before the site renders.
-Node 22's built-in `node:sqlite` gives a real relational database with zero
-dependencies and no native compilation. The schema in `cms/lib/db.js` is ordinary
-SQL, so swapping in Postgres later only means rewriting the query implementations
-in `cms/lib/articles.js` and `cms/lib/images.js`.
+In production, these paths must be outside the Git checkout and on durable storage:
 
-### Layout
-
-```
-cms/
-  server.js            Express app: API, /admin, static site, /uploads
-  seed.js              Imports the previously hardcoded content
-  export-fallback.js   Writes content-fallback.json for static hosting
-  validate-content.js  Checks Markdown metadata and local assets
-  build-site.js        Generates clean article pages, schema and image derivatives
-  lib/                 db, articles, authors, images, settings
-  routes/api.js        REST endpoints + multer upload handling
-  admin/               Admin dashboard (vanilla HTML/CSS/JS)
-  tests/               node:test integration suite
-article.html/.js       Dynamic article page
-article_stories/       Markdown long-form stories — THE source of truth for articles
-cms-client.js          Shared front-end data layer
-engagement.js          Like/dislike + comments widgets (API, offline queue)
-styles.css             The entire stylesheet — no Tailwind, no build step
-content-fallback.json  Generated snapshot — do not edit by hand
-articles.json          Generated search index — do not edit by hand
-articles/              Generated crawlable full-article pages
-generated-images/      Generated responsive WebP derivatives (originals are retained)
-sitemap.xml, robots.txt Generated discovery and crawler files
+```text
+/data/cms.sqlite
+/data/cms.sqlite-wal       # may exist while the process is running
+/data/cms.sqlite-shm       # may exist while the process is running
+/data/uploads/
+/data/notifications.log    # when SMTP is not configured
+/data/backups/             # local backup staging only
 ```
 
-## Styling
+The VM checkout and `node_modules/` are replaceable. `/data` is not. A normal deploy must never run the seed importer or remove `/data`.
 
-The site is plain CSS. Tailwind used to be pulled from `cdn.tailwindcss.com`
-on every page; it has been removed and every utility class migrated to
-hand-written rules in `styles.css`, which is organised into numbered sections
-(tokens, base, header, sidebar, hero, cards, article, engagement, footer,
-breakpoints) with a table of contents at the top.
+## Recommended free host
 
-CSS has no compilation step: edit `styles.css` and reload. The separate content
-build (`npm run sync`) generates static article HTML and responsive images.
+The recommended no-cost target is an **Oracle Cloud Always Free Ampere A1 VM with an attached Always Free block volume**. It can run the complete Express backend and keeps SQLite/uploads on persistent storage across application restarts and code deployments. Free capacity and eligibility are account/region dependent, and idle instances may be reclaimed, so the recommendation depends on disciplined volume/off-account backups. See the detailed Oracle guide before provisioning.
 
-Breakpoints mirror the Tailwind scale that was previously in use, so responsive
-behaviour is unchanged — `640px` (`sm:`) and `768px` (`md:`), plus the site's own
-`700px`, `900px`/`901px` and `1100px` rules.
+Oracle requires a verifiable card at sign-up: a credit card or a debit card that functions like one. PIN-based, prepaid, single-use and virtual cards are rejected. If that check fails, read [docs/FREE_HOSTING_WITHOUT_A_CARD.md](docs/FREE_HOSTING_WITHOUT_A_CARD.md) before changing hosts — it lists the checks that fix most failures, the support escalation, and an honest comparison of the free alternatives. Most "no card required" hosts cannot keep SQLite and uploads across redeploys, and the genuinely free, no-card alternative (Cloudflare Workers + D1) needs a runtime port rather than a redeploy.
 
-The navbar and footer use flat colours (`--header-bg`, `--footer-bg`,
-`--footer-legal-bg`). Gradients elsewhere — hero scrim, category pills, buttons,
-cards, reading-progress bar — are unchanged.
+A service with an ephemeral filesystem is not suitable for this SQLite/upload architecture unless it also supplies a durable disk within the selected plan.
 
-## Reader engagement
+## Docker
 
-Article pages carry like/dislike buttons and a comment section, rendered by
-`engagement.js`.
-
-Reactions and comments are keyed by article **slug** rather than a foreign key.
-A voter is an anonymous per-browser id in `localStorage`; it is not
-authentication, it exists so the one-vote-per-reader rule can be enforced
-server-side. Clicking the same button twice un-votes, and clicking the opposite
-one switches sides, so repeat clicking cannot inflate a count.
-
-### Comments are shared across devices
-
-The comment history lives in the CMS database, so a comment posted on one
-device appears on every other device that loads the same article. When the API
-is unreachable (static hosting, offline, server down), comments are kept in a
-per-device `localStorage` queue, shown immediately, and pushed to the shared
-history automatically on the next page load or when the browser reconnects.
-Every submission carries a per-comment `clientId`, so retries and queue syncs
-never create duplicates.
-
-The full comment history across all articles can be viewed and moderated from
-the **Comments** tab in the admin dashboard (`/admin/`).
-
-## Analytics dashboard
-
-The **Dashboard** tab in `/admin/` is the default view. It reports:
-
-- article counts by status — published, unpublished, drafts, scheduled and
-  pending approval;
-- total reads and unique readers, with a reads/engagement time series;
-- the reaction record (likes vs dislikes) and comment totals;
-- every registered author, how many articles each has published, and the reads,
-  reactions and comments their work earned;
-- reads by category, most-read articles, and a recent-activity feed.
-
-Headline metrics compare the selected period against the one immediately before
-it. When the previous period has no data the card shows the raw figure instead
-of a percentage, because growth from zero has no meaningful percentage.
-
-### How reads are counted
-
-A read is recorded by `engagement.js` only once the reader shows real attention:
-either scrolling a quarter of the way down, or spending twelve seconds on the
-page. Counting on load would record bounces and prefetches as reads.
-
-Each read is attributed to the same anonymous browser id the reactions and
-comments use — no accounts, no IP addresses, no personal data. The database
-enforces one counted read per reader, per article, per day, so refreshing or
-leaving a tab open cannot inflate a figure. `POST /api/articles/:slug/views` is
-public (readers call it) but only accepts slugs that already exist, so it cannot
-be used to write arbitrary rows.
-
-Figures are aggregated on read from the content tables themselves, so a number
-on the dashboard can never disagree with the content it counts.
-
-Reader history is keyed by article slug rather than by a foreign key, so the
-CMS maintains it explicitly: deleting an article also deletes its reads,
-reactions and comments, and renaming one carries them across to the new slug
-(recording a 301 redirect so the old link keeps working).
-
-### Attribution
-
-Every article belongs to a registered author entity, so the per-author figures
-always add up to the headline totals. The site owner is the fallback: articles
-saved without an author entity, and those belonging to a contributor whose
-profile is later deleted, are attributed to him rather than left pointing at
-nobody. Existing databases are repaired on startup, and the owner's own profile
-cannot be deleted because the rest of the archive depends on it.
-
-A contributor who registers on the **Authors** tab and is named on an article
-keeps their own attribution, and appears in the dashboard's author table with
-the work they have published.
-
-### Live updates
-
-The dashboard subscribes to `/api/analytics/stream`, a Server-Sent Events feed.
-Publishing an article, or a reader leaving a reaction, comment or read, pushes a
-change signal and the dashboard refetches — no manual refresh, no polling.
-
-Only a *signal* is pushed, never figures, so a dropped reconnect or a duplicated
-event can never leave stale numbers on screen. The stream is held open only
-while the Dashboard tab is visible, reconnects automatically, and falls back to
-the numbers already on screen if it cannot be established.
-
-Graphs are drawn with Chart.js from a CDN. If that is unreachable — an offline
-machine, a blocked CDN — or a chart fails to draw, the metric cards and tables
-still render and say so; the analytics never disappear with the graphics.
-
-## API
-
-All write operations accept JSON.
-
-| Method          | Endpoint                         | Purpose                                                           |
-| --------------- | -------------------------------- | ----------------------------------------------------------------- |
-| `GET`           | `/api/articles`                  | List. Query: `category`, `q`, `status`, `hero`, `limit`, `offset` |
-| `GET`           | `/api/articles/:idOrSlug`        | Single article by numeric id or slug                              |
-| `GET`           | `/api/articles/categories`       | Distinct categories                                               |
-| `POST`          | `/api/articles`                  | Create (requires `title`, `category`)                             |
-| `PUT` / `PATCH` | `/api/articles/:id`              | Update                                                            |
-| `DELETE`        | `/api/articles/:id`              | Delete                                                            |
-| `GET` / `POST`  | `/api/articles/:id/sources`      | List or add structured source records                             |
-| `DELETE`        | `/api/articles/:id/sources/:sourceId` | Remove a source record                                       |
-| `GET` / `POST`  | `/api/authors`                   | List or create author entities                                    |
-| `GET` / `PATCH` | `/api/authors/:idOrSlug`         | Read or update an author entity                                   |
-| `DELETE`        | `/api/authors/:id`               | Delete an author entity (articles are retained)                   |
-| `GET`           | `/api/articles/:slug/engagement` | Reactions + comments in one call. Query: `voterId`                |
-| `GET`           | `/api/articles/:slug/reactions`  | Like/dislike tallies. Query: `voterId`                            |
-| `POST`          | `/api/articles/:slug/reactions`  | Cast a reaction (`type`, `voterId`)                               |
-| `GET`           | `/api/articles/:slug/comments`   | List comments, newest first                                       |
-| `POST`          | `/api/articles/:slug/comments`   | Add a comment (`author`, `body`, `clientId`) — idempotent per clientId |
-| `POST`          | `/api/articles/:slug/views`      | Record one article read (`voterId`) — public, deduped per reader/day |
-| `GET`           | `/api/analytics/overview`        | Dashboard aggregates. Query: `days` (admin)                       |
-| `GET`           | `/api/analytics/stream`          | Server-Sent Events change feed for the live dashboard (admin)     |
-| `GET`           | `/api/comments`                  | Full comment history across articles (admin)                      |
-| `DELETE`        | `/api/comments/:id`              | Moderation — removes a comment (admin)                            |
-| `GET`           | `/api/images`                    | List uploaded images                                              |
-| `POST`          | `/api/images`                    | Upload (multipart, field `image`, plus `alt`)                     |
-| `PATCH`         | `/api/images/:id`                | Update alt text                                                   |
-| `DELETE`        | `/api/images/:id`                | Delete record and file                                            |
-| `GET` / `PUT`   | `/api/settings`                  | Site metadata                                                     |
-
-Uploads are limited to 8 MB and to JPEG, PNG, WebP, GIF and AVIF.
-
-### Securing the admin
-
-Write endpoints are open by default for local development. Set `CMS_ADMIN_TOKEN`
-to require a token, then paste the same value into the "Admin token" field in the
-dashboard:
+The provider-neutral image runs as the unprivileged `node` user and expects a durable mount at `/data`:
 
 ```bash
-CMS_ADMIN_TOKEN=your-secret npm start
+docker build -t sholynk-tech .
+docker run --rm -p 3000:3000 \
+  --env-file .env \
+  -v sholynk-data:/data \
+  sholynk-tech
 ```
 
-### Environment variables
-
-| Variable          | Default               | Purpose                              |
-| ----------------- | --------------------- | ------------------------------------ |
-| `PORT`            | `3000`                | HTTP port                            |
-| `CMS_ADMIN_TOKEN` | unset                 | Require a token for write operations |
-| `CMS_DB_FILE`     | `cms/data/cms.sqlite` | Database location                    |
-| `CMS_UPLOAD_DIR`  | `uploads/`            | Where uploaded images are stored     |
-| `SITE_URL`        | `https://sholynktech.netlify.app` | HTTPS origin used by generated canonical/schema URLs |
-
-## Content workflow
-
-### Long-form articles live in Markdown
-
-Every file in `article_stories/*.md` is an article. The file starts with a
-small front-matter block that holds the metadata; everything after it is the
-article body:
-
-```markdown
----
-title: The Rise of Quantum Computing: The Computing Revolution Beyond Silicon
-slug: the-rise-of-quantum-computing   # optional — derived from the title if absent
-category: Technology
-description: A one- or two-sentence summary shown on cards and in search.
-img: article-images/quantum/quantum-computer-chandelier.jpg
-alt: Golden chandelier-like cryostat of a superconducting quantum computer
-date: 2026-08-02
-readingTime: 12 min read            # optional — estimated from word count
-featured: true                      # optional
-hero: true                          # optional — show on the homepage hero
-heroOrder: 1                        # optional, with hero: true
-seoTitle: ...                       # optional
-seoDescription: ...                 # optional
-author: Oluwashola Busari           # optional
-authorSlug: oluwashola-busari       # optional author-entity link
-contentType: guide                  # article, news, guide, analysis, opinion or review
-subcategory: Emerging Computing
-tags: ["quantum computing", "qubits"]
-hook: A concise opening promise.
-directAnswer: A self-contained answer to the article's main question.
-keyTakeaways: ["Verified point one", "Verified point two"]
-faqs: [{"question":"A real question?","answer":"A supported answer."}]
-relatedSlugs: ["another-published-slug"]
-sources: [{"title":"Verified source","url":"https://example.org/report","type":"research","supports":"The specific claim it supports"}]
----
-
-## Introduction
-
-The article body starts here. `##` headings become the table of contents.
-```
-
-To add an article: drop a new `.md` file in `article_stories/` (optionally
-adding a hero flag or a card image), then run:
+Initialize a new empty volume once:
 
 ```bash
-npm run sync
+docker run --rm --env-file .env -v sholynk-data:/data sholynk-tech npm run seed
 ```
 
-> New to the workflow? Read **`article_stories/README.md`** — a step-by-step,
-> beginner-friendly guide (with a template, a worked example, and a
-> troubleshooting checklist) for adding articles.
+Do not rely on a container filesystem for SQLite or uploads.
 
-`npm run sync` seeds the database from the Markdown files (plus the card-only
-entries in `cms/data/seed.json`), regenerates the static snapshots, validates
-editorial metadata, and builds clean `/articles/<slug>/` HTML pages, responsive
-WebP hero derivatives, `sitemap.xml` and `robots.txt`. The legacy
-`article.html?slug=...` route remains available. Editing an article is the same:
-change the `.md` and run `npm run sync` again.
-
-Only published records with a genuine body become full article pages. Empty-body
-external records remain teaser cards and are deliberately excluded from Article
-schema and the article sitemap. Source fields must contain verified records;
-validation warns when none are present but never invents placeholders.
-
-### Admin dashboard
-
-The dashboard at `/admin/` opens on editorial analytics, and manages authors,
-images, site metadata, and the comment history. Long-form articles are owned by their Markdown files, so article edits
-made in the dashboard are overwritten by the next `npm run sync` — edit the
-`.md` files instead.
-
-Article HTML is sanitised on render: `<script>`, `<iframe>`, inline event
-handlers and `javascript:` URLs are stripped, and images without `alt` get an
-empty one.
-
-## Tests
+## Validation before release
 
 ```bash
-npm test
+npm ci
+npm run check
+npm audit --omit=dev
+git diff --check
 ```
 
-| Suite                   | Covers                                                                                                                                                                                                                    |
-| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `api.test.js`           | Article CRUD, validation, slug uniqueness, search and category filters, image upload/serve/delete, upload type rejection, settings                                                                                        |
-| `engagement.test.js`    | Reaction tallies, one-vote-per-reader, toggle and switch behaviour, comment CRUD, empty-submission rejection, per-article scoping                                                                                         |
-| `engagement-ui.test.js` | The widgets in jsdom against the localStorage fallback: optimistic updates, spam-click protection, persistence across reload, comment escaping                                                                            |
-| `dashboard-ui.test.js`  | The analytics dashboard in jsdom: headline metrics, period comparison, author and top-article tables, activity feed escaping, and that metrics survive an unavailable or failing chart library                             |
-| `frontend.test.js`      | That no page loads Tailwind or uses its utility classes, that the hero H1 computes to white, that the navbar/footer are solid while other gradients survive, and that `article.html` matches the CMS article structure |
+Then smoke-test the running deployment:
 
-Each run uses a throwaway database in a temp directory.
+```bash
+curl -fsS https://your-domain.example/health
+curl -fsS https://your-domain.example/sitemap.xml | head
+curl -I https://your-domain.example/articles/a-published-slug/
+```
 
-## Notes
-
-The database and `uploads/` are gitignored runtime state. Recreate them with
-`npm run seed`.
+See the Oracle deployment guide for backup-first updates, rollback and disaster recovery.

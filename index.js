@@ -1,9 +1,11 @@
 // Homepage experience: hero slider, searchable article cards, category filters and pagination.
-// Content is loaded from the Sholynk CMS API (see cms/) with a static JSON fallback.
+// All mutable content is loaded from the live Sholynk API and SQLite database.
 (() => {
   // Populated from the CMS before first render.
   let heroSlides = [];
   let articles = [];
+  let allArticles = [];
+  let contentRequestId = 0;
 
   const state = {
     currentSlide: 0,
@@ -26,145 +28,6 @@
     categoryFilters: document.getElementById('categoryFilters'),
     clearSearch: document.getElementById('clearSearch'),
     resultsCount: document.getElementById('resultsCount')
-  };
-
-  const categoryLabels = {
-    'AI Trends': 'Artificial Intelligence',
-    'Web 3': 'Web3',
-    Game: 'Gaming'
-  };
-
-  const categoryHeroContent = {
-    'AI Trends': [
-      {
-        title: 'How Artificial Intelligence Is Reshaping Every Industry',
-        description: 'From healthcare to finance, education and logistics, AI is becoming the operating layer for faster decisions and smarter services.',
-        img: 'Article cards images/AI/article_card_09.jpg',
-        alt: 'Abstract artificial intelligence network glowing in blue and purple'
-      },
-      {
-        title: 'The Rise of AI Agents: Why They Could Replace Traditional Software',
-        description: 'Autonomous AI agents are shifting software from static tools into goal-driven assistants that can plan, execute and adapt.',
-        img: 'Article cards images/AI/article_card_07.jpg',
-        alt: 'Human hand interacting with an artificial intelligence interface'
-      },
-      {
-        title: 'Generative AI vs Predictive AI: Understanding the Difference',
-        description: 'Generative models create new content, while predictive systems forecast outcomes. Knowing the difference helps teams pick the right tool.',
-        img: 'Article cards images/AI/article_card_03.jpg',
-        alt: 'Analytics dashboard representing predictive artificial intelligence'
-      },
-      {
-        title: 'Top AI Trends That Will Define the Next Five Years',
-        description: 'Multimodal systems, small specialised models, agentic workflows and AI governance are shaping the next wave of intelligent products.',
-        img: 'Article cards images/AI/article_card_08.jpg',
-        alt: 'Customer support headset beside digital AI interface graphics'
-      },
-      {
-        title: 'AI Ethics in 2026: Innovation Without Compromising Humanity',
-        description: 'Responsible AI now means designing for transparency, accountability, privacy and human dignity from the start.',
-        img: 'Article cards images/AI/article_card_05.jpg',
-        alt: 'Digital face and code representing responsible artificial intelligence'
-      }
-    ],
-    Technology: [
-      {
-        title: 'The Future of Technology: 10 Innovations That Could Change the World',
-        description: 'Breakthroughs in computing, energy, robotics and connectivity are converging into a decade of rapid transformation.',
-        img: 'Article cards images/Technology/article_card_21.jpg',
-        alt: 'Close-up of a circuit board representing emerging technology'
-      },
-      {
-        title: 'Edge Computing vs Cloud Computing: Which Powers the Future?',
-        description: 'The next generation of applications will balance cloud scale with edge speed for real-time, data-intensive experiences.',
-        img: 'Article cards images/Technology/article_card_05.jpg',
-        alt: 'Earth viewed from space with network lights representing cloud infrastructure'
-      },
-      {
-        title: 'The Rise of Quantum Computing: The Computing Revolution Beyond Silicon',
-        description: 'A comprehensive guide to quantum computing, from qubits and superposition to real-world applications in healthcare, AI, cybersecurity, and scientific research.',
-        img: 'article-images/quantum/quantum-computer-chandelier.jpg',
-        alt: 'Golden chandelier-like cryostat of a superconducting quantum computer, layered with control wiring'
-      },
-      {
-        title: 'How Smart Devices Are Building the Internet of Everything',
-        description: 'Connected sensors, appliances and infrastructure are turning everyday environments into responsive digital systems.',
-        img: 'Article cards images/Technology/article_card_15.jpg',
-        alt: 'Smart home devices and connected living space'
-      },
-      {
-        title: 'The Biggest Technology Breakthroughs You Should Watch This Year',
-        description: 'From sustainable hardware to immersive computing, these innovations show where builders and businesses should pay attention.',
-        img: 'Article cards images/Technology/article_card_11.jpg',
-        alt: 'Person using immersive augmented reality technology'
-      }
-    ],
-    Cryptocurrency: [
-      {
-        title: 'Cryptocurrency Beyond Bitcoin: What the Future Holds',
-        description: 'Digital assets are expanding into payments, infrastructure, tokenized markets and new forms of internet-native coordination.',
-        img: 'Article cards images/Cryptocurrency/article_card_06.jpg',
-        alt: 'Cryptocurrency coin and digital market graphics'
-      },
-      {
-        title: 'Stablecoins Explained: Why They Matter in the Digital Economy',
-        description: 'Stablecoins connect traditional money with blockchain rails, making faster settlement and programmable payments possible.',
-        img: 'Article cards images/Cryptocurrency/article_card_09.png',
-        alt: 'Digital currency coins on a financial chart'
-      },
-      {
-        title: 'How Tokenization Is Transforming Real-World Assets',
-        description: 'Tokenized property, bonds and commodities could make ownership more transparent, fractional and globally accessible.',
-        img: 'Article cards images/Cryptocurrency/article_card_05.webp',
-        alt: 'Blockchain network illustration representing tokenized assets'
-      },
-      {
-        title: 'The Evolution of Digital Money: From Cash to Crypto',
-        description: 'Money has moved from paper to cards to mobile wallets, and crypto is the next chapter in programmable value exchange.',
-        img: 'Article cards images/Cryptocurrency/article_card_08.png',
-        alt: 'Person using a payment card for digital money transaction'
-      },
-      {
-        title: 'Common Cryptocurrency Scams and How to Avoid Them',
-        description: 'Phishing, fake exchanges and too-good-to-be-true investment schemes remain the fastest way new crypto users lose money.',
-        img: 'Article cards images/Cryptocurrency/article_card_07.jpg',
-        alt: 'Cybersecurity monitoring screen representing crypto scam prevention'
-      }
-    ],
-    'Web 3': [
-      {
-        title: "Web3 Explained: The Internet's Next Evolution",
-        description: 'Web3 combines decentralized networks, digital ownership and community governance into a new model for online platforms.',
-        img: 'Article cards images/Web 3/article_card_03.jpg',
-        alt: 'Decentralized blockchain network with glowing nodes'
-      },
-      {
-        title: 'Decentralized Identity: Taking Back Control of Your Digital Life',
-        description: 'Self-owned identity systems could reduce password fatigue, limit data exposure and give users more control online.',
-        img: 'Article cards images/Web 3/article_card_11.jpg',
-        alt: 'Network servers representing decentralized digital identity'
-      },
-      {
-        title: 'The Future of Decentralized Applications (dApps)',
-        description: 'dApps are evolving from experiments into usable products across finance, gaming, creator tools and social networks.',
-        img: 'Article cards images/Web 3/article_card_07.jpg',
-        alt: 'Developer laptop with blockchain application interface'
-      },
-      {
-        title: 'How Web3 Is Changing Finance, Gaming, and Social Media',
-        description: 'Ownership, tokens and open protocols are giving communities new ways to build, fund and govern digital experiences.',
-        img: 'Article cards images/Game/article_card_05.jpg',
-        alt: 'Gaming controller with colourful light representing Web3 gaming'
-      }
-    ],
-    Game: [
-      {
-        title: 'The Future of Gaming: AI, Blockchain, and Immersive Virtual Worlds',
-        description: 'Games are becoming smarter, more social and more persistent as AI characters, blockchain economies and virtual worlds mature.',
-        img: 'Article cards images/Game/article_card_01.jpg',
-        alt: 'Gaming controller on a colourful illuminated desk'
-      }
-    ]
   };
 
   function createIcon(className) {
@@ -191,24 +54,9 @@
     return new URLSearchParams(window.location.search).get('category') || '';
   }
 
-  function getCategoryLink(category) {
-    return `index.html?category=${encodeURIComponent(category)}`;
-  }
-
-  function getCategoryLabel(category) {
-    return categoryLabels[category] || category;
-  }
-
-  function getStaticCategoryHeroSlides(category) {
-    return (categoryHeroContent[category] || []).map((slide) => ({
-      ...slide,
-      category: getCategoryLabel(category),
-      readMoreLink: getCategoryLink(category)
-    }));
-  }
 
   function getArticleHeroSlidesForCategory(category) {
-    return articles
+    return allArticles
       .filter((article) => article.category === category)
       .slice(0, 5)
       .map(toHeroSlide);
@@ -216,14 +64,11 @@
 
   function buildHeroSlides(heroArticles, requestedCategory) {
     if (requestedCategory) {
-      const staticSlides = getStaticCategoryHeroSlides(requestedCategory);
-      if (staticSlides.length) return staticSlides;
-
       const articleSlides = getArticleHeroSlidesForCategory(requestedCategory);
       if (articleSlides.length) return articleSlides;
     }
 
-    return (heroArticles.length ? heroArticles : articles.slice(0, 4)).map(toHeroSlide);
+    return (heroArticles.length ? heroArticles : allArticles.slice(0, 4)).map(toHeroSlide);
   }
 
   function initHero() {
@@ -360,7 +205,7 @@
   }
 
   function getCategories() {
-    return ['All', ...Array.from(new Set(articles.map((article) => article.category)))];
+    return ['All', ...Array.from(new Set(allArticles.map((article) => article.category)))];
   }
 
   function initCategoryFilters() {
@@ -383,7 +228,7 @@
         state.currentPage = 1;
         updateCategoryUrl(category);
         renderCategoryFilters();
-        renderCards();
+        refreshArticles();
       });
       categoryFilters.append(chip);
     });
@@ -408,13 +253,10 @@
   }
 
   function getFilteredArticles() {
-    const query = state.query.trim().toLowerCase();
-    return articles.filter((article) => {
-      const matchesCategory = state.category === 'All' || article.category === state.category;
-      const haystack = `${article.title} ${article.category} ${article.description}`.toLowerCase();
-      const matchesQuery = !query || haystack.includes(query);
-      return matchesCategory && matchesQuery;
-    });
+    // `articles` is already the current SQLite query result. Keeping this
+    // helper isolates pagination from transport details without reintroducing
+    // a browser-only search index.
+    return articles;
   }
 
   /* Aspect-ratio-aware classification for the bento-style feed (.bento-feed).
@@ -670,14 +512,39 @@
     cards.forEach((card) => state.observer.observe(card));
   }
 
+  async function refreshArticles() {
+    const requestId = ++contentRequestId;
+    selectors.cardsContainer?.setAttribute('aria-busy', 'true');
+    try {
+      const next = await window.SholynkCMS.getArticles({
+        status: 'published',
+        category: state.category === 'All' ? undefined : state.category,
+        q: state.query.trim() || undefined
+      });
+      if (requestId !== contentRequestId) return;
+      articles = next;
+      renderCards();
+    } catch (error) {
+      if (requestId !== contentRequestId) return;
+      console.error('Unable to search live content', error);
+      renderLoadError();
+    } finally {
+      if (requestId === contentRequestId) {
+        selectors.cardsContainer?.setAttribute('aria-busy', 'false');
+      }
+    }
+  }
+
   function initSearch() {
     const { searchInput, clearSearch, prevPageBtn, nextPageBtn } = selectors;
+    let searchTimer = null;
     if (searchInput) {
       searchInput.addEventListener('input', (event) => {
         state.query = event.target.value;
         state.currentPage = 1;
         if (clearSearch) clearSearch.hidden = state.query.length === 0;
-        renderCards();
+        window.clearTimeout(searchTimer);
+        searchTimer = window.setTimeout(refreshArticles, 250);
       });
     }
 
@@ -686,7 +553,8 @@
       searchInput.value = '';
       clearSearch.hidden = true;
       state.currentPage = 1;
-      renderCards();
+      window.clearTimeout(searchTimer);
+      refreshArticles();
       searchInput.focus();
     });
 
@@ -707,7 +575,11 @@
       }
     });
 
-    document.querySelector('.search-card')?.addEventListener('submit', (event) => event.preventDefault());
+    document.querySelector('.search-card')?.addEventListener('submit', (event) => {
+      event.preventDefault();
+      window.clearTimeout(searchTimer);
+      refreshArticles();
+    });
   }
 
   function toHeroSlide(article) {
@@ -737,12 +609,19 @@
 
   async function loadContent() {
     const requestedCategory = getRequestedCategory();
-    const [allArticles, heroArticles] = await Promise.all([
-      window.SholynkCMS.getArticles({ status: 'published' }),
-      window.SholynkCMS.getArticles({ status: 'published', hero: true })
+    const allRequest = window.SholynkCMS.getArticles({ status: 'published' });
+    const [completeList, heroArticles, visibleArticles] = await Promise.all([
+      allRequest,
+      window.SholynkCMS.getArticles({ status: 'published', hero: true }),
+      requestedCategory
+        ? window.SholynkCMS.getArticles({ status: 'published', category: requestedCategory })
+        : allRequest
     ]);
-    articles = allArticles;
-    heroSlides = buildHeroSlides(heroArticles, requestedCategory);
+    allArticles = completeList;
+    const knownCategory = requestedCategory
+      && completeList.some((article) => article.category === requestedCategory);
+    articles = knownCategory ? visibleArticles : completeList;
+    heroSlides = buildHeroSlides(heroArticles, knownCategory ? requestedCategory : '');
   }
 
   async function applySettings() {

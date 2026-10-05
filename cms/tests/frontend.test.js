@@ -13,6 +13,7 @@ const assert = require('node:assert');
 const fs = require('node:fs');
 const path = require('node:path');
 const { JSDOM } = require('jsdom');
+const { renderArticlePage } = require('../lib/article-page');
 
 const ROOT = path.join(__dirname, '..', '..');
 const CSS = fs.readFileSync(path.join(ROOT, 'styles.css'), 'utf8');
@@ -40,6 +41,48 @@ function runPageScript(file, scriptFile, url = 'https://example.com/') {
   dom.window.eval(script);
   dom.window.document.dispatchEvent(new dom.window.Event('DOMContentLoaded', { bubbles: true }));
   return dom;
+}
+
+async function runtimeArticleHtml() {
+  const article = {
+    id: 1,
+    slug: 'runtime-story',
+    title: 'Runtime story',
+    category: 'Technology',
+    description: 'A current database story.',
+    hook: 'A current database story.',
+    body: [
+      '## First section', 'Body one.',
+      '## Second section', 'Body two.',
+      '## Third section', 'Body three.',
+      '## Fourth section', 'Body four.',
+      '<script id="unsafe-script">window.compromised=true</script>'
+    ].join('\n\n'),
+    img: 'Images and Assets/page_logo.png',
+    alt: 'Sholynk logo',
+    author: 'Oluwashola Busari',
+    authorSlug: 'oluwashola-busari',
+    date: '2026-01-01',
+    readingTime: '3 min read',
+    status: 'published',
+    tags: [],
+    sources: [],
+    faqs: [],
+    keyTakeaways: [],
+    relatedSlugs: [],
+    updatedAt: '2026-01-01 00:00:00'
+  };
+  return renderArticlePage({
+    article,
+    articles: [article],
+    authors: [{
+      slug: 'oluwashola-busari',
+      name: 'Oluwashola Busari',
+      bio: 'Technology writer.',
+      profileUrl: 'about.html'
+    }],
+    origin: 'https://example.com'
+  });
 }
 
 /** Applies styles.css to a document so getComputedStyle reflects real cascade. */
@@ -178,7 +221,7 @@ test('no generic section rule can recolour the hero headline', () => {
   );
 });
 
-test('category pages use dedicated hero slides instead of the homepage slideshow', async () => {
+test('category pages build hero slides from live category articles', async () => {
   const html = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
   const dom = new JSDOM(html, {
     url: 'https://example.com/index.html?category=AI%20Trends',
@@ -195,7 +238,7 @@ test('category pages use dedicated hero slides instead of the homepage slideshow
             description: 'Homepage-only story.',
             img: 'coding.jpg',
             alt: 'Coding',
-            link: 'article.html?slug=mastering-the-art-of-coding'
+            link: 'articles/mastering-the-art-of-coding/'
           }
         ];
       }
@@ -238,9 +281,10 @@ test('category pages use dedicated hero slides instead of the homepage slideshow
 
   const { document } = dom.window;
   const titles = [...document.querySelectorAll('.hero-slide h2')].map((node) => node.textContent);
-  assert.ok(titles.includes('How Artificial Intelligence Is Reshaping Every Industry'));
+  assert.ok(titles.includes('Existing full AI article'));
+  assert.ok(titles.includes('Existing AI card'));
   assert.ok(!titles.includes('Mastering the art of coding'));
-  assert.match(document.querySelector('.hero-slide a').textContent, /Browse Artificial Intelligence/);
+  assert.match(document.querySelector('.hero-slide a').textContent, /Read the story/);
 
   const fullCard = document.querySelector('[data-title="Existing full AI article"]');
   assert.equal(fullCard.tagName, 'A');
@@ -252,6 +296,43 @@ test('category pages use dedicated hero slides instead of the homepage slideshow
   assert.ok(pendingCard.classList.contains('card--pending'));
   assert.match(pendingCard.querySelector('.card-footer').textContent, /Full article coming soon/);
 
+  dom.window.close();
+});
+
+test('homepage search and category changes query the live API', async () => {
+  const html = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
+  const dom = new JSDOM(html, {
+    url: 'https://example.com/index.html',
+    runScripts: 'outside-only'
+  });
+  const calls = [];
+  const rows = [{
+    slug: 'live-story',
+    title: 'Live database story',
+    category: 'Technology',
+    description: 'Current result.',
+    body: '## Body',
+    date: '2026-01-01',
+    readingTime: '2 min read',
+    link: 'articles/live-story/'
+  }];
+  dom.window.SholynkCMS = {
+    getArticles: async (params = {}) => { calls.push(params); return rows; },
+    getSettings: async () => ({})
+  };
+  dom.window.eval(fs.readFileSync(path.join(ROOT, 'index.js'), 'utf8'));
+  dom.window.document.dispatchEvent(new dom.window.Event('DOMContentLoaded', { bubbles: true }));
+  await new Promise((resolve) => dom.window.setTimeout(resolve, 0));
+
+  const input = dom.window.document.getElementById('searchInput');
+  input.value = 'database';
+  input.dispatchEvent(new dom.window.Event('input', { bubbles: true }));
+  await new Promise((resolve) => dom.window.setTimeout(resolve, 300));
+  assert.ok(calls.some((params) => params.q === 'database' && params.status === 'published'));
+
+  dom.window.document.querySelector('[data-category="Technology"]').click();
+  await new Promise((resolve) => dom.window.setTimeout(resolve, 0));
+  assert.ok(calls.some((params) => params.category === 'Technology' && params.q === 'database'));
   dom.window.close();
 });
 
@@ -394,46 +475,17 @@ test('article.html uses the same structural shell as the CMS article page', () =
   }
 });
 
-test('article page dynamically renders article structure with TOC, hero, and engagement', async () => {
-  const html = fs.readFileSync(path.join(ROOT, 'article.html'), 'utf8');
-  const fallback = JSON.parse(fs.readFileSync(path.join(ROOT, 'content-fallback.json'), 'utf8'));
-
+test('article page is rendered server-side with TOC, hero, and engagement', async () => {
+  const html = await runtimeArticleHtml();
   const dom = new JSDOM(html, {
-    url: 'https://example.com/article.html?slug=mastering-the-art-of-coding',
+    url: 'https://example.com/articles/runtime-story/',
     runScripts: 'outside-only'
   });
-
-  dom.window.SholynkCMS = {
-    getArticle: async (slug) => fallback.articles.find((a) => a.slug === slug),
-    getArticles: async () => fallback.articles
-  };
-
-  dom.window.SholynkMarkdown = {
-    renderMarkdown: async () => [
-      '<h2>Section 1</h2><p>Body text 1</p>',
-      '<h2>Section 2</h2><p>Body text 2</p>',
-      '<h2>Section 3</h2><p>Body text 3</p>',
-      '<script id="unsafe-script">window.compromised = true</script>',
-      '<a id="unsafe-link" href="java&#x0a;script:alert(1)">Unsafe link</a>',
-      '<img id="event-image" src="safe.jpg" onerror="window.compromised = true">',
-      '<img id="unsafe-image" src="data:text/html,unsafe">',
-      '<a id="safe-external" href="https://example.org/story">Safe link</a>'
-    ].join('')
-  };
-
-  const articleScript = fs.readFileSync(path.join(ROOT, 'article.js'), 'utf8');
-  dom.window.eval(articleScript);
-
-  await new Promise((resolve) => dom.window.setTimeout(resolve, 50));
-
   const { document } = dom.window;
-  const canonicalArticle = fallback.articles.find((a) => a.slug === 'mastering-the-art-of-coding');
+
+  assert.equal(document.querySelector('#articleRoot').dataset.serverRendered, 'true');
   assert.equal(document.querySelectorAll('h1').length, 1, 'exactly one H1');
-  assert.equal(
-    document.querySelector('h1').textContent,
-    canonicalArticle.title,
-    'the article H1 matches the canonical Markdown title'
-  );
+  assert.equal(document.querySelector('h1').textContent, 'Runtime story');
   assert.ok(document.querySelector('.article-breadcrumb'), 'breadcrumb rendered');
   assert.ok(document.querySelector('.article-header'), 'header rendered');
   assert.ok(document.querySelector('.article-hero img'), 'hero image rendered');
@@ -441,22 +493,14 @@ test('article page dynamically renders article structure with TOC, hero, and eng
   assert.ok(document.querySelector('.article-body'), 'body rendered');
   assert.ok(document.querySelector('.article-share'), 'share row rendered');
   assert.ok(document.querySelector('#engagementRoot'), 'engagement root rendered');
-  assert.ok(document.querySelector('.article-back'), 'back button rendered');
-  assert.ok(!document.getElementById('unsafe-script'), 'scripts returned by Markdown are removed');
-  assert.ok(!document.getElementById('unsafe-link').hasAttribute('href'), 'unsafe link schemes are removed');
-  assert.ok(!document.getElementById('event-image').hasAttribute('onerror'), 'event attributes are removed');
-  assert.ok(!document.getElementById('unsafe-image'), 'unsafe image schemes are removed');
-  assert.equal(document.getElementById('safe-external').target, '_blank');
-  assert.equal(document.getElementById('safe-external').rel, 'noopener noreferrer');
-
+  assert.equal(document.getElementById('unsafe-script'), null, 'unsafe body scripts are removed');
   dom.window.close();
 });
 
-test('prerendered article navigation and copy-link controls respond on mobile', async () => {
-  const file = path.join('articles', 'the-rise-of-quantum-computing', 'index.html');
-  const html = fs.readFileSync(path.join(ROOT, file), 'utf8');
+test('server-rendered article navigation and copy-link controls respond on mobile', async () => {
+  const html = await runtimeArticleHtml();
   const dom = new JSDOM(html, {
-    url: 'https://example.com/articles/the-rise-of-quantum-computing/',
+    url: 'https://example.com/articles/runtime-story/',
     runScripts: 'outside-only'
   });
   const copied = [];
@@ -493,17 +537,16 @@ test('prerendered article navigation and copy-link controls respond on mobile', 
 
   document.querySelector('[data-copy-article]').click();
   await new Promise((resolve) => dom.window.setTimeout(resolve, 0));
-  assert.deepEqual(copied, ['https://sholynktech.netlify.app/articles/the-rise-of-quantum-computing/']);
+  assert.deepEqual(copied, ['https://example.com/articles/runtime-story/']);
   assert.match(document.querySelector('.article-share-status').textContent, /copied/i);
 
   dom.window.close();
 });
 
 test('table-of-contents links land on the section title even when the body reflows', async () => {
-  const file = path.join('articles', 'the-rise-of-quantum-computing', 'index.html');
-  const html = fs.readFileSync(path.join(ROOT, file), 'utf8');
+  const html = await runtimeArticleHtml();
   const dom = new JSDOM(html, {
-    url: 'https://example.com/articles/the-rise-of-quantum-computing/',
+    url: 'https://example.com/articles/runtime-story/',
     runScripts: 'outside-only'
   });
   const { window } = dom;
@@ -593,10 +636,9 @@ test('table-of-contents links land on the section title even when the body reflo
 test('an unmeasurable document height cannot drag TOC jumps back to the top', async () => {
   // jsdom (and a browser mid-layout) can report scrollHeight as 0. Clamping the
   // target against that bogus height collapsed every jump to offset 0.
-  const file = path.join('articles', 'the-rise-of-quantum-computing', 'index.html');
-  const html = fs.readFileSync(path.join(ROOT, file), 'utf8');
+  const html = await runtimeArticleHtml();
   const dom = new JSDOM(html, {
-    url: 'https://example.com/articles/the-rise-of-quantum-computing/',
+    url: 'https://example.com/articles/runtime-story/',
     runScripts: 'outside-only'
   });
   const { window } = dom;
@@ -667,14 +709,14 @@ test('the CMS API base stays inside the deployment prefix', async () => {
   );
 
   const cases = [
-    ['https://example.com/index.html', 'index.html', 'https://example.com/api/settings'],
-    ['https://sholynk.github.io/sholynk-tech/index.html', 'index.html', 'https://sholynk.github.io/sholynk-tech/api/settings'],
-    ['https://sholynk.github.io/sholynk-tech/articles/x/index.html', '../../index.html', 'https://sholynk.github.io/sholynk-tech/api/settings']
+    ['https://example.com/index.html', 'cms-client.js', 'https://example.com/health'],
+    ['https://sholynk.github.io/sholynk-tech/index.html', 'cms-client.js', 'https://sholynk.github.io/sholynk-tech/health'],
+    ['https://sholynk.github.io/sholynk-tech/articles/x/', '../../cms-client.js', 'https://sholynk.github.io/sholynk-tech/health']
   ];
 
-  for (const [url, homeHref, expected] of cases) {
+  for (const [url, scriptSrc, expected] of cases) {
     const dom = new JSDOM(
-      `<!doctype html><header><a aria-label="Sholynk homepage" href="${homeHref}"></a></header>`,
+      `<!doctype html><script src="${scriptSrc}"></script>`,
       { url, runScripts: 'outside-only' }
     );
     const requested = [];
@@ -693,40 +735,14 @@ test('the CMS API base stays inside the deployment prefix', async () => {
   }
 });
 
-/* ------------------------- offline Markdown fallback ----------------------- */
+/* ------------------------- dynamic rendering boundary --------------------- */
 
-test('articles still render headings when the Markdown CDN is unreachable', async () => {
-  const dom = new JSDOM('<!doctype html><body></body>', { runScripts: 'outside-only' });
-  // No script element ever loads, so `ensure()` must time out rather than hang.
-  dom.window.eval(fs.readFileSync(path.join(ROOT, 'markdown.js'), 'utf8'));
-
-  const markdown = [
-    '## Introduction',
-    '',
-    'Attention is **valuable** and *scarce*.',
-    '',
-    '- one',
-    '- two',
-    '',
-    '### Detail',
-    '',
-    'Read [the site](https://example.com) or run `npm test`.'
-  ].join('\n');
-
-  const html = await dom.window.SholynkMarkdown.renderMarkdown(markdown);
-
-  // Headings are what the table of contents is built from: without them the
-  // in-article navigation silently disappears.
-  assert.match(html, /<h2>Introduction<\/h2>/, 'H2 headings must survive the fallback');
-  assert.match(html, /<h3>Detail<\/h3>/, 'H3 headings must survive the fallback');
-  assert.match(html, /<strong>valuable<\/strong>/);
-  assert.match(html, /<em>scarce<\/em>/);
-  assert.match(html, /<ul><li>one<\/li><li>two<\/li><\/ul>/);
-  assert.match(html, /<a href="https:\/\/example\.com">the site<\/a>/);
-  assert.match(html, /<code>npm test<\/code>/);
-  assert.ok(!/(^|\n)##\s/.test(html), 'raw Markdown syntax must not leak into the page');
-
-  dom.window.close();
+test('the browser article script does not load content snapshots or a Markdown CDN', () => {
+  const shell = fs.readFileSync(path.join(ROOT, 'article.html'), 'utf8');
+  const script = fs.readFileSync(path.join(ROOT, 'article.js'), 'utf8');
+  assert.doesNotMatch(shell, /markdown\.js|content-fallback|articles\.json/);
+  assert.doesNotMatch(script, /getArticle\(|renderMarkdown|data-prerendered/);
+  assert.equal(fs.existsSync(path.join(ROOT, 'markdown.js')), false);
 });
 
 /* ---------------------------- document outline ----------------------------- */
@@ -739,8 +755,8 @@ test('the homepage exposes exactly one H1 and no skipped heading levels', async 
   });
 
   const slides = [
-    { title: 'First featured story', category: 'Technology', description: 'One.', img: 'a.jpg', alt: 'A', link: 'article.html?slug=a' },
-    { title: 'Second featured story', category: 'AI Trends', description: 'Two.', img: 'b.jpg', alt: 'B', link: 'article.html?slug=b' }
+    { title: 'First featured story', category: 'Technology', description: 'One.', img: 'a.jpg', alt: 'A', link: 'articles/a/' },
+    { title: 'Second featured story', category: 'AI Trends', description: 'Two.', img: 'b.jpg', alt: 'B', link: 'articles/b/' }
   ];
   dom.window.SholynkCMS = {
     getArticles: async (params = {}) => (params.hero ? slides : slides),

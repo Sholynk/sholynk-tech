@@ -1,591 +1,359 @@
-# Author's Guide: Publishing a Sholynk Article
+# Author and publishing guide
 
-**How to shape an article so it fits the Sholynk Formula *and* the Sholynk Tech website layout.**
+This guide covers the production editorial workflow for the dynamic Sholynk CMS. Published content is stored in SQLite and appears on the site immediately after a successful dashboard/API save. There is no export or page-generation step.
 
-Audience: writers and contributing authors publishing on Sholynk Tech.
-Companion documents: `THE UPDATED SHOLYNK FORMULA` (editorial framework),
-`article_stories/README.md` (beginner mechanics), `docs/EDITORIAL_AND_SEO_HANDOVER.md`
-(build and SEO reference).
+## 1. Roles and source of truth
 
----
+- **Production source of truth:** the SQLite database configured by `CMS_DB_FILE`.
+- **Production media:** the directory configured by `CMS_UPLOAD_DIR`.
+- **Admin dashboard:** `/admin/` on the deployed site.
+- **Starter/import source:** `article_stories/*.md` and `cms/data/seed.json`, used only to initialize an empty database.
+- **Application source:** GitHub, deployed independently from editorial database changes.
 
-## 0. The one thing to understand first
+Do not edit database files by hand. Do not run `node cms/seed.js --force` against a live database unless an intentional, backed-up re-import has been approved.
 
-The Sholynk website does **not** render one long blob of prose. The article page is
-assembled from *slots*. Some slots are filled by the **front matter** (the small
-metadata block at the top of your file), and the rest is filled by your **Markdown
-body**.
+## 2. Sign in to the dashboard
 
-That means several stages of the Sholynk Formula are **not written as body text at
-all** — if you type them into the body, they will render as ordinary paragraphs,
-lose their designed styling, and be invisible to the site's structured data (schema),
-which is what AI search systems and Google read.
+1. Open `https://YOUR_DOMAIN/admin/`.
+2. Enter the production admin token supplied through the approved secret-sharing channel.
+3. The token is sent as `x-admin-token` to protected API routes.
+4. Never paste it into an article, screenshot, Git file, issue, analytics tool or query-string URL.
+5. When finished on a shared device, clear the saved token/browser storage and close the session.
 
-```
-FORMULA STAGE                   WHERE IT LIVES ON THE SITE
-1  SEO title              →  front matter: title / seoTitle        (page <h1>)
-2  Byline                 →  front matter: author / authorSlug     (byline + author card)
-3  Narrative hook         →  front matter: hook  (standfirst)  +  body opening
-4  Direct answer          →  front matter: directAnswer            ("Quick answer" callout)
-5  Key takeaways          →  front matter: keyTakeaways            ("Key takeaways" callout)
-6  Understanding          →  body  ## heading
-7  Why it matters         →  body  ## heading
-8  Real-world apps        →  body  ## heading
-9  Benefits               →  body  ## heading
-10 Limitations/risks      →  body  ## heading
-11 Evidence & sources     →  front matter: sources                 (Sources section + schema)
-12 FAQ                    →  front matter: faqs                    (FAQ accordion + FAQPage schema)
-13 Conclusion             →  body  ## heading
-14 Related articles       →  front matter: relatedSlugs            ("Read next" grid)
-```
+If access fails:
 
-**Golden rule:** stages 1, 2, 4, 5, 11, 12 and 14 are *metadata*. Stages 3, 6, 7, 8,
-9, 10 and 13 are *body*. Stage 3 lives in both: a one-sentence standfirst in front
-matter, and the full hook as the first paragraphs of the body.
+- confirm the production domain and HTTPS;
+- check that `CMS_ADMIN_TOKEN` is present in `/etc/sholynk/sholynk.env`;
+- check `systemctl status sholynk` and the browser network response;
+- do not disable authentication as a workaround.
 
----
+## 3. Author profiles
 
-## 1. Before you write: pre-flight decisions
+Create the author before assigning articles to them.
 
-Fix these five things before drafting. They determine how the article is filed,
-displayed and discovered.
+Recommended fields:
 
-| Decision | Options / rules |
-| --- | --- |
-| **Category** | Exactly one of `Technology`, `AI Trends`, `Cryptocurrency`, `Game`, `Web 3`. Capitalisation matters — a typo silently files the piece under the wrong nav tab. |
-| **Subcategory** | Free text, more precise (e.g. `Emerging Computing`, `DeFi`, `Esports`). Optional but recommended. |
-| **Content type** | One of `article`, `news`, `guide`, `analysis`, `opinion`, `review`. It is printed in the kicker above the headline, so choose honestly: an `analysis` label on a news round-up misleads the reader. |
-| **Slug** | Lowercase, hyphenated, permanent. It becomes `/articles/<slug>/`. Never change it after publication — it breaks links, and reactions/comments are keyed to it. |
-| **Central question** | Write down, in one sentence, the question the article answers. Stage 4 (`directAnswer`) is literally that answer. If you cannot write the question, the article does not yet have a subject. |
+- **Name:** public byline.
+- **Slug:** stable lowercase identifier, for example `ada-lovelace`.
+- **Role:** structured metadata/administrative description.
+- **Bio:** concise expertise and disclosure information.
+- **Profile URL:** an HTTPS profile or the local About page.
+- **Image and image alt:** accessible headshot/reference.
 
----
+Every article must resolve to a registered author entity. Unknown or deleted author references fall back to the site owner so articles do not become orphaned. Deleting a contributor reassigns their articles according to CMS policy; review the affected list before confirming.
 
-## 2. Step-by-step: building the file
+## 4. Create an article
 
-### Step 1 — Create the file
+From the dashboard, create a new article and complete the following.
 
-One article = one Markdown file in `article_stories/`.
+### Required editorial fields
 
-```
-article_stories/what-are-ai-agents.md
+- **Title** — clear, specific and unique enough for readers/search.
+- **Category** — one of the site's editorial categories.
+- **Description** — concise card/search summary.
+- **Body** — substantive Markdown or supported HTML for an internal article.
+- **Author entity** — registered author.
+- **Publication date** — valid date.
+- **Status** — draft, pending, scheduled or published.
+
+If the article has an image, meaningful alt text is required.
+
+### Slug
+
+The slug becomes the clean URL:
+
+```text
+https://YOUR_DOMAIN/articles/the-article-slug/
 ```
 
-Name it after the slug. The front-matter block `---` must be the **very first
-characters in the file** — no blank line, no title above it. A file without front
-matter is ignored by the build.
+The CMS creates a URL-safe slug and makes it unique. If a published slug is renamed, the old slug is stored in SQLite as a permanent redirect. Avoid unnecessary changes because external links and analytics use the URL.
 
-### Step 2 — Write the front matter (the Formula's metadata half)
+### Body format
 
-Every value must sit on **one line**. Arrays and objects must be valid JSON on that
-single line — the parser is deliberately minimal, and a multi-line YAML list will be
-silently dropped.
+Markdown is recommended:
 
 ```markdown
----
-title: What Are AI Agents and How Do They Work?
-slug: what-are-ai-agents
-category: AI Trends
-subcategory: Autonomous Systems
-contentType: guide
-description: AI agents interpret goals, plan actions and use tools to complete multi-step tasks. This guide explains how they work, where they are deployed and where they still fail.
-img: article-images/ai-agents/agent-orchestration.jpg
-alt: Diagram-style illustration of a language model calling external tools in sequence
-date: 2026-08-16
-author: Oluwashola Busari
-authorSlug: oluwashola-busari
-tags: ["ai agents", "autonomous systems", "tool use", "llm orchestration"]
-hook: Software has traditionally waited for humans to tell it what to do. AI agents are beginning to change that relationship.
-directAnswer: An AI agent is a software system capable of interpreting a goal, planning actions, using tools and executing multi-step tasks with varying degrees of autonomy.
-keyTakeaways: ["Agents combine a model, memory, planning and tool access rather than being a single new technology.", "Most production deployments today are narrow and supervised, not fully autonomous.", "Reliability, permissions and cost remain the binding constraints on adoption."]
-faqs: [{"question":"What is the difference between an AI agent and a chatbot?","answer":"A chatbot responds to messages. An agent plans a sequence of actions and can call external tools to change something in the world."}]
-sources: [{"title":"Function calling documentation","publisher":"OpenAI","publishedAt":"2026-05-02","url":"https://platform.openai.com/docs/guides/function-calling","type":"official","accessedAt":"2026-08-16","supports":"Description of how models invoke external tools"}]
-relatedSlugs: ["mastering-the-art-of-coding", "the-rise-of-quantum-computing"]
-seoTitle: What Are AI Agents and How Do They Work?
-seoDescription: A clear explanation of AI agents, how they plan and use tools, where they are genuinely deployed, and the reliability and security limits that still apply.
-status: published
----
+## Descriptive section heading
+
+A focused paragraph with a [useful source](https://example.org/source).
+
+- clear point one
+- clear point two
+
+![Meaningful image description](article-images/example/image.jpg)
 ```
 
-#### Field-by-field, mapped to the Formula
+The server converts and sanitizes article body content on each response. Scripts, event handlers and unsafe protocols are removed. Do not rely on embedded scripts, iframes or forms inside article bodies.
 
-**`title` — Formula stage 1.**
-Rendered as the page `<h1>`, the breadcrumb tail, the homepage card headline and the
-browser tab. Concise, specific, descriptive. No clickbait, no keyword stuffing.
-Keep it under **70 characters** or the build raises an advisory warning and Google
-truncates it. If the editorial headline needs to be longer, keep it in `title` and
-put a shorter version in `seoTitle`.
+Use meaningful `##` headings. Three or more H2 sections generate the on-page table of contents.
 
-**`author` / `authorSlug` — Formula stage 2.**
-The byline is **`Oluwashola Busari`**, in that order, and `authorSlug` links it to the
-author profile (default `oluwashola-busari`). Note that the rendered byline is taken
-from the author record in the CMS, not from this field, so a mismatch here will not
-show on the page but will make the source files disagree with the site. Keep them the
-same. The name appears twice on the page: in the meta
-row under the headline, and in the author card in the reading rail and at the end of
-the article. Never invent credentials — the author card text is a published claim.
+### Content type and taxonomy
 
-**`description`.**
-Not a Formula stage, but the most-seen sentence you will write. It is the card text on
-the homepage, the category pages, the "Read next" grid and the search index, plus the
-default meta description and social-share text. Aim for **1–2 sentences, under 170
-characters**; longer triggers a warning and gets cut off in search results. It should
-read as a promise the article keeps, not a teaser that withholds.
+Use:
 
-**`hook` — Formula stage 3 (part one).**
-This becomes the **standfirst**: the larger grey line directly beneath the headline.
-One or two sentences, maximum. If you omit it, the site falls back to `description`,
-which wastes the slot — the standfirst is the reader's first taste of your voice.
-Write the tension, not a summary.
+- `article` for general features;
+- `news` for timely reporting;
+- `guide` for procedural material;
+- `opinion` for clearly labelled commentary;
+- `review` for evaluated products/services;
+- `analysis` for evidence-led interpretation.
 
-**`directAnswer` — Formula stage 4.**
-Rendered as the **"Quick answer" callout** — a bolt-icon box at the very top of the
-article body, above everything else. Constraints:
+Add focused tags rather than broad keyword lists. Categories power homepage filtering; tags and title/description support search.
 
-- It must **stand alone**. A reader who reads only this box should have the correct
-  answer. No "as discussed below", no pronouns referring to the headline.
-- Plain text only. Markdown, links and bold are escaped here and will show as literal
-  characters.
-- 1–3 sentences. This is also the passage retrieval systems are most likely to quote.
-- Omit the field entirely if the article has no single central question (a news
-  round-up, an opinion essay). An absent callout is better than a forced one.
+### Hook, direct answer and key takeaways
 
-**`keyTakeaways` — Formula stage 5.**
-Rendered as the **"Key takeaways" callout** under the quick answer, with a green tick
-heading. JSON array of **3–6** strings. Each item must be a complete, self-contained
-statement with a verb — not a keyword fragment. Plain text only; no Markdown.
-Bad: `"Cost and scalability"`. Good: `"Running agents in production currently costs
-more per task than the workflows they replace."`
+- **Hook:** stronger standfirst shown beneath the title.
+- **Direct answer:** concise answer box for the central question.
+- **Key takeaways:** short, standalone claims supported by the body and sources.
 
-**`img` / `alt`.**
-The hero image, also reused as the card image everywhere else. Rules:
+Do not put claims in summary components that the body cannot substantiate.
 
-- Path is **relative to the repository root** and **case-sensitive**. Put bespoke
-  images in `article-images/<slug>/`; or reuse a stock card from `Article cards images/<Category>/`.
-- Supported: `.jpg`, `.png`, `.webp`, `.gif`, `.avif`, under 8 MB. The build will fail
-  if the file does not exist.
-- The hero renders at **16:9** and is cropped with `object-fit: cover` — keep the
-  subject centred and avoid text near the edges. Supply at least **1600 px wide**;
-  the build generates 640/1024/1600 WebP derivatives automatically. Never edit
-  `generated-images/` yourself.
-- `alt` is mandatory and doubles as the visible **caption** under the hero. So write
-  it as a real descriptive sentence, not `"AI agents"`. It has two audiences: screen
-  readers and every sighted reader.
+## 5. Images
 
-**`date`.**
-`YYYY-MM-DD`. Drives the visible dateline, the sort order on the homepage, the
-sitemap `lastmod` and the schema. Must be accurate — dating is an integrity rule, not
-a formatting detail. For crypto and news pieces the date is part of the claim.
+### Existing source image
 
-**`readingTime`.**
-Optional. Estimated automatically at 200 words per minute; only override it if the
-automatic figure is misleading (heavy code or tables).
+Curated source images committed with application source use paths such as:
 
-**`tags`.**
-JSON array of lowercase search terms. Feeds the site search. Use genuine entities and
-concepts, 4–8 of them, not every synonym you can think of.
-
-**`sources` — Formula stage 11.**
-JSON array of source records. This is the only mechanism that produces the visible
-**Sources** section at the foot of the article *and* emits `citation` URLs into the
-Article schema. Each record:
-
-```json
-{
-  "title": "Exact title of the source",
-  "publisher": "Publishing organisation",
-  "author": "Named author, if available",
-  "publishedAt": "2026-05-02",
-  "url": "https://publisher.example/report",
-  "type": "primary | official | research | journalism | reference | other",
-  "doi": "",
-  "accessedAt": "2026-08-16",
-  "supports": "The exact statement in the article this source supports"
-}
+```text
+article-images/story-slug/hero.jpg
+Images and Assets/page_logo.png
 ```
 
-- `title` and an absolute `http(s)` `url` are required; the build fails without them.
-- `supports` is where the Sholynk integrity standard is enforced in practice: name the
-  specific claim. If you cannot state which sentence a source supports, it is
-  decoration, not evidence — remove it.
-- Match the level to the claim: **primary/official** for technical, product and
-  regulatory facts; **journalism** for reporting and context; **research** for
-  scholarly claims. For a ResearchGate or repository link, verify and cite the
-  underlying paper, journal and DOI; do not assume peer review.
-- An article with no sources still builds, but produces an advisory warning. That
-  warning is the system asking you a question: *should this piece really have none?*
-  Never satisfy it with a fabricated or approximate citation.
-- Keep the in-body attribution too: sources listed at the foot do not remove the need
-  to attribute a claim inline, next to where it is made (see §3).
+These paths must exist in the deployed Git commit.
 
-**`faqs` — Formula stage 12.**
-JSON array of `{"question": "...", "answer": "..."}` objects. Rendered as an
-accordion below the body and emitted as `FAQPage` JSON-LD — this is one of the highest
-value slots on the page for both search and AI retrieval. Rules:
+### CMS upload
 
-- Plain text only, in both fields; Markdown is escaped.
-- Each answer must be complete on its own, in 1–3 sentences.
-- 3–6 entries is the healthy range. Ask questions a real reader would ask *after*
-  finishing the article, not restatements of your headings. Do not manufacture FAQs.
+For new production media, upload through the dashboard. The file is stored under the durable `CMS_UPLOAD_DIR` (recommended `/data/uploads`) and its metadata is stored in SQLite.
 
-**`relatedSlugs` — Formula stage 14.**
-JSON array of **existing** slugs, lowercase and hyphenated. Powers the "Read next"
-grid. Choose 2–3 genuinely related articles in the same topic cluster. Note this is
-*in addition to* contextual in-body links (§3), not a replacement for them.
+Rules:
 
-**`seoTitle` / `seoDescription`.**
-Only when the editorial headline and the search headline should differ. Limits: 70 and
-170 characters. Must be unique per article.
+- allowed formats are JPEG, PNG, WebP, GIF and AVIF;
+- uploads are size-limited;
+- the server verifies actual image format rather than trusting the filename/MIME claim;
+- use a descriptive filename and alt text;
+- compress appropriately before upload;
+- do not put production uploads into the Git checkout by hand.
 
-**Placement and workflow flags.**
-`featured: true` marks a highlighted card. `hero: true` plus `heroOrder: 0` puts the
-article in the homepage slideshow — hero images must be strong at full width.
-`status:` is `published`, `draft` or `scheduled` (`scheduled` also requires
-`scheduledAt`). `canonicalUrl` is generated automatically; only override it, with an
-absolute HTTPS URL, if the piece is syndicated. `reviewNotes` holds internal notes and
-is never rendered publicly.
+Database and upload backups must be restored as a matching set.
 
-### Step 3 — Write the body (the Formula's narrative half)
+## 6. Sources and evidence
 
-The body starts immediately after the closing `---`. Its first element should be a
-`##` heading.
+Add a structured source for each consequential factual claim.
 
-The site builds the **table of contents in the reading rail automatically from your
-`##` headings** (only `##` — `###` subheadings are not listed, and the TOC appears
-only when there are **at least three** `##` sections), so your section headings *are*
-the article's navigation. Vague
-headings ("Some thoughts", "More on this") produce a useless TOC. Descriptive
-headings produce both a good TOC and clean semantic structure for retrieval systems.
+Source fields can include:
 
-Recommended body skeleton, following the standard article flow:
+- title;
+- publisher;
+- author;
+- publication date;
+- URL;
+- source type;
+- DOI;
+- access date;
+- which claim the source supports.
 
-```markdown
-## Introduction
-Narrative hook expanded: development → context → problem/change → why the reader
-should care. Three to six paragraphs. Do not repeat the Quick answer box verbatim;
-the reader has just read it directly above.
+Prefer primary documents, official data and original research. Use HTTPS URLs when available. Confirm that links resolve and that the source actually supports the adjacent claim.
 
-## Understanding <the technology or topic>
-### What is it?
-### How it works
-Definitions, mechanism, terminology, worked example. Move the reader from unfamiliar
-to familiar to technically competent. Explain jargon at first use.
+The published page displays sources and includes source URLs in article structured data.
 
-## Why It Matters
-Consequences for the stakeholders who are actually affected. Name them.
+## 7. FAQs and related articles
 
-## Real-World Applications
-### <Sector or use case>
-Concrete, evidence-supported deployments. Label clearly what is shipping today
-versus what is a pilot, a research result or a projection.
+### FAQs
 
-## Benefits and Opportunities
-Practical, measurable value. No "revolutionary", no "game-changing".
+Each FAQ needs a genuine question and direct answer. FAQ entries are published in both visible content and `FAQPage` structured data, so they must match exactly and must not be promotional or misleading.
 
-## Limitations, Risks and Trade-offs
-Only the risks that genuinely apply: reliability, security, privacy, cost,
-scalability, regulation, ethics, environmental impact, adoption barriers.
+### Related articles
 
-## Conclusion
-Answer "so what?". Synthesise; do not summarise. Then the forward view.
+Specify related slugs when editorially important. The server resolves those against current published database rows and fills remaining slots with current internal articles in the same category. Draft/unpublished records do not appear publicly.
+
+## 8. SEO metadata
+
+### SEO title
+
+If set, this controls the document title and social title. Keep it accurate and avoid truncation-heavy wording.
+
+### SEO description
+
+If set, this controls the meta/Open Graph/Twitter description. Otherwise the article description is used.
+
+### Canonical URL
+
+Normally leave canonical empty; the server creates:
+
+```text
+SITE_URL/articles/<slug>/
 ```
 
-Notice what is **absent** from the body: no "Key takeaways" section, no "FAQ"
-section, no "Sources" section, no "Related articles" section, and no repeat of the
-title or byline. The page renders all of those for you, in the correct order and
-style, from the front matter. Writing them into the body produces duplicates.
+Only set an override when an approved HTTPS canonical exists elsewhere. Insecure/non-HTTP canonicals are rejected.
 
-Section ordering is an architecture, not a cage: sections may be merged, renamed to
-suit the subject, or dropped where they do not apply. What should not change is the
-*sequence* — hook, then explain, then contextualise, apply, evaluate, conclude.
+### Automatic metadata
 
-### Step 4 — Length, formatting and the house style
+At request time, Express creates:
 
-**Headings.** `##` for main sections (these become the TOC), `###` for subsections,
-`####` sparingly. Never use `#` in the body — the `<h1>` is the article title, and a
-second one damages the document outline.
+- canonical link;
+- Open Graph and Twitter tags;
+- Article, Person, Organization and Breadcrumb schema;
+- FAQ schema when FAQs exist;
+- published/modified dates;
+- current author details;
+- sitemap entry for eligible published internal articles.
 
-**Paragraphs.** Blank line between them. Two to five sentences each. The column is
-narrow by design; a twelve-line paragraph becomes an unreadable wall on mobile.
+No rebuild is required after metadata changes.
 
-**Emphasis.** `**bold**` for the first appearance of a key term (the stylesheet gives
-bold a distinct treatment); `*italics*` sparingly.
+## 9. Status workflow
 
-**Lists.** `-` for unordered, `1.` for ordered. Introduce every list with a full
-sentence ending in a colon. Lists are for genuinely parallel items — do not fragment
-an argument into bullets to avoid writing prose.
+### Draft
 
-**Links.** `[descriptive anchor](url)`. Never "click here" or a bare URL. Internal
-links use the canonical form `/articles/<other-slug>/`. Two to five contextual
-internal links inside the body is a healthy density, and they are what actually build
-the topic cluster.
+Use while writing/editing. Drafts require admin authentication and do not appear on public lists, clean article routes or the sitemap.
 
-**Where links should point, and how tabs behave.** The build sets this for you, so
-write plain Markdown and do not hand-write `target` attributes:
+### Pending
 
-- **External links open in a new tab.** The build adds `target="_blank"` and
-  `rel="noopener noreferrer"` automatically to any `http(s)` link.
-- **Internal links stay in the same tab.** Never force an internal link to open a new
-  tab; it breaks the reader's back button and the expected behaviour of a site.
-- **Link significant terms to an explanation.** When a term carries real weight and a
-  reader may not know it, link its first use to a page that explains it properly:
-  another Sholynk article where one exists, otherwise a reliable external reference
-  such as the primary documentation, the paper itself, or an encyclopaedia entry.
-- **Verify every URL before you use it.** Open it. A plausible-looking address that
-  404s is the same category of error as a fabricated citation.
-- **Only link where the connection is real.** A "read our other article" line at the
-  end of a piece must earn its place. If the two subjects are not genuinely related,
-  leave it out and let the Read next grid do that job.
+Used for contributor submissions and editorial review. Add review notes without publishing sensitive internal discussion.
 
-**Blockquotes.** `>` renders as a styled pull-quote with a rule. Use for real quoted
-material or a genuinely striking line — not for ordinary emphasis.
+### Scheduled
 
-**Images inside the body.**
+Provide a valid scheduled date/time. Confirm the application's scheduling policy/worker before relying on automatic transition; a scheduled status is not publicly visible until it becomes published.
 
-```markdown
-![Screen capture of an agent framework executing a three-step plan](article-images/what-are-ai-agents/plan-execution.png)
+### Published
 
-*Figure 1. The planner emits three tool calls before returning a result.*
-```
+Before choosing published, verify:
 
-The alt text is required, and the build **fails** if the file does not exist. An
-italic paragraph immediately after an image is styled automatically as a caption, so
-use that pattern rather than writing "Caption:".
+- title, description, body and author;
+- factual claims and source links;
+- hero/body image rights and alt text;
+- headings and reading flow;
+- canonical/SEO fields;
+- category/tags/content type;
+- FAQs and related slugs;
+- mobile/desktop preview;
+- no confidential review notes or contributor details are exposed.
 
-**Tables.** Standard Markdown pipe tables render with the site's table styling. Keep
-them to three or four columns — wide tables scroll awkwardly on phones.
+After saving, load the clean URL in a private browser window and verify the live result.
 
-**Code.** Fenced blocks with a language tag (` ```python `). Inline code in backticks.
+## 10. External-link entries
 
-**Allowed raw HTML.** Prefer pure Markdown. If you must use HTML, only this set
-survives sanitisation: `a, abbr, b, blockquote, br, code, del, details, div, em,
-figcaption, figure, h1–h6, hr, i, img, kbd, li, mark, ol, p, pre, s, small, span,
-strong, sub, summary, sup, table, tbody, td, tfoot, th, thead, tr, ul`. Anything else
-— `script`, `iframe`, `style`, embeds, forms, inline event handlers, inline `style`
-attributes — is stripped. Embedded videos and third-party widgets will not render;
-link to them instead.
+An entry can link to an approved external HTTP(S) URL or safe application-local path rather than render an internal body. The homepage/API will use that destination, and the internal clean route redirects.
 
-**Length.** A published article must be **at least 300 words** or the build fails.
-There is no upper limit and no target: 1,200 words that answer the question fully
-beat 2,500 words padded to hit a number.
+Use external entries sparingly. They are excluded from the internal article sitemap because the destination is not hosted as a Sholynk article.
 
-**Language.** **Strictly British English. There is no exception and no "by default".**
-An article containing American spellings is not ready to publish.
+## 11. Contributor/PDF submissions
 
-- `-ise` / `-isation`, never `-ize` / `-ization`: `optimise`, `organisation`,
-  `analyse`, `summarise`, `recognise`, `prioritise`, `specialised`.
-- `-our`, not `-or`: `behaviour`, `colour`, `favour`, `labour`, `honour`.
-- `-re`, not `-er`: `centre`, `metre`, `fibre`, `theatre`.
-- `-ce` for nouns, `-se` for verbs: a `licence` / to `license`, a `practice` /
-  to `practise`, `defence`, `offence`.
-- Doubled `l` before a suffix: `travelling`, `modelling`, `labelled`, `cancelled`,
-  `fuelled`.
-- Also: `programme` (except a computer `program`), `catalogue`, `dialogue`,
-  `enrol`, `fulfil`, `judgement`, `towards`, `learnt`, `amongst`, `whilst`
-  (used sparingly), `maths` not `math`.
-- Dates read `16 August 2026`, not `August 16, 2026`. Note that the `date` front-matter
-  field is a separate, machine-readable `YYYY-MM-DD` value and is unaffected.
-- Punctuation follows British convention: full stops and commas go **outside** closing
-  quotation marks unless they belong to the quoted material, and single quotation
-  marks are acceptable for quotes within quotes.
-- Collective nouns take the British reading where it is natural: "the team are
-  divided" is acceptable; "the company is" remains singular.
+Contributor submissions use `/api/submissions` and can include a PDF for metadata assistance. With `CMS_REQUIRE_APPROVAL=true`, submitted work remains pending until an administrator reviews and publishes it.
 
-Two exceptions, both mechanical rather than editorial:
+The server:
 
-1. **Quoted material and source titles are never altered.** If a cited American paper
-   is titled "Analyzing Model Behavior", reproduce it exactly. The same applies to
-   direct quotations.
-2. **Code, identifiers, file paths and API field names are reproduced as written.**
-   This repository's own code contains `sanitizeHtml`, `optimize` and similar; in
-   prose you write "sanitisation", but the function name stays `sanitizeHtml`.
+- streams temporary PDFs to the operating-system temp directory;
+- extracts suggested values;
+- deletes the temporary upload after processing;
+- stores approved article data in SQLite;
+- records notification data/send status.
 
-Set your editor's spellchecker to English (United Kingdom) before you start, and read
-the piece once specifically for spelling before running the build. The build does not
-check spelling — this is enforced editorially, not by tooling.
+See [PDF import and autofill](pdf-import-autofill.md) for supported fields and security constraints.
 
-**Punctuation.** No em dashes between words — use commas, semicolons or full stops.
-Keep correct compound hyphens: `real-world`, `open-source`, `problem-solving`,
-`multi-step`.
+## 12. Editing and deleting
 
-**Banned register.** "revolutionary", "game-changing", "in today's rapidly evolving
-world", "unleash", "supercharge", and any sentence that would fit in a press release.
-If a technology genuinely is a step change, demonstrate it with evidence rather than
-asserting it with an adjective.
+### Editing
 
-### Step 5 — Verify claims before you build
+A successful save changes the current SQLite row. The next article/API request sees the update without a deploy.
 
-Work through the article and, for every factual statement, decide which of four
-categories it belongs to, and make the category visible to the reader in the prose:
+Slug rename behavior:
 
-1. **Established fact** — state plainly, with a source.
-2. **Reported claim** — attribute: "According to Reuters…", "The company says…".
-3. **Your interpretation** — signal it: "This suggests…", "The likely consequence is…".
-4. **Speculation or forecast** — label it: "If current trends hold…", "Researchers
-   expect, though this is unproven…".
+- engagement and views move to the new slug;
+- a permanent redirect row keeps the old clean URL working;
+- sitemap/canonical use the new slug on subsequent requests.
 
-Never fabricate a source, quote, statistic, expert or credential. Never present an
-inference as reported fact. Never claim first-hand experience you do not have. Where
-evidence conflicts or is thin, say so in the text and flag it for editorial review
-rather than resolving it silently.
+### Deleting
 
-### Step 6 — Build, validate and preview
+Deleting an article also removes reader history attached to it according to the database implementation. Before deletion:
 
-From the repository root:
+1. confirm it is not merely supposed to be draft/unpublished;
+2. preserve any required legal/editorial record;
+3. create/verify a recent backup;
+4. check inbound links and related-article references;
+5. confirm the deletion in the dashboard.
+
+## 13. Starter Markdown workflow (new installations only)
+
+`article_stories/*.md` remains useful for a fresh installation or a deliberately reviewed migration. It is not the normal production publishing workflow.
+
+For a brand-new empty database:
 
 ```bash
-npm run sync     # imports Markdown, exports JSON, validates, generates pages and images
-npm test         # integration suite
+npm run validate
+npm run seed
 ```
 
-`npm run sync` will **fail** on: missing required fields, a duplicate or malformed
-slug, a body under 300 words, a missing image file, malformed JSON in `tags`,
-`keyTakeaways`, `faqs`, `sources` or `relatedSlugs`, an FAQ missing a question or
-answer, a source missing a title or absolute URL, an unsupported `contentType`,
-`status` or source `type`, or a non-HTTPS `canonicalUrl`.
+`npm run seed` refuses to import when articles already exist. An explicit `node cms/seed.js --force` updates matching records and can overwrite dashboard fields. Use `--force` only after backup, review and approval.
 
-It will **warn** (without failing) on an over-long SEO title or description, and on an
-article with no recorded sources. Read the warnings; do not silence them with
-invented content.
+Changes to starter Markdown in Git do not update the live site by themselves. This separation protects production dashboard edits during code deployment.
 
-Then preview both routes with `npm start`:
+## 14. Post-publication verification
 
-- `http://localhost:3000/articles/<slug>/` — the canonical, pre-rendered page.
-- `http://localhost:3000/article.html?slug=<slug>` — the legacy dynamic route, still
-  supported for existing links.
-- `http://localhost:3000/` — check the card and, if you set `hero: true`, the slide.
+For every important publication:
 
-### Step 7 — Read the rendered page, not your draft
+1. open `/articles/<slug>/` without dashboard authentication;
+2. confirm HTTP 200 and correct title/body;
+3. inspect source to ensure title, canonical and JSON-LD are present in initial HTML;
+4. verify author/profile and dates;
+5. check all images/alt text;
+6. submit a reaction/comment test only when appropriate, then moderate/remove it;
+7. search/filter on the homepage;
+8. check that `/sitemap.xml` includes the internal published URL;
+9. check social preview tools after caches expire;
+10. confirm `/health` remains healthy.
 
-Check on a phone-width window as well as desktop:
+## 15. Troubleshooting
 
-- Does the **standfirst** work under the headline, or does it read as a duplicate of
-  the description?
-- Does the **Quick answer** box answer the question on its own?
-- Do the **Key takeaways** survive being read in isolation?
-- Does the **table of contents** in the rail read like a useful outline of the piece?
-- Is the **hero image** cropped sensibly at 16:9?
-- Do the **FAQ** accordion, **Sources** list and **Read next** cards all appear, and
-  do the source links resolve?
-- With JavaScript disabled, is the full article still there? (It should be — the page
-  is pre-rendered.)
+### Article does not appear
 
-### Step 8 — Commit
+- status is not published;
+- body is empty and no external link is set;
+- category/search filter hides it;
+- the browser/API request is failing;
+- a deployment is connected to a different `CMS_DB_FILE`;
+- Caddy or DNS is pointing to another VM.
 
-Commit the Markdown source together with everything the build generated:
-`content-fallback.json`, `articles.json`, `articles/<slug>/`, `generated-images/`,
-`sitemap.xml` and `robots.txt`. Never hand-edit any of those generated files, and
-never hand-edit `cms/data/seed.json` long-form entries.
+### Edit disappears after restart
 
-If you edit an article later: change the `.md` file, keep the slug, re-run
-`npm run sync`, and commit again. Deleting the `.md` file and re-syncing removes the
-article from the site.
+This indicates a persistence/configuration problem, not expected behavior:
 
----
+- verify `CMS_DB_FILE=/data/cms.sqlite`;
+- run `findmnt /data`;
+- confirm the service user owns/can write `/data`;
+- confirm no startup/deploy command force-runs the seed importer;
+- inspect `journalctl -u sholynk`.
 
-## 3. Quick reference: which slot does this go in?
+### Upload disappears
 
-| You want to… | Do this |
-| --- | --- |
-| Give the headline | `title` (and `seoTitle` if the search version differs) |
-| Set the byline | `author` + `authorSlug` |
-| Add the line under the headline | `hook` |
-| Give a standalone answer | `directAnswer` |
-| Summarise the essentials | `keyTakeaways` (3–6, JSON array) |
-| Add a section of prose | `##` heading in the body |
-| Add a subsection | `###` heading in the body |
-| Cite a source | Inline attribution in the prose **and** a record in `sources` |
-| Answer follow-up questions | `faqs` (JSON array) |
-| Link to other Sholynk pieces | `relatedSlugs` **and** contextual body links |
-| Add a picture | `img`/`alt` for the hero; `![alt](path)` plus an italic caption in the body |
-| Hold a piece back | `status: draft`, or `status: scheduled` + `scheduledAt` |
-| Leave a note for the editor | `reviewNotes` (never rendered publicly) |
+- verify `CMS_UPLOAD_DIR=/data/uploads`;
+- confirm `/data` was mounted before the service started;
+- verify `RequiresMountsFor=/data` in systemd;
+- check upload backup/restore pairing.
 
----
+### Engagement unavailable
 
-## 4. Common mistakes on this site
+The UI intentionally does not save comments or reactions only in the browser. Check:
 
-1. **Writing "Key Takeaways" as a body heading.** It renders as plain prose and the
-   designed callout stays empty. Use `keyTakeaways`.
-2. **Writing a "Sources" or "FAQ" section in the body.** Duplicates the generated
-   sections and skips the schema entirely.
-3. **Markdown or HTML inside front matter.** `directAnswer`, `keyTakeaways`, `faqs`,
-   `hook` and `description` are escaped as plain text. Links, bold and raw `<a>` tags
-   appear literally on the page, so a hand-written anchor in `hook` renders as visible
-   `&lt;a href=...&gt;` markup in the standfirst. Keep markup in the body only.
-4. **Multi-line JSON in front matter.** The parser reads one line per field. A list
-   broken across lines is silently discarded — and you will only notice when the
-   callout does not appear.
-5. **A quick answer that depends on the headline.** "It is a system that…" is not a
-   standalone answer.
-6. **`relatedSlugs` pointing at articles that do not exist yet.** The grid silently
-   drops them. Publish the target first, or leave it out.
-7. **Case-wrong image paths.** `Article cards images/technology/...` fails; the folder
-   is `Technology`.
-8. **Changing a slug after publication.** It orphans the old URL and detaches existing
-   reactions and comments.
-9. **A `description` written as a teaser.** It is the card text on every listing page —
-   it must inform, not tantalise.
-10. **Editing generated files** in `articles/`, `content-fallback.json` or
-    `articles.json`. The next sync overwrites them.
-11. **American spellings.** `optimize`, `behavior`, `center`, `defense`, `traveling`.
-    Nothing in the build catches these, so they reach the reader. Set the spellchecker
-    to English (United Kingdom) and proofread for it deliberately.
+- `/health`;
+- `/api/articles/<slug>/engagement`;
+- browser network response;
+- application logs;
+- SQLite integrity and disk capacity.
 
----
+Restore service and ask the reader to retry.
 
-## 5. Pre-publication checklist
+## 16. Editorial release checklist
 
-Editorial (from the Sholynk Formula):
-
-- [ ] The title clearly communicates the subject and is under 70 characters.
-- [ ] The byline and author profile link are correct; no fabricated credentials.
-- [ ] The opening carries a genuine narrative hook, not a definition.
-- [ ] The central question is answered clearly and standalone in `directAnswer`.
-- [ ] Key takeaways are 3–6 useful, complete statements.
-- [ ] The technology or topic is explained from unfamiliar to competent.
-- [ ] The article explains why the subject matters, to named stakeholders.
-- [ ] Applications are evidence-supported, with deployment distinguished from pilots.
-- [ ] Benefits are stated without hype or banned marketing register.
-- [ ] Only the limitations and risks that genuinely apply are discussed.
-- [ ] Important claims carry inline attribution and a matching `sources` record.
-- [ ] Every source is real, traceable, correctly levelled, and `supports` a named claim.
-- [ ] Fact, reported claim, interpretation and speculation are distinguishable in the prose.
-- [ ] FAQs are genuine reader questions, not SEO filler.
-- [ ] The conclusion synthesises rather than repeats.
-- [ ] **Strictly British English** throughout (`-ise`, `-our`, `-re`, `licence`/`license`,
-      `travelling`), checked with a UK spellchecker; quoted titles and code identifiers
-      left exactly as written.
-- [ ] No em dashes between words; jargon explained at first use.
-
-Technical (specific to this website):
-
-- [ ] Front matter is the first thing in the file; every value is on one line.
-- [ ] `slug` is lowercase-hyphenated, unique and final.
-- [ ] `category` matches one of the five exactly.
-- [ ] `contentType` honestly describes the piece.
-- [ ] `img` exists at the given path, is at least 1600 px wide and reads well at 16:9.
-- [ ] `alt` is a descriptive sentence (it is also the visible caption).
-- [ ] `description` is 1–2 sentences, under 170 characters.
-- [ ] All JSON fields are valid single-line JSON.
-- [ ] `relatedSlugs` point at articles that already exist.
-- [ ] Body uses `##`/`###` only, with at least three `##` sections forming a sensible TOC.
-- [ ] Body is 300+ words with no unnecessary padding.
-- [ ] 2–5 contextual internal links with descriptive anchors.
-- [ ] `date` is accurate; `status` is correct.
-- [ ] `npm run sync` and `npm test` pass, warnings read and understood.
-- [ ] Both `/articles/<slug>/` and `/article.html?slug=<slug>` reviewed, on desktop and mobile.
-- [ ] Markdown plus all generated output committed together.
-
----
-
-## 6. The principle behind all of it
-
-**HOOK → EXPLAIN → ANSWER → CONTEXTUALISE → APPLY → EVALUATE → EVIDENCE → EXTEND**
-
-**PEOPLE FIRST. EVIDENCE FIRST. UNDERSTANDING FIRST.**
-
-The front matter and the slots exist so that the machinery — search visibility,
-structured data, AI citation readiness — is handled by the system rather than by you
-bending your prose around it. Fill the slots accurately and truthfully, then spend
-your remaining effort on the only thing the system cannot do: writing something a
-reader is genuinely better off for having read.
+- [ ] Correct author entity selected.
+- [ ] Title, slug, description and hook are accurate.
+- [ ] Body is complete with logical H2 structure.
+- [ ] Claims are supported by structured sources.
+- [ ] Images have rights, valid paths and descriptive alt text.
+- [ ] Direct answer/takeaways/FAQs match the body.
+- [ ] Related slugs resolve to appropriate published content.
+- [ ] SEO title/description/canonical are reviewed.
+- [ ] Status and publication date are intentional.
+- [ ] Clean URL works while logged out.
+- [ ] Homepage search/category behavior includes the article.
+- [ ] Sitemap and server-rendered metadata are current.
+- [ ] A recent production backup exists.

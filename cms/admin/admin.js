@@ -5,9 +5,11 @@
 
   const $ = (id) => document.getElementById(id);
   const tokenInput = $('adminToken');
-  tokenInput.value = localStorage.getItem('sholynk-admin-token') || '';
+  tokenInput.value = sessionStorage.getItem('sholynk-admin-token') || '';
   tokenInput.addEventListener('change', () => {
-    localStorage.setItem('sholynk-admin-token', tokenInput.value.trim());
+    const token = tokenInput.value.trim();
+    if (token) sessionStorage.setItem('sholynk-admin-token', token);
+    else sessionStorage.removeItem('sholynk-admin-token');
   });
 
   function toast(message, isError = false) {
@@ -422,13 +424,14 @@
 
   $('previewArticle').addEventListener('click', () => {
     const article = state.articles.find((item) => item.id === Number($('articleId').value));
-    if (article) window.open(
-      article.status === 'published' && article.body
-        ? `/articles/${encodeURIComponent(article.slug)}/`
-        : `/article.html?slug=${encodeURIComponent(article.slug)}`,
-      '_blank',
-      'noopener'
-    );
+    if (!article) return;
+    if (article.status !== 'published') {
+      toast('Save as published before opening the public preview.', true);
+      return;
+    }
+    const destination = article.externalLink
+      || `/articles/${encodeURIComponent(article.slug)}/`;
+    window.open(destination, '_blank', 'noopener');
   });
 
   const SNIPPETS = {

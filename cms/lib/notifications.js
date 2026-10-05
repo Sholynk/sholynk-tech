@@ -17,7 +17,7 @@
  *   SMTP_USER              SMTP login
  *   SMTP_PASS              SMTP password / app password
  *   SMTP_FROM              envelope "From" address (defaults to SMTP_USER)
- *   SITE_BASE_URL          public URL of the deployed site, used for links
+ *   SITE_URL               public origin of the deployed site, used for links
  */
 
 const fs = require('node:fs');
@@ -26,7 +26,7 @@ const { DATA_DIR } = require('./db');
 
 const EDITOR_EMAIL = process.env.SHOLYNK_EDITOR_EMAIL || 'sholynktech@gmail.com';
 const FROM_EMAIL = process.env.SMTP_FROM || process.env.SMTP_USER || `Sholynk CMS <${EDITOR_EMAIL}>`;
-const BASE_URL = process.env.SITE_BASE_URL || process.env.URL || `http://localhost:${process.env.PORT || 3000}`;
+const BASE_URL = process.env.SITE_URL || `http://localhost:${process.env.PORT || 3000}`;
 const QUEUE_FILE = path.join(DATA_DIR, 'notifications.log');
 
 function escapeHeader(value) {
@@ -35,8 +35,7 @@ function escapeHeader(value) {
 
 function buildText(article) {
   const adminUrl = `${BASE_URL.replace(/\/$/, '')}/admin/`;
-  const previewPath = article.externalLink
-    || (article.body ? `/articles/${encodeURIComponent(article.slug)}/` : `/article.html?slug=${encodeURIComponent(article.slug)}`);
+  const previewPath = article.externalLink || `/articles/${encodeURIComponent(article.slug)}/`;
   const previewUrl = new URL(previewPath, BASE_URL).href;
   return [
     'A new article has been submitted for review on Sholynk Tech.',
@@ -62,8 +61,7 @@ function buildText(article) {
 
 function buildHtml(article) {
   const adminUrl = `${BASE_URL.replace(/\/$/, '')}/admin/`;
-  const previewPath = article.externalLink
-    || (article.body ? `/articles/${encodeURIComponent(article.slug)}/` : `/article.html?slug=${encodeURIComponent(article.slug)}`);
+  const previewPath = article.externalLink || `/articles/${encodeURIComponent(article.slug)}/`;
   const previewUrl = new URL(previewPath, BASE_URL).href;
   const esc = (s) => String(s)
     .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')

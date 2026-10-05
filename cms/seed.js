@@ -1,20 +1,25 @@
 'use strict';
 
 /**
- * Seeds the CMS database.
+ * Bootstraps a new CMS database.
  *
- * Content comes from two sources:
+ * This importer is never run by application startup or deployment. Without
+ * `--force`, the CLI only seeds an empty database, so dashboard edits in a live
+ * SQLite volume cannot be overwritten accidentally.
+ *
+ * Starter content comes from two sources:
  *
  * 1. Long-form articles: every `article_stories/*.md` file becomes an article.
  *    The file's front-matter block (see cms/lib/frontmatter.js) supplies the
- *    metadata; the rest of the file is the article body. This is the single
- *    source of truth for full articles — edit the .md, re-run `npm run seed`.
+ *    metadata; the rest of the file is the starter article body. Once imported,
+ *    SQLite is the runtime source of truth and dashboard edits stay in SQLite.
  *
  * 2. Card-only entries and homepage hero slides: `cms/data/seed.json`.
  *    Card entries whose slug is already provided by a .md file are skipped so
  *    the Markdown version always wins.
  *
- * Safe to re-run: existing slugs are updated rather than duplicated.
+ * `run()` supports an explicit administrative re-import and updates existing
+ * slugs rather than duplicating them. The normal CLI refuses that operation.
  */
 
 const fs = require('node:fs');
@@ -214,7 +219,7 @@ function run() {
       body: isLongform ? longformBody : '',
       externalLink: isLongform
         ? null
-        : (article.link && !article.link.startsWith('article.html') ? article.link : null),
+        : (article.link || null),
       seoTitle: article.seoTitle || null,
       seoDescription: article.seoDescription || null
     });
@@ -258,7 +263,7 @@ function run() {
 
   const total = db.prepare('SELECT COUNT(*) AS n FROM articles').get().n;
   console.log(`Seeded ${created} card articles + ${longformSlugs.size} Markdown stories. Database now holds ${total} articles.`);
-  console.log(`Long-form article available at: /articles/${LONGFORM_SLUG}/ (legacy: /article.html?slug=${LONGFORM_SLUG})`);
+  console.log(`Long-form article available at: /articles/${LONGFORM_SLUG}/`);
 }
 
 function isArticleTableEmpty() {
@@ -272,6 +277,12 @@ function ensureSeeded() {
   return true;
 }
 
-if (require.main === module) run();
+if (require.main === module) {
+  if (process.argv.includes('--force')) run();
+  else if (!ensureSeeded()) {
+    console.log('Database already contains articles; no starter content was imported.');
+    console.log('Use the admin dashboard for production edits (or --force for an intentional re-import).');
+  }
+}
 
 module.exports = { run, ensureSeeded, isArticleTableEmpty, LONGFORM_SLUG };

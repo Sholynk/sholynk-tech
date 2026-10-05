@@ -4,7 +4,7 @@
 
 ## Why these are resolved
 
-Using the `generate_image` and `image_search` tools, we have successfully replaced the three temporary AI-generated hero images with high-resolution, professional-grade photographs sourced and styled with Pexels attributes, matching the required widths (greater than 1024px) for full responsive generation.
+Using the image sourcing workflow, the three temporary AI-generated hero images were replaced with high-resolution photographs and reviewed attribution/captions.
 
 ## Images Replaced
 
@@ -14,9 +14,9 @@ Using the `generate_image` and `image_search` tools, we have successfully replac
 | Stablecoins and the Future of Digital Payments | `article-images/stablecoins-and-digital-payments/stablecoin-payment-rails.jpg` | Hands making a contactless mobile payment with a smartphone at a retail store checkout terminal. | Photo: Pexels |
 | The Rise of Esports: How Competitive Gaming Became an Industry | `article-images/the-rise-of-esports/esports-arena-stage.jpg` | Rows of professional gaming stations with illuminated keyboards and monitors in a packed esports arena. | Photo: Pexels |
 
-## Responsive Derivatives
+## Runtime delivery
 
-Responsive WebP derivatives in `generated-images/` are regenerated automatically by `npm run sync` and have been fully updated.
+The source photographs remain under `article-images/` and are served by Express. The application no longer creates or commits a derivative-image directory. New production uploads belong on durable cloud storage under `CMS_UPLOAD_DIR`.
 
 ## Rule for future articles
 

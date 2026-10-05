@@ -4,7 +4,10 @@ const test = require('node:test');
 const assert = require('node:assert');
 const fs = require('node:fs');
 const path = require('node:path');
+const os = require('node:os');
+const { spawnSync } = require('node:child_process');
 const { JSDOM } = require('jsdom');
+const { renderArticlePage } = require('../lib/article-page');
 
 const ROOT = path.join(__dirname, '..', '..');
 const ROOT_PAGES = [
@@ -17,12 +20,23 @@ const ROOT_PAGES = [
 ];
 
 function generatedPages() {
-  const articlesDir = path.join(ROOT, 'articles');
-  if (!fs.existsSync(articlesDir)) return [];
-  return fs.readdirSync(articlesDir, { withFileTypes: true })
-    .filter((entry) => entry.isDirectory())
-    .map((entry) => path.join('articles', entry.name, 'index.html'))
-    .filter((file) => fs.existsSync(path.join(ROOT, file)));
+  return [];
+}
+
+async function runtimePage() {
+  const article = {
+    slug: 'live-route', title: 'Live route', category: 'Technology',
+    description: 'Rendered from SQLite.', body: '## One\n\nText.\n\n## Two\n\nText.\n\n## Three\n\nText.',
+    img: 'Images and Assets/page_logo.png', alt: 'Logo', author: 'Owner',
+    authorSlug: 'owner', date: '2026-01-01', readingTime: '2 min read',
+    status: 'published', tags: [], sources: [], faqs: [], keyTakeaways: [], relatedSlugs: []
+  };
+  return renderArticlePage({
+    article,
+    articles: [article],
+    authors: [{ slug: 'owner', name: 'Owner', profileUrl: 'about.html' }],
+    origin: 'https://example.com'
+  });
 }
 
 function pageUrl(file) {
@@ -60,15 +74,31 @@ function assertLocalReference(raw, sourceFile, document) {
   }
 }
 
-test('Netlify publishes the complete static site from the repository root', () => {
-  const configPath = path.join(ROOT, 'netlify.toml');
-  assert.ok(fs.existsSync(configPath), 'a tracked Netlify configuration is required');
+test('deployment contract is expressed with provider-neutral Node and container files', () => {
+  const packageJson = JSON.parse(fs.readFileSync(path.join(ROOT, 'package.json'), 'utf8'));
+  assert.equal(packageJson.scripts.start, 'node cms/server.js');
+  assert.match(packageJson.engines.node, />=22\.5\.0/);
+  assert.ok(fs.existsSync(path.join(ROOT, 'Dockerfile')));
+  assert.ok(fs.existsSync(path.join(ROOT, '.env.example')));
+});
 
-  const config = fs.readFileSync(configPath, 'utf8');
-  assert.match(config, /\[build\][\s\S]*?base\s*=\s*"\."/);
-  assert.match(config, /\[build\][\s\S]*?command\s*=\s*"npm run build"/);
-  assert.match(config, /\[build\][\s\S]*?publish\s*=\s*"\."/);
-  assert.match(config, /\[build\.environment\][\s\S]*?NODE_VERSION\s*=\s*"22"/);
+test('a production database path also makes notification state durable', () => {
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'sholynk-storage-map-'));
+  const database = path.join(tmp, 'cms.sqlite');
+  const script = [
+    "const { DB_FILE, DATA_DIR } = require('./cms/lib/db');",
+    "process.stdout.write(JSON.stringify({ DB_FILE, DATA_DIR }));"
+  ].join('');
+  const result = spawnSync(process.execPath, ['-e', script], {
+    cwd: ROOT,
+    env: { ...process.env, CMS_DB_FILE: database, CMS_DATA_DIR: '' },
+    encoding: 'utf8'
+  });
+  fs.rmSync(tmp, { recursive: true, force: true });
+  assert.equal(result.status, 0, result.stderr);
+  const paths = JSON.parse(result.stdout);
+  assert.equal(paths.DB_FILE, database);
+  assert.equal(paths.DATA_DIR, tmp);
 });
 
 test('all public HTML links, scripts, images and responsive sources resolve locally', () => {
@@ -96,25 +126,18 @@ test('all public HTML links, scripts, images and responsive sources resolve loca
   }
 });
 
-test('content snapshot image paths and full-article links point to real files', () => {
-  const fallback = JSON.parse(fs.readFileSync(path.join(ROOT, 'content-fallback.json'), 'utf8'));
-  for (const article of fallback.articles) {
-    if (article.img && !/^https?:\/\//i.test(article.img)) {
-      assert.ok(fs.existsSync(path.join(ROOT, article.img)), `${article.slug}: missing image ${article.img}`);
-    }
-    if (article.body && !article.externalLink) {
-      const generated = path.join(ROOT, 'articles', article.slug, 'index.html');
-      assert.ok(fs.existsSync(generated), `${article.slug}: missing generated long-form page`);
-      assert.equal(article.link, `articles/${encodeURIComponent(article.slug)}/`);
-    }
-  }
+test('runtime clients contain no static content source', () => {
+  const client = fs.readFileSync(path.join(ROOT, 'cms-client.js'), 'utf8');
+  const engagement = fs.readFileSync(path.join(ROOT, 'engagement.js'), 'utf8');
+  assert.doesNotMatch(client, /content-fallback|articles\.json/);
+  assert.doesNotMatch(engagement, /comment-queue|REACTION_KEY|COMMENTS_KEY|flushQueue/);
+  assert.equal(fs.existsSync(path.join(ROOT, 'content-fallback.json')), false);
+  assert.equal(fs.existsSync(path.join(ROOT, 'articles.json')), false);
 });
 
-test('shared scripts preserve root navigation from generated article pages', () => {
-  const file = generatedPages()[0];
-  assert.ok(file, 'at least one generated article page is required');
-  const dom = new JSDOM(fs.readFileSync(path.join(ROOT, file), 'utf8'), {
-    url: pageUrl(file),
+test('shared scripts preserve root navigation from a runtime article response', async () => {
+  const dom = new JSDOM(await runtimePage(), {
+    url: 'https://example.com/articles/live-route/',
     runScripts: 'outside-only'
   });
 
@@ -124,56 +147,36 @@ test('shared scripts preserve root navigation from generated article pages', () 
   dom.window.document.dispatchEvent(new dom.window.Event('DOMContentLoaded', { bubbles: true }));
 
   const expectedPaths = new Set([
-    '/index.html',
-    '/about.html',
-    '/contact.html',
-    '/help_&_support.html',
-    '/privacy_policy.html'
+    '/index.html', '/about.html', '/contact.html',
+    '/help_&_support.html', '/privacy_policy.html'
   ]);
   for (const link of dom.window.document.querySelectorAll('header nav a, .sidebar a, footer a')) {
+    if (/^https?:\/\//i.test(link.getAttribute('href'))) continue;
     const target = new URL(link.getAttribute('href'), dom.window.location.href);
-    if (!/^https?:\/\//i.test(link.getAttribute('href'))) {
-      assert.ok(
-        expectedPaths.has(decodeURIComponent(target.pathname)),
-        `${link.textContent.trim() || link.getAttribute('aria-label')} resolves inside the article directory: ${target.pathname}`
-      );
-    }
+    assert.ok(expectedPaths.has(decodeURIComponent(target.pathname)),
+      `${link.textContent.trim() || link.getAttribute('aria-label')} resolved to ${target.pathname}`);
   }
 
   const cookiePrivacy = dom.window.document.querySelector('.cookie-banner a');
   assert.equal(new URL(cookiePrivacy.href).pathname, '/privacy_policy.html');
-  assert.equal(
-    dom.window.document.querySelectorAll('header nav a[aria-current], .sidebar a[aria-current], footer a[aria-current]').length,
-    0
-  );
   dom.window.close();
 });
 
-test('CMS static fallback resolves from the site root on generated pages', async () => {
-  const file = generatedPages()[0];
-  assert.ok(file, 'at least one generated article page is required');
-  const dom = new JSDOM(fs.readFileSync(path.join(ROOT, file), 'utf8'), {
-    url: pageUrl(file),
+test('CMS client reports API failure without requesting a checked-in snapshot', async () => {
+  const dom = new JSDOM('<!doctype html><script src="../../cms-client.js"></script>', {
+    url: 'https://example.com/articles/live-route/',
     runScripts: 'outside-only'
   });
   const requests = [];
   dom.window.fetch = async (url) => {
     requests.push(String(url));
-    if (String(url).includes('/api/settings')) {
-      return { ok: false, headers: { get: () => 'text/html' } };
-    }
-    return {
-      ok: true,
-      json: async () => ({ articles: [], settings: { siteTitle: 'Fallback works' } })
-    };
+    return { ok: false, headers: { get: () => 'application/json' }, json: async () => ({}) };
   };
-
   dom.window.eval(fs.readFileSync(path.join(ROOT, 'cms-client.js'), 'utf8'));
-  const settings = await dom.window.SholynkCMS.getSettings();
-  assert.equal(settings.siteTitle, 'Fallback works');
-  const fallbackRequest = requests.find((url) => url.includes('content-fallback.json'));
-  assert.ok(fallbackRequest, 'the fallback snapshot should be requested');
-  assert.equal(new URL(fallbackRequest, dom.window.location.href).pathname, '/content-fallback.json');
+  await assert.rejects(() => dom.window.SholynkCMS.getSettings(), /content service is unavailable/i);
+  assert.equal(requests.length, 1);
+  assert.equal(new URL(requests[0]).pathname, '/health');
+  assert.equal(requests.some((url) => /content-fallback|articles\.json/.test(url)), false);
   dom.window.close();
 });
 

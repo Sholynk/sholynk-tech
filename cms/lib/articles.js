@@ -163,10 +163,8 @@ function toApi(row) {
     seoTitle: row.seo_title || null,
     seoDescription: row.seo_description || null,
     sources: sourcesForArticle(row.id),
-    // Full articles use the generated clean path; the legacy query route still resolves.
-    link: row.external_link || (row.body
-      ? `articles/${encodeURIComponent(row.slug)}/`
-      : `article.html?slug=${encodeURIComponent(row.slug)}`),
+    // Full articles use the clean route rendered live by Express.
+    link: row.external_link || `articles/${encodeURIComponent(row.slug)}/`,
     cleanLink: row.external_link || `articles/${encodeURIComponent(row.slug)}/`,
     createdAt: row.created_at,
     updatedAt: row.updated_at
@@ -558,9 +556,9 @@ function remove(id) {
   return true;
 }
 
-function categories() {
-  return db.prepare('SELECT DISTINCT category FROM articles ORDER BY category ASC')
-    .all()
+function categories({ status = 'published' } = {}) {
+  return db.prepare('SELECT DISTINCT category FROM articles WHERE status = ? ORDER BY category ASC')
+    .all(status)
     .map((row) => row.category);
 }
 
