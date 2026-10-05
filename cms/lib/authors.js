@@ -27,10 +27,13 @@ function validate(payload) {
   }
   if (payload.profileUrl) {
     try {
-      const url = new URL(payload.profileUrl);
-      if (url.protocol !== 'https:') throw new Error('invalid');
+      const raw = String(payload.profileUrl).trim();
+      const url = new URL(raw, 'https://site.invalid/');
+      const isLocal = url.origin === 'https://site.invalid';
+      const isSecureExternal = url.protocol === 'https:' && !isLocal;
+      if (!isLocal && !isSecureExternal) throw new Error('invalid');
     } catch {
-      errors.push('author profileUrl must be an absolute HTTPS URL');
+      errors.push('author profileUrl must be a local path or an absolute HTTPS URL');
     }
   }
   if (errors.length) throw new ValidationError(errors);
@@ -146,7 +149,7 @@ const DEFAULT_AUTHOR = {
   bio: 'The founder of Sholynk Technology. Has a background in Mass Communication, Software Engineering, Digital Marketing, and Data Analysis. He is focused on explaining technical concepts in very simple terms.',
   image: 'Images and Assets/my_pic.png',
   imageAlt: 'Portrait photo of Oluwashola Busari',
-  profileUrl: 'https://sholynktech.netlify.app/about.html'
+  profileUrl: 'about.html'
 };
 
 /**

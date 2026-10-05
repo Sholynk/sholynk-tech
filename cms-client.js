@@ -1,173 +1,141 @@
 /**
- * Sholynk CMS client.
+ * Browser client for the live Sholynk API.
  *
- * Pages fetch their content from the CMS API. When the API is unreachable
- * (for example when the folder is opened directly from disk, or the Node
- * server is down) the client falls back to `content-fallback.json`, a snapshot
- * exported from the same database, so the site never renders empty.
+ * Mutable content is never read from checked-in JSON. If the application or
+ * database is unavailable, callers receive an error and can show an explicit
+ * service-unavailable state instead of stale content.
  */
 window.SholynkCMS = (() => {
-  function resolveSitePath(target) {
-    const homeHref = document
-      .querySelector('header a[aria-label="Sholynk homepage"]')
-      ?.getAttribute('href') || 'index.html';
-    const pathOnly = homeHref.split(/[?#]/, 1)[0];
-    const prefix = /index\.html$/i.test(pathOnly)
-      ? pathOnly.replace(/index\.html$/i, '')
-      : '';
-    return `${prefix}${target}`;
+  const API_BASE = 'api';
+  let availability = null;
+  let availabilityPromise = null;
+
+  function siteRoot() {
+    const script = [...document.scripts].find((item) => /(?:^|\/)cms-client\.js(?:[?#]|$)/.test(item.src));
+    return script ? new URL('.', script.src) : new URL('./', window.location.href);
   }
 
-  /**
-   * The API lives beside the site, not at the domain root. A root-absolute
-   * "/api" would escape a sub-path deployment (GitHub Pages project sites are
-   * served from /<repo>/) and probe an unrelated origin path, so the default is
-   * resolved against the same site root every other reference uses. An explicit
-   * window.SHOLYNK_API_BASE still wins for custom deployments.
-   */
-  const API_BASE = (window.SHOLYNK_API_BASE || resolveSitePath('api')).replace(/\/$/, '');
-
-  const FALLBACK_URL = resolveSitePath('content-fallback.json');
-
-  let fallbackPromise = null;
-  // null = unknown, true = live API, false = use the static snapshot.
-  let apiAvailable = null;
-  let probePromise = null;
-
-  async function loadFallback() {
-    if (!fallbackPromise) {
-      fallbackPromise = fetch(FALLBACK_URL, { cache: 'no-cache' })
-        .then((response) => (response.ok ? response.json() : { articles: [], settings: {} }))
-        .catch(() => ({ articles: [], settings: {} }));
-    }
-    return fallbackPromise;
+  function resolvePath(value) {
+    const raw = String(value || '');
+    if (/^https?:\/\//i.test(raw)) return raw;
+    return new URL(raw.replace(/^\/+/, ''), siteRoot()).href;
   }
 
-  /**
-   * A static host answers /api/* with its own 404 page, which is
-   * indistinguishable from "this article does not exist" unless we probe first.
-   */
-  async function isApiAvailable() {
-    if (apiAvailable !== null) return apiAvailable;
-    if (!probePromise) {
-      probePromise = fetch(`${API_BASE}/settings`, { headers: { Accept: 'application/json' } })
-        .then(async (response) => {
-          if (!response.ok) return false;
-          const type = response.headers.get('content-type') || '';
-          if (!type.includes('application/json')) return false;
-          await response.json();
-          return true;
-        })
-        .catch(() => false)
-        .then((available) => {
-          apiAvailable = available;
-          return available;
-        });
-    }
-    return probePromise;
+  async function parseResponse(response) {
+    const type = response.headers?.get?.('content-type') || '';
+    if (type.includes('application/json')) return response.json();
+    const text = await response.text();
+    return text ? { data: text } : {};
   }
 
   async function apiRequest(path, options = {}) {
-    const response = await fetch(`${API_BASE}${path}`, {
-      headers: { Accept: 'application/json', ...(options.headers || {}) },
-      ...options
+    const headers = { ...(options.headers || {}) };
+    const isFormData = typeof FormData !== 'undefined' && options.body instanceof FormData;
+    if (options.body && !isFormData && !headers['Content-Type']) {
+      headers['Content-Type'] = 'application/json';
+    }
+    const response = await fetch(resolvePath(`${API_BASE}${path}`), {
+      credentials: 'same-origin',
+      ...options,
+      headers
     });
+    const payload = await parseResponse(response);
     if (!response.ok) {
-      const detail = await response.json().catch(() => ({}));
-      const error = new Error(detail.error || `Request failed (${response.status})`);
+      const error = new Error(payload.error || `Request failed (${response.status})`);
       error.status = response.status;
-      error.details = detail.details;
+      error.payload = payload;
       throw error;
     }
-    return response.status === 204 ? null : response.json();
+    return payload;
   }
 
-  function matches(article, { category, q }) {
-    const okCategory = !category || category === 'All' || article.category === category;
-    const haystack = `${article.title} ${article.category} ${article.subcategory || ''} ${article.description} ${(article.tags || []).join(' ')}`.toLowerCase();
-    const okQuery = !q || haystack.includes(String(q).toLowerCase());
-    return okCategory && okQuery;
-  }
-
-  async function getArticles(params = {}) {
-    if (await isApiAvailable()) {
-      try {
-        const search = new URLSearchParams();
-        Object.entries(params).forEach(([key, value]) => {
-          if (value !== undefined && value !== null && value !== '') search.set(key, value);
+  async function isApiAvailable() {
+    if (availability !== null) return availability;
+    if (!availabilityPromise) {
+      availabilityPromise = fetch(resolvePath('health'), {
+        credentials: 'same-origin',
+        headers: { Accept: 'application/json' }
+      })
+        .then(async (response) => {
+          if (!response.ok) return false;
+          const payload = await response.json();
+          return payload.ok === true && payload.database === true;
+        })
+        .catch(() => false)
+        .then((available) => {
+          availability = available;
+          availabilityPromise = null;
+          return available;
         });
-        const query = search.toString();
-        const payload = await apiRequest(`/articles${query ? `?${query}` : ''}`);
-        return payload.data;
-      } catch (error) {
-        apiAvailable = false;
-      }
     }
-    const fallback = await loadFallback();
-    let list = (fallback.articles || []).filter((article) => matches(article, params));
-    if (params.hero) list = list.filter((article) => article.hero);
-    if (params.limit) list = list.slice(0, Number(params.limit));
-    return list;
+    return availabilityPromise;
   }
 
-  async function getArticle(slugOrId) {
-    if (await isApiAvailable()) {
-      try {
-        const payload = await apiRequest(`/articles/${encodeURIComponent(slugOrId)}`);
-        return payload.data;
-      } catch (error) {
-        if (error.status === 404) return null;
-        apiAvailable = false;
-      }
+  function refreshApiAvailability() {
+    availability = null;
+    availabilityPromise = null;
+  }
+
+  function normalize(article) {
+    if (!article) return article;
+    const slug = article.slug || String(article.id || '');
+    return {
+      ...article,
+      slug,
+      link: article.externalLink || article.cleanLink || `articles/${encodeURIComponent(slug)}/`,
+      cleanLink: article.externalLink || `articles/${encodeURIComponent(slug)}/`
+    };
+  }
+
+  async function requireApi() {
+    if (await isApiAvailable()) return;
+    throw new Error('The content service is unavailable. Please try again shortly.');
+  }
+
+  async function getArticles({ category, q, status = 'published', limit, offset, hero } = {}) {
+    await requireApi();
+    const params = new URLSearchParams();
+    if (category && category !== 'All') params.set('category', category);
+    if (q) params.set('q', q);
+    if (status) params.set('status', status);
+    if (Number.isFinite(limit)) params.set('limit', String(limit));
+    if (Number.isFinite(offset)) params.set('offset', String(offset));
+    if (hero === true) params.set('hero', 'true');
+    const payload = await apiRequest(`/articles${params.size ? `?${params}` : ''}`);
+    return (payload.data || []).map(normalize);
+  }
+
+  async function getArticle(slug) {
+    await requireApi();
+    try {
+      const payload = await apiRequest(`/articles/${encodeURIComponent(slug)}`);
+      return normalize(payload.data);
+    } catch (error) {
+      if (error.status === 404) return null;
+      throw error;
     }
-    const fallback = await loadFallback();
-    return (fallback.articles || []).find(
-      (article) => article.slug === slugOrId || String(article.id) === String(slugOrId)
-    ) || null;
   }
 
   async function getAuthors() {
-    if (await isApiAvailable()) {
-      try {
-        const payload = await apiRequest('/authors');
-        return payload.data;
-      } catch (error) {
-        apiAvailable = false;
-      }
-    }
-    return (await loadFallback()).authors || [];
+    await requireApi();
+    const payload = await apiRequest('/authors');
+    return payload.data || [];
   }
 
   async function getSettings() {
-    if (await isApiAvailable()) {
-      try {
-        const payload = await apiRequest('/settings');
-        return payload.data;
-      } catch (error) {
-        apiAvailable = false;
-      }
-    }
-    return (await loadFallback()).settings || {};
-  }
-
-  /**
-   * Forces the next isApiAvailable() call to probe the API again. Used when a
-   * page reconnects (e.g. the browser comes back online) so content and
-   * engagement data switch back to the live server instead of the snapshot.
-   */
-  function refreshApiAvailability() {
-    apiAvailable = null;
-    probePromise = null;
+    await requireApi();
+    const payload = await apiRequest('/settings');
+    return payload.data || {};
   }
 
   return {
-    API_BASE,
     apiRequest,
     isApiAvailable,
     refreshApiAvailability,
     getArticles,
     getArticle,
     getAuthors,
-    getSettings
+    getSettings,
+    resolvePath
   };
 })();

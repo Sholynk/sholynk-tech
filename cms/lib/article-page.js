@@ -1,8 +1,11 @@
 'use strict';
 
 /**
- * Generates crawlable, no-JavaScript article pages and responsive hero images.
- * Originals and the legacy article.html?slug= route are never removed.
+ * Server-side article page renderer.
+ *
+ * Every call receives current SQLite records and produces the response for one
+ * clean article URL. Nothing is written to disk and no exported content copy is
+ * read, so the database remains the sole public runtime content source.
  */
 
 const fs = require('node:fs');
@@ -11,14 +14,12 @@ const { marked } = require('marked');
 const sanitizeHtml = require('sanitize-html');
 const sharp = require('sharp');
 
-const ROOT = path.join(__dirname, '..');
-const ARTICLES_DIR = path.join(ROOT, 'articles');
-const IMAGE_DIR = path.join(ROOT, 'generated-images');
-const DEFAULT_SITE_URL = 'https://sholynktech.netlify.app';
-const SITE_URL = String(process.env.SITE_URL || DEFAULT_SITE_URL).replace(/\/+$/, '');
+const ROOT = path.join(__dirname, '..', '..');
+const SHELL_FILE = path.join(ROOT, 'article.html');
 
-if (!SITE_URL.startsWith('https://')) {
-  throw new Error('SITE_URL must use HTTPS so canonical and schema URLs are secure.');
+function siteUrl(pathname = '/', origin) {
+  const relative = `/${String(pathname).replace(/^\/+/, '')}`;
+  return new URL(relative, `${origin}/`).href;
 }
 
 function escapeHtml(value = '') {
@@ -30,9 +31,12 @@ function escapeHtml(value = '') {
     .replace(/'/g, '&#39;');
 }
 
-function absoluteUrl(value = '') {
+function absoluteUrl(value = '', origin) {
   if (/^https?:\/\//i.test(value)) return value;
-  return new URL(String(value).replace(/^\/+/, ''), `${SITE_URL}/`).href;
+  const reference = String(value).trim();
+  const parsed = new URL(reference.replace(/^\/+/, ''), 'https://site.invalid/');
+  const relative = `${parsed.pathname}${parsed.search}${parsed.hash}`;
+  return new URL(relative, `${origin}/`).href;
 }
 
 function safeJson(value) {
@@ -52,18 +56,9 @@ function headingSlug(value = '') {
 }
 
 /**
- * Generated pages live at <site>/articles/<slug>/, which is two directories
- * below the site root. Every local reference is therefore emitted relative to
- * that depth ("../../about.html") rather than root-relative ("/about.html").
- *
- * Root-relative URLs are resolved by the browser against the *domain* root, so
- * on a GitHub Pages project site (https://<user>.github.io/<repo>/) they escape
- * the repository sub-path and 404. Relative URLs resolve against the page's own
- * directory, so the same build works on a domain root (Netlify) and under any
- * sub-path (GitHub Pages) without a base-URL rewrite step.
- *
- * Fragments, query-only links and links with an explicit scheme are already
- * unambiguous and stay untouched.
+ * Clean article URLs live at <site>/articles/<slug>/, two path segments below
+ * the site root. Local links therefore use "../../" so browser navigation and
+ * assets resolve correctly without assuming a particular hostname.
  */
 const SITE_ROOT_PREFIX = '../../';
 
@@ -83,7 +78,7 @@ function articlePageUrl(value = '') {
 }
 
 /**
- * Intrinsic pixel dimensions for a local image, cached across the build.
+ * Intrinsic pixel dimensions for a local image, cached for the process.
  *
  * Returns null for remote images and anything sharp cannot read, in which case
  * the caller simply omits the attributes.
@@ -231,12 +226,12 @@ function renderAuthorCard(author, variant = 'rail') {
 }
 
 /**
- * The shared shell (article.html) lives at the site root and uses references
- * relative to it. Generated pages sit two directories deeper, so each local
- * reference gets the "../../" prefix that points back at the site root.
+ * The shared presentation shell lives at the site root. A clean article route
+ * is two URL segments deeper, so local assets, navigation and form actions are
+ * rewritten to point back to the application root.
  */
 function localiseShell(shell) {
-  return shell.replace(/\b(href|src)="([^"]+)"/g, (match, attribute, value) => {
+  return shell.replace(/\b(href|src|action)="([^"]+)"/g, (match, attribute, value) => {
     if (/^(?:https?:|mailto:|tel:|data:|#|\/)/i.test(value)) return match;
     return `${attribute}="${SITE_ROOT_PREFIX}${value}"`;
   });
@@ -268,36 +263,10 @@ function formatDate(value) {
   return new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' }).format(parsed);
 }
 
-async function responsiveHero(article) {
-  if (!article.img || /^https?:\/\//i.test(article.img)) return null;
-  const input = path.resolve(ROOT, article.img);
-  if (!input.startsWith(`${ROOT}${path.sep}`) || !fs.existsSync(input)) return null;
-
-  const metadata = await sharp(input).metadata();
-  if (!metadata.width || !metadata.height) return null;
-  const outputDir = path.join(IMAGE_DIR, article.slug);
-  fs.mkdirSync(outputDir, { recursive: true });
-
-  const widths = [...new Set([640, 1024, 1600].filter((width) => width <= metadata.width).concat(metadata.width))]
-    .sort((a, b) => a - b);
-  const variants = [];
-  for (const width of widths) {
-    const filename = `hero-${width}.webp`;
-    await sharp(input)
-      .resize({ width, withoutEnlargement: true })
-      .webp({ quality: 82, effort: 5 })
-      .toFile(path.join(outputDir, filename));
-    variants.push({ width, path: `${SITE_ROOT_PREFIX}generated-images/${article.slug}/${filename}` });
-  }
-  return { variants, width: metadata.width, height: metadata.height };
-}
-
-function renderHero(article, responsive) {
+function renderHero(article) {
   if (!article.img) return '';
   const original = /^https?:\/\//i.test(article.img) ? article.img : articlePageUrl(article.img);
-  const responsiveAttributes = responsive
-    ? ` srcset="${responsive.variants.map((item) => `${escapeHtml(item.path)} ${item.width}w`).join(', ')}" sizes="(max-width: 760px) calc(100vw - 32px), (max-width: 1200px) calc(100vw - 64px), 1184px" width="${responsive.width}" height="${responsive.height}"`
-    : '';
+  const responsiveAttributes = '';
   return `<figure class="article-hero"><div class="article-hero-media"><img src="${escapeHtml(original)}"${responsiveAttributes} alt="${escapeHtml(article.alt || article.title)}" decoding="async" fetchpriority="high" /></div>${article.alt ? `<figcaption>${escapeHtml(article.alt)}</figcaption>` : ''}</figure>`;
 }
 
@@ -318,8 +287,7 @@ function relatedFor(article, allArticles) {
 
 function articleLink(article) {
   if (article.externalLink) return articlePageUrl(article.externalLink);
-  if (article.body) return articlePageUrl(`articles/${encodeURIComponent(article.slug)}/`);
-  return articlePageUrl(`article.html?slug=${encodeURIComponent(article.slug)}`);
+  return articlePageUrl(`articles/${encodeURIComponent(article.slug)}/`);
 }
 
 function renderRelated(article, allArticles) {
@@ -333,10 +301,10 @@ function renderRelated(article, allArticles) {
   }).join('')}</div></section>`;
 }
 
-function resolveAuthor(article, authors) {
+function resolveAuthor(article, authors, origin) {
   const entity = (authors || []).find((author) => author.slug === article.authorSlug) || {};
   const slug = entity.slug || article.authorSlug || 'oluwashola-busari';
-  const profileUrl = entity.profileUrl || `${SITE_URL}/about.html`;
+  const profileUrl = absoluteUrl(entity.profileUrl || 'about.html', origin);
   const id = profileUrl.includes('#') ? profileUrl : `${profileUrl}#${encodeURIComponent(slug)}`;
   return {
     ...entity,
@@ -347,7 +315,7 @@ function resolveAuthor(article, authors) {
   };
 }
 
-function schemaFor(article, canonical, author) {
+function schemaFor(article, canonical, author, origin) {
   const graph = [
     {
       '@type': 'Article',
@@ -355,7 +323,7 @@ function schemaFor(article, canonical, author) {
       mainEntityOfPage: { '@type': 'WebPage', '@id': canonical },
       headline: article.title,
       description: article.seoDescription || article.description,
-      image: article.img ? [absoluteUrl(article.img)] : undefined,
+      image: article.img ? [absoluteUrl(article.img, origin)] : undefined,
       datePublished: article.date,
       dateModified: article.updatedAt ? String(article.updatedAt).replace(' ', 'T') + 'Z' : article.date,
       articleSection: article.category,
@@ -367,14 +335,14 @@ function schemaFor(article, canonical, author) {
         url: author.profileUrl,
         jobTitle: author.role || undefined,
         description: author.bio || undefined,
-        image: author.image ? absoluteUrl(author.image) : undefined
+        image: author.image ? absoluteUrl(author.image, origin) : undefined
       },
       publisher: {
         '@type': 'Organization',
-        '@id': `${SITE_URL}/#organization`,
+        '@id': `${siteUrl('/', origin)}#organization`,
         name: 'Sholynk Technology',
-        url: `${SITE_URL}/`,
-        logo: { '@type': 'ImageObject', url: absoluteUrl('Images and Assets/page_logo.png') }
+        url: siteUrl('/', origin),
+        logo: { '@type': 'ImageObject', url: absoluteUrl('Images and Assets/page_logo.png', origin) }
       },
       citation: article.sources?.length
         ? article.sources.map((source) => source.url).filter(Boolean)
@@ -384,8 +352,8 @@ function schemaFor(article, canonical, author) {
       '@type': 'BreadcrumbList',
       '@id': `${canonical}#breadcrumb`,
       itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE_URL}/` },
-        { '@type': 'ListItem', position: 2, name: article.category, item: `${SITE_URL}/?category=${encodeURIComponent(article.category)}` },
+        { '@type': 'ListItem', position: 1, name: 'Home', item: siteUrl('/', origin) },
+        { '@type': 'ListItem', position: 2, name: article.category, item: siteUrl(`/?category=${encodeURIComponent(article.category)}`, origin) },
         { '@type': 'ListItem', position: 3, name: article.title, item: canonical }
       ]
     }
@@ -404,10 +372,10 @@ function schemaFor(article, canonical, author) {
   return { '@context': 'https://schema.org', '@graph': graph };
 }
 
-function renderHead(article, canonical, author) {
+function renderHead(article, canonical, author, origin) {
   const title = article.seoTitle || `${article.title} | Sholynk Technology`;
   const description = article.seoDescription || article.description;
-  const image = article.img ? absoluteUrl(article.img) : absoluteUrl('Images and Assets/page_logo.png');
+  const image = article.img ? absoluteUrl(article.img, origin) : absoluteUrl('Images and Assets/page_logo.png', origin);
   return `<head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -434,11 +402,11 @@ function renderHead(article, canonical, author) {
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet" />
     <link href="${SITE_ROOT_PREFIX}styles.css" rel="stylesheet" />
-    <script type="application/ld+json">${safeJson(schemaFor(article, canonical, author))}</script>
+    <script type="application/ld+json">${safeJson(schemaFor(article, canonical, author, origin))}</script>
   </head>`;
 }
 
-function renderArticle(article, bodyHtml, responsive, canonical, author) {
+function renderArticle(article, bodyHtml, canonical, author, origin) {
   const quickAnswer = article.directAnswer
     ? `<aside class="article-answer" aria-labelledby="quick-answer-heading"><div class="article-callout-icon" aria-hidden="true"><i class="fas fa-bolt"></i></div><div><p class="eyebrow" id="quick-answer-heading">Quick answer</p><p>${escapeHtml(article.directAnswer)}</p></div></aside>`
     : '';
@@ -448,9 +416,12 @@ function renderArticle(article, bodyHtml, responsive, canonical, author) {
   const toc = renderToc(bodyHtml);
   const shareText = encodeURIComponent(`${article.title} ${canonical}`);
   const shareUrl = encodeURIComponent(canonical);
-  const authorHref = author.id.startsWith(SITE_URL)
-    ? articlePageUrl(author.id.slice(SITE_URL.length))
+  const localAuthorReference = author.id.startsWith(origin)
+    ? author.id.slice(origin.length)
     : author.id;
+  const authorHref = /^\//.test(localAuthorReference)
+    ? articlePageUrl(localAuthorReference)
+    : localAuthorReference;
   const contentType = article.contentType
     ? `<span aria-hidden="true">•</span><span>${escapeHtml(article.contentType)}</span>`
     : '';
@@ -458,12 +429,12 @@ function renderArticle(article, bodyHtml, responsive, canonical, author) {
 
   const railAuthor = renderAuthorCard(author, 'rail');
   const inlineAuthor = renderAuthorCard(author, 'inline');
-  return `<article class="article-page" id="articleRoot" data-prerendered="true" data-slug="${escapeHtml(article.slug)}" aria-busy="false">
+  return `<article class="article-page" id="articleRoot" data-server-rendered="true" data-slug="${escapeHtml(article.slug)}" aria-busy="false">
     <div class="article-masthead">
       <nav class="article-breadcrumb" aria-label="Breadcrumb"><a href="${SITE_ROOT_PREFIX}index.html"><i class="fas fa-house" aria-hidden="true"></i><span>Home</span></a><i class="fas fa-chevron-right" aria-hidden="true"></i><a href="${SITE_ROOT_PREFIX}index.html?category=${encodeURIComponent(article.category)}">${escapeHtml(article.category)}</a><i class="fas fa-chevron-right" aria-hidden="true"></i><span aria-current="page">${escapeHtml(article.title)}</span></nav>
       <header class="article-header"><div class="article-kicker"><span class="category-label">${escapeHtml(article.category)}</span>${contentType}<span aria-hidden="true">•</span><span>${escapeHtml(article.readingTime || 'Long read')}</span></div><h1>${escapeHtml(article.title)}</h1><p class="article-standfirst">${escapeHtml(article.hook || article.description)}</p><div class="article-meta"><span class="article-byline"><i class="fas fa-user" aria-hidden="true"></i><a href="${escapeHtml(authorHref)}">${escapeHtml(author.name)}</a></span><span aria-hidden="true">•</span><time datetime="${escapeHtml(article.date)}"><i class="fas fa-calendar" aria-hidden="true"></i>${escapeHtml(formatDate(article.date))}</time></div></header>
     </div>
-    ${renderHero(article, responsive)}
+    ${renderHero(article)}
     <div class="article-reading-layout">
       ${toc || railAuthor ? `<aside class="article-rail">${toc}${railAuthor}<a class="article-rail-home" href="${SITE_ROOT_PREFIX}index.html"><i class="fas fa-arrow-left" aria-hidden="true"></i><span>All stories</span></a></aside>` : ''}
       <div class="article-content">
@@ -481,74 +452,30 @@ function renderArticle(article, bodyHtml, responsive, canonical, author) {
   </article>`.replace(/^[ \t]+$/gm, '');
 }
 
-function writeDiscoveryFiles(articles) {
-  const staticPages = [
-    { path: '/', priority: '1.0', frequency: 'daily' },
-    { path: '/about.html', priority: '0.7', frequency: 'monthly' },
-    { path: '/contact.html', priority: '0.6', frequency: 'monthly' },
-    { path: '/help_&_support.html', priority: '0.5', frequency: 'monthly' },
-    { path: '/privacy_policy.html', priority: '0.4', frequency: 'yearly' }
-  ];
-  const urls = staticPages.map((page) => ({ loc: `${SITE_URL}${page.path}`, ...page }));
-  for (const article of articles) {
-    urls.push({
-      loc: article.canonicalUrl || `${SITE_URL}/articles/${encodeURIComponent(article.slug)}/`,
-      lastmod: article.date,
-      frequency: 'monthly',
-      priority: article.featured ? '0.9' : '0.8'
-    });
-  }
-  const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map((url) => `  <url>\n    <loc>${escapeHtml(url.loc)}</loc>${url.lastmod ? `\n    <lastmod>${escapeHtml(url.lastmod)}</lastmod>` : ''}\n    <changefreq>${url.frequency}</changefreq>\n    <priority>${url.priority}</priority>\n  </url>`).join('\n')}\n</urlset>\n`;
-  fs.writeFileSync(path.join(ROOT, 'sitemap.xml'), xml);
-  fs.writeFileSync(path.join(ROOT, 'robots.txt'), `User-agent: *\nAllow: /\nDisallow: /admin/\nDisallow: /api/\n\nSitemap: ${SITE_URL}/sitemap.xml\n`);
+
+async function renderArticlePage({ article, articles = [], authors = [], origin }) {
+  if (!article || article.status !== 'published' || !article.body || article.externalLink) return null;
+  if (!/^https?:\/\//i.test(origin || '')) throw new Error('A valid public origin is required');
+
+  const canonical = article.canonicalUrl || siteUrl(`/articles/${encodeURIComponent(article.slug)}/`, origin);
+  const author = resolveAuthor(article, authors, origin);
+  const bodyHtml = await addIntrinsicImageSizes(renderMarkdown(article.body));
+  const rootHtml = await addIntrinsicImageSizes(renderArticle(article, bodyHtml, canonical, author, origin));
+  const relatedHtml = await addIntrinsicImageSizes(renderRelated(
+    article,
+    articles.filter((item) => item.status === 'published')
+  ));
+  const shell = localiseShell(fs.readFileSync(SHELL_FILE, 'utf8'));
+  return shell
+    .replace(/<head>[\s\S]*?<\/head>/, renderHead(article, canonical, author, origin))
+    .replace(/<article class="article-page"[\s\S]*?<\/article>/, rootHtml)
+    .replace(/<section\s+class="related-section"[\s\S]*?<\/section>/, relatedHtml);
 }
 
-async function run() {
-  const fallback = JSON.parse(fs.readFileSync(path.join(ROOT, 'content-fallback.json'), 'utf8'));
-  const allArticles = fallback.articles || [];
-  const authors = fallback.authors || [];
-  const articles = allArticles.filter((article) => article.status === 'published' && article.body && !article.externalLink);
-  const baseShell = localiseShell(fs.readFileSync(path.join(ROOT, 'article.html'), 'utf8'));
-
-  fs.rmSync(ARTICLES_DIR, { recursive: true, force: true });
-  fs.rmSync(IMAGE_DIR, { recursive: true, force: true });
-  fs.mkdirSync(ARTICLES_DIR, { recursive: true });
-  fs.mkdirSync(IMAGE_DIR, { recursive: true });
-
-  for (const article of articles) {
-    const canonical = article.canonicalUrl || `${SITE_URL}/articles/${encodeURIComponent(article.slug)}/`;
-    const author = resolveAuthor(article, authors);
-    const bodyHtml = await addIntrinsicImageSizes(renderMarkdown(article.body));
-    const responsive = await responsiveHero(article);
-    // Post-process the whole article shell (not just the Markdown body) so
-    // chrome images such as the author profile photo also declare their
-    // intrinsic size and cannot shift the layout as they decode.
-    const rootHtml = await addIntrinsicImageSizes(
-      renderArticle(article, bodyHtml, responsive, canonical, author)
-    );
-    const relatedHtml = await addIntrinsicImageSizes(
-      renderRelated(article, allArticles.filter((item) => item.status === 'published'))
-    );
-    const html = baseShell
-      .replace(/<head>[\s\S]*?<\/head>/, renderHead(article, canonical, author))
-      .replace(/<article class="article-page"[\s\S]*?<\/article>/, rootHtml)
-      .replace(/<section\s+class="related-section"[\s\S]*?<\/section>/, relatedHtml);
-    const outputDir = path.join(ARTICLES_DIR, article.slug);
-    fs.mkdirSync(outputDir, { recursive: true });
-    fs.writeFileSync(path.join(outputDir, 'index.html'), html);
-  }
-
-  fs.writeFileSync(path.join(ARTICLES_DIR, 'README.md'), '# Generated article pages\n\nDo not edit this directory by hand. Run `npm run sync` after editing Markdown in `article_stories/`.\n');
-  fs.writeFileSync(path.join(IMAGE_DIR, 'README.md'), '# Generated responsive images\n\nThese WebP derivatives are generated non-destructively by `npm run sync`; original images remain unchanged.\n');
-  writeDiscoveryFiles(articles);
-  console.log(`Generated ${articles.length} crawlable article pages, responsive hero images, sitemap.xml and robots.txt.`);
-}
-
-if (require.main === module) {
-  run().catch((error) => {
-    console.error(error);
-    process.exitCode = 1;
-  });
-}
-
-module.exports = { run, renderMarkdown, schemaFor, SITE_URL };
+module.exports = {
+  renderArticlePage,
+  renderMarkdown,
+  schemaFor,
+  relatedFor,
+  escapeHtml
+};

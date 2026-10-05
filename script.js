@@ -15,10 +15,9 @@
 
   const normalizeText = (text = '') => text.trim().replace(/\s+/g, ' ').toLowerCase();
 
-  // Root pages use `index.html`, while generated articles live two directories
-  // deeper and use `../../index.html`. Derive the public-site prefix from the
-  // logo link so shared scripts never turn a valid nested-page link into a
-  // broken path.
+  // Root pages use `index.html`, while clean runtime article routes are two
+  // path segments deeper and use `../../index.html`. Derive the public-site
+  // prefix from the logo link so shared scripts preserve nested-page links.
   function getSitePrefix() {
     const homeHref = document
       .querySelector('header a[aria-label="Sholynk homepage"]')
@@ -61,7 +60,7 @@
     const currentCategory = new URLSearchParams(window.location.search).get('category');
 
     document.querySelectorAll('header nav a, .sidebar a, footer a').forEach((link) => {
-      // Pages keep a small static fallback active state in the HTML, but the
+      // Pages keep a baseline active state in the HTML, but the
       // runtime URL is the source of truth. Clear it first so category URLs like
       // index.html?category=AI%20Trends do not leave Home highlighted too.
       link.classList.remove('is-active');
@@ -215,9 +214,43 @@
     document.querySelectorAll('form[name="subscribe"]').forEach((form) => {
       if (form.dataset.enhanced === 'true') return;
       form.dataset.enhanced = 'true';
-      form.addEventListener('submit', () => {
+
+      const status = document.createElement('p');
+      status.className = 'form-status';
+      status.setAttribute('role', 'status');
+      status.setAttribute('aria-live', 'polite');
+      form.append(status);
+
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault();
         const button = form.querySelector('button[type="submit"]');
-        if (button) button.textContent = 'Subscribing...';
+        const originalLabel = button?.textContent || 'Subscribe';
+        if (button) {
+          button.disabled = true;
+          button.textContent = 'Subscribing...';
+        }
+        status.classList.remove('is-error');
+        status.textContent = '';
+
+        try {
+          const response = await fetch(form.action, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: new URLSearchParams(new FormData(form)).toString()
+          });
+          const payload = await response.json().catch(() => ({}));
+          if (!response.ok) throw new Error(payload.error || `Subscription failed (${response.status})`);
+          form.reset();
+          status.textContent = payload.message || 'Thank you for subscribing.';
+        } catch (error) {
+          status.classList.add('is-error');
+          status.textContent = error.message || 'Subscription failed. Please try again.';
+        } finally {
+          if (button) {
+            button.disabled = false;
+            button.textContent = originalLabel;
+          }
+        }
       });
     });
   }

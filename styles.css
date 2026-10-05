@@ -1649,9 +1649,29 @@ textarea:focus {
   font-weight: 600;
 }
 
-/* Netlify honeypot — visually removed but left in the DOM for the bot trap. */
+/* Generic honeypot — visually removed but left in the DOM for the bot trap. */
 .honeypot {
   display: none;
+}
+
+.form-status {
+  min-height: 1.2em;
+  margin: 0;
+  color: #167047;
+  font-size: 0.75rem;
+  line-height: 1.5;
+}
+
+.form-status.is-error {
+  color: #b42318;
+}
+
+.site-footer .form-status {
+  color: #9ee6c4;
+}
+
+.site-footer .form-status.is-error {
+  color: #ffb4ab;
 }
 
 .contact-side {

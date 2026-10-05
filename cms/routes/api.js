@@ -17,6 +17,7 @@ const pdfImport = require('../lib/pdf-import');
 const notifications = require('../lib/notifications');
 const analytics = require('../lib/analytics');
 const events = require('../lib/events');
+const forms = require('../lib/forms');
 const { db } = require('../lib/db');
 
 const router = express.Router();
@@ -91,6 +92,64 @@ function requireAdmin(req, res, next) {
   // Fall through to 401.
   return res.status(401).json({ error: 'Unauthorized. Provide a valid x-admin-token header.' });
 }
+
+/* -------------------------- public site forms --------------------------- */
+
+// A small in-memory throttle complements the hidden honeypot. Durable form
+// records live in SQLite; this map is intentionally disposable process state.
+const formAttempts = new Map();
+function limitPublicForms(req, res, next) {
+  const now = Date.now();
+  const windowMs = 10 * 60 * 1000;
+  const key = req.ip || req.socket.remoteAddress || 'unknown';
+  const recent = (formAttempts.get(key) || []).filter((time) => now - time < windowMs);
+  if (recent.length >= 8) {
+    return res.status(429).json({ error: 'Too many submissions. Please try again later.' });
+  }
+  recent.push(now);
+  formAttempts.set(key, recent);
+  return next();
+}
+
+router.post('/subscriptions', limitPublicForms, (req, res, next) => {
+  try {
+    forms.subscribe(req.body || {});
+    return res.status(201).json({ message: 'Thank you for subscribing.' });
+  } catch (error) {
+    return next(error);
+  }
+});
+
+router.get('/subscriptions', requireAdmin, (_req, res) => {
+  res.json({ data: forms.listSubscribers() });
+});
+
+router.delete('/subscriptions/:id', requireAdmin, (req, res) => {
+  if (!forms.removeSubscriber(req.params.id)) {
+    return res.status(404).json({ error: 'Subscriber not found' });
+  }
+  return res.status(204).end();
+});
+
+router.post('/contact', limitPublicForms, (req, res, next) => {
+  try {
+    forms.addContactMessage(req.body || {});
+    return res.status(201).json({ message: 'Your message has been received.' });
+  } catch (error) {
+    return next(error);
+  }
+});
+
+router.get('/contact-messages', requireAdmin, (_req, res) => {
+  res.json({ data: forms.listContactMessages() });
+});
+
+router.delete('/contact-messages/:id', requireAdmin, (req, res) => {
+  if (!forms.removeContactMessage(req.params.id)) {
+    return res.status(404).json({ error: 'Message not found' });
+  }
+  return res.status(204).end();
+});
 
 /* ------------------------------ articles -------------------------------- */
 
@@ -572,7 +631,7 @@ router.put('/settings', requireAdmin, (req, res) => {
 /* ------------------------------- errors --------------------------------- */
 
 router.use((error, req, res, next) => { // eslint-disable-line no-unused-vars
-  if (error?.name === 'ValidationError') {
+  if (error?.name === 'ValidationError' || error?.name === 'FormValidationError') {
     return res.status(400).json({ error: error.message, details: error.errors });
   }
   if (error?.code === 'LIMIT_FILE_SIZE') {

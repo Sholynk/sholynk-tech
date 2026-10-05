@@ -1,280 +1,177 @@
-# Adding an Article to Sholynk Tech — A Beginner's Guide
+# Starter article stories
 
-> **Writing for publication?** This file covers the mechanics. For the full
-> editorial walkthrough — how to map the Sholynk Formula (hook, direct answer,
-> key takeaways, evidence, FAQs) onto the website's layout slots — read
-> [`docs/AUTHOR_PUBLISHING_GUIDE.md`](../docs/AUTHOR_PUBLISHING_GUIDE.md).
+This directory contains version-controlled Markdown used to initialize a **brand-new, empty** Sholynk SQLite database. It is not a public runtime content directory and it is not read when serving homepage or article requests.
 
-> **The whole system in one sentence:** one file = one article. You write the
-> article as a simple text file with a small "form" at the top, save it, and
-> run one command. Everything else happens by itself.
+## Production rule
 
----
+After initial import:
 
-## The 30-second version
+- SQLite is authoritative;
+- edit/publish through `/admin/`;
+- code deployment does not import this directory;
+- changing a Markdown file does not change the deployed article;
+- never run a forced import without a backup and explicit editorial approval.
 
-1. Go to the `article_stories/` folder (the folder this guide lives in).
-2. Create a new file called something like `my-new-article.md`.
-3. Copy the **template** below into it and fill in your details.
-4. Save the file.
-5. Open a terminal in the project folder and run:
+Express does not expose `/article_stories` publicly.
 
-   ```bash
-   npm run sync
-   ```
+## Initialize an empty database
 
-6. Done! Open the site (`http://localhost:3000`) and your article is there.
-
----
-
-## The one rule you must never break
-
-**The front-matter block (the `---` section at the very top of the file) must
-be the first thing in the file.** Nothing before it — not even a blank line.
-
-Everything else is forgiving:
-
-- Files without a front-matter block are **ignored** (so this guide file never
-  becomes an article).
-- You can name the file almost anything; `my-article.md` is fine.
-- You can put the article file in any order; the site sorts by date.
-
----
-
-## The template (copy this)
-
-Create a new file in `article_stories/` and paste this:
-
-```markdown
----
-title: Your Article Title Here
-slug: your-article-title-here
-category: Technology
-description: One or two sentences about the article. This is shown on the homepage card and in search.
-img: Article cards images/Technology/article_card_01.jpg
-alt: A short description of the image for people who cannot see it
-date: 2026-08-09
-author: Oluwashola Busari
----
-
-## Introduction
-
-Write your opening here. A short paragraph that hooks the reader works well.
-
-## First Big Section
-
-More paragraphs. Leave a blank line between paragraphs.
-
-## Second Big Section
-
-Keep going. Use **bold** for important words and [links](https://example.com) when useful.
-
-## Conclusion
-
-Wrap it up neatly.
-```
-
----
-
-## What each field means (fill this in)
-
-| Field | Do I need it? | What it does |
-| --- | --- | --- |
-| `title` | **Yes** | The headline. Shown big at the top of the article and on the homepage card. |
-| `slug` | Optional | The web address part: `article.html?slug=your-article-title-here`. If you leave it out, one is made automatically from the title (lowercase, dashes instead of spaces). Only use letters, numbers, and dashes. Make it unique — if two articles share a slug, the newer one overwrites the older one. |
-| `category` | Optional | Which category page the article appears under. Use one of these **exactly** (capital letters matter): `Technology`, `AI Trends`, `Cryptocurrency`, `Game`, `Web 3`. Default: `Technology`. |
-| `description` | **Yes** | 1–2 sentences shown on the homepage card, category pages, and search results. |
-| `img` | Optional | The picture shown on the card. See "Where do I get an image?" below. If missing, a placeholder image is used. |
-| `alt` | Optional | A plain-English description of the image (for screen readers, and shown if the image fails to load). Always fill it in — it's good practice. |
-| `date` | Optional | `YYYY-MM-DD`, e.g. `2026-08-09`. Newest articles appear first. Default: today. |
-| `readingTime` | Optional | E.g. `5 min read`. If omitted, it is estimated automatically from the word count — you can leave it out. |
-| `featured: true` | Optional | Adds `featured: true` to mark the article as featured. |
-| `hero: true` | Optional | Shows the article in the big rotating slideshow on the homepage. |
-| `heroOrder: 0` | Optional | Used with `hero: true`. `0` = first slide, `1` = second, and so on. |
-| `seoTitle` | Optional | The title shown in Google search results and browser tabs. Defaults to `title`. |
-| `seoDescription` | Optional | The text shown under the title in Google results. Defaults to `description`. |
-| `author` | Optional | The byline shown in the article header. Default: `Sholynk Editorial`. |
-
----
-
-## Where do I get an image?
-
-Two easy options:
-
-**Option A — reuse an existing image.** Copy the `img:` line from any article
-in the folder. Example:
-
-```yaml
-img: Article cards images/Technology/article_card_01.jpg
-```
-
-**Option B — use your own image.**
-
-1. Create a folder for it, e.g. `article-images/5g-explained/`.
-2. Drop your picture inside (`.jpg`, `.png`, `.webp`, `.gif`, or `.avif`, under 8 MB).
-3. Reference it like this:
-
-```yaml
-img: article-images/5g-explained/5g-tower.jpg
-```
-
-Or use the admin dashboard: **Admin → Media library → Upload an image**, then
-copy the URL it gives you (it looks like `/uploads/your-image.jpg`) into the
-`img:` line.
-
----
-
-## Worked example, end to end
-
-Let's add a real article called **"Why 5G Matters"**.
-
-**Step 1.** Create the file `article_stories/why-5g-matters.md`:
-
-```markdown
----
-title: Why 5G Matters for Everyday Life
-slug: why-5g-matters
-category: Technology
-description: 5G is more than faster downloads. It is the network that connects cars, factories, hospitals, and cities in real time.
-img: Article cards images/Technology/article_card_04.jpg
-alt: A smartphone showing a 5G network signal icon
-date: 2026-08-09
-hero: true
-heroOrder: 0
-author: Oluwashola Busari
----
-
-## Introduction
-
-5G is the fifth generation of mobile networks...
-
-## What Makes 5G Different
-
-...
-
-## Conclusion
-
-...
-```
-
-**Step 2.** Save the file.
-
-**Step 3.** In the terminal, from the project folder (`sholynk-tech/`), run:
+Configure `CMS_DB_FILE` and `CMS_UPLOAD_DIR`, then run:
 
 ```bash
-npm run sync
+npm run validate
+npm run seed
 ```
 
-You should see something like:
+`npm run seed` imports only when no article rows exist. If rows already exist, it exits without changing them.
 
-```
-Seeded 50 card articles + 4 Markdown stories. Database now holds 57 articles.
-Exported 57 articles to content-fallback.json
-Exported search index to articles.json
-```
+An intentional re-import can be run with:
 
-(Your numbers may differ — the point is the story count went up by one.)
-
-**Step 4.** Open `http://localhost:3000`. Your article appears on the homepage
-(and in the hero slideshow, because we set `hero: true`). Its page lives at:
-
-```
-http://localhost:3000/article.html?slug=why-5g-matters
+```bash
+node cms/seed.js --force
 ```
 
+This updates matching slugs and can overwrite fields edited in the dashboard. Treat it as a migration tool, not a publishing command.
+
+## File format
+
+Each article is a UTF-8 `.md` file with front matter at the top:
+
+```markdown
+---
+title: "A clear article title"
+slug: "clear-article-title"
+category: "Technology"
+contentType: "analysis"
+description: "A concise summary for cards and metadata."
+hook: "A strong standfirst beneath the title."
+directAnswer: "A short direct answer when relevant."
+author: "Oluwashola Busari"
+authorSlug: "oluwashola-busari"
+date: "2026-01-15"
+readingTime: "8 min read"
+status: "published"
+featured: false
+hero: false
+img: "article-images/clear-article-title/hero.jpg"
+alt: "Descriptive text explaining the hero image."
+tags:
+  - "example"
+  - "technology"
+keyTakeaways:
+  - "A concise, supportable takeaway."
+relatedSlugs:
+  - "another-article"
+faqs:
+  - question: "What is the central idea?"
+    answer: "A direct answer that also appears visibly on the page."
+sources:
+  - title: "Primary source title"
+    publisher: "Publisher"
+    author: "Source author"
+    publishedAt: "2026-01-10"
+    url: "https://example.org/source"
+    type: "primary"
+    supports: "The specific claim this source supports."
 ---
 
-## Editing an article
+## First section
 
-1. Open the `.md` file for that article.
-2. Make your changes (text, title, image, anything).
-3. Save, then run `npm run sync` again.
-4. Refresh the site.
+Write the article in Markdown.
+```
 
-That's it — the update replaces the old version everywhere (article page,
-homepage card, search).
+The exact parser supports the metadata structures already used by files in this directory. Run `npm run validate` after editing.
 
-> **Tip:** if you change the `slug`, the site treats it as a *new* article and
-> the old web address stops working. Keep the slug the same unless you really
-> mean to rename the page.
+## Required quality rules
 
-## Removing an article
+- The file needs a front-matter block. A Markdown file without front matter is ignored by the importer.
+- Title and category must be present.
+- Slugs should be stable, lowercase and URL-safe.
+- An image requires meaningful alt text.
+- Local image paths must stay inside the repository and point to real files.
+- Canonical overrides must be absolute HTTPS URLs.
+- Sources must use safe HTTP(S) URLs.
+- Related slugs should refer to intended articles.
+- Status must be one supported by the CMS.
+- Use clear H2 sections; three or more produce a table of contents.
+- Do not embed scripts, iframes, forms or unsafe HTML. The runtime renderer sanitizes content.
 
-1. Delete the `.md` file.
-2. Run `npm run sync`.
-3. The article disappears from the site.
+## Images
 
-(Comments that readers left on it stay in the database — you can still see and
-delete them from **Admin → Comments**.)
+Starter article images belong under:
 
----
+```text
+article-images/<story-slug>/
+```
 
-## Writing style tips (so articles look consistent)
+Commit source images and any `SOURCES.md` attribution file. These are starter/application assets. Images uploaded later through the production dashboard live under the durable cloud `CMS_UPLOAD_DIR` and must not be copied into this folder as part of routine publishing.
 
-- Start the article with `## Introduction` (the site's other articles do).
-- Use `##` for main sections — they automatically become the **table of
-  contents** on the article page.
-- Use `###` for sub-sections inside a main section.
-- Leave a blank line between paragraphs.
-- Don't use em dashes (—) between words; use commas, semicolons, or full stops
-  instead.
-- Use correct compound hyphens where English requires them
-  (`real-world`, `open-source`, `problem-solving`).
+## What validation checks
 
----
+`npm run validate` checks starter content before it is merged/deployed, including:
 
-## Troubleshooting checklist
+- parseable front matter;
+- required fields;
+- duplicate/malformed slugs;
+- valid status/content/source types;
+- image alt text and local file existence;
+- URL safety;
+- structured fields such as sources and FAQs.
 
-**"I ran `npm run sync` but the article isn't on the site."**
+`npm run build` runs this validation but creates no public content files.
 
-- [ ] Is the file in the `article_stories/` folder, with a `.md` ending?
-- [ ] Does the file start with `---` on the very first line, and is there a
-      matching `---` at the end of the header block?
-- [ ] Did you include a `title` line?
-- [ ] Is the site server running? (`npm start`, then open `http://localhost:3000`)
-- [ ] Hard-refresh your browser: `Ctrl + Shift + R` (Windows) / `Cmd + Shift + R` (Mac).
-- [ ] Check the article's own URL directly:
-      `http://localhost:3000/article.html?slug=your-slug`
-- [ ] Look at the terminal output of `npm run sync` — did it print
-      `Skipping ...` for your file? If so, the front-matter block is missing.
+## What the importer does
 
-**"The article shows but on the wrong category page."**
+For an empty database, `cms/seed.js`:
 
-Check that the `category` value matches one of these exactly: `Technology`,
-`AI Trends`, `Cryptocurrency`, `Game`, `Web 3`.
+1. ensures the default owner author exists;
+2. reads front matter and Markdown body;
+3. creates article rows and structured source rows in SQLite;
+4. imports starter card/hero entries from `cms/data/seed.json`;
+5. sets initial settings;
+6. leaves serving to the normal dynamic Express routes.
 
-**"My image doesn't show."**
+It does not create article HTML, JSON exports, discovery files or image derivatives.
 
-- [ ] Does the file exist at the path in the `img:` line?
-- [ ] Check the spelling and the folder name — paths are case-sensitive.
-- [ ] Is it a supported type (`.jpg`, `.png`, `.webp`, `.gif`, `.avif`) and under 8 MB?
+## Troubleshooting
 
-**"The site shows old content even after `npm run sync`."**
+### The importer says the database already contains articles
 
-- Stop the server (`Ctrl + C` in the terminal running `npm start`) and start it
-  again with `npm start`. The site reads from the database, which `sync` just
-  updated, but a restart removes any doubt.
+That is a safety feature. Use the dashboard for production edits. If this is a disposable/local database, point `CMS_DB_FILE` at a new empty path. Use `--force` only for an approved migration after backup.
 
----
+### The story is skipped
 
-## Words you'll see (a mini glossary)
+Confirm the file:
 
-| Word | Meaning |
-| --- | --- |
-| **Front matter** | The block at the top of the file between `---` and `---` that holds the article's details (title, category, image...). |
-| **Slug** | The part of the web address that identifies the article, e.g. `why-5g-matters` in `article.html?slug=why-5g-matters`. |
-| **Sync** | `npm run sync` — the command that reads your `.md` files, updates the site's database, and refreshes the search index and offline copy. |
-| **Fallback files** | `content-fallback.json` and `articles.json` — automatically generated copies used when the site is hosted without the Node server. **Never edit them by hand**; `npm run sync` rewrites them. |
-| **Card** | The little box (image + title + description) that links to an article on the homepage. |
+- ends in `.md`;
+- is not this README;
+- starts with `---` front matter;
+- has a closing `---`;
+- passes `npm run validate`.
 
----
+### The image fails validation
 
-## Golden rules (print these)
+- use a repository-relative path;
+- match capitalization and spaces exactly;
+- commit the referenced file;
+- provide non-empty alt text.
 
-1. One article = one `.md` file in `article_stories/`.
-2. The `---` front matter must be the very first thing in the file.
-3. Write the article with `##` headings and blank lines between paragraphs.
-4. Run `npm run sync` after adding, editing, or deleting any article.
-5. Never hand-edit `content-fallback.json`, `articles.json`, or the
-   long-form articles inside `cms/data/seed.json` — they are all generated.
-6. Keep slugs unique and stable.
+### Imported content does not appear publicly
+
+- confirm status is `published`;
+- confirm body is non-empty or an external link is valid;
+- confirm the running service points at the database that was seeded;
+- check `/health` and `/api/articles/<slug>`;
+- load `/articles/<slug>/` through Express, not by opening repository files directly.
+
+## Checklist for adding starter content
+
+- [ ] Front matter is complete and valid.
+- [ ] Author entity/slug is intentional.
+- [ ] Body has a useful structure and evidence.
+- [ ] Image files and attribution are committed.
+- [ ] Alt text is descriptive.
+- [ ] Sources support all consequential claims.
+- [ ] `npm run validate` passes.
+- [ ] `npm test` passes.
+- [ ] The change is described as starter content, not a direct production publication.

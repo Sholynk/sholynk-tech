@@ -45,6 +45,44 @@ test('health endpoint responds', async () => {
   assert.equal(body.ok, true);
 });
 
+test('contact and newsletter forms persist through the host-neutral API', async () => {
+  const subscribed = await api('/api/subscriptions', {
+    method: 'POST',
+    body: JSON.stringify({ name: 'Ada Reader', email: 'ada@example.com' })
+  });
+  assert.equal(subscribed.status, 201);
+
+  // Re-subscribing updates the existing address instead of duplicating it.
+  const resubscribed = await api('/api/subscriptions', {
+    method: 'POST',
+    body: JSON.stringify({ name: 'Ada Lovelace', email: 'ADA@example.com' })
+  });
+  assert.equal(resubscribed.status, 201);
+  const subscribers = await api('/api/subscriptions');
+  assert.equal(subscribers.body.data.filter((item) => item.email === 'ada@example.com').length, 1);
+  assert.equal(subscribers.body.data.find((item) => item.email === 'ada@example.com').name, 'Ada Lovelace');
+
+  const sent = await api('/api/contact', {
+    method: 'POST',
+    body: JSON.stringify({
+      name: 'Grace Hopper',
+      email: 'grace@example.com',
+      subject: 'A story idea',
+      message: 'I would like to suggest a detailed story about compilers.'
+    })
+  });
+  assert.equal(sent.status, 201);
+  const messages = await api('/api/contact-messages');
+  assert.ok(messages.body.data.some((item) => item.email === 'grace@example.com'));
+
+  const invalid = await api('/api/contact', {
+    method: 'POST',
+    body: JSON.stringify({ name: 'Bot', email: 'not-an-email', subject: '', message: 'short' })
+  });
+  assert.equal(invalid.status, 400);
+  assert.ok(invalid.body.details.length >= 2);
+});
+
 test('full CRUD lifecycle for an article', async () => {
   const created = await api('/api/articles', {
     method: 'POST',
@@ -61,9 +99,12 @@ test('full CRUD lifecycle for an article', async () => {
   assert.equal(created.body.data.slug, 'edge-computing-in-2026');
   assert.equal(created.body.data.link, 'articles/edge-computing-in-2026/');
   assert.equal(created.body.data.cleanLink, 'articles/edge-computing-in-2026/');
-  const cleanFallback = await fetch(`${base}/articles/edge-computing-in-2026/`, { redirect: 'manual' });
-  assert.equal(cleanFallback.status, 302);
-  assert.equal(cleanFallback.headers.get('location'), '/article.html?slug=edge-computing-in-2026');
+  const cleanPage = await fetch(`${base}/articles/edge-computing-in-2026/`, { redirect: 'manual' });
+  assert.equal(cleanPage.status, 200);
+  assert.match(await cleanPage.text(), /Edge computing in 2026/);
+  const legacyQuery = await fetch(`${base}/article.html?slug=edge-computing-in-2026`, { redirect: 'manual' });
+  assert.equal(legacyQuery.status, 301);
+  assert.equal(legacyQuery.headers.get('location'), '/articles/edge-computing-in-2026/');
 
   const id = created.body.data.id;
 
@@ -311,9 +352,64 @@ test('settings can be read and updated', async () => {
 
   const after = await api('/api/settings', {
     method: 'PUT',
-    body: JSON.stringify({ homeTagline: 'Fresh tagline' })
+    body: JSON.stringify({
+      siteTitle: 'Fresh dynamic title',
+      siteDescription: 'Current database description.',
+      homeTagline: 'Fresh tagline'
+    })
   });
   assert.equal(after.body.data.homeTagline, 'Fresh tagline');
+
+  const homepage = await fetch(`${base}/`);
+  const html = await homepage.text();
+  assert.match(html, /<title>Fresh dynamic title<\/title>/);
+  assert.match(html, /content="Current database description\."/);
+  assert.match(html, /<h2 id="discover-title">Fresh tagline<\/h2>/);
+});
+
+test('presentation pages declare the serving origin, not a relative placeholder', async () => {
+  const response = await fetch(`${base}/about`);
+  assert.equal(response.status, 200);
+  const html = await response.text();
+  assert.match(html, new RegExp(`<link rel="canonical" href="${base}/about\\.html" />`));
+  assert.match(html, new RegExp(`<meta property="og:url" content="${base}/about\\.html" />`));
+  assert.match(html, new RegExp(`<meta property="og:image" content="${base}/Images%20and%20Assets/my_pic\\.png" />`));
+
+  const homepage = await fetch(`${base}/`);
+  const homeHtml = await homepage.text();
+  assert.match(homeHtml, new RegExp(`<link rel="canonical" href="${base}/" />`));
+});
+
+test('every served HTML page is well formed and renders no stray markup', async () => {
+  const { JSDOM } = require('jsdom');
+  const pages = ['/', '/about.html', '/contact.html', '/help_&_support.html', '/privacy_policy.html'];
+
+  for (const page of pages) {
+    const response = await fetch(`${base}${page}`);
+    assert.equal(response.status, 200, `${page} should respond`);
+    const html = await response.text();
+
+    // A duplicated terminator such as " /> />" leaves characters that are not
+    // valid head content, so the parser ends the head early and paints the
+    // leftovers as text above the header.
+    assert.doesNotMatch(html, /\/>\s*\/>/, `${page} contains a duplicated tag terminator`);
+
+    const { document } = new JSDOM(html).window;
+    const strayText = [...document.body.childNodes]
+      .filter((node) => node.nodeType === 3 && node.textContent.trim())
+      .map((node) => node.textContent.trim());
+    assert.deepEqual(strayText, [], `${page} renders stray text above the page content`);
+
+    const images = document.querySelectorAll('meta[property="og:image"]');
+    assert.equal(images.length, 1, `${page} should declare exactly one og:image`);
+    const reference = images[0].getAttribute('content');
+    assert.match(reference, /^https?:\/\//, `${page} og:image must be absolute`);
+    assert.doesNotMatch(reference, /[>\s]$/, `${page} og:image must not contain leftover markup`);
+
+    const canonical = document.querySelectorAll('link[rel="canonical"]');
+    assert.equal(canonical.length, 1, `${page} should declare exactly one canonical link`);
+    assert.match(canonical[0].getAttribute('href'), /^https?:\/\//, `${page} canonical must be absolute`);
+  }
 });
 
 test('admin tokens must match in full and protect unpublished content', async () => {

@@ -316,21 +316,22 @@ Because heuristic PDF autofill is never 100 % accurate, the CMS now enforces a
   - When SMTP credentials are configured (see §7), it uses `nodemailer` over
     SMTP (works with Gmail app passwords, SendGrid, Mailgun, Postmark, etc.).
   - Without SMTP (the default, including local development) it **does not
-    silently fail**: it logs the notification to `cms/data/notifications.log`
-    and prints a message to the server console, so submissions don't get lost
-    while you're still setting up email.
+    silently fail**: it appends the notification beside the configured SQLite
+    data directory (recommended `/data/notifications.log`) and prints a message
+    to the server console, so submissions do not get lost while email is being
+    configured.
 - **Success feedback.** The response includes a `reviewNotice` flag and the
   admin shows a green banner: *"Submitted for review — Sholynk Tech has been
   notified."*
 - **Pending posts stay private.** Pending, draft and scheduled articles are
   only visible through the API when an admin token is supplied (when one is
-  configured), and are excluded from the public article listing, related
-  posts, prerendered site build and content-fallback snapshot.
+  configured), and are excluded from public lists, clean article responses,
+  related results and the runtime sitemap.
 
 ### 7. Email configuration (production)
 
-Set these environment variables where the CMS runs (Netlify, Render, Fly.io,
-VPS, etc.):
+Set these environment variables wherever the CMS runs (a managed Node service,
+container host, or virtual machine):
 
 | Variable | Purpose |
 |---|---|
@@ -340,10 +341,10 @@ VPS, etc.):
 | `SMTP_SECURE` | `true` for port 465, `false` otherwise. |
 | `SMTP_USER` / `SMTP_PASS` | SMTP login. For Gmail, use a Google Account **App Password** (2FA must be enabled); never use your main password. |
 | `SMTP_FROM` | "From" address; defaults to `SMTP_USER`. |
-| `SITE_BASE_URL` | Public URL of the deployed site (used in email links). |
+| `SITE_URL` | Final HTTPS origin of the deployed site (used in email links and public metadata). |
 | `CMS_ADMIN_TOKEN` | If set, admin endpoints require this token and non-published articles are hidden from the public API. **Recommended for production.** |
 | `CMS_REQUIRE_APPROVAL` | If `true`, any attempt to save with status `published` (via the API) is automatically downgraded to `pending`, so editors/guests can't self-publish. |
-| `CMS_AUTO_SEED` | Set to `false` on a persistent host to skip reseeding demo content on every boot. |
+| `CMS_DB_FILE` / `CMS_UPLOAD_DIR` | Durable SQLite and media paths; on the VM use `/data/cms.sqlite` and `/data/uploads`. |
 
 ## 8. Files changed/added for v1
 
@@ -367,11 +368,10 @@ VPS, etc.):
   (25 MB cap, temp dir, cleanup in `finally`); server-side submission
   validation; notification dispatch on transitions into `pending`; public
   listing never exposes non-published articles.
-- `article.js` — renders `article-author-card` in both the left rail (desktop)
-  and after the comment section, before the end-of-article navigation (mobile);
-  fetches the full author record via `getAuthors()`.
-- `cms/build-site.js` — prerendered static articles get the same author card
-  in both positions; still only builds published articles.
+- `cms/lib/article-page.js` — server-renders the live article and author card in
+  both the left rail (desktop) and after engagement (mobile).
+- `article.js` — progressively enhances the server-rendered page with table of
+  contents, sharing, reading progress and live engagement controls.
 - `styles.css` — `.article-author-card`, `.article-author-card--rail`,
   `.article-author-card--inline` styles, plus breakpoint rules that show the
   rail version ≥ 921 px and the inline version ≤ 920 px.

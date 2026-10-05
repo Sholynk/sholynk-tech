@@ -176,8 +176,8 @@ function addComment(slug, { author, body, voterId, clientId } = {}) {
   if (errors.length) throw new ValidationError(errors);
 
   // Idempotency: a submission carries a client-generated id so a retried
-  // request (timeout, offline queue sync, double-tab) returns the original
-  // comment instead of creating a duplicate.
+  // request (timeout or double-tab) returns the original comment instead of
+  // creating a duplicate.
   if (cleanClientId) {
     const existing = db
       .prepare('SELECT * FROM comments WHERE article_slug = ? AND client_id = ?')
