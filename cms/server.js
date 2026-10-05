@@ -63,19 +63,22 @@ function applyOriginMetadata(html, canonical) {
     `<link rel="canonical" href="${escapeHtml(canonical)}" />`
   );
   output = output.replace(
-    /<meta\s+property="og:url"[^>]*>/i,
+    /<meta\b[^>]*\bproperty="og:url"[^>]*>/i,
     `<meta property="og:url" content="${escapeHtml(canonical)}" />`
   );
   output = output.replace(
-    /<meta\s+property="og:image"\s+content="([^"]*)"/i,
-    (match, value) => {
-      let absolute = value;
+    /<meta\b[^>]*\bproperty="og:image"[^>]*>/i,
+    (tag) => {
+      const raw = tag.match(/\bcontent="([^"]*)"/i)?.[1] || '';
+      let absolute = raw;
       try {
-        absolute = new URL(value, canonical).href;
+        absolute = new URL(raw, canonical).href;
       } catch (error) {
-        absolute = value;
+        absolute = raw;
       }
-      return `<meta property="og:image" content="${escapeHtml(absolute)}" />`;
+      const id = tag.match(/\bid="([^"]*)"/i)?.[1];
+      const idAttribute = id ? ` id="${escapeHtml(id)}"` : '';
+      return `<meta property="og:image" content="${escapeHtml(absolute)}"${idAttribute} />`;
     }
   );
   return output;

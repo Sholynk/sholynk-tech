@@ -380,6 +380,38 @@ test('presentation pages declare the serving origin, not a relative placeholder'
   assert.match(homeHtml, new RegExp(`<link rel="canonical" href="${base}/" />`));
 });
 
+test('every served HTML page is well formed and renders no stray markup', async () => {
+  const { JSDOM } = require('jsdom');
+  const pages = ['/', '/about.html', '/contact.html', '/help_&_support.html', '/privacy_policy.html'];
+
+  for (const page of pages) {
+    const response = await fetch(`${base}${page}`);
+    assert.equal(response.status, 200, `${page} should respond`);
+    const html = await response.text();
+
+    // A duplicated terminator such as " /> />" leaves characters that are not
+    // valid head content, so the parser ends the head early and paints the
+    // leftovers as text above the header.
+    assert.doesNotMatch(html, /\/>\s*\/>/, `${page} contains a duplicated tag terminator`);
+
+    const { document } = new JSDOM(html).window;
+    const strayText = [...document.body.childNodes]
+      .filter((node) => node.nodeType === 3 && node.textContent.trim())
+      .map((node) => node.textContent.trim());
+    assert.deepEqual(strayText, [], `${page} renders stray text above the page content`);
+
+    const images = document.querySelectorAll('meta[property="og:image"]');
+    assert.equal(images.length, 1, `${page} should declare exactly one og:image`);
+    const reference = images[0].getAttribute('content');
+    assert.match(reference, /^https?:\/\//, `${page} og:image must be absolute`);
+    assert.doesNotMatch(reference, /[>\s]$/, `${page} og:image must not contain leftover markup`);
+
+    const canonical = document.querySelectorAll('link[rel="canonical"]');
+    assert.equal(canonical.length, 1, `${page} should declare exactly one canonical link`);
+    assert.match(canonical[0].getAttribute('href'), /^https?:\/\//, `${page} canonical must be absolute`);
+  }
+});
+
 test('admin tokens must match in full and protect unpublished content', async () => {
   const draft = await api('/api/articles', {
     method: 'POST',
